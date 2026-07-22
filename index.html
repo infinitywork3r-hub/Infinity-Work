@@ -259,6 +259,22 @@
 
   /* content viewer */
   .content-view{background:var(--ink);border:1px solid var(--line);padding:20px;margin-top:10px;font-size:13.5px;color:var(--paper-dim);line-height:1.6;}
+  .lesson-layout{display:flex;gap:16px;margin-top:12px;align-items:flex-start;}
+  .lesson-sidebar{width:210px;flex-shrink:0;display:flex;flex-direction:column;gap:6px;max-height:360px;overflow-y:auto;}
+  .lesson-item{
+    text-align:left;background:none;border:1px solid var(--line-dim);color:var(--paper-dim);
+    padding:10px 12px;font-size:12px;border-radius:var(--radius);line-height:1.35;
+  }
+  .lesson-item.active{border-color:var(--line);color:var(--paper);background:rgba(29,155,255,0.1);}
+  .lesson-item{display:block;width:100%;}
+  .lesson-progress-track{display:block;height:3px;background:var(--ink3);margin-top:6px;border-radius:2px;overflow:hidden;}
+  .lesson-progress-fill{display:block;height:100%;background:var(--line);}
+  .lesson-player{flex:1;min-width:0;}
+  @media(max-width:680px){
+    .lesson-layout{flex-direction:column;}
+    .lesson-sidebar{width:100%;max-height:none;flex-direction:row;flex-wrap:wrap;}
+    .lesson-item{flex:1 1 auto;}
+  }
   .content-view b{color:var(--paper);}
 
   @media (prefers-reduced-motion: reduce){*{transition:none !important;scroll-behavior:auto !important;}}
@@ -444,6 +460,15 @@
 
     <div id="admin-courses-panel" class="hidden">
       <div class="panel">
+        <h3>Categorías</h3>
+        <div id="categories-list" style="margin-bottom:14px;"></div>
+        <div style="display:flex;gap:10px;">
+          <input id="cat-new" placeholder="Nombre de la categoría (ej: BIM)" style="flex:1;background:var(--ink);border:1px solid var(--line-dim);color:var(--paper);padding:10px 12px;border-radius:var(--radius);">
+          <button class="btn btn-solid btn-sm" onclick="createCategory()">Agregar</button>
+        </div>
+        <div id="cat-msg" class="form-msg"></div>
+      </div>
+      <div class="panel">
         <h3>Nuevo curso</h3>
         <div class="row3">
           <div class="field"><label>Código</label><input id="nc-code" placeholder="ING-HID-014"></div>
@@ -452,7 +477,7 @@
         </div>
         <div class="field"><label>Título</label><input id="nc-title" placeholder="Nombre del curso"></div>
         <div class="field"><label>Descripción</label><textarea id="nc-desc" rows="3" placeholder="Breve descripción del contenido"></textarea></div>
-        <div class="field"><label>Categoría</label><input id="nc-category" placeholder="Ej: BIM, Estructuras, Costos"></div>
+        <div class="field"><label>Categoría</label><select id="nc-category"><option value="">Sin categoría</option></select></div>
         <div id="nc-msg" class="form-msg"></div>
         <button class="btn btn-solid" onclick="createCourse()">Publicar curso</button>
       </div>
@@ -574,9 +599,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://player.vimeo.com/api/player.js"></script>
 
 <script>
-let state = { courses:[], clients:[], access:{}, completions:{}, completionDates:{}, certCodes:{}, certified:{}, lessons:{}, projects:[], promotions:[] };
+let state = { courses:[], clients:[], access:{}, completions:{}, completionDates:{}, certCodes:{}, certified:{}, lessons:{}, projects:[], promotions:[], progress:{}, categories:[] };
 let session = null; // { id, email, role, name }
 let adminTab = 'clients';
 let manageCourseId = null;
@@ -649,6 +676,9 @@ async function showVisitCount(){
 
 async function loadAdminData(){
   await loadPublicContent();
+  const { data: cats } = await sb.from('categories').select('*').order('name');
+  state.categories = cats || [];
+
   const { data: clients } = await sb.from('profiles').select('*').eq('role','client').order('created_at');
   state.clients = clients || [];
 
@@ -687,6 +717,10 @@ async function loadClientData(){
     if(!state.lessons[r.course_id]) state.lessons[r.course_id] = [];
     state.lessons[r.course_id].push(r);
   });
+
+  const { data: progRows } = await sb.from('lesson_progress').select('*').eq('user_id', session.id);
+  state.progress = {};
+  (progRows||[]).forEach(r => { state.progress[r.lesson_id] = { seconds: r.seconds, duration: r.duration }; });
 }
 
 /* ---------------- AUTH MODAL ---------------- */
@@ -934,14 +968,72 @@ function renderClient(){
   }).join('');
 }
 
+function detectPlatform(url){
+  if(!url) return 'other';
+  if(/youtube\.com|youtu\.be/.test(url)) return 'youtube';
+  if(/vimeo\.com/.test(url)) return 'vimeo';
+  return 'other';
+}
+function extractYouTubeId(url){
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{6,})/);
+  return m ? m[1] : null;
+}
+function extractVimeoId(url){
+  const m = url.match(/vimeo\.com\/(\d+)/);
+  return m ? m[1] : null;
+}
 function toEmbedUrl(url){
   if(!url) return '';
   url = url.trim();
-  let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{6,})/);
-  if(m) return `https://www.youtube.com/embed/${m[1]}`;
-  m = url.match(/vimeo\.com\/(\d+)/);
-  if(m) return `https://player.vimeo.com/video/${m[1]}`;
+  const platform = detectPlatform(url);
+  if(platform === 'youtube'){ const id = extractYouTubeId(url); return id ? `https://www.youtube.com/embed/${id}` : ''; }
+  if(platform === 'vimeo'){ const id = extractVimeoId(url); return id ? `https://player.vimeo.com/video/${id}` : ''; }
   return url;
+}
+
+let ytApiReadyPromise = null;
+function loadYouTubeAPI(){
+  if(window.YT && window.YT.Player) return Promise.resolve();
+  if(ytApiReadyPromise) return ytApiReadyPromise;
+  ytApiReadyPromise = new Promise(resolve => { window.onYouTubeIframeAPIReady = resolve; });
+  return ytApiReadyPromise;
+}
+
+let currentPlayer = null;
+let currentPlayerLessonId = null;
+let progressTimer = null;
+
+function stopProgressTracking(){
+  if(progressTimer){ clearInterval(progressTimer); progressTimer = null; }
+  currentPlayer = null;
+  currentPlayerLessonId = null;
+}
+
+async function trackTick(){
+  if(!currentPlayer || !currentPlayerLessonId) return;
+  try{
+    const seconds = await currentPlayer.getCurrentTime();
+    const duration = await currentPlayer.getDuration();
+    if(duration > 0){
+      saveProgress(currentPlayerLessonId, seconds, duration);
+      updateProgressBar(currentPlayerLessonId, seconds, duration);
+    }
+  }catch(e){}
+}
+
+async function saveProgress(lessonId, seconds, duration){
+  if(!session) return;
+  state.progress = state.progress || {};
+  state.progress[lessonId] = { seconds, duration };
+  try{
+    await sb.from('lesson_progress').upsert({ user_id: session.id, lesson_id: lessonId, seconds, duration, updated_at: new Date().toISOString() });
+  }catch(e){ console.error(e); }
+}
+
+function updateProgressBar(lessonId, seconds, duration){
+  const pct = duration > 0 ? Math.min(100, (seconds/duration*100)) : 0;
+  const fill = document.querySelector(`.lesson-item[data-lesson="${lessonId}"] .lesson-progress-fill`);
+  if(fill) fill.style.width = pct.toFixed(1) + '%';
 }
 
 function viewContent(id){
@@ -954,26 +1046,74 @@ function viewContent(id){
   }
   box.innerHTML = `<div class="content-view">
       <b>${escapeHtml(c.title)}</b>
-      <div class="lesson-list" style="margin-top:10px;">
-        ${lessons.map((l,i) => `<button class="btn btn-ghost btn-sm" style="margin:0 6px 6px 0" onclick="selectLesson('${id}','${l.id}')">Clase ${i+1}: ${escapeHtml(l.tema)}</button>`).join('')}
+      <div class="lesson-layout">
+        <div class="lesson-sidebar" id="lesson-sidebar-${id}">
+          ${lessons.map((l,i) => {
+            const prog = state.progress && state.progress[l.id];
+            const pct = prog && prog.duration ? Math.min(100, (prog.seconds/prog.duration*100)) : 0;
+            return `<button class="lesson-item ${i===0?'active':''}" data-lesson="${l.id}" onclick="selectLesson('${id}','${l.id}')">
+              <span>Clase ${i+1}: ${escapeHtml(l.tema)}</span>
+              <span class="lesson-progress-track"><span class="lesson-progress-fill" style="width:${pct.toFixed(1)}%"></span></span>
+            </button>`;
+          }).join('')}
+        </div>
+        <div class="lesson-player" id="lesson-player-${id}"></div>
       </div>
-      <div id="lesson-player-${id}" style="margin-top:12px;"></div>
     </div>`;
   selectLesson(id, lessons[0].id);
 }
 
-function selectLesson(courseId, lessonId){
+async function selectLesson(courseId, lessonId){
   const lessons = (state.lessons && state.lessons[courseId]) || [];
   const l = lessons.find(x=>x.id===lessonId);
-  const player = document.getElementById('lesson-player-'+courseId);
-  if(!l || !player) return;
-  const embed = toEmbedUrl(l.video_url);
-  if(embed){
-    player.innerHTML = `<div style="position:relative;padding-top:56.25%;">
-      <iframe src="${escapeHtml(embed)}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-    </div>`;
+  const playerBox = document.getElementById('lesson-player-'+courseId);
+  if(!l || !playerBox) return;
+
+  const sidebar = document.getElementById('lesson-sidebar-'+courseId);
+  if(sidebar){
+    sidebar.querySelectorAll('.lesson-item').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lesson') === lessonId);
+    });
+  }
+
+  stopProgressTracking();
+  currentPlayerLessonId = lessonId;
+  const saved = state.progress && state.progress[lessonId];
+  const startSeconds = saved && saved.duration && (saved.seconds < saved.duration - 3) ? saved.seconds : 0;
+  const platform = detectPlatform(l.video_url);
+
+  if(platform === 'youtube'){
+    const vid = extractYouTubeId(l.video_url);
+    if(!vid){ playerBox.innerHTML = `<div style="font-size:12.5px;color:var(--paper-dim)">Esta clase todavía no tiene video.</div>`; return; }
+    playerBox.innerHTML = `<div style="position:relative;padding-top:56.25%;"><div id="ytp-${lessonId}" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div></div>`;
+    await loadYouTubeAPI();
+    currentPlayer = new YT.Player(`ytp-${lessonId}`, {
+      videoId: vid,
+      playerVars: { start: Math.floor(startSeconds) },
+      events: {
+        onReady: () => {
+          progressTimer = setInterval(trackTick, 5000);
+        },
+        onStateChange: (e) => {
+          if(e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) trackTick();
+        }
+      }
+    });
+  } else if(platform === 'vimeo'){
+    const vid = extractVimeoId(l.video_url);
+    if(!vid){ playerBox.innerHTML = `<div style="font-size:12.5px;color:var(--paper-dim)">Esta clase todavía no tiene video.</div>`; return; }
+    playerBox.innerHTML = `<div style="position:relative;padding-top:56.25%;"><iframe id="vmp-${lessonId}" src="https://player.vimeo.com/video/${vid}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>`;
+    currentPlayer = new Vimeo.Player(document.getElementById(`vmp-${lessonId}`));
+    currentPlayer.ready().then(() => {
+      if(startSeconds > 1) currentPlayer.setCurrentTime(startSeconds);
+      progressTimer = setInterval(trackTick, 5000);
+      currentPlayer.on('pause', trackTick);
+      currentPlayer.on('ended', trackTick);
+    });
   } else {
-    player.innerHTML = `<div style="font-size:12.5px;color:var(--paper-dim)">Esta clase todavía no tiene video.</div>`;
+    playerBox.innerHTML = `<div style="position:relative;padding-top:56.25%;">
+      <iframe src="${escapeHtml(l.video_url)}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>`;
   }
 }
 
@@ -1081,6 +1221,7 @@ function setAdminTab(tab){
   document.getElementById('admin-promos-panel').classList.toggle('hidden', tab!=='promos');
   if(tab==='projects') renderProjectsAdmin();
   if(tab==='promos') renderPromosAdmin();
+  if(tab==='courses') renderCategoriesAdmin();
 }
 
 function renderAdmin(){
@@ -1148,6 +1289,43 @@ async function toggleCertificate(userId, courseId){
   }
   await loadAdminData();
   renderAdmin();
+}
+
+function renderCategoriesAdmin(){
+  const list = document.getElementById('categories-list');
+  if(list){
+    list.innerHTML = state.categories.length === 0
+      ? `<div class="empty">Sin categorías todavía.</div>`
+      : `<div class="toggle-list">${state.categories.map(c => `<span class="tag-chip" style="display:inline-flex;align-items:center;gap:6px;margin-right:6px;">${escapeHtml(c.name)}<button onclick="deleteCategory('${c.id}')" style="background:none;border:none;color:var(--signal);cursor:pointer;font-size:12px;padding:0;">×</button></span>`).join('')}</div>`;
+  }
+  const sel = document.getElementById('nc-category');
+  if(sel){
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">Sin categoría</option>' + state.categories.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+    sel.value = cur;
+  }
+}
+
+async function createCategory(){
+  const input = document.getElementById('cat-new');
+  const name = input.value.trim();
+  const msg = document.getElementById('cat-msg');
+  if(!name){ msg.textContent = 'Escribe un nombre.'; msg.className = 'form-msg err'; return; }
+  const { error } = await sb.from('categories').insert({ name });
+  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
+  input.value = '';
+  msg.textContent = 'Categoría agregada.';
+  msg.className = 'form-msg ok';
+  const { data: cats } = await sb.from('categories').select('*').order('name');
+  state.categories = cats || [];
+  renderCategoriesAdmin();
+}
+
+async function deleteCategory(id){
+  await sb.from('categories').delete().eq('id', id);
+  const { data: cats } = await sb.from('categories').select('*').order('name');
+  state.categories = cats || [];
+  renderCategoriesAdmin();
 }
 
 async function createCourse(){
