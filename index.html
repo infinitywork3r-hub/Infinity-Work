@@ -1547,6 +1547,9 @@ function openCertPreviewModal(clientId){
         <button style="background:var(--signal);color:#fff;" onclick="closeCertPreviewModal()" title="Cerrar">✕</button>
       </div>
       ${html}
+      <div class="no-print" style="text-align:center;margin-top:14px;">
+        <button class="btn btn-danger btn-sm" onclick="revokeCertFromModal('${clientId}','${courseId}')">Revocar certificado</button>
+      </div>
     </div>`;
   document.body.appendChild(overlay);
 }
@@ -1559,6 +1562,14 @@ function closeCertPreviewModal(){
 async function approveCertFromModal(clientId, courseId){
   const { error } = await sb.from('completions').update({ status: 'approved' }).eq('user_id', clientId).eq('course_id', courseId);
   if(error){ alert('No se pudo aprobar: ' + error.message); return; }
+  closeCertPreviewModal();
+  await loadAdminData();
+  renderAdmin();
+}
+
+async function revokeCertFromModal(clientId, courseId){
+  if(!confirm('¿Quitar este certificado? El cliente tendrá que generarlo de nuevo después de ver todas las clases.')) return;
+  await sb.from('completions').delete().eq('user_id', clientId).eq('course_id', courseId);
   closeCertPreviewModal();
   await loadAdminData();
   renderAdmin();
