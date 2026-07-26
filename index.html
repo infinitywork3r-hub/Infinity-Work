@@ -1540,9 +1540,10 @@ function openCertPreviewModal(clientId){
   overlay.id = 'admin-cert-overlay';
   overlay.innerHTML = `
     <div class="cert-modal-box">
+      <div style="text-align:center;margin-bottom:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:${info.status==='approved' ? '#3FA796' : '#F2A900'};">${info.status==='approved' ? 'APROBADO — VISIBLE PARA EL CLIENTE' : 'PENDIENTE DE APROBACIÓN'}</div>
       <div class="cert-modal-actions">
         <button style="background:var(--paper);color:var(--ink);" onclick="window.print()" title="Descargar / imprimir">↓</button>
-        ${info.status !== 'approved' ? `<button style="background:var(--success);color:#fff;" onclick="approveCertFromModal('${clientId}','${courseId}')" title="Aprobar">✓</button>` : ''}
+        <button style="background:var(--success);color:#fff;" onclick="approveCertFromModal('${clientId}','${courseId}')" title="Aprobar">✓</button>
         <button style="background:var(--signal);color:#fff;" onclick="closeCertPreviewModal()" title="Cerrar">✕</button>
       </div>
       ${html}
