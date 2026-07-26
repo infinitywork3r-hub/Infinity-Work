@@ -489,10 +489,6 @@
         <div id="lm-next-label" class="section-tag" style="display:block;margin-bottom:8px;">SESIÓN 01</div>
         <div class="field"><label>Tema de la clase</label><input id="lm-tema" placeholder="Ej: Introducción al modelado"></div>
         <div class="field"><label>Enlace de video</label><input id="lm-video" placeholder="https://www.youtube.com/watch?v=..."></div>
-        <div class="row2">
-          <div class="field"><label>Material de apoyo — enlace (opcional)</label><input id="lm-material-link" placeholder="https://drive.google.com/..."></div>
-          <div class="field"><label>O sube un archivo (ZIP, PDF...)</label><input id="lm-material-file" type="file"></div>
-        </div>
         <div id="lm-msg" class="form-msg"></div>
         <button class="btn btn-solid btn-sm" onclick="addLesson()">Agregar clase</button>
         <button class="btn btn-ghost btn-sm" onclick="closeLessonManager()">Cerrar</button>
@@ -624,7 +620,7 @@
 <script src="https://player.vimeo.com/api/player.js"></script>
 
 <script>
-let state = { courses:[], clients:[], access:{}, completions:{}, completionDates:{}, certCodes:{}, certified:{}, lessons:{}, projects:[], promotions:[], progress:{}, categories:[], settings:{} };
+let state = { courses:[], clients:[], access:{}, completions:{}, completionDates:{}, certCodes:{}, certified:{}, lessons:{}, projects:[], promotions:[], progress:{}, categories:[], settings:{}, materials:{} };
 let session = null; // { id, email, role, name }
 let adminTab = 'clients';
 let manageCourseId = null;
@@ -760,6 +756,13 @@ async function loadClientData(){
   (lessonRows||[]).forEach(r => {
     if(!state.lessons[r.course_id]) state.lessons[r.course_id] = [];
     state.lessons[r.course_id].push(r);
+  });
+
+  const { data: matRows } = await sb.from('lesson_materials').select('*');
+  state.materials = {};
+  (matRows||[]).forEach(r => {
+    if(!state.materials[r.lesson_id]) state.materials[r.lesson_id] = [];
+    state.materials[r.lesson_id].push(r);
   });
 
   const { data: progRows } = await sb.from('lesson_progress').select('*').eq('user_id', session.id);
@@ -1126,8 +1129,9 @@ async function selectLesson(courseId, lessonId){
   const saved = state.progress && state.progress[lessonId];
   const startSeconds = saved && saved.duration && (saved.seconds < saved.duration - 3) ? saved.seconds : 0;
   const platform = detectPlatform(l.video_url);
-  const materialHtml = l.material_url
-    ? `<a href="${escapeHtml(l.material_url)}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="margin-top:10px;display:inline-block;">Descargar material</a>`
+  const materials = (state.materials && state.materials[lessonId]) || [];
+  const materialHtml = materials.length
+    ? `<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">${materials.map(m => `<a href="${escapeHtml(m.url)}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Descargar: ${escapeHtml(m.name || 'material')}</a>`).join('')}</div>`
     : '';
 
   if(platform === 'youtube'){
@@ -1561,32 +1565,92 @@ async function loadAndRenderLessons(){
   const clientIds = (accessRows||[]).map(r=>r.user_id);
   const clients = state.clients.filter(c => clientIds.includes(c.id));
 
-  if(clients.length === 0){
-    list.innerHTML = `<div class="empty">Ningún cliente tiene acceso a este curso todavía. Dales acceso primero desde la pestaña "Clientes y accesos".</div>`;
-    return;
+  const lessonIds = lessons.map(l=>l.id);
+  let laMap = {};
+  if(clients.length > 0){
+    const { data: laRows } = await sb.from('lesson_access').select('*').in('lesson_id', lessonIds);
+    (laRows||[]).forEach(r => {
+      if(!laMap[r.lesson_id]) laMap[r.lesson_id] = [];
+      laMap[r.lesson_id].push(r.user_id);
+    });
   }
 
-  const lessonIds = lessons.map(l=>l.id);
-  const { data: laRows } = await sb.from('lesson_access').select('*').in('lesson_id', lessonIds);
-  const laMap = {};
-  (laRows||[]).forEach(r => {
-    if(!laMap[r.lesson_id]) laMap[r.lesson_id] = [];
-    laMap[r.lesson_id].push(r.user_id);
+  const { data: matRows } = await sb.from('lesson_materials').select('*').in('lesson_id', lessonIds).order('created_at');
+  const matMap = {};
+  (matRows||[]).forEach(r => {
+    if(!matMap[r.lesson_id]) matMap[r.lesson_id] = [];
+    matMap[r.lesson_id].push(r);
   });
 
   list.innerHTML = lessons.map((l,i) => {
     const granted = laMap[l.id] || [];
+    const materials = matMap[l.id] || [];
+    const accessHtml = clients.length === 0
+      ? `<div style="font-size:11px;color:var(--paper-dim);font-family:'JetBrains Mono';margin-bottom:10px;">Aún ningún cliente tiene acceso a este curso — dales acceso en "Clientes y accesos" para poder habilitarles esta clase.</div>`
+      : `<div class="toggle-list" style="margin-bottom:10px;">
+          ${clients.map(c => `<button class="toggle-chip ${granted.includes(c.id)?'on':''}" onclick="toggleLessonAccess('${c.id}','${l.id}')">${granted.includes(c.id)?'✓ ':''}${escapeHtml(c.name || c.email)}</button>`).join('')}
+        </div>`;
+    const materialsHtml = materials.length === 0
+      ? `<div style="font-size:11px;color:var(--paper-dim);margin-bottom:8px;">Sin material todavía.</div>`
+      : `<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;">
+          ${materials.map(m => `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;">
+            <span class="mono" style="color:var(--paper-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px;">${escapeHtml(m.name || m.url)}</span>
+            <button onclick="deleteMaterial('${m.id}', ${m.storage_path ? `'${escapeHtml(m.storage_path)}'` : 'null'})" style="background:none;border:none;color:var(--signal);cursor:pointer;font-size:14px;padding:0 4px;">×</button>
+          </div>`).join('')}
+        </div>`;
     return `
     <div style="padding:10px 0;border-bottom:1px solid var(--line-dim);">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <span style="font-size:13px;color:var(--paper)">${sessionLabel(i)}: ${escapeHtml(l.tema)}${l.material_url ? ' <span class="mono" style="font-size:10px;color:var(--line);">· con material</span>' : ''}</span>
+        <span style="font-size:13px;color:var(--paper)">${sessionLabel(i)}: ${escapeHtml(l.tema)}</span>
         <button class="btn btn-danger btn-sm" onclick="deleteLesson('${l.id}')">Eliminar</button>
       </div>
-      <div class="toggle-list">
-        ${clients.map(c => `<button class="toggle-chip ${granted.includes(c.id)?'on':''}" onclick="toggleLessonAccess('${c.id}','${l.id}')">${granted.includes(c.id)?'✓ ':''}${escapeHtml(c.name || c.email)}</button>`).join('')}
+      ${accessHtml}
+      <div style="background:var(--ink);border:1px solid var(--line-dim);padding:10px;">
+        <div style="font-family:'JetBrains Mono';font-size:9.5px;color:var(--paper-dim);letter-spacing:.5px;margin-bottom:8px;">MATERIAL DE APOYO</div>
+        ${materialsHtml}
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <input id="mat-link-${l.id}" placeholder="Enlace (opcional)" style="flex:1;min-width:140px;background:var(--ink2);border:1px solid var(--line-dim);color:var(--paper);padding:7px 9px;font-size:11.5px;border-radius:var(--radius);">
+          <input id="mat-file-${l.id}" type="file" style="flex:1;min-width:140px;font-size:11px;color:var(--paper-dim);">
+          <button class="btn btn-ghost btn-sm" onclick="addMaterialToLesson('${l.id}')">Agregar archivo</button>
+        </div>
+        <div id="mat-msg-${l.id}" class="form-msg"></div>
       </div>
     </div>`;
   }).join('');
+}
+
+async function addMaterialToLesson(lessonId){
+  const linkInput = document.getElementById('mat-link-'+lessonId);
+  const fileInput = document.getElementById('mat-file-'+lessonId);
+  const msg = document.getElementById('mat-msg-'+lessonId);
+  const link = linkInput.value.trim();
+  const file = fileInput.files[0];
+  if(!link && !file){ msg.textContent = 'Pon un enlace o elige un archivo.'; msg.className = 'form-msg err'; return; }
+
+  let url = link, storagePath = null, name = link;
+  if(file){
+    msg.textContent = 'Subiendo…';
+    msg.className = 'form-msg';
+    const path = `${Date.now()}-${file.name}`.replace(/\s+/g, '-');
+    const { error: upErr } = await sb.storage.from('materials').upload(path, file);
+    if(upErr){ msg.textContent = 'Error al subir: ' + upErr.message; msg.className = 'form-msg err'; return; }
+    const { data: urlData } = sb.storage.from('materials').getPublicUrl(path);
+    url = urlData.publicUrl;
+    storagePath = path;
+    name = file.name;
+  }
+
+  const { error } = await sb.from('lesson_materials').insert({ lesson_id: lessonId, name, url, storage_path: storagePath });
+  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
+  loadAndRenderLessons();
+}
+
+async function deleteMaterial(materialId, storagePath){
+  if(storagePath){
+    try{ await sb.storage.from('materials').remove([storagePath]); }catch(e){ console.error(e); }
+  }
+  await sb.from('lesson_materials').delete().eq('id', materialId);
+  loadAndRenderLessons();
 }
 
 async function toggleLessonAccess(userId, lessonId){
@@ -1603,30 +1667,15 @@ async function toggleLessonAccess(userId, lessonId){
 async function addLesson(){
   const tema = document.getElementById('lm-tema').value.trim();
   const video = document.getElementById('lm-video').value.trim();
-  const materialLink = document.getElementById('lm-material-link').value.trim();
-  const materialFile = document.getElementById('lm-material-file').files[0];
   const msg = document.getElementById('lm-msg');
   if(!tema){ msg.textContent = 'Ponle un tema a la clase.'; msg.className = 'form-msg err'; return; }
 
-  let materialUrl = materialLink || null;
-  if(materialFile){
-    msg.textContent = 'Subiendo material…';
-    msg.className = 'form-msg';
-    const path = `${Date.now()}-${materialFile.name}`.replace(/\s+/g, '-');
-    const { error: upErr } = await sb.storage.from('materials').upload(path, materialFile);
-    if(upErr){ msg.textContent = 'Error al subir el material: ' + upErr.message; msg.className = 'form-msg err'; return; }
-    const { data: urlData } = sb.storage.from('materials').getPublicUrl(path);
-    materialUrl = urlData.publicUrl;
-  }
-
   const { data: existing } = await sb.from('course_lessons').select('id').eq('course_id', manageCourseId);
   const order = existing ? existing.length : 0;
-  const { error } = await sb.from('course_lessons').insert({ course_id: manageCourseId, tema, video_url: video, material_url: materialUrl, order_index: order });
+  const { error } = await sb.from('course_lessons').insert({ course_id: manageCourseId, tema, video_url: video, order_index: order });
   if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
   document.getElementById('lm-tema').value = '';
   document.getElementById('lm-video').value = '';
-  document.getElementById('lm-material-link').value = '';
-  document.getElementById('lm-material-file').value = '';
   msg.textContent = 'Clase agregada — está bloqueada para todos hasta que le des acceso a cada cliente abajo.';
   msg.className = 'form-msg ok';
   loadAndRenderLessons();
