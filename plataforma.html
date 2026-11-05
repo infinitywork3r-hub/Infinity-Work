@@ -456,6 +456,9 @@
   .img-setup{border:1.5px solid #EBCB85;background:#FFFAF0;border-radius:12px;padding:14px 16px;margin:0 0 14px;font-size:13px;line-height:1.6;color:#5C3A06;}
   .img-setup ol{margin:8px 0 10px 20px;padding:0;}
   .img-setup pre{margin:0 0 10px;padding:12px;background:#0B1420;color:#DCE8F5;border-radius:10px;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:220px;overflow:auto;}
+  .img-prev.is-cat{aspect-ratio:1.3/1;}
+  .img-prev.is-cat::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(11,20,32,.12) 0%,rgba(11,20,32,0) 28%,rgba(11,20,32,.55) 64%,rgba(11,20,32,.9) 100%);}
+  .img-prev.is-cat::before{content:attr(data-t);position:absolute;left:14px;right:14px;bottom:12px;z-index:2;font-weight:800;font-size:14px;line-height:1.2;color:#fff;pointer-events:none;text-shadow:0 1px 8px rgba(0,0,0,.5);}
   @media (max-width:640px){
     .img-grid{grid-template-columns:1fr;}
     .pos-grid{grid-template-columns:repeat(3,32px);gap:5px;}
@@ -599,6 +602,7 @@
       <div class="panel">
         <h3>Categorías</h3>
         <div id="categories-list" style="margin-bottom:14px;"></div>
+        <div id="cat-seed"></div>
         <div style="display:flex;gap:10px;">
           <input id="cat-new" placeholder="Nombre de la categoría (ej: BIM)" style="flex:1;background:var(--field);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:var(--radius);">
           <button class="btn btn-solid btn-sm" onclick="createCategory()">Agregar</button>
@@ -714,6 +718,11 @@
         <h3>Servicios</h3>
         <p class="img-help">Cada servicio muestra una franja ancha de su foto. Con “Zona visible” eliges qué parte se ve: más arriba, al centro o más abajo.</p>
         <div id="img-svc-wrap" class="img-grid"></div>
+      </div>
+      <div class="panel">
+        <h3>Categorías · Programas de especialización</h3>
+        <p class="img-help">Cada cuadro de la sección “Programas de especialización” de tu página tiene su foto. El nombre de la categoría se escribe abajo a la izquierda sobre una sombra oscura (así lo ves en las vistas de abajo), por eso conviene que lo importante de la foto quede arriba. Con “Zona visible” eliges qué parte se ve. Mejores fotos horizontales de 1200 × 900 o más grandes.</p>
+        <div id="img-cat-wrap" class="img-grid"></div>
       </div>
       <div class="panel">
         <h3>Logo e ícono de la pestaña</h3>
@@ -1698,7 +1707,7 @@ async function renderVerify(code){
 }
 
 /* ---------------- IMÁGENES DE LA PORTADA (admin) ----------------
-   Cada foto de la portada tiene un nombre (hero_1…hero_8, svc_1…svc_6, logo, favicon) y se guarda en site_settings:
+   Cada foto de la portada tiene un nombre (hero_1…hero_8, svc_1…svc_6, cat_1…cat_11, logo, favicon) y se guarda en site_settings:
      img_<nombre>      = enlace de la foto nueva · "off" = quitada del carrusel · vacío = la que trae la portada
      img_<nombre>_pos  = parte de la foto que se ve al recortarla ("70% 30%")
    Los archivos se suben al almacenamiento "flyers" (el mismo de las promociones), carpeta site/. */
@@ -1706,10 +1715,13 @@ const IMG_BUCKET = 'flyers';
 const IMG_DIR = 'site/';
 const IMG_HERO_BASE = 3, IMG_HERO_MAX = 8;
 const IMG_SVC = ['Construcción de Obras Civiles','Consultoría y Expedientes Técnicos','Topografía y Georreferenciación','Saneamiento y Obras Hidráulicas','Riego y Gestión de Recursos Hídricos','Gestión y Supervisión de Obras'];
+/* categorías de la sección "Programas de especialización" de la portada (el mismo orden y nombres que ahí) */
+const IMG_CATS = ['Ingeniería','Estructuras y BIM','Arquitectura','Ambiental y Seguridad Ocupacional','Estudios Gubernamentales','Hidráulica, Hidrología y Riegos','Geología y Minería','Administración y Contabilidad','Derecho','Idiomas','Público en General'];
 const IMG_SPEC = {
   hero:    { maxW: 2000, maxH: 1300, type: 'image/jpeg', q: .82, ext: 'jpg', minW: 1400 },
   svc:     { maxW: 1000, maxH: 700,  type: 'image/jpeg', q: .84, ext: 'jpg', minW: 600 },
   logo:    { maxW: 600,  maxH: 600,  type: 'image/png',  q: 1,   ext: 'png', minW: 120 },
+  cat:     { maxW: 1100, maxH: 900,  type: 'image/jpeg', q: .8,  ext: 'jpg', minW: 500 },
   favicon: { maxW: 128,  maxH: 128,  type: 'image/png',  q: 1,   ext: 'png', minW: 0, square: true }
 };
 const IMG_SQL = `insert into storage.buckets (id, name, public)
@@ -1737,13 +1749,13 @@ function imgPosOk(s){
 }
 function imgSafeSrc(s){
   s = String(s || '');
-  return (/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(s) || /^https:\/\/[^\s"'<>]+$/.test(s)) ? s : '';
+  return (/^data:image\/(png|jpeg|webp|gif|svg\+xml);base64,[A-Za-z0-9+\/=]+$/.test(s) || /^https:\/\/[^\s"'<>]+$/.test(s)) ? s : '';
 }
 function imgState(slot){
   const raw = imgSet('img_' + slot);
   return { raw, url: imgHttps(raw), off: raw === 'off', pos: imgPosOk(imgSet('img_' + slot + '_pos')) };
 }
-function imgKind(slot){ return slot.indexOf('hero_') === 0 ? 'hero' : slot.indexOf('svc_') === 0 ? 'svc' : slot; }
+function imgKind(slot){ return slot.indexOf('hero_') === 0 ? 'hero' : slot.indexOf('svc_') === 0 ? 'svc' : slot.indexOf('cat_') === 0 ? 'cat' : slot; }
 function imgIsExtra(slot){ return /^hero_\d+$/.test(slot) && parseInt(slot.slice(5), 10) > IMG_HERO_BASE; }
 function imgHeroVisible(except){
   let n = 0;
@@ -1778,7 +1790,7 @@ async function loadImgDefaults(){
       defs.pos[s] = m ? imgPosOk(m[1]) : '';
     });
     imgUi.defs = defs;
-    imgUi.status = Object.keys(defs.map).length ? 'ok' : 'old';
+    imgUi.status = !Object.keys(defs.map).length ? 'old' : (defs.map.cat_1 === undefined ? 'partial' : 'ok');
   }catch(e){
     imgUi.defs = null;
     imgUi.status = 'fail';
@@ -1787,6 +1799,7 @@ async function loadImgDefaults(){
 
 function imgNoteHtml(){
   if(imgUi.status === 'old') return '<div class="img-note warn"><b>Falta subir la portada nueva.</b> La portada que está publicada todavía no incluye esta función, así que lo que cambies aquí no se verá hasta que subas también el archivo <b>index.html</b> nuevo a GitHub.</div>';
+  if(imgUi.status === 'partial') return '<div class="img-note warn"><b>Falta subir la portada nueva.</b> La portada que está publicada todavía no tiene la sección “Programas de especialización”, así que las fotos de las categorías no se verán hasta que subas también el archivo <b>index.html</b> nuevo a GitHub.</div>';
   if(imgUi.status === 'fail') return '<div class="img-note info">No pude abrir tu portada para mostrarte las fotos originales, pero puedes cambiarlas igual. <button type="button" class="btn btn-ghost btn-sm" data-act="retry">Reintentar</button></div>';
   return '';
 }
@@ -1806,9 +1819,9 @@ function imgCard(slot, title, sub){
   const src = st.url || (defs && defs.map[slot]) || '';
   const defPos = (defs && defs.pos[slot]) || '';
   const pos = st.pos || (st.url ? '50% 50%' : (defPos || '50% 50%'));
-  const crop = kind === 'hero' || kind === 'svc';
+  const crop = kind === 'hero' || kind === 'svc' || kind === 'cat';
   const noun = kind === 'logo' ? 'logo' : kind === 'favicon' ? 'ícono' : 'foto';
-  const cls = 'img-prev' + (kind === 'hero' ? ' is-hero' : '') + (crop ? '' : ' is-brand') + (kind === 'favicon' ? ' is-fav' : '');
+  const cls = 'img-prev' + (kind === 'hero' ? ' is-hero' : '') + (kind === 'cat' ? ' is-cat' : '') + (crop ? '' : ' is-brand') + (kind === 'favicon' ? ' is-fav' : '');
   const badge = st.off ? '<span class="img-badge off">Quitada</span>' : st.url ? '<span class="img-badge custom">Cambiada</span>' : (extra ? '' : '<span class="img-badge">Original</span>');
   const prev = src ? `<img src="${escapeHtml(src)}" alt="" decoding="async">` : `<div class="img-ph">${extra ? 'Foto nueva' : 'Foto original de tu portada'}</div>`;
   const veil = busy ? `<div class="img-veil"><span class="img-spin"></span><span>${escapeHtml(busy)}</span></div>` : (st.off ? '<div class="img-veil">No se muestra en la portada</div>' : '');
@@ -1821,7 +1834,7 @@ function imgCard(slot, title, sub){
   }
   const posBox = (crop && !busy && !st.off) ? `<div class="img-pos"><span>Zona visible</span>${imgPosGrid(pos)}</div>` : '';
   return `<div class="img-card" data-slot="${slot}">
-    <div class="${cls}" style="--pos:${pos}">${prev}${badge}${veil}</div>
+    <div class="${cls}" style="--pos:${pos}" data-t="${escapeHtml(title)}">${prev}${badge}${veil}</div>
     <div class="img-body">
       <div class="img-title">${escapeHtml(title)}${sub ? `<small>${escapeHtml(sub)}</small>` : ''}</div>
       <div class="img-actions">${acts}</div>
@@ -1845,6 +1858,9 @@ function renderImagesNow(){
   let svc = '';
   for(let i = 1; i <= IMG_SVC.length; i++) svc += imgCard('svc_' + i, (imgUi.defs && imgUi.defs.alt['svc_' + i]) || IMG_SVC[i - 1], '');
   $('img-svc-wrap').innerHTML = svc;
+  let cat = '';
+  for(let i = 1; i <= IMG_CATS.length; i++) cat += imgCard('cat_' + i, IMG_CATS[i - 1], '');
+  $('img-cat-wrap').innerHTML = cat;
   $('img-brand-wrap').innerHTML = imgCard('logo', 'Logo', 'Arriba y en el pie de página') + imgCard('favicon', 'Ícono de la pestaña', 'Se recorta en cuadrado');
 }
 
@@ -2248,7 +2264,19 @@ async function revokeCertFromModal(clientId, courseId){
   renderAdmin();
 }
 
+function catKey(s){ return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim(); }
+function catsMissing(){
+  const have = new Set((state.categories || []).map(c => catKey(c.name)));
+  return IMG_CATS.filter(n => !have.has(catKey(n)));
+}
 function renderCategoriesAdmin(){
+  const seed = document.getElementById('cat-seed');
+  if(seed){
+    const miss = catsMissing(), all = miss.length === IMG_CATS.length;
+    seed.innerHTML = miss.length
+      ? `<div class="img-note info"><b>Categorías de tu portada.</b> ${all ? 'Todavía no tienes cargadas las ' + IMG_CATS.length + ' categorías' : (miss.length === 1 ? 'Falta 1 de las ' : 'Faltan ' + miss.length + ' de las ') + IMG_CATS.length + ' categorías'} de “Programas de especialización”. <button type="button" class="btn btn-solid btn-sm" onclick="seedCategories()">${all ? 'Agregar las ' + IMG_CATS.length : (miss.length === 1 ? 'Agregar la que falta' : 'Agregar las que faltan')}</button></div>`
+      : '';
+  }
   const list = document.getElementById('categories-list');
   if(list){
     list.innerHTML = state.categories.length === 0
@@ -2261,6 +2289,19 @@ function renderCategoriesAdmin(){
     sel.innerHTML = '<option value="">Sin categoría</option>' + state.categories.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
     sel.value = cur;
   }
+}
+
+async function seedCategories(){
+  const msg = document.getElementById('cat-msg');
+  const miss = catsMissing();
+  if(!miss.length) return;
+  const { error } = await sb.from('categories').insert(miss.map(name => ({ name })));
+  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
+  msg.textContent = miss.length === 1 ? 'Se agregó 1 categoría.' : 'Se agregaron ' + miss.length + ' categorías.';
+  msg.className = 'form-msg ok';
+  const { data: cats } = await sb.from('categories').select('*').order('name');
+  state.categories = cats || [];
+  renderCategoriesAdmin();
 }
 
 async function createCategory(){
