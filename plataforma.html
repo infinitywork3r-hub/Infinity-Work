@@ -416,6 +416,51 @@
     .cert-page .cert-sign-row > div:nth-child(-n+2){flex:1 1 130px !important;}
   }
 .section-tag{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+  /* ---------- IMÁGENES DE LA PORTADA (administrador) ---------- */
+  .img-help{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 16px;}
+  .img-note{border:1px solid;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.55;margin:0 0 14px;}
+  .img-note.warn{background:#FFF6E3;border-color:#EBCB85;color:#6E4306;}
+  .img-note.info{background:#EAF4FF;border-color:#B6D9F8;color:#0D4F8C;}
+  .img-note .btn{margin-left:6px;}
+  .img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;}
+  .img-card{display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  .img-prev{position:relative;aspect-ratio:2.6/1;background:#0B1420;overflow:hidden;}
+  .img-prev img{display:block;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%);}
+  .img-prev.is-hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(11,20,32,.97) 0%,rgba(11,20,32,.93) 26%,rgba(11,20,32,.72) 42%,rgba(11,20,32,.28) 62%,rgba(11,20,32,.06) 78%,rgba(11,20,32,0) 90%);}
+  .img-prev.is-hero::before{content:'CONSTRUIMOS\A SIN LÍMITES';white-space:pre;position:absolute;left:14px;top:50%;transform:translateY(-50%);z-index:2;font-weight:800;font-style:italic;font-size:11px;line-height:1.2;color:#fff;opacity:.92;pointer-events:none;}
+  .img-prev.is-brand{aspect-ratio:auto;height:112px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0B1420,#121F30);}
+  .img-prev.is-brand img{width:auto;height:68px;max-width:80%;object-fit:contain;}
+  .img-prev.is-fav img{width:56px;height:56px;border-radius:10px;}
+  .img-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;color:#8FA3B8;font-size:12px;font-weight:700;line-height:1.4;}
+  .img-badge{position:absolute;top:8px;left:8px;z-index:5;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.94);color:var(--text);}
+  .img-badge.custom{background:var(--line);color:#fff;}
+  .img-badge.off{background:#F8D9D3;color:#8A2A1B;}
+  .img-veil{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(11,20,32,.78);color:#fff;font-size:13px;font-weight:700;text-align:center;padding:10px;}
+  .img-spin{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;animation:imgspin .8s linear infinite;flex:none;}
+  @keyframes imgspin{to{transform:rotate(360deg);}}
+  .img-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:11px;min-width:0;}
+  .img-title{font-size:14px;font-weight:800;line-height:1.3;color:var(--text);overflow-wrap:anywhere;}
+  .img-title small{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:1px;}
+  .img-actions{display:flex;flex-wrap:wrap;gap:8px;}
+  .img-pos{display:flex;align-items:center;gap:12px;}
+  .img-pos > span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .pos-grid{display:grid;grid-template-columns:repeat(3,24px);gap:4px;}
+  .pos-grid button{width:24px;height:24px;padding:0;border-radius:7px;border:1.5px solid var(--border);background:#fff;cursor:pointer;}
+  .pos-grid button:hover{border-color:var(--line);background:#EAF4FF;}
+  .pos-grid button[aria-pressed="true"]{background:var(--line);border-color:var(--line);}
+  .pos-grid button:focus-visible,.img-card .btn:focus-visible,.img-add:focus-visible{outline:3px solid rgba(29,155,255,.45);outline-offset:2px;}
+  .img-add{min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;text-align:center;border:1.5px dashed #9DB6CF;border-radius:14px;background:rgba(255,255,255,.65);color:var(--line-dark);font:800 13.5px 'Montserrat',sans-serif;cursor:pointer;transition:background .15s,border-color .15s;}
+  .img-add:hover{background:#EAF4FF;border-color:var(--line);}
+  .img-add small{font-weight:600;color:var(--muted);font-size:11.5px;}
+  .img-add .plus{font-size:28px;line-height:1;font-weight:700;}
+  .img-setup{border:1.5px solid #EBCB85;background:#FFFAF0;border-radius:12px;padding:14px 16px;margin:0 0 14px;font-size:13px;line-height:1.6;color:#5C3A06;}
+  .img-setup ol{margin:8px 0 10px 20px;padding:0;}
+  .img-setup pre{margin:0 0 10px;padding:12px;background:#0B1420;color:#DCE8F5;border-radius:10px;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:220px;overflow:auto;}
+  @media (max-width:640px){
+    .img-grid{grid-template-columns:1fr;}
+    .pos-grid{grid-template-columns:repeat(3,32px);gap:5px;}
+    .pos-grid button{width:32px;height:32px;}
+  }
 </style>
 </head>
 <body class="guest">
@@ -540,6 +585,7 @@
       <button class="admin-tab" id="atab-projects" onclick="setAdminTab('projects')">Proyectos</button>
       <button class="admin-tab" id="atab-promos" onclick="setAdminTab('promos')">Promociones</button>
       <button class="admin-tab" id="atab-settings" onclick="setAdminTab('settings')">Contacto y redes</button>
+      <button class="admin-tab" id="atab-images" onclick="setAdminTab('images')">Imágenes de la portada</button>
     </div>
     </div>
   </section>
@@ -639,6 +685,40 @@
         </div>
         <div id="set-msg" class="form-msg"></div>
         <button class="btn btn-solid" onclick="saveSettings()">Guardar cambios</button>
+      </div>
+    </div>
+
+    <div id="admin-images-panel" class="hidden">
+      <div class="panel">
+        <h3>Imágenes de la portada</h3>
+        <p class="img-help">Cambia aquí las fotos de tu página principal: elige una imagen de tu computadora o de tu celular y se publica sola. Se reduce automáticamente para que la página cargue rápido y no hace falta subir archivos a GitHub. Si no te gusta cómo queda, pulsa “Volver a la original”.</p>
+        <div id="img-note"></div>
+        <div id="img-msg" class="form-msg" role="status" aria-live="polite"></div>
+        <div id="img-setup" class="img-setup hidden">
+          <b>Falta activar el almacenamiento de imágenes (se hace una sola vez)</b>
+          <ol>
+            <li>Abre tu proyecto en <b>Supabase</b> y entra a <b>SQL Editor</b>.</li>
+            <li>Pega este texto y pulsa <b>Run</b>. No borra nada de lo que ya tienes.</li>
+            <li>Vuelve aquí y prueba de nuevo.</li>
+          </ol>
+          <pre id="img-sql"></pre>
+          <button type="button" class="btn btn-ghost btn-sm" data-act="copy-sql">Copiar el texto</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Carrusel del inicio</h3>
+        <p class="img-help">Son las fotos grandes que cambian solas al entrar a tu página. El texto “Construimos sin límites” va a la izquierda sobre una sombra oscura (así lo ves en las vistas de abajo), por eso conviene que lo importante de la foto quede hacia la derecha. Mejor fotos horizontales de 1920 × 1080 o más grandes. Puedes quitar fotos y agregar hasta 8.</p>
+        <div id="img-hero-wrap" class="img-grid"></div>
+      </div>
+      <div class="panel">
+        <h3>Servicios</h3>
+        <p class="img-help">Cada servicio muestra una franja ancha de su foto. Con “Zona visible” eliges qué parte se ve: más arriba, al centro o más abajo.</p>
+        <div id="img-svc-wrap" class="img-grid"></div>
+      </div>
+      <div class="panel">
+        <h3>Logo e ícono de la pestaña</h3>
+        <p class="img-help">El logo aparece arriba y en el pie de la página. Se ve mejor un PNG con fondo transparente, cuadrado o casi cuadrado. El ícono es el dibujito que sale en la pestaña del navegador.</p>
+        <div id="img-brand-wrap" class="img-grid"></div>
       </div>
     </div>
     </div>
@@ -1617,6 +1697,352 @@ async function renderVerify(code){
     </div>`;
 }
 
+/* ---------------- IMÁGENES DE LA PORTADA (admin) ----------------
+   Cada foto de la portada tiene un nombre (hero_1…hero_8, svc_1…svc_6, logo, favicon) y se guarda en site_settings:
+     img_<nombre>      = enlace de la foto nueva · "off" = quitada del carrusel · vacío = la que trae la portada
+     img_<nombre>_pos  = parte de la foto que se ve al recortarla ("70% 30%")
+   Los archivos se suben al almacenamiento "flyers" (el mismo de las promociones), carpeta site/. */
+const IMG_BUCKET = 'flyers';
+const IMG_DIR = 'site/';
+const IMG_HERO_BASE = 3, IMG_HERO_MAX = 8;
+const IMG_SVC = ['Construcción de Obras Civiles','Consultoría y Expedientes Técnicos','Topografía y Georreferenciación','Saneamiento y Obras Hidráulicas','Riego y Gestión de Recursos Hídricos','Gestión y Supervisión de Obras'];
+const IMG_SPEC = {
+  hero:    { maxW: 2000, maxH: 1300, type: 'image/jpeg', q: .82, ext: 'jpg', minW: 1400 },
+  svc:     { maxW: 1000, maxH: 700,  type: 'image/jpeg', q: .84, ext: 'jpg', minW: 600 },
+  logo:    { maxW: 600,  maxH: 600,  type: 'image/png',  q: 1,   ext: 'png', minW: 120 },
+  favicon: { maxW: 128,  maxH: 128,  type: 'image/png',  q: 1,   ext: 'png', minW: 0, square: true }
+};
+const IMG_SQL = `insert into storage.buckets (id, name, public)
+values ('flyers', 'flyers', true)
+on conflict (id) do nothing;
+
+drop policy if exists "flyers_public_read" on storage.objects;
+create policy "flyers_public_read" on storage.objects
+  for select using (bucket_id = 'flyers');
+drop policy if exists "flyers_admin_insert" on storage.objects;
+create policy "flyers_admin_insert" on storage.objects
+  for insert with check (bucket_id = 'flyers' and public.is_admin());
+drop policy if exists "flyers_admin_delete" on storage.objects;
+create policy "flyers_admin_delete" on storage.objects
+  for delete using (bucket_id = 'flyers' and public.is_admin());`;
+const imgUi = { defs: null, status: '', busy: {}, bound: false };
+
+function imgSet(k){ const v = (state.settings || {})[k]; return String(v == null ? '' : v).trim(); }
+function imgHttps(s){ s = String(s == null ? '' : s).trim(); return /^https:\/\/[^\s"'<>\\]+$/i.test(s) ? s : ''; }
+function imgPosOk(s){
+  const m = /^\s*(\d{1,3}(?:\.\d+)?)%\s+(\d{1,3}(?:\.\d+)?)%\s*$/.exec(String(s == null ? '' : s));
+  if(!m) return '';
+  const x = parseFloat(m[1]), y = parseFloat(m[2]);
+  return (x <= 100 && y <= 100) ? (x + '% ' + y + '%') : '';
+}
+function imgSafeSrc(s){
+  s = String(s || '');
+  return (/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(s) || /^https:\/\/[^\s"'<>]+$/.test(s)) ? s : '';
+}
+function imgState(slot){
+  const raw = imgSet('img_' + slot);
+  return { raw, url: imgHttps(raw), off: raw === 'off', pos: imgPosOk(imgSet('img_' + slot + '_pos')) };
+}
+function imgKind(slot){ return slot.indexOf('hero_') === 0 ? 'hero' : slot.indexOf('svc_') === 0 ? 'svc' : slot; }
+function imgIsExtra(slot){ return /^hero_\d+$/.test(slot) && parseInt(slot.slice(5), 10) > IMG_HERO_BASE; }
+function imgHeroVisible(except){
+  let n = 0;
+  for(let i = 1; i <= IMG_HERO_MAX; i++){
+    if(i === except) continue;
+    const st = imgState('hero_' + i);
+    if(i <= IMG_HERO_BASE ? !st.off : !!st.url) n++;
+  }
+  return n;
+}
+function imgNearest(pos){
+  const m = /^(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%$/.exec(pos || '50% 50%') || [0, '50', '50'];
+  const cell = v => { v = parseFloat(v); return v < 25 ? 0 : v > 75 ? 2 : 1; };
+  return [cell(m[1]), cell(m[2])];
+}
+
+/* las fotos originales se leen de la portada publicada (así se ven aquí tal como están en tu página) */
+async function loadImgDefaults(){
+  imgUi.status = 'loading';
+  try{
+    const res = await fetch(new URL('./', location.href).href, { cache: 'no-cache' });
+    if(!res.ok) throw new Error('http ' + res.status);
+    const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+    const defs = { map: {}, alt: {}, pos: {} };
+    doc.querySelectorAll('[data-img]').forEach(el => {
+      const s = el.getAttribute('data-img');
+      if(defs.map[s] !== undefined) return;
+      defs.map[s] = imgSafeSrc(el.getAttribute(el.tagName === 'LINK' ? 'href' : 'src'));
+      defs.alt[s] = el.getAttribute('alt') || '';
+      const fig = el.closest('.hs');
+      const m = fig && /--pos\s*:\s*([^;"']+)/.exec(fig.getAttribute('style') || '');
+      defs.pos[s] = m ? imgPosOk(m[1]) : '';
+    });
+    imgUi.defs = defs;
+    imgUi.status = Object.keys(defs.map).length ? 'ok' : 'old';
+  }catch(e){
+    imgUi.defs = null;
+    imgUi.status = 'fail';
+  }
+}
+
+function imgNoteHtml(){
+  if(imgUi.status === 'old') return '<div class="img-note warn"><b>Falta subir la portada nueva.</b> La portada que está publicada todavía no incluye esta función, así que lo que cambies aquí no se verá hasta que subas también el archivo <b>index.html</b> nuevo a GitHub.</div>';
+  if(imgUi.status === 'fail') return '<div class="img-note info">No pude abrir tu portada para mostrarte las fotos originales, pero puedes cambiarlas igual. <button type="button" class="btn btn-ghost btn-sm" data-act="retry">Reintentar</button></div>';
+  return '';
+}
+
+function imgPosGrid(pos){
+  const c = imgNearest(pos);
+  const names = [['Arriba a la izquierda','Arriba','Arriba a la derecha'],['A la izquierda','Centro','A la derecha'],['Abajo a la izquierda','Abajo','Abajo a la derecha']];
+  let h = '<div class="pos-grid" role="group" aria-label="Zona de la foto que se ve">';
+  for(let y = 0; y < 3; y++) for(let x = 0; x < 3; x++){
+    h += `<button type="button" data-act="pos" data-pos="${x * 50}% ${y * 50}%" aria-label="${names[y][x]}" title="${names[y][x]}" aria-pressed="${x === c[0] && y === c[1]}"></button>`;
+  }
+  return h + '</div>';
+}
+
+function imgCard(slot, title, sub){
+  const kind = imgKind(slot), st = imgState(slot), busy = imgUi.busy[slot], extra = imgIsExtra(slot), defs = imgUi.defs;
+  const src = st.url || (defs && defs.map[slot]) || '';
+  const defPos = (defs && defs.pos[slot]) || '';
+  const pos = st.pos || (st.url ? '50% 50%' : (defPos || '50% 50%'));
+  const crop = kind === 'hero' || kind === 'svc';
+  const noun = kind === 'logo' ? 'logo' : kind === 'favicon' ? 'ícono' : 'foto';
+  const cls = 'img-prev' + (kind === 'hero' ? ' is-hero' : '') + (crop ? '' : ' is-brand') + (kind === 'favicon' ? ' is-fav' : '');
+  const badge = st.off ? '<span class="img-badge off">Quitada</span>' : st.url ? '<span class="img-badge custom">Cambiada</span>' : (extra ? '' : '<span class="img-badge">Original</span>');
+  const prev = src ? `<img src="${escapeHtml(src)}" alt="" decoding="async">` : `<div class="img-ph">${extra ? 'Foto nueva' : 'Foto original de tu portada'}</div>`;
+  const veil = busy ? `<div class="img-veil"><span class="img-spin"></span><span>${escapeHtml(busy)}</span></div>` : (st.off ? '<div class="img-veil">No se muestra en la portada</div>' : '');
+  let acts = '';
+  if(!busy){
+    if(st.off) acts += '<button type="button" class="btn btn-solid btn-sm" data-act="on">Mostrar de nuevo</button>';
+    acts += `<button type="button" class="btn ${st.off ? 'btn-ghost' : 'btn-solid'} btn-sm" data-act="pick">${st.url ? 'Cambiar otra vez' : 'Cambiar ' + noun}</button>`;
+    if(!extra && (st.url || st.pos)) acts += `<button type="button" class="btn btn-ghost btn-sm" data-act="reset">${noun === 'foto' ? 'Volver a la original' : 'Volver al original'}</button>`;
+    if(kind === 'hero' && !st.off) acts += `<button type="button" class="btn btn-danger btn-sm" data-act="${extra ? 'del' : 'off'}">Quitar</button>`;
+  }
+  const posBox = (crop && !busy && !st.off) ? `<div class="img-pos"><span>Zona visible</span>${imgPosGrid(pos)}</div>` : '';
+  return `<div class="img-card" data-slot="${slot}">
+    <div class="${cls}" style="--pos:${pos}">${prev}${badge}${veil}</div>
+    <div class="img-body">
+      <div class="img-title">${escapeHtml(title)}${sub ? `<small>${escapeHtml(sub)}</small>` : ''}</div>
+      <div class="img-actions">${acts}</div>
+      ${posBox}
+    </div>
+  </div>`;
+}
+
+function renderImagesNow(){
+  const $ = id => document.getElementById(id);
+  if(!$('img-hero-wrap')) return;
+  $('img-note').innerHTML = imgNoteHtml();
+  let hero = '', free = 0;
+  for(let i = 1; i <= IMG_HERO_MAX; i++){
+    const slot = 'hero_' + i, st = imgState(slot);
+    if(i <= IMG_HERO_BASE || st.url || imgUi.busy[slot]) hero += imgCard(slot, 'Foto ' + i, i > IMG_HERO_BASE ? 'Foto extra del carrusel' : '');
+    else free++;
+  }
+  if(free > 0) hero += `<button type="button" class="img-add" data-act="add"><span class="plus">+</span>Agregar otra foto<small>Puedes sumar ${free} más al carrusel</small></button>`;
+  $('img-hero-wrap').innerHTML = hero;
+  let svc = '';
+  for(let i = 1; i <= IMG_SVC.length; i++) svc += imgCard('svc_' + i, (imgUi.defs && imgUi.defs.alt['svc_' + i]) || IMG_SVC[i - 1], '');
+  $('img-svc-wrap').innerHTML = svc;
+  $('img-brand-wrap').innerHTML = imgCard('logo', 'Logo', 'Arriba y en el pie de página') + imgCard('favicon', 'Ícono de la pestaña', 'Se recorta en cuadrado');
+}
+
+async function renderImagesAdmin(){
+  imgBindOnce();
+  if(!imgUi.status){
+    renderImagesNow();
+    await loadImgDefaults();
+  }
+  if(adminTab === 'images') renderImagesNow();
+}
+
+function imgMsg(text, kind){
+  const el = document.getElementById('img-msg'); if(!el) return;
+  el.textContent = text || '';
+  el.className = 'form-msg' + (kind ? ' ' + kind : '');
+}
+function imgFail(e){
+  const m = (e && e.message) ? e.message : String(e || 'Error');
+  const setup = !!(e && e.storage && /bucket|not found|row-level|policy|violat|permission|unauthori|denied|forbidden|\b40[134]\b/i.test(m));
+  imgMsg(e && e.storage ? ('No se pudo subir la imagen' + (setup ? ' porque falta activar el almacenamiento de imágenes' : '') + ': ' + m) : m, 'err');
+  const box = document.getElementById('img-setup');
+  if(box && setup) box.classList.remove('hidden');
+}
+
+function imgBindOnce(){
+  if(imgUi.bound) return;
+  const panel = document.getElementById('admin-images-panel'); if(!panel) return;
+  imgUi.bound = true;
+  const sql = document.getElementById('img-sql'); if(sql) sql.textContent = IMG_SQL;
+  panel.addEventListener('click', ev => {
+    const btn = ev.target.closest('button[data-act]'); if(!btn || !panel.contains(btn)) return;
+    const act = btn.dataset.act;
+    if(act === 'add') return imgAdd();
+    if(act === 'copy-sql') return imgCopySql(btn);
+    if(act === 'retry'){ imgUi.status = ''; return renderImagesAdmin(); }
+    const card = btn.closest('[data-slot]'); if(!card) return;
+    imgAct(card.dataset.slot, act, btn.dataset.pos);
+  });
+}
+async function imgCopySql(btn){
+  try{ await navigator.clipboard.writeText(IMG_SQL); btn.textContent = 'Copiado ✓'; }
+  catch(e){
+    const pre = document.getElementById('img-sql');
+    const r = document.createRange(); r.selectNodeContents(pre);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent = 'Seleccionado: pulsa Ctrl+C';
+  }
+  setTimeout(() => { btn.textContent = 'Copiar el texto'; }, 2600);
+}
+
+/* ---- preparar la foto: se reduce y se comprime en tu propio equipo antes de subirla ---- */
+function imgPickFile(){
+  return new Promise(resolve => {
+    const input = document.createElement('input');
+    input.type = 'file'; input.accept = 'image/*';
+    input.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+    input.addEventListener('change', () => { const f = input.files && input.files[0]; input.remove(); resolve(f || null); });
+    input.addEventListener('cancel', () => { input.remove(); resolve(null); });
+    document.body.appendChild(input);
+    input.click();
+  });
+}
+function imgOpen(file){
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = () => { URL.revokeObjectURL(url); resolve(im); };
+    im.onerror = () => { URL.revokeObjectURL(url); reject(new Error('No pude abrir ese archivo como imagen. Prueba con una foto JPG, PNG o WebP.')); };
+    im.src = url;
+  });
+}
+async function imgPrepare(file, spec){
+  if(!/^image\//.test(file.type || '') && !/\.(jpe?g|png|webp|gif|bmp|avif|heic|heif)$/i.test(file.name || '')) throw new Error('Elige una imagen (JPG, PNG o WebP).');
+  if(/svg/i.test(file.type || '') || /\.svg$/i.test(file.name || '')) throw new Error('Los archivos SVG no se pueden usar aquí. Elige una imagen JPG, PNG o WebP.');
+  if(file.size > 30 * 1024 * 1024) throw new Error('Esa imagen pesa más de 30 MB. Elige una más liviana.');
+  const im = await imgOpen(file);
+  const w = im.naturalWidth, h = im.naturalHeight;
+  if(!w || !h) throw new Error('No pude leer el tamaño de esa imagen.');
+  let sx = 0, sy = 0, sw = w, sh = h;
+  if(spec.square){ const s = Math.min(w, h); sx = Math.round((w - s) / 2); sy = Math.round((h - s) / 2); sw = sh = s; }
+  const k = Math.min(1, spec.maxW / sw, spec.maxH / sh);
+  const cw = Math.max(1, Math.round(sw * k)), ch = Math.max(1, Math.round(sh * k));
+  let cur = im, rect = [sx, sy, sw, sh], cwid = sw, chei = sh;
+  while(cwid / 2 >= cw && chei / 2 >= ch){            /* reducir por pasos para que no quede dentada */
+    const nw = Math.ceil(cwid / 2), nh = Math.ceil(chei / 2);
+    const c = document.createElement('canvas'); c.width = nw; c.height = nh;
+    const x = c.getContext('2d'); x.imageSmoothingQuality = 'high';
+    x.drawImage(cur, rect[0], rect[1], rect[2], rect[3], 0, 0, nw, nh);
+    cur = c; rect = [0, 0, nw, nh]; cwid = nw; chei = nh;
+  }
+  const out = document.createElement('canvas'); out.width = cw; out.height = ch;
+  const ox = out.getContext('2d');
+  if(spec.type === 'image/jpeg'){ ox.fillStyle = '#fff'; ox.fillRect(0, 0, cw, ch); }
+  ox.imageSmoothingQuality = 'high';
+  ox.drawImage(cur, rect[0], rect[1], rect[2], rect[3], 0, 0, cw, ch);
+  const blob = await new Promise(r => out.toBlob(r, spec.type, spec.q));
+  if(!blob) throw new Error('No se pudo preparar la imagen.');
+  return { blob, w: cw, h: ch, small: !!spec.minW && sw < spec.minW };
+}
+
+/* ---- almacenamiento y ajustes ---- */
+async function imgUpload(slot, blob, ext){
+  const path = `${IMG_DIR}${slot}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const { error } = await sb.storage.from(IMG_BUCKET).upload(path, blob, { contentType: blob.type || undefined, cacheControl: '31536000', upsert: false });
+  if(error){ const e = new Error(error.message || 'error desconocido'); e.storage = true; throw e; }
+  const { data } = sb.storage.from(IMG_BUCKET).getPublicUrl(path);
+  return { path, url: data.publicUrl };
+}
+async function imgRemoveFile(url){           /* solo borra lo que subió esta pestaña (carpeta site/), nunca los flyers */
+  const m = /\/storage\/v1\/object\/public\/flyers\/(site\/[^?#]+)/.exec(String(url || ''));
+  if(!m) return;
+  try{ await sb.storage.from(IMG_BUCKET).remove([decodeURIComponent(m[1])]); }catch(e){ console.warn(e); }
+}
+async function imgSave(rows){
+  const { error } = await sb.from('site_settings').upsert(rows);
+  if(error) throw new Error('No se pudo guardar: ' + error.message);
+  await loadSettings();
+}
+
+async function imgAct(slot, act, pos){
+  if(imgUi.busy[slot]) return;
+  imgMsg('');
+  const guide = document.getElementById('img-setup'); if(guide) guide.classList.add('hidden');
+  try{
+    if(act === 'pick') await imgChange(slot);
+    else if(act === 'reset') await imgRestore(slot);
+    else if(act === 'off') await imgHide(slot);
+    else if(act === 'del') await imgDrop(slot);
+    else if(act === 'on') await imgShow(slot);
+    else if(act === 'pos') await imgCrop(slot, pos);
+  }catch(e){
+    console.error(e); imgFail(e);
+  }finally{
+    delete imgUi.busy[slot];
+    renderImagesNow();
+  }
+}
+async function imgChange(slot){
+  const file = await imgPickFile();
+  if(!file) return;
+  const spec = IMG_SPEC[imgKind(slot)];
+  imgUi.busy[slot] = 'Preparando la foto…'; renderImagesNow();
+  const prep = await imgPrepare(file, spec);
+  imgUi.busy[slot] = 'Subiendo…'; renderImagesNow();
+  const old = imgState(slot).url;
+  const up = await imgUpload(slot, prep.blob, spec.ext);
+  const rows = [{ key: 'img_' + slot, value: up.url }];
+  if(imgSet('img_' + slot + '_pos')) rows.push({ key: 'img_' + slot + '_pos', value: '' });     /* la foto nueva empieza centrada */
+  try{ await imgSave(rows); }
+  catch(e){ await imgRemoveFile(up.url); throw e; }
+  if(old) await imgRemoveFile(old);
+  imgMsg(prep.small ? 'Listo, ya se ve en tu portada. Ojo: esa imagen es pequeña y a pantalla completa puede verse borrosa.' : 'Listo: la imagen ya se ve en tu portada.', 'ok');
+}
+async function imgRestore(slot){
+  const old = imgState(slot).url;
+  imgUi.busy[slot] = 'Restaurando…'; renderImagesNow();
+  const rows = [{ key: 'img_' + slot, value: '' }];
+  if(imgSet('img_' + slot + '_pos')) rows.push({ key: 'img_' + slot + '_pos', value: '' });
+  await imgSave(rows);
+  if(old) await imgRemoveFile(old);
+  imgMsg('Listo: volvió la original.', 'ok');
+}
+async function imgHide(slot){
+  if(imgHeroVisible(parseInt(slot.slice(5), 10)) < 1) throw new Error('Debe quedar al menos una foto en el carrusel.');
+  const old = imgState(slot).url;
+  imgUi.busy[slot] = 'Guardando…'; renderImagesNow();
+  await imgSave([{ key: 'img_' + slot, value: 'off' }]);
+  if(old) await imgRemoveFile(old);
+  imgMsg('Listo: esa foto ya no aparece en el carrusel. Puedes volver a mostrarla cuando quieras.', 'ok');
+}
+async function imgShow(slot){
+  imgUi.busy[slot] = 'Guardando…'; renderImagesNow();
+  await imgSave([{ key: 'img_' + slot, value: '' }]);
+  imgMsg('Listo: la foto original vuelve a mostrarse en el carrusel.', 'ok');
+}
+async function imgDrop(slot){
+  if(imgHeroVisible(parseInt(slot.slice(5), 10)) < 1) throw new Error('Debe quedar al menos una foto en el carrusel.');
+  const old = imgState(slot).url;
+  imgUi.busy[slot] = 'Quitando…'; renderImagesNow();
+  const rows = [{ key: 'img_' + slot, value: '' }];
+  if(imgSet('img_' + slot + '_pos')) rows.push({ key: 'img_' + slot + '_pos', value: '' });
+  await imgSave(rows);
+  if(old) await imgRemoveFile(old);
+  imgMsg('Listo: esa foto ya no aparece en el carrusel.', 'ok');
+}
+async function imgCrop(slot, pos){
+  const p = imgPosOk(pos);
+  if(!p) return;
+  imgUi.busy[slot] = 'Guardando…'; renderImagesNow();
+  await imgSave([{ key: 'img_' + slot + '_pos', value: p }]);
+  imgMsg('Listo: así se verá en tu portada.', 'ok');
+}
+async function imgAdd(){
+  for(let i = IMG_HERO_BASE + 1; i <= IMG_HERO_MAX; i++){
+    if(!imgState('hero_' + i).url){ await imgAct('hero_' + i, 'pick'); return; }
+  }
+}
+
 function setAdminTab(tab){
   adminTab = tab;
   document.getElementById('atab-clients').classList.toggle('active', tab==='clients');
@@ -1624,6 +2050,7 @@ function setAdminTab(tab){
   document.getElementById('atab-projects').classList.toggle('active', tab==='projects');
   document.getElementById('atab-promos').classList.toggle('active', tab==='promos');
   document.getElementById('atab-settings').classList.toggle('active', tab==='settings');
+  document.getElementById('atab-images').classList.toggle('active', tab==='images');
   const actTab = document.querySelector('.admin-tab.active');
   if(actTab && actTab.parentElement){
     const strip = actTab.parentElement;
@@ -1635,10 +2062,12 @@ function setAdminTab(tab){
   document.getElementById('admin-projects-panel').classList.toggle('hidden', tab!=='projects');
   document.getElementById('admin-promos-panel').classList.toggle('hidden', tab!=='promos');
   document.getElementById('admin-settings-panel').classList.toggle('hidden', tab!=='settings');
+  document.getElementById('admin-images-panel').classList.toggle('hidden', tab!=='images');
   if(tab==='projects') renderProjectsAdmin();
   if(tab==='promos') renderPromosAdmin();
   if(tab==='courses') renderCategoriesAdmin();
   if(tab==='settings') renderSettingsAdmin();
+  if(tab==='images') renderImagesAdmin();
 }
 
 function renderSettingsAdmin(){
