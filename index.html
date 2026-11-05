@@ -135,19 +135,6 @@ location.replace('plataforma.html'+q+h);}}catch(e){}})();
     padding:7.5px 13px;
   }
   nav.main-nav a.nav-aula:hover{background:var(--line);border-color:var(--line);color:#fff;}
-  .cta-pill{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    border:1.5px solid rgba(37,211,102,.55);
-    border-radius:999px;
-    padding:8px 16px;
-    flex:none;
-  }
-  .cta-pill .wa-ico{width:19px;height:19px;flex:none;}
-  .cta-pill .txt{display:flex;flex-direction:column;line-height:1.25;}
-  .cta-pill .txt .l1{font-size:9.5px;color:#9fb3c8;text-transform:uppercase;letter-spacing:.06em;}
-  .cta-pill .txt .l2{font-size:13px;font-weight:700;color:#fff;}
   .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;padding:6px;cursor:pointer;}
   .burger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .2s,opacity .2s;}
   header.nav-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg);}
@@ -426,7 +413,6 @@ location.replace('plataforma.html'+q+h);}}catch(e){}})();
   @media (max-width: 1180px){
     nav.main-nav a{padding:9px 10px;font-size:12.5px;}
     nav.main-nav a.nav-aula{padding:7.5px 12px;margin-left:4px;}
-    .cta-pill{padding:7px 12px;}
   }
   @media (max-width: 1100px){
     nav.main-nav{
@@ -441,7 +427,6 @@ location.replace('plataforma.html'+q+h);}}catch(e){}})();
     header.nav-open nav.main-nav{display:flex;}
     nav.main-nav a{padding:13px 14px;font-size:14px;border-radius:10px;}
     nav.main-nav a.nav-aula{margin:8px 0 0;text-align:center;padding:12px 14px;}
-    .cta-pill{display:none;}
     .burger{display:flex;}
     .hero-shade{
       background:
@@ -652,6 +637,56 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
   .ed-hint{font-size:11px;}
   .ed-chip{top:10px;right:10px;padding:8px 12px;font-size:11.5px;}
 }
+  /* ---------- INICIAR SESIÓN (cabecera) ---------- */
+  nav.main-nav a.nav-login{display:inline-flex;align-items:center;gap:7px;}
+  nav.main-nav a.nav-login svg{width:15px;height:15px;flex:none;}
+  .login-compact{display:none;align-items:center;gap:7px;border:1.5px solid rgba(29,155,255,.75);border-radius:999px;color:#fff;font-size:12.5px;font-weight:700;padding:7px 13px;white-space:nowrap;transition:.15s;}
+  .login-compact svg{width:15px;height:15px;flex:none;}
+  .login-compact:hover{background:var(--line);border-color:var(--line);}
+  @media (max-width:1100px){
+    nav.main-nav a.nav-login{display:none;}
+    .login-compact{display:inline-flex;margin-left:auto;}
+    header .bar{gap:10px;}
+  }
+  @media (max-width:380px){
+    .login-compact{padding:8px;}
+    .login-compact span{display:none;}
+  }
+
+  /* ---------- PROYECTOS (se llenan desde el aula → pestaña Proyectos del administrador) ---------- */
+  .projects{padding:72px 0 78px;background:#fff;}
+  .projects[hidden],[data-prj][hidden]{display:none !important;}
+  .prj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;}
+  .prj-card{background:#fff;border:1px solid #DCE4EE;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 28px -18px rgba(11,20,32,.35);transition:transform .2s,box-shadow .2s;}
+  .prj-card:hover{transform:translateY(-3px);box-shadow:0 18px 34px -16px rgba(11,20,32,.4);}
+  .prj-photo{aspect-ratio:4/3;background:linear-gradient(135deg,var(--ink-2),var(--line-dark));overflow:hidden;}
+  .prj-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .prj-body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;min-width:0;}
+  .prj-loc{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--line-dark);}
+  .prj-body h3{font-size:18px;font-weight:800;color:var(--ink);line-height:1.2;overflow-wrap:anywhere;}
+  .prj-body p{margin:0;font-size:14px;line-height:1.55;color:#4A5B70;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;}
+  @media (max-width:900px){ .prj-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .projects{padding:48px 0 56px;} .prj-grid{grid-template-columns:1fr;gap:16px;margin-top:24px;} }
+  /* ---------- REDES: botones flotantes junto al de WhatsApp, en fila hacia la izquierda (se llenan en el aula → "Contacto y redes") ---------- */
+  .float-social{position:fixed;right:90px;bottom:25px;z-index:60;display:flex;flex-direction:row;gap:10px;}
+  .float-social[hidden],.float-social a[hidden]{display:none !important;}
+  .float-social a{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.55);transition:transform .18s,box-shadow .18s;}
+  .float-social a:hover{transform:translateY(-3px);box-shadow:0 14px 26px -8px rgba(0,0,0,.6);}
+  .float-social a:focus-visible{outline:3px solid #fff;outline-offset:2px;}
+  .float-social a svg{width:24px;height:24px;fill:#fff;}
+  .float-social .fs-facebook{background:#1877F2;}
+  .float-social .fs-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);}
+  .float-social .fs-linkedin{background:#0A66C2;}
+  .float-social .fs-youtube{background:#FF0000;}
+  /* que los botones no tapen la última línea del pie de página al llegar al final */
+  body:has(#float-social:not([hidden])) footer{padding-bottom:84px;}
+  @media (max-width:760px){
+    .float-social{right:14px;bottom:calc(60px + env(safe-area-inset-bottom,0px));gap:9px;}
+    .float-social a{width:44px;height:44px;}
+    .float-social a svg{width:22px;height:22px;}
+    body:has(#float-social:not([hidden])) footer{padding-bottom:132px;}
+  }
+  body.ed-on .float-social{display:none !important;}
 </style>
 </head>
 <body>
@@ -667,15 +702,12 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
       <a href="#inicio" class="active">Inicio</a>
       <a href="#nosotros">Nosotros</a>
       <a href="#servicios">Servicios</a>
-      <a href="#proyectos">Proyectos</a>
+      <a href="#proyectos" data-prj hidden>Proyectos</a>
       <a href="#clientes">Clientes</a>
       <a href="#contacto">Contacto</a>
-      <a href="plataforma.html" class="nav-aula">Aula virtual</a>
+      <a href="plataforma.html#ingresar" class="nav-aula nav-login"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.9-3.7 3.9-5.7 7.5-5.7s6.6 2 7.5 5.7"/></svg><span>Iniciar sesión</span></a>
     </nav>
-    <a class="cta-pill" href="https://wa.me/51987654321" target="_blank" rel="noopener" data-iw="wa">
-      <svg class="wa-ico" viewBox="0 0 24 24" fill="#25D366"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.5.1-.6l.4-.5c.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.3.9.9-3.2-.2-.3C4 14.9 3.6 13.5 3.6 12c0-4.6 3.8-8.4 8.4-8.4s8.4 3.8 8.4 8.4-3.8 8.2-8.4 8.2z"/></svg>
-      <div class="txt"><span class="l1">Solicita tu cotización</span><span class="l2" data-iw="phone">+51 987 654 321</span></div>
-    </a>
+    <a class="login-compact" href="plataforma.html#ingresar" aria-label="Iniciar sesión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.9-3.7 3.9-5.7 7.5-5.7s6.6 2 7.5 5.7"/></svg><span>Iniciar sesión</span></a>
     <button class="burger" type="button" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -698,7 +730,7 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>
             Nuestros Servicios →
           </a>
-          <a class="btn btn-outline" href="#proyectos">
+          <a class="btn btn-outline" href="#proyectos" data-prj hidden>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4V8z" fill="currentColor" stroke="none"/></svg>
             Ver Proyectos
           </a>
@@ -795,6 +827,13 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
   </div>
 </section>
 
+<section class="projects" id="proyectos" hidden>
+  <div class="wrap">
+    <div class="sec-title">Nuestros Proyectos<span class="dash"></span></div>
+    <div class="prj-grid" id="prj-grid"></div>
+  </div>
+</section>
+
 <footer id="contacto">
   <div class="wrap">
     <div class="f-grid">
@@ -807,9 +846,9 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
         <ul>
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#servicios">Servicios</a></li>
-          <li><a href="#proyectos">Proyectos</a></li>
+          <li data-prj hidden><a href="#proyectos">Proyectos</a></li>
           <li><a href="#clientes">Clientes</a></li>
-          <li><a href="plataforma.html">Aula virtual</a></li>
+          <li><a href="plataforma.html#ingresar">Aula virtual (clientes)</a></li>
         </ul>
       </div>
       <div>
@@ -842,6 +881,13 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
 <a class="float-wa" href="https://wa.me/51987654321" target="_blank" rel="noopener" data-iw="wa" aria-label="Escríbenos por WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.5.1-.6l.4-.5c.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.3.9.9-3.2-.2-.3C4 14.9 3.6 13.5 3.6 12c0-4.6 3.8-8.4 8.4-8.4s8.4 3.8 8.4 8.4-3.8 8.2-8.4 8.2z"/></svg>
 </a>
+
+<div class="float-social" id="float-social" hidden>
+  <a class="fs-facebook" id="fs-facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" hidden><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12"/></svg></a>
+  <a class="fs-instagram" id="fs-instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram" hidden><svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.65.25 1.21.6 1.76 1.15.5.5.9 1.11 1.15 1.76.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.76 4.9 4.9 0 0 1-1.76 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.76-1.15 4.9 4.9 0 0 1-1.15-1.76c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.25-.65.6-1.21 1.15-1.76A4.9 4.9 0 0 1 5.44 2.5c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2m0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65C4.28 8.54 4.27 8.86 4.27 12s.01 3.46.06 4.51c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.51s-.01-3.46-.06-4.51c-.04-.87-.18-1.34-.3-1.65a2.8 2.8 0 0 0-.66-1.02 2.8 2.8 0 0 0-1.02-.66c-.31-.12-.78-.26-1.65-.3C14.99 3.81 14.67 3.8 12 3.8m0 3.05a5.15 5.15 0 1 1 0 10.3 5.15 5.15 0 0 1 0-10.3m0 1.8a3.35 3.35 0 1 0 0 6.7 3.35 3.35 0 0 0 0-6.7m5.35-1.99a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg></a>
+  <a class="fs-linkedin" id="fs-linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" hidden><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.11 20.45H3.55V9h3.56z"/></svg></a>
+  <a class="fs-youtube" id="fs-youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube" hidden><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8M9.6 15.6V8.4l6.3 3.6z"/></svg></a>
+</div>
 
 <a class="mobile-wa-bar" href="https://wa.me/51987654321" target="_blank" rel="noopener" data-iw="wa">
   <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.5.1-.6l.4-.5c.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.3.9.9-3.2-.2-.3C4 14.9 3.6 13.5 3.6 12c0-4.6 3.8-8.4 8.4-8.4s8.4 3.8 8.4 8.4-3.8 8.2-8.4 8.2z"/></svg>
@@ -888,6 +934,28 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
     all('[data-iw-row="'+name+'"]').forEach(function(r){ if(show) r.removeAttribute('hidden'); else r.setAttribute('hidden',''); });
   }
 
+  /* redes sociales: solo http(s); sin esquema ("facebook.com/mi-pagina") se completa con https:// */
+  function link(s){
+    s=String(s==null?'':s).trim();
+    if(!s||/\s/.test(s)) return '';
+    if(/^https?:\/\//i.test(s)) return s;
+    if(/^[a-z][a-z0-9+.-]*:/i.test(s)) return '';
+    return /^[^\/\s]+\.[^\/\s]+/.test(s)?'https://'+s.replace(/^\/+/,''):'';
+  }
+  var SOC=[['facebook','facebook_url'],['instagram','instagram_url'],['linkedin','linkedin_url'],['youtube','youtube_url']];
+  /* cada red con enlace aparece como botón flotante sobre el de WhatsApp; sin enlace no se ve */
+  function social(c){
+    var any=false;
+    SOC.forEach(function(s){
+      var a=D.getElementById('fs-'+s[0]); if(!a) return;
+      var u=link(c[s[1]]);
+      if(u){ a.setAttribute('href',u); a.removeAttribute('hidden'); any=true; }
+      else { a.setAttribute('hidden',''); a.setAttribute('href','#'); }
+    });
+    var box=D.getElementById('float-social');
+    if(box){ if(any) box.removeAttribute('hidden'); else box.setAttribute('hidden',''); }
+  }
+
   /* lo que trae el archivo: se vuelve a eso cuando un dato no está (o se borró) en el administrador */
   var TXT='[data-iw="phone"],[data-iw="phone2"],[data-iw="email"],[data-iw="email2"],[data-iw="address"]';
   var base=all(TXT).map(function(el){ return {el:el,t:el.textContent,h:el.getAttribute('href')}; });
@@ -925,6 +993,7 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
     row('email2',!!e2);
     var ad=txt(c.contact_address);
     if(ad) all('[data-iw="address"]').forEach(function(el){ el.textContent=ad; });
+    social(c);
   }
 
   function readCache(){ try{ var s=localStorage.getItem(CACHE); return s?JSON.parse(s):null; }catch(e){ return null; } }
@@ -977,7 +1046,7 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
   var framed=false; try{ framed=window.self!==window.top; }catch(e){ framed=true; }
   if(framed){
     D.addEventListener('click',function(e){
-      var a=e.target.closest&&e.target.closest('a[href="plataforma.html"]');
+      var a=e.target.closest&&e.target.closest('a[href^="plataforma.html"]');
       if(!a) return;
       e.preventDefault();
       if(window.__iwEditor&&window.__iwEditor.toast) window.__iwEditor.toast('Vista previa: el aula virtual se abre cuando subes plataforma.html a tu sitio.',4200);
@@ -1482,6 +1551,9 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
       });
       var d=hero.querySelector('.hero-dots'); if(d) d.innerHTML='';
     }
+    var pj=c.querySelector('#proyectos'); if(pj){ pj.setAttribute('hidden',''); var pg=pj.querySelector('#prj-grid'); if(pg) pg.innerHTML=''; }
+    q('[data-prj]').forEach(function(n){ n.setAttribute('hidden',''); });
+    q('#float-social,#float-social a').forEach(function(n){ n.setAttribute('hidden',''); if(n.tagName==='A') n.setAttribute('href','#'); });
     return '<!DOCTYPE html>\n'+c.outerHTML;
   }
   function save(){
@@ -1585,6 +1657,48 @@ body.ed-on .hero .btn > svg:hover,body.ed-on .hero .btn > .cic:hover{
   });
 
   window.__iwEditor={enter:enter,leave:leave,buildFile:buildFile,toast:toast};
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+  /* Proyectos: se leen de la misma base de datos del aula (pestaña "Proyectos" del administrador).
+     Si no hay ninguno (o no hay conexión) la sección y su enlace del menú se quedan ocultos. */
+  var D=document;
+  var URL_PRJ='https://xsxdlvlffcypbaiolfwj.supabase.co/rest/v1/projects?select=title,location,description,image_url,order_index&order=order_index.asc&limit=24';
+  var API_KEY='sb_publishable_vIKz188_VTuxm4zvoRnyCQ_GgeNcQvW';
+  var sec=D.getElementById('proyectos'), grid=D.getElementById('prj-grid');
+  function links(show){ [].forEach.call(D.querySelectorAll('[data-prj]'),function(n){ if(show) n.removeAttribute('hidden'); else n.setAttribute('hidden',''); }); }
+  if(!sec||!grid||typeof fetch!=='function') return;
+  function el(tag,cls,text){ var e=D.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+  function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:''; }
+  function render(rows){
+    grid.innerHTML='';
+    var n=0;
+    rows.forEach(function(p){
+      var title=String(p&&p.title||'').trim(); if(!title) return;
+      var card=el('article','prj-card'), ph=el('div','prj-photo'), src=safeUrl(p.image_url);
+      if(src){
+        var im=el('img'); im.src=src; im.alt=title; im.loading='lazy'; im.decoding='async'; im.referrerPolicy='no-referrer';
+        im.onerror=function(){ if(im.parentNode) im.parentNode.removeChild(im); };
+        ph.appendChild(im);
+      }
+      var body=el('div','prj-body');
+      var loc=String(p.location||'').trim(); if(loc) body.appendChild(el('div','prj-loc',loc));
+      body.appendChild(el('h3',null,title));
+      var d=String(p.description||'').trim(); if(d) body.appendChild(el('p',null,d));
+      card.appendChild(ph); card.appendChild(body); grid.appendChild(card); n++;
+    });
+    if(n) sec.removeAttribute('hidden'); else sec.setAttribute('hidden','');
+    links(!!n);
+  }
+  try{
+    fetch(URL_PRJ,{headers:{apikey:API_KEY},cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+      .then(function(rows){ if(Array.isArray(rows)) render(rows); })
+      .catch(function(){});
+  }catch(e){}
+  window.__iwProjects={render:render};
 })();
 </script>
 </body>
