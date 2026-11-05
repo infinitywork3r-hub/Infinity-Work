@@ -232,6 +232,28 @@
   .cf-pill:hover{border-color:var(--line);color:var(--line-dark);}
   .cf-pill.active{background:var(--line);border-color:var(--line);color:#fff;}
   .tag-chip + .tag-chip{margin-left:0;}
+  /* ---- subir un curso: elegir el programa donde va ---- */
+  .step-label{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;color:var(--text);margin:2px 0 12px;}
+  .step-n{width:24px;height:24px;border-radius:50%;background:var(--line);color:#fff;font-size:12px;display:inline-flex;align-items:center;justify-content:center;flex:none;}
+  .prog-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+  .prog-chip{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;font-size:13px;font-weight:700;color:var(--text);line-height:1.25;transition:border-color .15s,background .15s,box-shadow .15s;}
+  .prog-chip:hover{border-color:var(--line);background:#F4F9FF;}
+  .prog-chip input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none;}
+  .prog-chip.on{border-color:var(--line);background:#EAF4FF;box-shadow:0 0 0 3px rgba(29,155,255,.18);color:var(--line-dark);}
+  .prog-chip:focus-within{outline:2px solid var(--line);outline-offset:2px;}
+  .prog-chip .pc-name{min-width:0;overflow-wrap:break-word;}
+  .prog-chip .pc-n{flex:none;font-size:11px;font-weight:800;color:var(--muted);background:#EDF1F6;border-radius:999px;padding:3px 8px;}
+  .prog-chip.on .pc-n{background:var(--line);color:#fff;}
+  .prog-note{font-size:12.5px;font-weight:600;color:var(--muted);margin:12px 0 22px;line-height:1.55;}
+  .prog-note.ok{color:var(--ok);}
+  .prog-note.err{color:var(--danger);}
+  .prog-note b{color:var(--text);}
+  .prog-note a,.panel-lede a{color:var(--line-dark);font-weight:700;}
+  .prog-filter{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;}
+  .prog-move{max-width:240px;}
+  .panel-lede{font-size:13px;line-height:1.55;color:var(--muted);margin:-6px 0 14px;}
+  @media (max-width:760px){ .prog-pick{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;} .prog-chip{padding:11px 12px;font-size:12.5px;} }
+  @media (max-width:440px){ .prog-pick{grid-template-columns:1fr;} }
 
   .promo-strip{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px;}
   .promo-strip img{height:150px;width:auto;border-radius:14px;border:1px solid var(--border);flex-shrink:0;box-shadow:0 12px 26px -20px rgba(13,111,184,.6);}
@@ -599,18 +621,13 @@
     </div>
 
     <div id="admin-courses-panel" class="hidden">
-      <div class="panel">
-        <h3>Categorías</h3>
-        <div id="categories-list" style="margin-bottom:14px;"></div>
-        <div id="cat-seed"></div>
-        <div style="display:flex;gap:10px;">
-          <input id="cat-new" placeholder="Nombre de la categoría (ej: BIM)" style="flex:1;background:var(--field);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:var(--radius);">
-          <button class="btn btn-solid btn-sm" onclick="createCategory()">Agregar</button>
-        </div>
-        <div id="cat-msg" class="form-msg"></div>
-      </div>
-      <div class="panel">
-        <h3>Nuevo curso</h3>
+      <div class="panel" id="nc-panel">
+        <h3>Subir un curso</h3>
+        <div class="step-label"><span class="step-n">1</span>¿En qué programa va este curso?</div>
+        <div id="nc-programs" class="prog-pick" role="radiogroup" aria-label="Programa del curso"></div>
+        <div id="nc-prog-note" class="prog-note"></div>
+        <input type="hidden" id="nc-category">
+        <div class="step-label"><span class="step-n">2</span>Datos del curso</div>
         <div class="row3">
           <div class="field"><label>Código</label><input id="nc-code" placeholder="ING-HID-014"></div>
           <div class="field"><label>Horas</label><input id="nc-hours" placeholder="32h"></div>
@@ -618,12 +635,24 @@
         </div>
         <div class="field"><label>Título</label><input id="nc-title" placeholder="Nombre del curso"></div>
         <div class="field"><label>Descripción</label><textarea id="nc-desc" rows="3" placeholder="Breve descripción del contenido"></textarea></div>
-        <div class="field"><label>Categoría</label><select id="nc-category"><option value="">Sin categoría</option></select></div>
         <div class="field"><label>URL de imagen (opcional)</label><input id="nc-image" placeholder="https://..."></div>
         <div id="nc-msg" class="form-msg"></div>
         <button class="btn btn-solid" onclick="createCourse()">Publicar curso</button>
       </div>
-      <div class="panel" id="courses-table-wrap"></div>
+      <div class="panel" id="courses-panel">
+        <div id="courses-table-wrap"></div>
+        <div id="courses-msg" class="form-msg" style="margin:12px 0 0;"></div>
+      </div>
+      <div class="panel" id="extra-progs">
+        <h3>Otros programas</h3>
+        <p class="panel-lede">Los 11 programas de tu página ya están disponibles arriba. Si necesitas uno más, agrégalo aquí: aparecerá al subir cursos y en la lista de cursos de la web, pero no como ficha en la portada.</p>
+        <div id="categories-list" style="margin-bottom:14px;"></div>
+        <div style="display:flex;gap:10px;">
+          <input id="cat-new" placeholder="Nombre del programa (ej: Topografía avanzada)" style="flex:1;background:var(--field);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:var(--radius);">
+          <button class="btn btn-solid btn-sm" onclick="createCategory()">Agregar</button>
+        </div>
+        <div id="cat-msg" class="form-msg"></div>
+      </div>
       <div class="panel hidden" id="lessons-manager">
         <h3 id="lm-course-title">Clases del curso</h3>
         <div id="lm-list" style="margin-bottom:18px;"></div>
@@ -716,7 +745,7 @@
       </div>
       <div class="panel">
         <h3>Servicios</h3>
-        <p class="img-help">Cada servicio muestra una franja ancha de su foto. Con “Zona visible” eliges qué parte se ve: más arriba, al centro o más abajo.</p>
+        <p class="img-help">Cada servicio es un cuadro grande de la sección “Nuestros Servicios” de tu página: la foto va de fondo y el nombre se escribe abajo a la izquierda sobre una sombra oscura (así lo ves en las vistas de abajo), por eso conviene que lo importante de la foto quede arriba. Con “Zona visible” eliges qué parte se ve. Mejores fotos horizontales de 1000 × 700 o más grandes.</p>
         <div id="img-svc-wrap" class="img-grid"></div>
       </div>
       <div class="panel">
@@ -808,6 +837,8 @@ let state = { courses:[], clients:[], access:{}, completions:{}, completionDates
 let session = null; // { id, email, role, name }
 let adminTab = 'clients';
 let manageCourseId = null;
+let ncProgram = '';          // programa elegido en «Subir un curso»
+let adminProgFilter = 'all'; // filtro de la tabla de cursos: 'all' | '__none' | nombre del programa
 let clientTab = 'cursos';
 let clientDetailCourseId = null;
 let clientCourseFilter = 'all';
@@ -1717,6 +1748,8 @@ const IMG_HERO_BASE = 3, IMG_HERO_MAX = 8;
 const IMG_SVC = ['Construcción de Obras Civiles','Consultoría y Expedientes Técnicos','Topografía y Georreferenciación','Saneamiento y Obras Hidráulicas','Riego y Gestión de Recursos Hídricos','Gestión y Supervisión de Obras'];
 /* categorías de la sección "Programas de especialización" de la portada (el mismo orden y nombres que ahí) */
 const IMG_CATS = ['Ingeniería','Estructuras y BIM','Arquitectura','Ambiental y Seguridad Ocupacional','Estudios Gubernamentales','Hidráulica, Hidrología y Riegos','Geología y Minería','Administración y Contabilidad','Derecho','Idiomas','Público en General'];
+/* parte del enlace de cada programa en la web (cursos.html?programa=…): igual que en la portada y en la página de cursos */
+const PROG_SLUGS = ['ingenieria','estructuras-bim','arquitectura','ambiental-seguridad','estudios-gubernamentales','hidraulica-riegos','geologia-mineria','administracion-contabilidad','derecho','idiomas','publico-general'];
 const IMG_SPEC = {
   hero:    { maxW: 2000, maxH: 1300, type: 'image/jpeg', q: .82, ext: 'jpg', minW: 1400 },
   svc:     { maxW: 1000, maxH: 700,  type: 'image/jpeg', q: .84, ext: 'jpg', minW: 600 },
@@ -1821,7 +1854,7 @@ function imgCard(slot, title, sub){
   const pos = st.pos || (st.url ? '50% 50%' : (defPos || '50% 50%'));
   const crop = kind === 'hero' || kind === 'svc' || kind === 'cat';
   const noun = kind === 'logo' ? 'logo' : kind === 'favicon' ? 'ícono' : 'foto';
-  const cls = 'img-prev' + (kind === 'hero' ? ' is-hero' : '') + (kind === 'cat' ? ' is-cat' : '') + (crop ? '' : ' is-brand') + (kind === 'favicon' ? ' is-fav' : '');
+  const cls = 'img-prev' + (kind === 'hero' ? ' is-hero' : '') + (kind === 'cat' || kind === 'svc' ? ' is-cat' : '') + (crop ? '' : ' is-brand') + (kind === 'favicon' ? ' is-fav' : '');
   const badge = st.off ? '<span class="img-badge off">Quitada</span>' : st.url ? '<span class="img-badge custom">Cambiada</span>' : (extra ? '' : '<span class="img-badge">Original</span>');
   const prev = src ? `<img src="${escapeHtml(src)}" alt="" decoding="async">` : `<div class="img-ph">${extra ? 'Foto nueva' : 'Foto original de tu portada'}</div>`;
   const veil = busy ? `<div class="img-veil"><span class="img-spin"></span><span>${escapeHtml(busy)}</span></div>` : (st.off ? '<div class="img-veil">No se muestra en la portada</div>' : '');
@@ -2161,17 +2194,7 @@ function renderAdmin(){
     state.clients.forEach(u => { renderAccessEyeIcon(u.id); renderCertEyeIcon(u.id); });
   }
 
-  const coursesWrap = document.getElementById('courses-table-wrap');
-  coursesWrap.innerHTML = `<h3>Cursos publicados</h3><div class="table-scroll"><table><thead><tr><th>Código</th><th>Título</th><th>Categoría</th><th>Horas</th><th>Instructor</th><th></th></tr></thead><tbody>
-    ${state.courses.map(c => `<tr>
-      <td class="mono">${escapeHtml(c.code)}</td>
-      <td style="color:var(--text)">${escapeHtml(c.title)}</td>
-      <td>${escapeHtml(c.category||'—')}</td>
-      <td>${escapeHtml(c.hours)}</td>
-      <td>${escapeHtml(c.instructor)}</td>
-      <td style="white-space:nowrap;"><button class="btn btn-ghost btn-sm" onclick="openLessonManager('${c.id}')">Clases</button> <button class="btn btn-danger btn-sm" onclick="deleteCourse('${c.id}')">Eliminar</button></td>
-    </tr>`).join('')}
-  </tbody></table></div>`;
+  renderCoursesTable();
 }
 
 function onAdminCourseChange(clientId){
@@ -2264,59 +2287,86 @@ async function revokeCertFromModal(clientId, courseId){
   renderAdmin();
 }
 
-function catKey(s){ return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim(); }
-function catsMissing(){
-  const have = new Set((state.categories || []).map(c => catKey(c.name)));
-  return IMG_CATS.filter(n => !have.has(catKey(n)));
+/* ---------------- PROGRAMAS DE ESPECIALIZACIÓN: dónde va cada curso ---------------- */
+function catKey(s){ return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim(); }
+/* nombre del programa -> parte del enlace de la web (los 11 de la portada tienen el suyo; un programa extra se arma con su nombre) */
+function progSlug(name){
+  const i = IMG_CATS.findIndex(n => catKey(n) === catKey(name));
+  if(i >= 0) return PROG_SLUGS[i];
+  return catKey(name).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'otro';
 }
-function renderCategoriesAdmin(){
-  const seed = document.getElementById('cat-seed');
-  if(seed){
-    const miss = catsMissing(), all = miss.length === IMG_CATS.length;
-    seed.innerHTML = miss.length
-      ? `<div class="img-note info"><b>Categorías de tu portada.</b> ${all ? 'Todavía no tienes cargadas las ' + IMG_CATS.length + ' categorías' : (miss.length === 1 ? 'Falta 1 de las ' : 'Faltan ' + miss.length + ' de las ') + IMG_CATS.length + ' categorías'} de “Programas de especialización”. <button type="button" class="btn btn-solid btn-sm" onclick="seedCategories()">${all ? 'Agregar las ' + IMG_CATS.length : (miss.length === 1 ? 'Agregar la que falta' : 'Agregar las que faltan')}</button></div>`
-      : '';
-  }
-  const list = document.getElementById('categories-list');
-  if(list){
-    list.innerHTML = state.categories.length === 0
-      ? `<div class="empty">Sin categorías todavía.</div>`
-      : `<div class="toggle-list">${state.categories.map(c => `<span class="tag-chip" style="display:inline-flex;align-items:center;gap:6px;margin-right:6px;">${escapeHtml(c.name)}<button onclick="deleteCategory('${c.id}')" style="background:none;border:none;color:var(--warn);cursor:pointer;font-size:12px;padding:0;">×</button></span>`).join('')}</div>`;
-  }
-  const sel = document.getElementById('nc-category');
-  if(sel){
-    const cur = sel.value;
-    sel.innerHTML = '<option value="">Sin categoría</option>' + state.categories.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
-    sel.value = cur;
-  }
+function progUrl(name){ return 'cursos.html' + (name ? '?programa=' + encodeURIComponent(progSlug(name)) : ''); }
+/* los 11 de la portada siempre están; los que se agregan aparte (tabla categories) van después */
+function progExtras(){
+  const built = new Set(IMG_CATS.map(catKey));
+  return (state.categories || []).filter(c => !built.has(catKey(c.name)));
+}
+function progList(){
+  return IMG_CATS.map(name => ({ name, builtin: true })).concat(progExtras().map(c => ({ name: c.name, builtin: false, id: c.id })));
+}
+function progCount(name){
+  const k = catKey(name);
+  return (state.courses || []).filter(c => catKey(c.category) === k).length;
 }
 
-async function seedCategories(){
-  const msg = document.getElementById('cat-msg');
-  const miss = catsMissing();
-  if(!miss.length) return;
-  const { error } = await sb.from('categories').insert(miss.map(name => ({ name })));
-  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
-  msg.textContent = miss.length === 1 ? 'Se agregó 1 categoría.' : 'Se agregaron ' + miss.length + ' categorías.';
-  msg.className = 'form-msg ok';
-  const { data: cats } = await sb.from('categories').select('*').order('name');
-  state.categories = cats || [];
-  renderCategoriesAdmin();
+function renderProgramPicker(){
+  const box = document.getElementById('nc-programs');
+  if(!box) return;
+  const list = progList();
+  if(ncProgram && !list.some(p => catKey(p.name) === catKey(ncProgram))) ncProgram = '';   // el programa elegido ya no existe
+  const sel = catKey(ncProgram);
+  box.innerHTML = list.map(p => {
+    const n = progCount(p.name), on = !!sel && catKey(p.name) === sel;
+    return `<label class="prog-chip${on ? ' on' : ''}"><input type="radio" name="nc-program" value="${escapeHtml(p.name)}"${on ? ' checked' : ''} onchange="pickProgram(this.value)"><span class="pc-name">${escapeHtml(p.name)}</span><span class="pc-n" title="${n} ${n === 1 ? 'curso' : 'cursos'} en este programa">${n}</span></label>`;
+  }).join('');
+  const hid = document.getElementById('nc-category');
+  if(hid) hid.value = ncProgram;
+  updateProgramNote();
+}
+function pickProgram(name){
+  ncProgram = name || '';
+  const hid = document.getElementById('nc-category');
+  if(hid) hid.value = ncProgram;
+  document.querySelectorAll('#nc-programs .prog-chip').forEach(l => l.classList.toggle('on', l.querySelector('input').checked));
+  updateProgramNote();
+}
+function updateProgramNote(){
+  const note = document.getElementById('nc-prog-note');
+  if(!note) return;
+  if(!ncProgram){ note.className = 'prog-note'; note.textContent = 'Elige el programa para continuar.'; return; }
+  note.className = 'prog-note ok';
+  note.innerHTML = `El curso se publicará en <b>${escapeHtml(ncProgram)}</b> y aparecerá en la lista de ese programa de tu página. <a href="${progUrl(ncProgram)}" target="_blank" rel="noopener">Ver esa lista ↗</a>`;
+}
+
+function renderCategoriesAdmin(){
+  renderProgramPicker();
+  const list = document.getElementById('categories-list');
+  if(list){
+    const extras = progExtras();
+    list.innerHTML = extras.length === 0
+      ? `<div class="empty">Todavía no agregaste otros programas.</div>`
+      : `<div class="toggle-list">${extras.map(c => `<span class="tag-chip" style="display:inline-flex;align-items:center;gap:6px;margin-right:6px;">${escapeHtml(c.name)}<button type="button" aria-label="Quitar ${escapeHtml(c.name)}" onclick="deleteCategory('${c.id}')" style="background:none;border:none;color:var(--warn);cursor:pointer;font-size:12px;padding:0;">×</button></span>`).join('')}</div>`;
+  }
 }
 
 async function createCategory(){
   const input = document.getElementById('cat-new');
-  const name = input.value.trim();
+  const name = input.value.trim().replace(/\s+/g, ' ');
   const msg = document.getElementById('cat-msg');
-  if(!name){ msg.textContent = 'Escribe un nombre.'; msg.className = 'form-msg err'; return; }
+  const fail = t => { msg.textContent = t; msg.className = 'form-msg err'; };
+  if(!name){ fail('Escribe el nombre del programa.'); return; }
+  const k = catKey(name);
+  if(IMG_CATS.some(n => catKey(n) === k)){ fail('Ese programa ya está entre los 11 de arriba.'); return; }
+  if(progExtras().some(c => catKey(c.name) === k)){ fail('Ya lo agregaste.'); return; }
   const { error } = await sb.from('categories').insert({ name });
-  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
+  if(error){ fail('Error: ' + error.message); return; }
   input.value = '';
-  msg.textContent = 'Categoría agregada.';
+  msg.textContent = 'Programa agregado. Ya puedes elegirlo al subir un curso.';
   msg.className = 'form-msg ok';
   const { data: cats } = await sb.from('categories').select('*').order('name');
   state.categories = cats || [];
   renderCategoriesAdmin();
+  renderCoursesTable();
 }
 
 async function deleteCategory(id){
@@ -2324,6 +2374,7 @@ async function deleteCategory(id){
   const { data: cats } = await sb.from('categories').select('*').order('name');
   state.categories = cats || [];
   renderCategoriesAdmin();
+  renderCoursesTable();
 }
 
 async function createCourse(){
@@ -2332,9 +2383,18 @@ async function createCourse(){
   const hours = document.getElementById('nc-hours').value.trim();
   const instructor = document.getElementById('nc-instructor').value.trim();
   const desc = document.getElementById('nc-desc').value.trim();
-  const category = document.getElementById('nc-category').value.trim();
+  const category = ncProgram.trim();
   const image = document.getElementById('nc-image').value.trim();
   const msg = document.getElementById('nc-msg');
+  if(!category){
+    msg.textContent = 'Primero elige el programa donde va el curso (paso 1).';
+    msg.className = 'form-msg err';
+    const note = document.getElementById('nc-prog-note');
+    if(note){ note.className = 'prog-note err'; note.textContent = 'Elige el programa para continuar.'; }
+    const first = document.querySelector('#nc-programs input');
+    if(first) first.focus();
+    return;
+  }
   if(!code || !title){
     msg.textContent = 'Código y título son obligatorios.';
     msg.className = 'form-msg err';
@@ -2342,18 +2402,80 @@ async function createCourse(){
   }
   const { error } = await sb.from('courses').insert({
     code, title, hours: hours || '—', instructor: instructor || '—', description: desc || 'Sin descripción.',
-    category: category || null, image_url: image || null
+    category, image_url: image || null
   });
   if(error){
     msg.textContent = 'Error al publicar: ' + error.message;
     msg.className = 'form-msg err';
     return;
   }
-  ['nc-code','nc-title','nc-hours','nc-instructor','nc-desc','nc-category','nc-image'].forEach(id => document.getElementById(id).value = '');
-  msg.textContent = 'Curso publicado. Ahora agrégale clases con el botón "Clases".';
+  ['nc-code','nc-title','nc-hours','nc-instructor','nc-desc','nc-image'].forEach(id => document.getElementById(id).value = '');   // el programa se queda elegido para subir el siguiente
+  msg.innerHTML = `Curso publicado en <b>${escapeHtml(category)}</b>. Ya aparece en la lista de ese programa (<a href="${progUrl(category)}" target="_blank" rel="noopener">verla en la web ↗</a>). Ahora agrégale clases con el botón "Clases".`;
   msg.className = 'form-msg ok';
   await loadAdminData();
   renderAdmin();
+}
+
+/* ---------------- CURSOS PUBLICADOS: por programa ---------------- */
+function setAdminProgFilter(v){
+  adminProgFilter = v || 'all';
+  const m = document.getElementById('courses-msg');
+  if(m){ m.textContent = ''; m.className = 'form-msg'; }
+  renderCoursesTable();
+}
+function renderCoursesTable(){
+  const wrap = document.getElementById('courses-table-wrap');
+  if(!wrap) return;
+  const all = state.courses || [];
+  const list = progList();
+  const known = new Set(list.map(p => catKey(p.name)));
+  const legacy = [];     // programas que traen los cursos y ya no están en la lista (por ejemplo, uno que se quitó)
+  all.forEach(c => { const k = catKey(c.category); if(k && !known.has(k) && !legacy.some(n => catKey(n) === k)) legacy.push(c.category); });
+  const names = list.map(p => p.name).concat(legacy);
+  const withCourses = names.filter(n => progCount(n) > 0);
+  const noneCount = all.filter(c => !catKey(c.category)).length;
+  let f = adminProgFilter;
+  if(f === '__none' ? !noneCount : (f !== 'all' && !withCourses.some(n => catKey(n) === catKey(f)))) f = adminProgFilter = 'all';
+  const rows = f === 'all' ? all : (f === '__none' ? all.filter(c => !catKey(c.category)) : all.filter(c => catKey(c.category) === catKey(f)));
+  const pill = (val, label, n) => `<button type="button" class="cf-pill${f === val ? ' active' : ''}" data-prog="${escapeHtml(val)}" onclick="setAdminProgFilter(this.dataset.prog)">${escapeHtml(label)} (${n})</button>`;
+  const opts = cur => {
+    const k = catKey(cur), ns = list.map(p => p.name);
+    if(k && !known.has(k)) ns.push(cur);
+    return `<option value=""${k ? '' : ' selected'}>— Sin programa —</option>` + ns.map(n => `<option value="${escapeHtml(n)}"${catKey(n) === k ? ' selected' : ''}>${escapeHtml(n)}</option>`).join('');
+  };
+  const pills = [pill('all', 'Todos', all.length)].concat(withCourses.map(n => pill(n, n, progCount(n)))).concat(noneCount ? [pill('__none', 'Sin programa', noneCount)] : []).join('');
+  const link = (f !== 'all' && f !== '__none') ? `<p class="panel-lede" style="margin:0 0 14px;">Así lo ven los visitantes: <a href="${progUrl(f)}" target="_blank" rel="noopener">abrir la lista de «${escapeHtml(f)}» ↗</a></p>` : '';
+  wrap.innerHTML = `<h3>Cursos publicados</h3>
+    <div class="prog-filter">${pills}</div>${link}
+    ${rows.length === 0 ? `<div class="empty">Todavía no hay cursos. Sube el primero arriba.</div>` : `<div class="table-scroll"><table><thead><tr><th>Código</th><th>Título</th><th>Programa</th><th>Horas</th><th>Instructor</th><th></th></tr></thead><tbody>
+    ${rows.map(c => `<tr>
+      <td class="mono">${escapeHtml(c.code)}</td>
+      <td style="color:var(--text)">${escapeHtml(c.title)}</td>
+      <td><select class="access-select prog-move" aria-label="Programa de ${escapeHtml(c.code)}" onchange="moveCourse('${c.id}', this.value)">${opts(c.category)}</select></td>
+      <td>${escapeHtml(c.hours)}</td>
+      <td>${escapeHtml(c.instructor)}</td>
+      <td style="white-space:nowrap;"><button class="btn btn-ghost btn-sm" onclick="openLessonManager('${c.id}')">Clases</button> <button class="btn btn-danger btn-sm" onclick="deleteCourse('${c.id}')">Eliminar</button></td>
+    </tr>`).join('')}
+  </tbody></table></div>`}`;
+}
+
+async function moveCourse(id, name){
+  const c = state.courses.find(x => x.id === id);
+  const msg = document.getElementById('courses-msg');
+  if(!c) return;
+  const { error } = await sb.from('courses').update({ category: name || null }).eq('id', id);
+  if(error){
+    msg.textContent = 'No se pudo cambiar el programa: ' + error.message;
+    msg.className = 'form-msg err';
+    renderCoursesTable();
+    return;
+  }
+  await loadCourses();
+  renderAdmin();
+  msg.innerHTML = name
+    ? `«${escapeHtml(c.title)}» ahora está en <b>${escapeHtml(name)}</b>. <a href="${progUrl(name)}" target="_blank" rel="noopener">Ver esa lista ↗</a>`
+    : `«${escapeHtml(c.title)}» quedó sin programa: solo se verá en «Todos los cursos» de la web.`;
+  msg.className = 'form-msg ok';
 }
 
 async function deleteCourse(id){
