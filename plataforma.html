@@ -486,6 +486,133 @@
     .pos-grid{grid-template-columns:repeat(3,32px);gap:5px;}
     .pos-grid button{width:32px;height:32px;}
   }
+
+  /* ============ GOOGLE DRIVE · acceso automático ============ */
+  .dchip{display:inline-flex;align-items:center;gap:6px;font:700 11px/1.2 'Montserrat',sans-serif;letter-spacing:.02em;border-radius:999px;padding:5px 11px;border:1px solid transparent;background:#EDF1F6;color:var(--muted);}
+  .dchip.ok{background:#DFF4EA;color:var(--ok);}
+  .dchip.wait{background:#E6F3FF;color:var(--line-dark);}
+  .dchip.warn{background:#FFF1CC;color:var(--warn);}
+  .dchip.bad{background:#FBE3DE;color:var(--danger);}
+  .dchip.off{background:#EDF1F6;color:var(--muted);}
+  button.dchip{cursor:pointer;}
+  button.dchip.bad:hover{background:var(--danger);color:#fff;}
+  .dchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;}
+  .dspin{width:14px;height:14px;border-radius:50%;border:2.5px solid rgba(13,111,184,.25);border-top-color:var(--line-dark);animation:imgspin .8s linear infinite;flex:none;display:inline-block;}
+  .dnote{display:flex;gap:12px;align-items:flex-start;border:1px solid;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.55;margin:0 0 14px;}
+  .dnote > div{min-width:0;flex:1;overflow-wrap:anywhere;}
+  .dnote.wait{background:#EAF4FF;border-color:#B6D9F8;color:#0D4F8C;}
+  .dnote.warn{background:#FFF6E3;border-color:#EBCB85;color:#6E4306;}
+  .dnote.bad{background:#FDECE8;border-color:#EDB9AE;color:#8A2A1B;}
+  .dnote.ok{background:#E9F7F1;border-color:#A9DCC7;color:#0B5E43;}
+  .dnote .btn{margin:6px 6px 0 0;}
+  .dnote .dspin{margin-top:3px;}
+  .field-hint{font-size:12px;line-height:1.55;color:var(--muted);margin-top:6px;font-weight:500;}
+  .field-hint.warn{color:var(--warn);}
+  .cert-note.ok{color:var(--ok);}
+
+  /* ---- alumno: elegir curso, estado de los videos, material ---- */
+  .enroll-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:10px;}
+  .enroll-item{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:14px 16px;border:1.5px solid var(--border);border-radius:14px;background:#fff;transition:.15s;}
+  .enroll-item:hover{border-color:var(--line);background:#F4F9FF;}
+  .en-code{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--muted);}
+  .en-title{font-size:14px;font-weight:800;color:var(--text);line-height:1.3;}
+  .en-go{font-size:12px;font-weight:700;color:var(--line-dark);margin-top:4px;}
+  .sheet .dchip{align-self:flex-start;}
+  .vid-wait{position:relative;padding-top:56.25%;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#0D6FB8 0%,var(--navy) 120%);}
+  .vid-wait-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;text-align:center;color:#fff;padding:16px;}
+  .vid-wait-in b{font-size:15px;font-weight:800;line-height:1.3;}
+  .vid-wait-in p{margin:0;font-size:12.5px;line-height:1.55;color:#d6e6f7;max-width:430px;}
+  .vid-wait-in p b{font-size:inherit;font-weight:700;color:#fff;}
+  .vid-wait-in .dspin{width:26px;height:26px;border-color:rgba(255,255,255,.35);border-top-color:#fff;}
+  .vid-wait-in .btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.55);color:#fff;}
+  .vid-wait-in .btn:hover{background:#fff;color:var(--line-dark);}
+  .drive-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;}
+  .drive-tools .dt-note{font-size:12px;color:var(--muted);flex:1;min-width:200px;line-height:1.5;}
+  .drive-help{margin-top:12px;font-size:12.5px;line-height:1.6;color:var(--muted);background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 14px;}
+  .drive-help summary{cursor:pointer;font-weight:700;color:var(--text);}
+  .drive-help ul{margin:8px 0 8px 18px;padding:0;}
+  .drive-help a{color:var(--line-dark);font-weight:700;}
+  .mat-list{margin-top:14px;padding:14px 16px;background:#fff;border:1px solid var(--border);border-radius:14px;}
+  .mat-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .mat-btns{display:flex;flex-wrap:wrap;gap:8px;}
+  .mat-btn{white-space:normal;text-align:left;overflow-wrap:anywhere;}
+
+  /* ---- administrador ---- */
+  .cstats-row.cstats-4{grid-template-columns:repeat(4,1fr);}
+  .tbl-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:0 0 14px;}
+  .search-input{width:100%;max-width:360px;background:var(--field);border:1.5px solid var(--border);color:var(--text);padding:10px 16px;font:500 13.5px 'Montserrat',sans-serif;border-radius:999px;}
+  .search-input:focus{outline:none;border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.18);}
+  .mini-tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:middle;background:#EDF1F6;color:var(--muted);}
+  .mini-tag.new{background:#E6F3FF;color:var(--line-dark);}
+  .mini-tag.warn{background:#FFF1CC;color:var(--warn);}
+  .rule-opts{display:grid;gap:10px;}
+  .rule-opt{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1.5px solid var(--border);border-radius:14px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;}
+  .rule-opt:hover{border-color:var(--line);}
+  .rule-opt.on{border-color:var(--line);background:#EAF4FF;box-shadow:0 0 0 3px rgba(29,155,255,.15);}
+  .rule-opt input{margin-top:3px;accent-color:var(--line-dark);flex:none;width:17px;height:17px;}
+  .rule-opt b{display:block;font-size:14px;color:var(--text);}
+  .rule-opt small{display:block;font-size:12.5px;line-height:1.55;color:var(--muted);font-weight:500;margin-top:2px;}
+  .pa-form{display:grid;grid-template-columns:1.4fr 1fr auto;gap:12px;align-items:end;}
+  .pa-form .field{margin-bottom:0;}
+  .pa-form .btn{margin-bottom:1px;}
+  .pa-list{margin-top:14px;display:flex;flex-direction:column;}
+  .pa-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid #E4ECF4;font-size:13px;}
+  .pa-row:last-child{border-bottom:0;}
+  .pa-row .pa-mail{flex:1;min-width:180px;overflow-wrap:anywhere;color:var(--text);font-weight:600;}
+  .fold-row{padding:16px 0;border-bottom:1px solid #E4ECF4;}
+  .fold-row:first-of-type{padding-top:4px;}
+  .fold-row:last-child{border-bottom:0;padding-bottom:0;}
+  .fold-head{font-size:14px;font-weight:700;margin-bottom:10px;color:var(--text);overflow-wrap:anywhere;}
+  .fold-head span{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-right:8px;}
+  .fold-edit{display:flex;gap:8px;flex-wrap:wrap;}
+  .fold-edit input{flex:1;min-width:220px;background:var(--field);border:1.5px solid var(--border);color:var(--text);padding:10px 14px;font:500 13px 'Montserrat',sans-serif;border-radius:var(--radius);}
+  .fold-edit input:focus{outline:none;border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.18);}
+  .fold-state{margin-top:10px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .fold-state .dnote{margin:0;width:100%;}
+  .rb-status{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;margin:0 0 12px;flex-wrap:wrap;}
+  .rb-status small{font-weight:600;color:var(--muted);font-size:12.5px;}
+  .rb-dot{width:11px;height:11px;border-radius:50%;background:#B8C6D6;flex:none;}
+  .rb-status.on .rb-dot{background:#19B37B;box-shadow:0 0 0 4px rgba(25,179,123,.2);}
+  .rb-status.wait .rb-dot{background:var(--signal);box-shadow:0 0 0 4px rgba(242,169,0,.2);}
+  .rb-status.off .rb-dot{background:var(--danger);box-shadow:0 0 0 4px rgba(180,50,31,.18);}
+  .rb-actions{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 4px;}
+  .code-box{margin:14px 0 0;}
+  .code-box pre{margin:0 0 10px;padding:14px;background:#0B1420;color:#DCE8F5;border-radius:12px;font:12px/1.55 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:300px;overflow:auto;}
+  .steps{margin:12px 0 0 20px;padding:0;font-size:13px;line-height:1.7;color:var(--text);}
+  .steps li{margin-bottom:4px;}
+  .steps code,.panel-lede code{background:#EDF1F6;border-radius:6px;padding:1px 6px;font:600 12px ui-monospace,Menlo,Consolas,monospace;color:var(--text);}
+  .ret-list{display:flex;flex-direction:column;gap:8px;margin:2px 0 14px;}
+  .ret-item{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s;}
+  .ret-item:hover{border-color:#E9BDB5;}
+  .ret-item.on{border-color:var(--danger);background:#FDF3F1;}
+  .ret-item input{width:18px;height:18px;accent-color:var(--danger);flex:none;}
+  .ret-item .ri-main{flex:1;min-width:160px;font-size:13.5px;color:var(--text);overflow-wrap:anywhere;}
+  .ret-actions{display:flex;gap:10px;flex-wrap:wrap;}
+  .ret-confirm{margin-top:14px;padding:14px 16px;border:1.5px solid #E9BDB5;background:#FDF3F1;border-radius:12px;font-size:13.5px;line-height:1.55;color:var(--text);display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .ret-confirm > span{flex:1 1 280px;}
+  .recent-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid #E4ECF4;}
+  .recent-row:last-child{border-bottom:0;}
+  .recent-row .rr-main{flex:1;min-width:200px;font-size:13px;color:var(--muted);overflow-wrap:anywhere;}
+  .recent-row .rr-main b{color:var(--text);}
+  .drv-setup{border:1.5px solid #EBCB85;background:#FFFAF0;border-radius:14px;padding:18px 20px;margin:0 0 20px;font-size:13px;line-height:1.65;color:#5C3A06;}
+  .drv-setup b{color:#3F2704;}
+  .drv-setup ol{margin:8px 0 0 20px;padding:0;}
+  @media (max-width:900px){ .pa-form{grid-template-columns:1fr 1fr;} .pa-form .btn{grid-column:1/-1;} }
+  @media (max-width:760px){ .cstats-row.cstats-4{grid-template-columns:1fr 1fr;} .cstats-row.cstats-4 .cstat{flex-direction:row;align-items:center;gap:10px;} .vid-wait-in{gap:6px;padding:10px;} .vid-wait-in p{font-size:11.5px;line-height:1.45;} .vid-wait-in b{font-size:13.5px;} }
+  @media (max-width:560px){ .pa-form{grid-template-columns:1fr;} }
+
+/* Lista de clientes en celular: cada alumno se vuelve una tarjeta (si no, las columnas de curso y certificado quedan fuera de la pantalla) */
+@media (max-width:700px){
+  #clients-table-wrap thead{display:none}
+  #clients-table-wrap table,#clients-table-wrap tbody,#clients-table-wrap tr.client-row,#clients-table-wrap tr.client-row>td{display:block;width:100%}
+  #clients-table-wrap tr.client-row{padding:14px 0;border-bottom:1px solid #E4ECF4}
+  #clients-table-wrap tr.client-row:last-child{border-bottom:0}
+  #clients-table-wrap tr.client-row>td{padding:3px 0;border-bottom:0}
+  #clients-table-wrap tr.client-row>td:nth-child(2){word-break:break-all;font-size:12.5px}
+  #clients-table-wrap tr.client-row>td:nth-child(3){padding-top:8px}
+  #clients-table-wrap tr.client-row>td:nth-child(4){display:flex;align-items:center;gap:8px;padding-top:8px}
+  #clients-table-wrap tr.client-row>td:nth-child(4)::before{content:attr(data-label);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+}
 </style>
 </head>
 <body class="guest">
@@ -546,11 +673,12 @@
             </form>
             <form id="form-register" class="hidden" onsubmit="doRegister();return false" novalidate>
               <div class="field"><label for="rg-name">Nombre</label><input id="rg-name" autocomplete="name" placeholder="Tu nombre completo"></div>
-              <div class="field"><label for="rg-email">Correo</label><input id="rg-email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com"></div>
+              <div class="field"><label for="rg-email">Correo</label><input id="rg-email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com" oninput="onRegEmailInput()"><div class="field-hint warn hidden" id="rg-gmail-hint">Ojo: los videos se comparten por Google Drive, así que este correo debe tener una cuenta de Google. Si no la tienes, regístrate con tu Gmail.</div></div>
               <div class="field"><label for="rg-pass">Contraseña</label><input id="rg-pass" type="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres"></div>
+              <div id="rg-extra"></div>
               <div class="form-msg err" id="rg-msg" role="alert"></div>
               <button class="btn btn-solid full" type="submit">Crear cuenta</button>
-              <p class="auth-note">Cuando tengas tu cuenta, tu asesor te habilita los cursos.</p>
+              <p class="auth-note" id="rg-note">Cuando tengas tu cuenta, tu asesor te habilita los cursos.</p>
             </form>
           </div>
         </div>
@@ -606,6 +734,8 @@
       <p class="sub">Sesión: <b id="admin-email-tag"></b><span class="role-pill">ADMIN</span></p>
       <div class="admin-tabs">
       <button class="admin-tab active" id="atab-clients" onclick="setAdminTab('clients')">Clientes y accesos</button>
+      <button class="admin-tab" id="atab-retirar" onclick="setAdminTab('retirar')">Retirar accesos</button>
+      <button class="admin-tab" id="atab-drive" onclick="setAdminTab('drive')">Carpetas y reglas</button>
       <button class="admin-tab" id="atab-courses" onclick="setAdminTab('courses')">Cursos</button>
       <button class="admin-tab" id="atab-projects" onclick="setAdminTab('projects')">Proyectos</button>
       <button class="admin-tab" id="atab-promos" onclick="setAdminTab('promos')">Promociones</button>
@@ -617,7 +747,43 @@
   <section class="content">
     <div class="wrap">
     <div id="admin-clients-panel">
-      <div class="panel" id="clients-table-wrap"></div>
+      <div id="drv-stats" class="cstats-row cstats-4 hidden"></div>
+      <div id="drv-banners"></div>
+      <div class="panel">
+        <div class="tbl-tools">
+          <input id="clients-search" class="search-input" type="search" autocomplete="off" placeholder="Buscar por nombre o correo…" aria-label="Buscar cliente" oninput="onClientSearch()">
+        </div>
+        <div id="clients-table-wrap"></div>
+      </div>
+    </div>
+
+    <div id="admin-retirar-panel" class="hidden">
+      <div id="ret-nodrive" class="hidden"></div>
+      <div class="panel">
+        <h3>Retirar accesos</h3>
+        <p class="panel-lede">Elige al alumno y marca los cursos que quieres quitarle. El aula se los oculta al instante y el robot lo saca de la carpeta de Drive en 1 o 2 minutos. Su avance y sus certificados se conservan por si vuelve.</p>
+        <div class="row2">
+          <div class="field"><label for="ret-search">Buscar alumno</label><input id="ret-search" type="search" autocomplete="off" placeholder="Nombre o correo…" oninput="renderRetirarSelect()"></div>
+          <div class="field"><label for="ret-user">Alumno</label><select id="ret-user" onchange="onRetUserChange()"></select></div>
+        </div>
+        <div id="ret-courses"></div>
+        <div id="ret-confirm"></div>
+        <div id="ret-msg" class="form-msg" role="status" aria-live="polite" style="margin-top:12px;"></div>
+      </div>
+      <div class="panel">
+        <h3>Retirados recientemente</h3>
+        <div id="ret-recent"></div>
+      </div>
+    </div>
+
+    <div id="admin-drive-panel" class="hidden">
+      <div id="drv-missing" class="hidden"></div>
+      <div id="drv-main" class="hidden">
+        <div class="panel" id="drv-rule"></div>
+        <div class="panel" id="drv-preauth"></div>
+        <div class="panel" id="drv-folders"></div>
+        <div class="panel" id="drv-robot"></div>
+      </div>
     </div>
 
     <div id="admin-courses-panel" class="hidden">
@@ -658,7 +824,7 @@
         <div id="lm-list" style="margin-bottom:18px;"></div>
         <div id="lm-next-label" class="section-tag" style="display:block;margin-bottom:8px;">SESIÓN 01</div>
         <div class="field"><label>Tema de la clase</label><input id="lm-tema" placeholder="Ej: Introducción al modelado"></div>
-        <div class="field"><label>Enlace de video</label><input id="lm-video" placeholder="https://www.youtube.com/watch?v=..."></div>
+        <div class="field"><label>Enlace de video (YouTube, Vimeo o Drive)</label><input id="lm-video" placeholder="https://drive.google.com/file/d/… o https://www.youtube.com/watch?v=…"><div class="field-hint">Con Drive: sube el video a la carpeta del curso, clic derecho → Compartir → Copiar enlace. Déjalo en «Restringido»: el aula da acceso a cada alumno sola.</div></div>
         <div id="lm-msg" class="form-msg"></div>
         <button class="btn btn-solid btn-sm" onclick="addLesson()">Agregar clase</button>
         <button class="btn btn-ghost btn-sm" onclick="closeLessonManager()">Cerrar</button>
@@ -1012,6 +1178,7 @@ async function loadAdminData(){
     if(!state.certified[r.user_id]) state.certified[r.user_id] = {};
     state.certified[r.user_id][r.course_id] = { status: r.status, code: r.certificate_code, completed_at: r.completed_at };
   });
+  await loadDriveOverview();
 }
 
 async function loadClientData(){
@@ -1047,6 +1214,8 @@ async function loadClientData(){
   const { data: progRows } = await sb.from('lesson_progress').select('*').eq('user_id', session.id);
   state.progress = {};
   (progRows||[]).forEach(r => { state.progress[r.lesson_id] = { seconds: r.seconds, duration: r.duration }; });
+  await loadMyDrive();
+  if(!(state.access[session.id] || []).length) await loadSignupOptions();
 }
 
 /* ---------------- AUTH MODAL ---------------- */
@@ -1132,13 +1301,22 @@ async function doRegister(){
     msg.textContent = 'Completa todos los campos (contraseña mínimo 6 caracteres).';
     return;
   }
+  const rgc = document.getElementById('rg-course');
+  const wanted = rgc ? rgc.value : '';
+  if(rgc && !wanted){
+    msg.className = 'form-msg err';
+    msg.textContent = 'Elige el curso que quieres llevar.';
+    return;
+  }
   msg.className = 'form-msg';
   msg.textContent = 'Creando cuenta…';
   try{
-    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { name } } });
+    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: wanted ? { name, wanted_course: wanted } : { name } } });
     if(error){ msg.textContent = authMsg(error); msg.className = 'form-msg err'; return; }
     if(!data.session){
-      msg.textContent = 'Cuenta creada. Revisa tu correo para confirmar el acceso antes de ingresar.';
+      msg.textContent = wanted
+        ? 'Cuenta creada. Revisa tu correo y confirma tu cuenta: al confirmar se habilita tu curso y se te comparte la carpeta de videos en Drive.'
+        : 'Cuenta creada. Revisa tu correo para confirmar el acceso antes de ingresar.';
       msg.className = 'form-msg ok';
       return;
     }
@@ -1170,6 +1348,7 @@ async function renderAll(){
       if(session.role === 'admin') await loadAdminData(); else await loadClientData();
     } else {
       await loadPublicContent();
+      await loadSignupOptions();
     }
   }catch(err){
     console.error(err);
@@ -1220,6 +1399,8 @@ function render(){
 
   if(!session){
     vLogin.classList.remove('hidden');
+    renderRegisterExtras();
+    driveStopPolls();
     return;
   }
 
@@ -1231,12 +1412,15 @@ function render(){
     vAdmin.classList.remove('hidden');
     document.getElementById('admin-email-tag').textContent = session.email;
     renderAdmin();
+    startDrivePoll();
   } else {
     vClient.classList.remove('hidden');
     document.getElementById('client-email-tag').textContent = session.email;
     document.getElementById('client-name-tag').textContent = session.name || session.email;
     renderPromotions();
     renderClient();
+    myDriveSince = Date.now();
+    myDriveSchedule();
   }
 }
 
@@ -1325,7 +1509,7 @@ function renderClient(){
 
   if(grantedCourses.length === 0){
     filters.innerHTML = '';
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1;">Todavía no tienes cursos habilitados. Solicita acceso a tu asesor.</div>`;
+    grid.innerHTML = clientEmptyHtml();
     return;
   }
 
@@ -1353,6 +1537,7 @@ function renderClient(){
         </div>
         <div class="sheet-progress-track"><div class="sheet-progress-fill" style="width:${isDone ? 100 : pct}%"></div></div>
         <div class="sheet-progress-label ${isDone ? 'done' : ''}">${isDone ? '✓ Completado' : pct + '% avanzado'}</div>
+        ${driveChipHtml(c.id)}
         <button class="btn btn-solid btn-sm" type="button" onclick="openClientCourseDetail('${c.id}')">Ver curso</button>
       </div>
     </article>`;
@@ -1429,6 +1614,7 @@ function renderClientCourseDetail(id){
       <h2 class="cd-title">${escapeHtml(c.title)}</h2>
     </div>
     ${tabsHtml}
+    <div id="drive-banner">${driveBannerHtml(id)}</div>
     ${zoomHtml}
     <div class="cv-layout">
       <div class="cv-player-col">
@@ -1501,6 +1687,7 @@ function renderClientCerts(){
 
 function detectPlatform(url){
   if(!url) return 'other';
+  if(/^https?:\/\/(drive|docs)\.google\.com\//i.test(String(url).trim())) return 'drive';
   if(/youtube\.com|youtu\.be/.test(url)) return 'youtube';
   if(/vimeo\.com/.test(url)) return 'vimeo';
   return 'other';
@@ -1519,6 +1706,7 @@ function toEmbedUrl(url){
   const platform = detectPlatform(url);
   if(platform === 'youtube'){ const id = extractYouTubeId(url); return id ? `https://www.youtube.com/embed/${id}` : ''; }
   if(platform === 'vimeo'){ const id = extractVimeoId(url); return id ? `https://player.vimeo.com/video/${id}` : ''; }
+  if(platform === 'drive'){ const id = driveFileId(url); return id ? `https://drive.google.com/file/d/${id}/preview` : ''; }
   return url;
 }
 
@@ -1553,24 +1741,6 @@ async function trackTick(){
   }catch(e){}
 }
 
-function refreshCertAction(){
-  if(!clientDetailCourseId) return;
-  const c = state.courses.find(x=>x.id===clientDetailCourseId);
-  if(!c) return;
-  const done = state.completions[session.id] || [];
-  const isDone = done.includes(clientDetailCourseId);
-  const status = state.certStatus[clientDetailCourseId];
-  const wrap = document.querySelector('#client-detail-body .cert-action');
-  if(!wrap) return;
-  if(isDone){
-    wrap.innerHTML = status === 'approved'
-      ? `<button class="btn btn-solid btn-sm" type="button" onclick="openCertificate('${clientDetailCourseId}')">Descargar certificado</button>`
-      : `<span class="cert-note warn">Certificado en revisión por el asesor</span>`;
-  } else if(courseFullyWatched(clientDetailCourseId)){
-    wrap.innerHTML = `<button class="btn btn-solid btn-sm" type="button" onclick="requestCertificate('${clientDetailCourseId}')">Generar certificado</button>`;
-  }
-}
-
 async function saveProgress(lessonId, seconds, duration){
   if(!session) return;
   state.progress = state.progress || {};
@@ -1578,12 +1748,6 @@ async function saveProgress(lessonId, seconds, duration){
   try{
     await sb.from('lesson_progress').upsert({ user_id: session.id, lesson_id: lessonId, seconds, duration, updated_at: new Date().toISOString() });
   }catch(e){ console.error(e); }
-}
-
-function updateProgressBar(lessonId, seconds, duration){
-  const pct = duration > 0 ? Math.min(100, (seconds/duration*100)) : 0;
-  const fill = document.querySelector(`.lesson-item[data-lesson="${lessonId}"] .lesson-progress-fill`);
-  if(fill) fill.style.width = pct.toFixed(1) + '%';
 }
 
 async function selectLesson(slot, lessonId){
@@ -1606,9 +1770,8 @@ async function selectLesson(slot, lessonId){
   const startSeconds = saved && saved.duration && (saved.seconds < saved.duration - 3) ? saved.seconds : 0;
   const platform = detectPlatform(l.video_url);
   const materials = (state.materials && state.materials[lessonId]) || [];
-  const materialHtml = materials.length
-    ? `<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">${materials.map(m => `<a href="${escapeHtml(m.url)}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Descargar: ${escapeHtml(m.name || 'material')}</a>`).join('')}</div>`
-    : '';
+  const materialHtml = materialsHtml(materials);
+  viewLessonId = lessonId;
 
   if(platform === 'youtube'){
     const vid = extractYouTubeId(l.video_url);
@@ -1638,6 +1801,8 @@ async function selectLesson(slot, lessonId){
       currentPlayer.on('pause', trackTick);
       currentPlayer.on('ended', trackTick);
     });
+  } else if(platform === 'drive'){
+    renderDriveLesson(courseId, l, playerBox, materialHtml);
   } else {
     playerBox.innerHTML = `<div class="vid-frame" style="position:relative;padding-top:56.25%;">
       <iframe src="${escapeHtml(l.video_url)}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
@@ -2092,33 +2257,6 @@ async function imgAdd(){
   }
 }
 
-function setAdminTab(tab){
-  adminTab = tab;
-  document.getElementById('atab-clients').classList.toggle('active', tab==='clients');
-  document.getElementById('atab-courses').classList.toggle('active', tab==='courses');
-  document.getElementById('atab-projects').classList.toggle('active', tab==='projects');
-  document.getElementById('atab-promos').classList.toggle('active', tab==='promos');
-  document.getElementById('atab-settings').classList.toggle('active', tab==='settings');
-  document.getElementById('atab-images').classList.toggle('active', tab==='images');
-  const actTab = document.querySelector('.admin-tab.active');
-  if(actTab && actTab.parentElement){
-    const strip = actTab.parentElement;
-    const left = actTab.getBoundingClientRect().left - strip.getBoundingClientRect().left + strip.scrollLeft - 14;
-    if(strip.scrollTo) strip.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
-  }
-  document.getElementById('admin-clients-panel').classList.toggle('hidden', tab!=='clients');
-  document.getElementById('admin-courses-panel').classList.toggle('hidden', tab!=='courses');
-  document.getElementById('admin-projects-panel').classList.toggle('hidden', tab!=='projects');
-  document.getElementById('admin-promos-panel').classList.toggle('hidden', tab!=='promos');
-  document.getElementById('admin-settings-panel').classList.toggle('hidden', tab!=='settings');
-  document.getElementById('admin-images-panel').classList.toggle('hidden', tab!=='images');
-  if(tab==='projects') renderProjectsAdmin();
-  if(tab==='promos') renderPromosAdmin();
-  if(tab==='courses') renderCategoriesAdmin();
-  if(tab==='settings') renderSettingsAdmin();
-  if(tab==='images') renderImagesAdmin();
-}
-
 function renderSettingsAdmin(){
   const s = state.settings || {};
   const put = (id, v) => { document.getElementById(id).value = v || ''; };
@@ -2164,38 +2302,6 @@ async function saveSettings(){
 
 const ICON_EYE = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
 const ICON_EYE_OFF = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 4.24A10.9 10.9 0 0 1 12 4c7 0 11 8 11 8a18.4 18.4 0 0 1-3.16 4.24M6.6 6.6A18.4 18.4 0 0 0 1 12s4 8 11 8a10.8 10.8 0 0 0 5.1-1.24"/></svg>';
-
-function renderAdmin(){
-  setAdminTab(adminTab);
-
-  const clientsWrap = document.getElementById('clients-table-wrap');
-  if(state.clients.length === 0){
-    clientsWrap.innerHTML = `<div class="empty">Aún no hay clientes registrados. Comparte el enlace de esta página para que creen su cuenta.</div>`;
-  } else {
-    clientsWrap.innerHTML = `<div class="table-scroll"><table><thead><tr><th>Cliente</th><th>Correo</th><th>Curso / acceso</th><th>Certificado</th></tr></thead><tbody>
-      ${state.clients.map(u => {
-        if(!adminSelectedCourse[u.id] && state.courses.length) adminSelectedCourse[u.id] = state.courses[0].id;
-        const selectedId = adminSelectedCourse[u.id] || '';
-        return `<tr class="client-row">
-          <td style="color:var(--text)">${escapeHtml(u.name)}</td>
-          <td class="mono">${escapeHtml(u.email)}</td>
-          <td>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <select class="access-select" id="course-sel-${u.id}" onchange="onAdminCourseChange('${u.id}')">
-                ${state.courses.map(c => `<option value="${c.id}" ${c.id===selectedId?'selected':''}>${escapeHtml(c.code)}</option>`).join('')}
-              </select>
-              <span class="eye-toggle" id="access-eye-${u.id}" onclick="toggleAccessFromSelect('${u.id}')" title="Dar/quitar acceso al curso seleccionado"></span>
-            </div>
-          </td>
-          <td><span class="eye-toggle" id="cert-eye-${u.id}" onclick="openCertPreviewModal('${u.id}')" title="Vista previa del certificado del curso seleccionado"></span></td>
-        </tr>`;
-      }).join('')}
-    </tbody></table></div>`;
-    state.clients.forEach(u => { renderAccessEyeIcon(u.id); renderCertEyeIcon(u.id); });
-  }
-
-  renderCoursesTable();
-}
 
 function onAdminCourseChange(clientId){
   const sel = document.getElementById('course-sel-'+clientId);
@@ -2647,10 +2753,11 @@ async function loadAndRenderLessons(){
       </div>
       ${accessHtml}
       <div style="background:var(--field);border:1px solid var(--border);padding:10px;">
-        <div style="font-family:'Montserrat';font-size:9.5px;color:var(--muted);letter-spacing:.5px;margin-bottom:8px;">MATERIAL DE APOYO</div>
+        <div style="font-family:'Montserrat';font-size:9.5px;color:var(--muted);letter-spacing:.5px;margin-bottom:8px;">MATERIAL DE APOYO · LOS ALUMNOS PUEDEN DESCARGARLO</div>
         ${materialsHtml}
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-          <input id="mat-link-${l.id}" placeholder="Enlace (opcional)" style="flex:1;min-width:140px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:7px 9px;font-size:11.5px;border-radius:var(--radius);">
+          <input id="mat-name-${l.id}" placeholder="Nombre (opcional)" style="flex:1;min-width:120px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:7px 9px;font-size:11.5px;border-radius:var(--radius);">
+          <input id="mat-link-${l.id}" placeholder="Enlace de Drive u otro (opcional)" style="flex:1;min-width:140px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:7px 9px;font-size:11.5px;border-radius:var(--radius);">
           <input id="mat-file-${l.id}" type="file" style="flex:1;min-width:140px;font-size:11px;color:var(--muted);">
           <button class="btn btn-ghost btn-sm" onclick="addMaterialToLesson('${l.id}')">Agregar archivo</button>
         </div>
@@ -2658,32 +2765,6 @@ async function loadAndRenderLessons(){
       </div>
     </div>`;
   }).join('');
-}
-
-async function addMaterialToLesson(lessonId){
-  const linkInput = document.getElementById('mat-link-'+lessonId);
-  const fileInput = document.getElementById('mat-file-'+lessonId);
-  const msg = document.getElementById('mat-msg-'+lessonId);
-  const link = linkInput.value.trim();
-  const file = fileInput.files[0];
-  if(!link && !file){ msg.textContent = 'Pon un enlace o elige un archivo.'; msg.className = 'form-msg err'; return; }
-
-  let url = link, storagePath = null, name = link;
-  if(file){
-    msg.textContent = 'Subiendo…';
-    msg.className = 'form-msg';
-    const path = `${Date.now()}-${file.name}`.replace(/\s+/g, '-');
-    const { error: upErr } = await sb.storage.from('materials').upload(path, file);
-    if(upErr){ msg.textContent = 'Error al subir: ' + upErr.message; msg.className = 'form-msg err'; return; }
-    const { data: urlData } = sb.storage.from('materials').getPublicUrl(path);
-    url = urlData.publicUrl;
-    storagePath = path;
-    name = file.name;
-  }
-
-  const { error } = await sb.from('lesson_materials').insert({ lesson_id: lessonId, name, url, storage_path: storagePath });
-  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
-  loadAndRenderLessons();
 }
 
 async function deleteMaterial(materialId, storagePath){
@@ -2710,6 +2791,7 @@ async function addLesson(){
   const video = document.getElementById('lm-video').value.trim();
   const msg = document.getElementById('lm-msg');
   if(!tema){ msg.textContent = 'Ponle un tema a la clase.'; msg.className = 'form-msg err'; return; }
+  if(isDriveUrl(video) && !driveFileId(video)){ msg.textContent = 'Ese enlace de Drive no es de un video. Abre el video en Drive y copia su enlace (lleva /file/d/).'; msg.className = 'form-msg err'; return; }
 
   const { data: existing } = await sb.from('course_lessons').select('id').eq('course_id', manageCourseId);
   const order = existing ? existing.length : 0;
@@ -2724,6 +2806,1042 @@ async function addLesson(){
 
 async function deleteLesson(lessonId){
   await sb.from('course_lessons').delete().eq('id', lessonId);
+  loadAndRenderLessons();
+}
+
+const ROBOT_TEMPLATE = "/**\n * ROBOT DE DRIVE — INFINITY WORK\n *\n * Vive en TU cuenta de Gmail (la que es dueña de las carpetas de los cursos).\n * Cada minuto le pregunta al aula qué falta hacer y, según eso,\n * comparte o quita la carpeta de Drive de cada alumno.\n *\n * Instalación (una sola vez): en el aula entra a Administrador →\n * \"Carpetas y reglas\" → \"Robot de Drive\" y sigue los pasos.\n * No compartas este código: lleva tu clave privada.\n */\n\nvar SUPABASE_URL = '__SUPABASE_URL__';\nvar SUPABASE_KEY = '__SUPABASE_KEY__';\nvar ROBOT_SECRET = '__ROBOT_SECRET__';\n\nvar CADA_MINUTOS = 1;      // cada cuánto revisa (1, 5, 10, 15 o 30)\nvar MAXIMO_POR_VUELTA = 15; // cuántas órdenes atiende en cada revisión\n\n/** Ejecuta esta función UNA vez: crea el reloj de cada minuto y hace la primera revisión. */\nfunction instalar() {\n  desinstalar();\n  ScriptApp.newTrigger('revisarCola').timeBased().everyMinutes(CADA_MINUTOS).create();\n  Logger.log('Listo: el robot revisará el aula cada ' + CADA_MINUTOS + ' minuto(s).');\n  var n = revisarCola();\n  Logger.log('Primera revisión hecha (' + n + ' orden(es) atendida(s)). Vuelve al aula: debe decir \"Robot activo\".');\n}\n\n/** Detiene el robot (borra su reloj). */\nfunction desinstalar() {\n  ScriptApp.getProjectTriggers().forEach(function (t) {\n    if (t.getHandlerFunction() === 'revisarCola') ScriptApp.deleteTrigger(t);\n  });\n}\n\n/** Lo que corre cada minuto. */\nfunction revisarCola() {\n  var lock = LockService.getScriptLock();\n  if (!lock.tryLock(5000)) return 0; // ya hay una revisión en marcha\n  try {\n    var res = rpc_('drive_robot_claim', { p_secret: ROBOT_SECRET, p_max: MAXIMO_POR_VUELTA });\n    if (!res || res.ok !== true) {\n      throw new Error('El aula no aceptó la clave del robot (' + (res && res.error) + '). ' +\n        'En el aula genera una clave nueva y vuelve a copiar el código completo aquí.');\n    }\n    var jobs = res.jobs || [];\n    for (var i = 0; i \u003c jobs.length; i++) atender_(jobs[i]);\n    return jobs.length;\n  } finally {\n    lock.releaseLock();\n  }\n}\n\n/** Atiende una orden: compartir o quitar la carpeta, y avisa al aula cómo salió. */\nfunction atender_(job) {\n  var ok = false, error = null, aviso = null;\n  try {\n    var email = String(job.email || '').toLowerCase().trim();\n    if (!email) throw new Error('La orden no trae correo.');\n    var carpeta = DriveApp.getFolderById(job.folder_id);\n    aviso = avisoSeguridad_(carpeta, job.folder_id);\n    var esDuena = duena_(carpeta) === email;\n\n    if (job.action === 'grant') {\n      if (!esDuena) carpeta.addViewer(email);          // solo lectura\n    } else if (job.action === 'revoke') {\n      if (!esDuena) carpeta.removeViewer(email);\n    } else {\n      throw new Error('Orden desconocida: ' + job.action);\n    }\n    ok = true;\n  } catch (e) {\n    error = traducir_(e);\n    if (/carpeta/i.test(error)) aviso = error;\n  }\n  try {\n    rpc_('drive_robot_report', { p_secret: ROBOT_SECRET, p_id: job.id, p_ok: ok, p_error: error, p_warn: aviso });\n  } catch (e) {\n    Logger.log('No pude avisar al aula de la orden ' + job.id + ': ' + e.message);\n  }\n}\n\n/**\n * Revisa que la carpeta (y sus videos) estén \"Restringidos\": si no, cualquiera con el enlace podría verlos.\n * Devuelve '' si todo está bien o un texto si hay algo abierto (null si no se pudo revisar).\n * Los videos se revisan a lo mucho cada 6 horas (cada 5 minutos si había algo abierto).\n */\nfunction avisoSeguridad_(carpeta, carpetaId) {\n  try {\n    var cache = CacheService.getScriptCache();\n    var marca = 'revisada_' + carpetaId;\n    if (carpeta.getSharingAccess() !== DriveApp.Access.PRIVATE) {\n      cache.remove(marca);\n      return 'La carpeta está abierta (cualquiera con el enlace puede verla). En Drive: Compartir → Acceso general → Restringido.';\n    }\n    var guardado = cache.get(marca);\n    if (guardado) return guardado === 'OK' ? '' : guardado;\n    var abiertos = archivosAbiertos_(carpeta);\n    var aviso = abiertos.length\n      ? abiertos.length + ' archivo(s) de la carpeta están abiertos con enlace público (por ejemplo «' + abiertos[0] +\n        '»). En Drive: clic derecho → Compartir → Acceso general → Restringido.'\n      : '';\n    cache.put(marca, aviso || 'OK', aviso ? 5 * 60 : 6 * 60 * 60);\n    return aviso;\n  } catch (e) {\n    return null; // si no se puede revisar, no se toca el aviso\n  }\n}\n\n/** Nombres de los archivos (hasta 150, con subcarpetas) que no están restringidos. */\nfunction archivosAbiertos_(carpeta) {\n  var abiertos = [], vistos = 0, pendientes = [carpeta], limite = Date.now() + 45000;\n  while (pendientes.length && vistos \u003c 150 && Date.now() \u003c limite) {\n    var actual = pendientes.shift();\n    var archivos = actual.getFiles();\n    while (archivos.hasNext() && vistos \u003c 150) {\n      var f = archivos.next();\n      vistos++;\n      if (f.getSharingAccess() !== DriveApp.Access.PRIVATE) abiertos.push(f.getName());\n    }\n    var sub = actual.getFolders();\n    while (sub.hasNext()) pendientes.push(sub.next());\n  }\n  return abiertos;\n}\n\nfunction duena_(carpeta) {\n  try {\n    var o = carpeta.getOwner();\n    return o ? String(o.getEmail()).toLowerCase() : '';\n  } catch (e) {\n    return '';\n  }\n}\n\nfunction traducir_(e) {\n  var m = String((e && e.message) || e || 'Error desconocido');\n  if (/no item with the given id|not found|permission to access|no se encuentra/i.test(m)) {\n    return 'No encuentro la carpeta, o esta cuenta de Gmail no es su dueña. Revisa el enlace de la carpeta en el aula.';\n  }\n  if (/invalid (argument|email)|correo no es v/i.test(m)) return 'Ese correo no es válido para Drive.';\n  if (/limit exceeded|too many times|quota|rate limit/i.test(m)) {\n    return 'Google puso un límite diario a esta cuenta. Se reintenta más tarde.';\n  }\n  return m.length > 240 ? m.slice(0, 240) : m;\n}\n\n/** Llama a una función de la base de datos del aula. */\nfunction rpc_(nombre, cuerpo) {\n  var cabeceras = { apikey: SUPABASE_KEY };\n  if (/^eyJ/.test(SUPABASE_KEY)) cabeceras.Authorization = 'Bearer ' + SUPABASE_KEY;\n  var resp = UrlFetchApp.fetch(SUPABASE_URL + '/rest/v1/rpc/' + nombre, {\n    method: 'post',\n    contentType: 'application/json',\n    headers: cabeceras,\n    payload: JSON.stringify(cuerpo),\n    muteHttpExceptions: true\n  });\n  var codigo = resp.getResponseCode();\n  var texto = resp.getContentText();\n  if (codigo \u003c 200 || codigo >= 300) {\n    throw new Error('El aula respondió ' + codigo + ': ' + String(texto).slice(0, 200));\n  }\n  return texto ? JSON.parse(texto) : null;\n}\n";
+
+/* ================= GOOGLE DRIVE · acceso automático (registro + alumno) =================
+   Todo esto necesita el archivo supabase-drive.sql en Supabase. Si aún no está instalado,
+   cada llamada falla en silencio y el aula se comporta exactamente como antes. */
+state.drive = null;      // administrador: lo que devuelve admin_drive_overview() (null = aún no instalado)
+state.myDrive = {};      // alumno: curso -> estado de Drive (ok | queued | retry | missing | error | none)
+state.signup = null;     // registro: { rule: 'auto' | 'preauth', courses: [...] }
+
+async function driveRpc(name, args){
+  const { data, error } = await sb.rpc(name, args || {});
+  if(error) throw error;
+  return data;
+}
+function isGmail(email){ return /@(gmail|googlemail)\.com$/i.test(String(email || '').trim()); }
+function isDriveUrl(url){ return /^https?:\/\/(drive|docs)\.google\.com\//i.test(String(url || '').trim()); }
+function driveFileId(url){
+  const s = String(url || '');
+  const m = s.match(/drive\.google\.com\/file\/(?:u\/\d+\/)?d\/([\w-]{10,})/) || s.match(/drive\.google\.com\/(?:open|uc)\?(?:[^#]*&)?id=([\w-]{10,})/);
+  return m ? m[1] : null;
+}
+function fmtAgo(iso){
+  const t = new Date(iso).getTime();
+  if(!t) return '';
+  const s = Math.max(0, Math.round((Date.now() - t) / 1000));
+  if(s < 60) return 'hace unos segundos';
+  const m = Math.round(s / 60);
+  if(m < 60) return 'hace ' + m + ' min';
+  const h = Math.round(m / 60);
+  if(h < 48) return 'hace ' + h + ' h';
+  return 'hace ' + Math.round(h / 24) + ' días';
+}
+function advisorLinkHtml(text){
+  const n = normWa((state.settings || {}).whatsapp_number);
+  if(!n) return '';
+  return ' <a class="btn btn-ghost btn-sm" href="https://wa.me/' + n + '?text=' + encodeURIComponent(text || 'Hola, necesito ayuda con mi acceso a los videos del aula virtual') + '" target="_blank" rel="noopener">Escribir al asesor por WhatsApp</a>';
+}
+
+async function loadMyDrive(){
+  try{
+    const rows = await driveRpc('my_drive');
+    const map = {};
+    (rows || []).forEach(r => { map[r.course_id] = r.state; });
+    state.myDrive = map;
+    return true;
+  }catch(e){ state.myDrive = {}; return false; }
+}
+async function loadSignupOptions(){
+  try{
+    const o = await driveRpc('signup_options');
+    state.signup = (o && typeof o === 'object')
+      ? { rule: o.rule === 'preauth' ? 'preauth' : 'auto', courses: Array.isArray(o.courses) ? o.courses : [] }
+      : null;
+  }catch(e){ state.signup = null; }
+}
+
+/* ---------------- REGISTRO: elegir el curso ---------------- */
+function renderRegisterExtras(){
+  const box = document.getElementById('rg-extra');
+  const note = document.getElementById('rg-note');
+  if(!box || !note) return;
+  const o = state.signup;
+  if(o && o.rule === 'auto' && o.courses.length){
+    const prevEl = document.getElementById('rg-course');
+    const prev = prevEl ? prevEl.value : '';
+    box.innerHTML = '<div class="field"><label for="rg-course">Curso que quieres llevar</label><select id="rg-course"><option value="">Elige tu curso…</option>' +
+      o.courses.map(c => '<option value="' + escapeHtml(c.id) + '">' + escapeHtml(c.title) + (c.hours ? ' · ' + escapeHtml(c.hours) : '') + '</option>').join('') +
+      '</select></div>';
+    if(prev) document.getElementById('rg-course').value = prev;
+    note.textContent = 'Al confirmar tu correo se habilita tu curso y se te comparte la carpeta de videos en Drive con ese mismo correo.';
+  } else {
+    box.innerHTML = '';
+    note.textContent = (o && o.rule === 'preauth')
+      ? 'Si tu asesor ya te autorizó con este correo, tus cursos se habilitan al confirmar. Si no, él te los habilita.'
+      : 'Cuando tengas tu cuenta, tu asesor te habilita los cursos.';
+  }
+  onRegEmailInput();
+}
+function onRegEmailInput(){
+  const el = document.getElementById('rg-email');
+  const hint = document.getElementById('rg-gmail-hint');
+  if(!el || !hint) return;
+  const v = el.value.trim();
+  const show = !!state.signup && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) && !isGmail(v);
+  hint.classList.toggle('hidden', !show);
+}
+
+/* ---------------- ALUMNO: estado de Drive ---------------- */
+function driveStateOf(courseId){ return (state.myDrive && state.myDrive[courseId]) || 'none'; }
+function driveWaiting(s){ return s === 'queued' || s === 'retry' || s === 'missing' || s === 'error'; }
+
+function courseUsesDrive(courseId){
+  const ls = (state.lessons && state.lessons[courseId]) || [];
+  return ls.some(l => detectPlatform(l.video_url) === 'drive' || ((state.materials && state.materials[l.id]) || []).some(m => isDriveUrl(m.url)));
+}
+function driveChipHtml(courseId){
+  const s = driveStateOf(courseId);
+  if(s === 'none' || !courseUsesDrive(courseId)) return '';
+  const t = {
+    ok: ['ok', '✓ Videos listos'],
+    queued: ['wait', 'Preparando tu acceso a los videos…'],
+    retry: ['wait', 'Preparando tu acceso a los videos…'],
+    missing: ['warn', 'Acceso a los videos sin activar'],
+    error: ['bad', 'Problema con tu acceso a los videos']
+  }[s];
+  return t ? '<div class="dchip ' + t[0] + '" data-dchip="' + escapeHtml(courseId) + '">' + t[1] + '</div>' : '';
+}
+function driveBannerHtml(courseId){
+  const s = driveStateOf(courseId);
+  if(s === 'none' || s === 'ok' || !courseUsesDrive(courseId)) return '';
+  if(s === 'queued' || s === 'retry'){
+    return '<div class="dnote wait" role="status"><span class="dspin"></span><div><b>Estamos preparando tu acceso a los videos.</b> Suele tardar 1 o 2 minutos. Esta pantalla se actualiza sola.</div></div>';
+  }
+  if(s === 'missing'){
+    return '<div class="dnote warn" role="status"><div><b>Tu acceso a los videos aún no está activado.</b> Si acabas de registrarte, espera un momento. Si sigue igual, avisa a tu asesor.' + advisorLinkHtml() + '</div></div>';
+  }
+  return '<div class="dnote bad" role="alert"><div><b>No pudimos activar tu acceso a los videos.</b> Avisa a tu asesor para que lo revise.' + advisorLinkHtml() + '</div></div>';
+}
+
+/* ---------------- ALUMNO: sin cursos todavía ---------------- */
+function clientEmptyHtml(){
+  const o = state.signup;
+  if(o && o.rule === 'auto' && o.courses.length){
+    return '<div class="panel" style="grid-column:1/-1;margin-bottom:0;"><h3>Elige tu primer curso</h3>' +
+      '<p class="panel-lede">Al elegirlo se habilita aquí y se te comparte la carpeta de videos en Drive con tu correo <b>' + escapeHtml(session.email) + '</b>.</p>' +
+      '<div class="enroll-list">' + o.courses.map(c =>
+        '<button type="button" class="enroll-item" onclick="enrollCourse(\'' + escapeHtml(c.id) + '\')"><span class="en-code">' + escapeHtml(c.code || '') + '</span><span class="en-title">' + escapeHtml(c.title) + '</span><span class="en-go">Elegir este curso →</span></button>'
+      ).join('') + '</div><div id="enroll-msg" class="form-msg" role="alert" style="margin-top:12px;"></div></div>';
+  }
+  return '<div class="empty" style="grid-column:1/-1;">Todavía no tienes cursos habilitados. Solicita acceso a tu asesor.</div>';
+}
+async function enrollCourse(id){
+  const msg = document.getElementById('enroll-msg');
+  const say = (t, k) => { if(msg){ msg.className = 'form-msg' + (k ? ' ' + k : ''); msg.textContent = t; } };
+  say('Habilitando tu curso…');
+  try{
+    const r = await driveRpc('self_enroll', { p_course: id });
+    if(!r || r.ok !== true){ say((r && r.error) || 'No se pudo habilitar el curso.', 'err'); return; }
+    await loadClientData();
+    render();
+  }catch(e){
+    console.error(e);
+    say('No se pudo habilitar el curso: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+  }
+}
+
+/* ---------------- ALUMNO: material de apoyo descargable ---------------- */
+function dlName(name, url){
+  name = String(name || '').trim() || 'material';
+  // sin tildes ni símbolos raros: así el archivo se guarda con un nombre limpio en cualquier navegador
+  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w .()\-]+/g, '_').replace(/\s+/g, ' ').trim() || 'material';
+  const m = String(url || '').split('?')[0].match(/\.([A-Za-z0-9]{1,6})$/);
+  if(m && !new RegExp('\\.' + m[1] + '$', 'i').test(name)) name += '.' + m[1];
+  return name;
+}
+function materialInfo(m){
+  const url = String(m.url || '').trim();
+  const name = String(m.name || '').trim() || 'material';
+  if(/\/storage\/v1\/object\/public\//.test(url)){
+    return { href: url + (url.indexOf('?') >= 0 ? '&' : '?') + 'download=' + encodeURIComponent(dlName(name, url)), dl: true, blank: false, name };
+  }
+  const id = driveFileId(url);
+  if(id) return { href: 'https://drive.google.com/uc?export=download&id=' + id, dl: true, blank: true, name };
+  return { href: url, dl: false, blank: true, name };
+}
+function materialsHtml(list){
+  if(!list || !list.length) return '';
+  return '<div class="mat-list"><div class="mat-title">Material de apoyo</div><div class="mat-btns">' + list.map(m => {
+    const i = materialInfo(m);
+    return '<a class="btn btn-ghost btn-sm mat-btn" href="' + escapeHtml(i.href) + '"' + (i.blank ? ' target="_blank" rel="noopener"' : '') + (i.dl && !i.blank ? ' download' : '') + '>' +
+      (i.dl ? '⬇ Descargar: ' : '↗ Abrir: ') + escapeHtml(i.name) + '</a>';
+  }).join('') + '</div></div>';
+}
+
+/* ---------------- ALUMNO: clase con video de Drive ---------------- */
+let viewLessonId = null;     // clase que se está viendo
+const driveForce = {};       // clases que el alumno quiso abrir aunque el acceso no figure como listo
+
+function driveWatchHtml(lessonId){
+  const p = state.progress && state.progress[lessonId];
+  const done = p && p.duration > 0 && p.seconds >= p.duration * 0.9;
+  return done
+    ? '<span class="cert-note ok">✓ Clase marcada como vista</span><button class="btn btn-ghost btn-sm" type="button" onclick="setDriveWatched(\'' + lessonId + '\', false)">Quitar marca</button>'
+    : '<button class="btn btn-solid btn-sm" type="button" onclick="setDriveWatched(\'' + lessonId + '\', true)">Marcar como vista</button><span class="dt-note">Drive no nos avisa cuánto viste. Cuando termines la clase, márcala para llevar tu avance y poder pedir tu certificado.</span>';
+}
+async function setDriveWatched(lessonId, on){
+  await saveProgress(lessonId, on ? 1 : 0, 1);
+  updateProgressBar(lessonId, on ? 1 : 0, 1);
+  const box = document.getElementById('drive-watch-' + lessonId);
+  if(box) box.innerHTML = driveWatchHtml(lessonId);
+  refreshCertAction();
+}
+function driveForceOpen(lessonId){
+  driveForce[lessonId] = true;
+  selectLesson('detail', lessonId);
+}
+function renderDriveLesson(courseId, l, playerBox, materialHtml){
+  const fid = driveFileId(l.video_url);
+  if(!fid){
+    playerBox.innerHTML = '<div class="dnote warn"><div>Esta clase todavía no tiene un video válido de Drive. Avisa a tu asesor.</div></div>' + materialHtml;
+    return;
+  }
+  const s = driveStateOf(courseId);
+  const mail = escapeHtml(session.email);
+  if(driveWaiting(s) && !driveForce[l.id]){
+    let inner;
+    if(s === 'queued' || s === 'retry'){
+      inner = '<span class="dspin"></span><b>Estamos preparando tu acceso a los videos…</b><p>Se está compartiendo la carpeta con tu correo <b>' + mail + '</b>. Suele tardar 1 o 2 minutos. Esta pantalla se actualiza sola.</p>';
+    } else if(s === 'missing'){
+      inner = '<b>Tu acceso a los videos aún no está activado</b><p>Si acabas de registrarte, espera un momento. Si sigue igual, avisa a tu asesor.</p><button class="btn btn-sm" type="button" onclick="driveForceOpen(\'' + l.id + '\')">Probar de todos modos</button>';
+    } else {
+      inner = '<b>No pudimos activar tu acceso a los videos</b><p>Avisa a tu asesor para que lo revise.</p><button class="btn btn-sm" type="button" onclick="driveForceOpen(\'' + l.id + '\')">Probar de todos modos</button>';
+    }
+    playerBox.innerHTML = '<div class="vid-wait"><div class="vid-wait-in">' + inner + '</div></div>' + materialHtml;
+    return;
+  }
+  playerBox.innerHTML =
+    '<div class="vid-frame" style="position:relative;padding-top:56.25%;"><iframe src="https://drive.google.com/file/d/' + fid + '/preview" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay; fullscreen" allowfullscreen title="Video de la clase"></iframe></div>' +
+    '<div class="drive-tools" id="drive-watch-' + l.id + '">' + driveWatchHtml(l.id) + '</div>' +
+    '<details class="drive-help"><summary>¿No ves el video o te pide acceso?</summary><ul>' +
+      '<li>Entra a Google con el correo <b>' + mail + '</b>: es el único que tiene permiso.' + (isGmail(session.email) ? '' : ' Tu correo no es Gmail: Google solo abre el video si ese correo tiene una cuenta de Google.') + '</li>' +
+      '<li>Si tienes varias cuentas de Google abiertas, cierra las otras o abre esta página en una ventana de incógnito.</li>' +
+      '<li>En iPhone o Safari, activa «Permitir cookies de otros sitios web» o prueba con Chrome.</li>' +
+      '<li>Si nada funciona: <a href="https://drive.google.com/file/d/' + fid + '/view" target="_blank" rel="noopener">abre el video directo en Drive ↗</a></li>' +
+    '</ul></details>' + materialHtml;
+}
+
+/* avance de la columna derecha (porcentaje y palomitas) sin volver a dibujar el curso */
+function updateCourseSide(){
+  if(!clientDetailCourseId) return;
+  const id = clientDetailCourseId;
+  const pct = courseProgressPct(id);
+  const pEl = document.querySelector('#client-detail-body .cv-side-head .pct');
+  if(pEl) pEl.textContent = pct + '%';
+  const fEl = document.querySelector('#client-detail-body .cv-side-fill');
+  if(fEl) fEl.style.width = pct + '%';
+  ((state.lessons && state.lessons[id]) || []).forEach((l, i) => {
+    const span = document.querySelector('.lesson-item[data-lesson="' + l.id + '"] > span:first-child');
+    if(!span) return;
+    const p = state.progress && state.progress[l.id];
+    const done = p && p.duration > 0 && p.seconds >= p.duration * 0.9;
+    span.textContent = (done ? '✓ ' : '') + sessionLabel(i) + ': ' + l.tema;
+  });
+}
+
+/* ---------------- ALUMNO: se actualiza solo mientras Drive prepara el acceso ---------------- */
+let myDriveTimer = null;
+let myDriveSince = 0;
+function myDriveStop(){ if(myDriveTimer){ clearTimeout(myDriveTimer); myDriveTimer = null; } }
+function myDriveSchedule(){
+  myDriveStop();
+  if(!session || session.role === 'admin') return;
+  const pending = Object.keys(state.myDrive || {}).some(k => driveWaiting(state.myDrive[k]));
+  if(!pending) return;
+  myDriveTimer = setTimeout(myDriveTick, (Date.now() - myDriveSince) < 180000 ? 8000 : 45000);
+}
+async function myDriveTick(){
+  myDriveTimer = null;
+  if(!session || session.role === 'admin') return;
+  if(document.hidden){ myDriveSchedule(); return; }
+  const before = JSON.stringify(state.myDrive || {});
+  const ok = await loadMyDrive();
+  if(ok && JSON.stringify(state.myDrive || {}) !== before){
+    myDriveSince = Date.now();
+    onMyDriveChanged();
+  }
+  myDriveSchedule();
+}
+function onMyDriveChanged(){
+  renderClient();   // la lista de cursos se mantiene al día aunque estés dentro de un curso
+  if(clientDetailCourseId){
+    const bn = document.getElementById('drive-banner');
+    if(bn) bn.innerHTML = driveBannerHtml(clientDetailCourseId);
+    const l = ((state.lessons && state.lessons[clientDetailCourseId]) || []).find(x => x.id === viewLessonId);
+    if(l && detectPlatform(l.video_url) === 'drive') selectLesson('detail', l.id);
+  }
+}
+
+/* ---- versiones nuevas de dos funciones del aula (avance en vivo y botón del certificado) ---- */
+function refreshCertAction(){
+  if(!clientDetailCourseId) return;
+  const c = state.courses.find(x=>x.id===clientDetailCourseId);
+  if(!c) return;
+  const done = state.completions[session.id] || [];
+  const isDone = done.includes(clientDetailCourseId);
+  const status = state.certStatus[clientDetailCourseId];
+  const wrap = document.querySelector('#client-detail-body .cert-action');
+  if(!wrap) return;
+  if(isDone){
+    wrap.innerHTML = status === 'approved'
+      ? `<button class="btn btn-solid btn-sm" type="button" onclick="openCertificate('${clientDetailCourseId}')">Descargar certificado</button>`
+      : `<span class="cert-note warn">Certificado en revisión por el asesor</span>`;
+  } else if(courseFullyWatched(clientDetailCourseId)){
+    wrap.innerHTML = `<button class="btn btn-solid btn-sm" type="button" onclick="requestCertificate('${clientDetailCourseId}')">Generar certificado</button>`;
+  } else {
+    wrap.innerHTML = `<span class="cert-note">Termina de ver todas las clases para poder generar tu certificado.</span>`;
+  }
+}
+
+function updateProgressBar(lessonId, seconds, duration){
+  const pct = duration > 0 ? Math.min(100, (seconds/duration*100)) : 0;
+  const fill = document.querySelector(`.lesson-item[data-lesson="${lessonId}"] .lesson-progress-fill`);
+  if(fill) fill.style.width = pct.toFixed(1) + '%';
+  updateCourseSide();
+}
+
+/* ================= GOOGLE DRIVE · panel del administrador ================= */
+const ADMIN_TABS = ['clients', 'retirar', 'drive', 'courses', 'projects', 'promos', 'settings', 'images'];
+
+let robotCode = '';          // código del robot recién generado (solo vive en esta pantalla)
+let rbArm = 0;               // confirmación antes de generar una clave nueva
+const folderDraft = {};      // lo que se está escribiendo en cada carpeta
+const folderArm = {};        // confirmación antes de cambiar una carpeta ya guardada
+const ret = { uid: '', sel: new Set(), confirm: null };   // pestaña «Retirar accesos»
+
+async function loadDriveOverview(){
+  try{
+    const o = await driveRpc('admin_drive_overview');
+    state.drive = (o && typeof o === 'object') ? o : null;
+    state.driveAt = Date.now();
+    state.driveMissing = false;
+  }catch(e){
+    const missing = !!e && (e.code === 'PGRST202' || /could not find the function|schema cache/i.test(String(e.message || '')));
+    if(missing || !state.drive) state.drive = null;
+    state.driveMissing = missing;
+  }
+  return state.drive;
+}
+
+function driveUnavailableHtml(){
+  if(state.driveMissing){
+    return '<div class="drv-setup"><b>Falta activar el acceso automático a Drive (se hace una sola vez).</b><ol>' +
+      '<li>Abre tu proyecto en <b>Supabase</b> → <b>SQL Editor</b> → <b>New query</b>.</li>' +
+      '<li>Pega todo el contenido del archivo <b>supabase-drive.sql</b> y pulsa <b>Run</b>. No borra nada de lo que ya tienes.</li>' +
+      '<li>Vuelve aquí y recarga la página (Ctrl + F5).</li></ol></div>';
+  }
+  return '<div class="dnote warn"><div>No se pudo consultar el estado de Drive en este momento. Se vuelve a intentar solo.</div></div>';
+}
+
+function driveStatesMap(){
+  const m = {};
+  const d = state.drive;
+  if(d && Array.isArray(d.states)) d.states.forEach(s => { m[s.user_id + '|' + s.course_id] = s; });
+  return m;
+}
+function driveFolder(courseId){
+  const d = state.drive;
+  return d ? ((d.folders || []).find(f => f.course_id === courseId && f.folder_id) || null) : null;
+}
+function robotInfo(){
+  const d = state.drive;
+  if(!d || !d.robot || !d.robot.has_secret) return { kind: 'none', ago: null };
+  if(d.robot.seconds_ago == null) return { kind: 'wait', ago: null };
+  const ago = d.robot.seconds_ago + Math.max(0, (Date.now() - (state.driveAt || Date.now())) / 1000);
+  return { kind: ago <= 150 ? 'on' : 'off', ago };
+}
+function fmtSecs(s){
+  s = Math.round(s || 0);
+  if(s < 90) return s + ' s';
+  const m = Math.round(s / 60);
+  if(m < 90) return m + ' min';
+  const h = Math.round(m / 60);
+  if(h < 48) return h + ' h';
+  return Math.round(h / 24) + ' días';
+}
+
+const ADM_LABEL = {
+  ok: ['ok', 'En Drive ✓'],
+  queued: ['wait', 'Compartiendo…'],
+  retry: ['wait', 'Reintentando…'],
+  error: ['bad', 'Error · reintentar'],
+  missing: ['warn', 'Sin compartir'],
+  none: ['off', 'Sin carpeta']
+};
+function stateChipHtml(st){
+  const s = st ? st.state : 'none';
+  const t = ADM_LABEL[s] || ADM_LABEL.none;
+  const note = st && st.note ? ' title="' + escapeHtml(st.note) + '"' : '';
+  if(s === 'error' && st && st.job) return '<button type="button" class="dchip bad" onclick="retryDriveJob(' + Number(st.job) + ')"' + note + '>' + t[1] + '</button>';
+  return '<span class="dchip ' + t[0] + '"' + note + '>' + t[1] + '</span>';
+}
+async function retryDriveJob(id){
+  try{ await driveRpc('admin_drive_retry', { p_job: id }); }catch(e){ console.error(e); }
+  await loadDriveOverview();
+  refreshDriveLive();
+}
+
+/* ---------------- pestañas ---------------- */
+function setAdminTab(tab){
+  adminTab = tab;
+  ADMIN_TABS.forEach(t => {
+    const b = document.getElementById('atab-' + t);
+    if(b) b.classList.toggle('active', t === tab);
+    const p = document.getElementById('admin-' + t + '-panel');
+    if(p) p.classList.toggle('hidden', t !== tab);
+  });
+  const actTab = document.querySelector('.admin-tab.active');
+  if(actTab && actTab.parentElement){
+    const strip = actTab.parentElement;
+    const left = actTab.getBoundingClientRect().left - strip.getBoundingClientRect().left + strip.scrollLeft - 14;
+    if(strip.scrollTo) strip.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+  }
+  if(tab==='projects') renderProjectsAdmin();
+  if(tab==='promos') renderPromosAdmin();
+  if(tab==='courses') renderCategoriesAdmin();
+  if(tab==='settings') renderSettingsAdmin();
+  if(tab==='images') renderImagesAdmin();
+  if(tab==='retirar') renderRetirar();
+  if(tab==='drive') renderDrivePanel();
+}
+
+/* ---------------- Clientes y accesos ---------------- */
+function renderAdmin(){
+  setAdminTab(adminTab);
+  renderClientsTable();
+  renderCoursesTable();
+}
+
+function clientTagsHtml(u){
+  const tags = [];
+  const created = u.created_at ? new Date(u.created_at).getTime() : 0;
+  if(created && Date.now() - created < 3 * 24 * 3600 * 1000) tags.push('<span class="mini-tag new">Nuevo</span>');
+  if(state.drive){
+    if((state.drive.unconfirmed || []).indexOf(u.id) >= 0) tags.push('<span class="mini-tag warn" title="Aún no confirmó su correo: no tendrá acceso hasta que lo haga.">Sin confirmar</span>');
+    if(!isGmail(u.email)) tags.push('<span class="mini-tag" title="Para ver los videos necesita una cuenta de Google con este correo.">No es Gmail</span>');
+  }
+  return tags.join('');
+}
+function clientChipsHtml(uid){
+  const ids = state.access[uid] || [];
+  if(!ids.length) return '<span class="dchip off">Sin cursos</span>';
+  const map = driveStatesMap();
+  return ids.map(cid => {
+    const c = state.courses.find(x => x.id === cid);
+    if(!c) return '';
+    if(!state.drive) return '<span class="dchip off">' + escapeHtml(c.code) + '</span>';
+    const st = map[uid + '|' + cid];
+    const s = st ? st.state : 'none';
+    const t = ADM_LABEL[s] || ADM_LABEL.none;
+    const label = escapeHtml(c.code) + ' · ' + t[1];
+    const note = st && st.note ? ' title="' + escapeHtml(st.note) + '"' : '';
+    if(s === 'error' && st && st.job) return '<button type="button" class="dchip bad" onclick="retryDriveJob(' + Number(st.job) + ')"' + note + '>' + label + '</button>';
+    return '<span class="dchip ' + t[0] + '"' + note + '>' + label + '</span>';
+  }).join('');
+}
+function refreshClientChips(){
+  state.clients.forEach(u => {
+    const el = document.getElementById('dchips-' + u.id);
+    if(el) el.innerHTML = clientChipsHtml(u.id);
+    const tg = document.getElementById('dtags-' + u.id);
+    if(tg) tg.innerHTML = clientTagsHtml(u);
+  });
+}
+/* los alumnos nuevos y los cursos que cambian aparecen solos, sin recargar la página */
+function clientsSig(){
+  return JSON.stringify([
+    state.clients.map(c => [c.id, c.name, c.email, c.created_at]),
+    Object.keys(state.access).sort().map(k => [k, (state.access[k] || []).slice().sort()])
+  ]);
+}
+async function refreshAdminClients(){
+  try{
+    const [c, a] = await Promise.all([
+      sb.from('profiles').select('*').eq('role', 'client').order('created_at'),
+      sb.from('course_access').select('*')
+    ]);
+    if(c.error || a.error) return false;
+    const access = {};
+    (a.data || []).forEach(r => { (access[r.user_id] = access[r.user_id] || []).push(r.course_id); });
+    const before = clientsSig();
+    state.clients = c.data || [];
+    state.access = access;
+    return clientsSig() !== before;
+  }catch(e){ return false; }
+}
+function onClientSearch(){ renderClientsTable(); }
+
+function renderDriveStats(){
+  const box = document.getElementById('drv-stats');
+  if(!box) return;
+  const d = state.drive;
+  box.classList.toggle('hidden', !d);
+  if(!d){ box.innerHTML = ''; return; }
+  let ok = 0, wait = 0, bad = 0;
+  (d.states || []).forEach(s => {
+    if(s.state === 'ok') ok++;
+    else if(s.state === 'queued' || s.state === 'retry') wait++;
+    else if(s.state === 'error' || s.state === 'missing') bad++;
+  });
+  box.innerHTML =
+    '<div class="cstat"><b>' + state.clients.length + '</b><span>Alumnos</span></div>' +
+    '<div class="cstat"><b>' + ok + '</b><span>Accesos listos en Drive</span></div>' +
+    '<div class="cstat"><b>' + wait + '</b><span>En proceso</span></div>' +
+    '<div class="cstat"><b>' + bad + '</b><span>Con problemas</span></div>';
+}
+function renderDriveBanners(){
+  const box = document.getElementById('drv-banners');
+  if(!box) return;
+  const d = state.drive;
+  if(!d){ box.innerHTML = driveUnavailableHtml(); return; }
+  const out = [];
+  const folders = (d.folders || []).filter(f => f.folder_id);
+  const rb = robotInfo();
+  if(folders.length && rb.kind !== 'on'){
+    const what = rb.kind === 'none' ? 'El robot de Drive aún no está instalado.'
+      : rb.kind === 'wait' ? 'El robot de Drive todavía no se conectó.'
+      : 'El robot de Drive no responde (última señal hace ' + fmtSecs(rb.ago) + ').';
+    out.push('<div class="dnote bad" role="alert"><div><b>' + what + '</b> Hasta que funcione, nadie recibe ni pierde acceso a las carpetas. <button class="btn btn-ghost btn-sm" type="button" onclick="setAdminTab(\'drive\')">Ir a «Carpetas y reglas»</button></div></div>');
+  }
+  folders.filter(f => f.warning).forEach(f => {
+    const c = state.courses.find(x => x.id === f.course_id);
+    out.push('<div class="dnote warn" role="alert"><div><b>' + escapeHtml(c ? c.code : 'Curso') + ':</b> ' + escapeHtml(f.warning) + '</div></div>');
+  });
+  const bad = (d.states || []).filter(s => s.state === 'error' || s.state === 'missing').length;
+  if(bad) out.push('<div class="dnote warn" role="status"><div><b>' + bad + ' acceso(s) sin compartir o con error.</b> <button class="btn btn-ghost btn-sm" type="button" onclick="syncDrive(this)">Reintentar todos</button></div></div>');
+  box.innerHTML = out.join('');
+}
+
+async function syncDrive(btn){
+  const old = btn ? btn.textContent : '';
+  if(btn){ btn.disabled = true; btn.textContent = 'Sincronizando…'; }
+  let text = '';
+  try{
+    const r = await driveRpc('admin_drive_resync');
+    text = 'Listo: ' + ((r && r.retried) || 0) + ' reintentada(s), ' + ((r && r.queued) || 0) + ' por compartir.';
+  }catch(e){
+    console.error(e);
+    text = 'No se pudo sincronizar: ' + (e && e.message ? e.message : 'inténtalo de nuevo.');
+  }
+  await loadDriveOverview();
+  refreshDriveLive();
+  const m = document.getElementById('rb-msg');
+  if(m){ m.className = 'form-msg'; m.textContent = text; }
+  if(btn){ btn.disabled = false; btn.textContent = old; }
+}
+
+function renderClientsTable(){
+  renderDriveStats();
+  renderDriveBanners();
+  const wrap = document.getElementById('clients-table-wrap');
+  if(!wrap) return;
+  if(state.clients.length === 0){
+    wrap.innerHTML = '<div class="empty">Aún no hay clientes registrados. Comparte el enlace de esta página para que creen su cuenta.</div>';
+    return;
+  }
+  const qEl = document.getElementById('clients-search');
+  const q = catKey(qEl ? qEl.value : '');
+  const list = state.clients
+    .filter(u => !q || catKey((u.name || '') + ' ' + (u.email || '')).indexOf(q) >= 0)
+    .sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
+  if(!list.length){ wrap.innerHTML = '<div class="empty">Nadie coincide con esa búsqueda.</div>'; return; }
+  wrap.innerHTML = '<div class="table-scroll"><table><thead><tr><th>Cliente</th><th>Correo</th><th>Curso / acceso</th><th>Certificado</th></tr></thead><tbody>' +
+    list.map(u => {
+      if(!adminSelectedCourse[u.id] && state.courses.length) adminSelectedCourse[u.id] = state.courses[0].id;
+      const selectedId = adminSelectedCourse[u.id] || '';
+      return '<tr class="client-row">' +
+        '<td style="color:var(--text)">' + escapeHtml(u.name) + '<span id="dtags-' + u.id + '">' + clientTagsHtml(u) + '</span></td>' +
+        '<td class="mono">' + escapeHtml(u.email) + '</td>' +
+        '<td><div style="display:flex;align-items:center;gap:10px;">' +
+          '<select class="access-select" id="course-sel-' + u.id + '" onchange="onAdminCourseChange(\'' + u.id + '\')">' +
+            state.courses.map(c => '<option value="' + c.id + '"' + (c.id === selectedId ? ' selected' : '') + '>' + escapeHtml(c.code) + '</option>').join('') +
+          '</select>' +
+          '<span class="eye-toggle" id="access-eye-' + u.id + '" onclick="toggleAccessFromSelect(\'' + u.id + '\')" title="Dar/quitar acceso al curso seleccionado"></span>' +
+        '</div><div class="dchips" id="dchips-' + u.id + '">' + clientChipsHtml(u.id) + '</div></td>' +
+        '<td data-label="Certificado"><span class="eye-toggle" id="cert-eye-' + u.id + '" onclick="openCertPreviewModal(\'' + u.id + '\')" title="Vista previa del certificado del curso seleccionado"></span></td>' +
+      '</tr>';
+    }).join('') + '</tbody></table></div>';
+  list.forEach(u => { renderAccessEyeIcon(u.id); renderCertEyeIcon(u.id); });
+}
+
+/* ---------------- Retirar accesos ---------------- */
+function renderRetirar(){
+  const warn = document.getElementById('ret-nodrive');
+  if(warn){
+    warn.innerHTML = state.drive ? '' : driveUnavailableHtml();
+    warn.classList.toggle('hidden', !!state.drive);
+  }
+  renderRetirarSelect();
+  renderRetirarRecent();
+}
+function renderRetirarSelect(){
+  const sel = document.getElementById('ret-user');
+  if(!sel) return;
+  const qEl = document.getElementById('ret-search');
+  const q = catKey(qEl ? qEl.value : '');
+  const prev = sel.value || ret.uid;
+  const list = state.clients.filter(u => (state.access[u.id] || []).length && (!q || catKey((u.name || '') + ' ' + (u.email || '')).indexOf(q) >= 0));
+  sel.innerHTML = list.length
+    ? list.map(u => '<option value="' + u.id + '">' + escapeHtml(u.name || u.email) + ' — ' + escapeHtml(u.email) + ' (' + (state.access[u.id] || []).length + ')</option>').join('')
+    : '<option value="">Nadie con cursos</option>';
+  if(list.some(u => u.id === prev)) sel.value = prev;
+  onRetUserChange();
+}
+function onRetUserChange(){
+  const sel = document.getElementById('ret-user');
+  const uid = sel ? sel.value : '';
+  if(uid !== ret.uid){ ret.uid = uid; ret.sel = new Set(); ret.confirm = null; }
+  renderRetirarCourses();
+}
+function retCoursesOfUser(){
+  return state.courses.filter(c => (state.access[ret.uid] || []).indexOf(c.id) >= 0);
+}
+function renderRetirarCourses(){
+  const box = document.getElementById('ret-courses');
+  if(!box) return;
+  const u = state.clients.find(x => x.id === ret.uid);
+  if(!u){ box.innerHTML = '<div class="empty">Elige un alumno que tenga cursos.</div>'; renderRetConfirm(); return; }
+  const granted = retCoursesOfUser();
+  ret.sel.forEach(id => { if(!granted.some(c => c.id === id)) ret.sel.delete(id); });
+  const map = driveStatesMap();
+  const n = ret.sel.size;
+  box.innerHTML = '<div class="ret-list">' + granted.map(c => {
+    const st = map[u.id + '|' + c.id];
+    return '<label class="ret-item' + (ret.sel.has(c.id) ? ' on' : '') + '" data-course="' + c.id + '">' +
+      '<input type="checkbox"' + (ret.sel.has(c.id) ? ' checked' : '') + ' onchange="toggleRetCourse(\'' + c.id + '\', this.checked)">' +
+      '<span class="ri-main"><b>' + escapeHtml(c.code) + '</b> · ' + escapeHtml(c.title) + '</span>' +
+      (state.drive ? '<span class="ret-chip">' + stateChipHtml(st) + '</span>' : '') + '</label>';
+  }).join('') + '</div>' +
+  '<div class="ret-actions"><button class="btn btn-danger btn-sm" type="button" id="ret-btn-sel"' + (n ? '' : ' disabled') + ' onclick="askRetirar(false)">Retirar seleccionados (' + n + ')</button>' +
+  '<button class="btn btn-ghost btn-sm" type="button" onclick="askRetirar(true)">Retirar todos los accesos de este alumno</button></div>';
+  renderRetConfirm();
+}
+function renderRetirarChips(){
+  const map = driveStatesMap();
+  document.querySelectorAll('#ret-courses .ret-item').forEach(el => {
+    const cid = el.getAttribute('data-course');
+    const chip = el.querySelector('.ret-chip');
+    if(chip && state.drive) chip.innerHTML = stateChipHtml(map[ret.uid + '|' + cid]);
+  });
+}
+function toggleRetCourse(id, on){
+  if(on) ret.sel.add(id); else ret.sel.delete(id);
+  ret.confirm = null;
+  renderRetirarCourses();
+}
+function askRetirar(all){
+  const n = all ? retCoursesOfUser().length : ret.sel.size;
+  if(!n){ return; }
+  ret.confirm = { all: !!all };
+  renderRetConfirm();
+}
+function cancelRetirar(){ ret.confirm = null; renderRetConfirm(); }
+function renderRetConfirm(){
+  const box = document.getElementById('ret-confirm');
+  if(!box) return;
+  if(!ret.confirm){ box.innerHTML = ''; return; }
+  const u = state.clients.find(x => x.id === ret.uid);
+  const n = ret.confirm.all ? retCoursesOfUser().length : ret.sel.size;
+  if(!u || !n){ ret.confirm = null; box.innerHTML = ''; return; }
+  box.innerHTML = '<div class="ret-confirm" role="alert"><span>¿Retirar <b>' + n + ' curso' + (n === 1 ? '' : 's') + '</b> a <b>' + escapeHtml(u.name || u.email) + '</b>? ' +
+    'El aula se los oculta al instante y el robot lo saca de la carpeta de Drive. Su avance y certificados se conservan.</span>' +
+    '<button class="btn btn-danger btn-sm" type="button" onclick="doRetirar()">Sí, retirar</button>' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="cancelRetirar()">Cancelar</button></div>';
+}
+async function doRetirar(){
+  const msg = document.getElementById('ret-msg');
+  const say = (t, k) => { if(msg){ msg.className = 'form-msg' + (k ? ' ' + k : ''); msg.textContent = t; } };
+  if(!ret.confirm) return;
+  const uid = ret.uid;
+  const ids = ret.confirm.all ? retCoursesOfUser().map(c => c.id) : Array.from(ret.sel);
+  if(!uid || !ids.length) return;
+  say('Retirando…');
+  const { error } = await sb.from('course_access').delete().eq('user_id', uid).in('course_id', ids);
+  if(error){ say('No se pudo retirar: ' + error.message, 'err'); return; }
+  const withDrive = ids.some(id => !!driveFolder(id));
+  ret.sel = new Set();
+  ret.confirm = null;
+  await loadAdminData();
+  renderAdmin();
+  say('Listo: se retiró ' + ids.length + ' acceso' + (ids.length === 1 ? '' : 's') + '.' + (withDrive ? ' El robot lo quita de Drive en 1 o 2 minutos; abajo ves cómo va.' : ''), 'ok');
+}
+function renderRetirarRecent(){
+  const box = document.getElementById('ret-recent');
+  if(!box) return;
+  const d = state.drive;
+  if(!d){ box.innerHTML = '<div class="empty">Aquí aparecerán los accesos que retires, con el estado de Drive.</div>'; return; }
+  const rows = d.removed || [];
+  if(!rows.length){ box.innerHTML = '<div class="empty">Todavía no has retirado a nadie.</div>'; return; }
+  const L = {
+    removing: ['wait', 'Quitando de Drive…'],
+    removed: ['ok', 'Ya sin acceso en Drive ✓'],
+    retry: ['wait', 'Reintentando…'],
+    error: ['bad', 'Error · reintentar'],
+    none: ['off', 'Curso sin carpeta'],
+    missing: ['warn', 'Sin orden en Drive']
+  };
+  box.innerHTML = rows.map(r => {
+    const c = state.courses.find(x => x.id === r.course_id);
+    const t = L[r.state] || L.none;
+    const chip = (r.state === 'error' && r.job)
+      ? '<button class="dchip bad" type="button" onclick="retryDriveJob(' + Number(r.job) + ')" title="' + escapeHtml(r.note || '') + '">' + t[1] + '</button>'
+      : '<span class="dchip ' + t[0] + '">' + t[1] + '</span>';
+    const canBack = state.clients.some(u => u.id === r.user_id);
+    return '<div class="recent-row"><div class="rr-main"><b>' + escapeHtml(r.name || r.email || '—') + '</b> · ' + escapeHtml(r.email || '') + '<br>' +
+      escapeHtml(c ? c.code + ' — ' + c.title : '') + ' · ' + fmtAgo(r.at) + '</div>' + chip +
+      (canBack ? '<button class="btn btn-ghost btn-sm" type="button" onclick="regrantAccess(\'' + r.user_id + '\',\'' + r.course_id + '\')">Volver a dar acceso</button>' : '') + '</div>';
+  }).join('');
+}
+async function regrantAccess(uid, cid){
+  const msg = document.getElementById('ret-msg');
+  const { error } = await sb.from('course_access').insert({ user_id: uid, course_id: cid });
+  if(msg){
+    msg.className = 'form-msg' + (error ? ' err' : ' ok');
+    msg.textContent = error ? 'No se pudo volver a dar el acceso: ' + error.message : 'Listo: el acceso se volvió a dar y el robot lo comparte de nuevo.';
+  }
+  await loadAdminData();
+  renderAdmin();
+}
+
+/* ---------------- Carpetas y reglas ---------------- */
+function renderDrivePanel(){
+  const miss = document.getElementById('drv-missing');
+  const main = document.getElementById('drv-main');
+  if(!miss || !main) return;
+  if(!state.drive){
+    miss.innerHTML = driveUnavailableHtml();
+    miss.classList.remove('hidden');
+    main.classList.add('hidden');
+    return;
+  }
+  miss.classList.add('hidden');
+  main.classList.remove('hidden');
+  renderRulePanel();
+  renderPreauthPanel();
+  renderFoldersPanel();
+  renderRobotPanel();
+}
+
+function renderRulePanel(){
+  const box = document.getElementById('drv-rule');
+  if(!box || !state.drive) return;
+  const r = state.drive.rule;
+  box.innerHTML = '<h3>¿Quién entra solo al registrarse?</h3>' +
+    '<p class="panel-lede">Elige cómo se habilita el curso cuando alguien crea su cuenta y confirma su correo. Puedes cambiarlo cuando quieras; no afecta a quienes ya están dentro.</p>' +
+    '<div class="rule-opts">' +
+      '<label class="rule-opt' + (r === 'auto' ? ' on' : '') + '"><input type="radio" name="drv-rule" value="auto"' + (r === 'auto' ? ' checked' : '') + ' onchange="setSignupRule(\'auto\')">' +
+        '<span><b>Todos los que se registren</b><small>Eligen su curso al crear la cuenta y, al confirmar su correo, entran solos y se les comparte la carpeta de Drive. Ojo: cualquier persona que llegue al aula podría entrar a un curso.</small></span></label>' +
+      '<label class="rule-opt' + (r === 'preauth' ? ' on' : '') + '"><input type="radio" name="drv-rule" value="preauth"' + (r === 'preauth' ? ' checked' : '') + ' onchange="setSignupRule(\'preauth\')">' +
+        '<span><b>Solo los pre-autorizados</b><small>Tú escribes antes el correo de cada alumno (más abajo). Quien no esté en la lista puede crear su cuenta, pero no entra a ningún curso hasta que tú se lo habilites.</small></span></label>' +
+    '</div><div id="drv-rule-msg" class="form-msg" role="status" style="margin-top:12px;"></div>';
+}
+async function setSignupRule(rule){
+  const say = (t, k) => { const m = document.getElementById('drv-rule-msg'); if(m){ m.className = 'form-msg' + (k ? ' ' + k : ''); m.textContent = t; } };
+  try{
+    await driveRpc('admin_set_signup_rule', { p_rule: rule });
+    await loadDriveOverview();
+    renderRulePanel();
+    say(rule === 'auto' ? 'Listo: ahora entra al curso que elija cualquiera que se registre.' : 'Listo: ahora solo entran los correos que tú pre-autorices.', 'ok');
+  }catch(e){
+    console.error(e);
+    say('No se pudo cambiar la regla: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+  }
+}
+
+function renderPreauthPanel(){
+  const box = document.getElementById('drv-preauth');
+  if(!box || !state.drive) return;
+  const prevMail = (document.getElementById('pa-email') || {}).value || '';
+  const prevCourse = (document.getElementById('pa-course') || {}).value || '';
+  box.innerHTML = '<h3>Correos pre-autorizados</h3>' +
+    '<p class="panel-lede">Escribe el correo del alumno y su curso. Cuando cree su cuenta y confirme su correo, entra solo a ese curso (con cualquiera de las dos reglas). Si ya tiene cuenta confirmada, se le habilita ahora mismo.</p>' +
+    '<div class="pa-form"><div class="field"><label for="pa-email">Correo del alumno</label><input id="pa-email" type="email" autocomplete="off" placeholder="alumno@gmail.com"></div>' +
+    '<div class="field"><label for="pa-course">Curso</label><select id="pa-course">' +
+      state.courses.map(c => '<option value="' + c.id + '">' + escapeHtml(c.code) + ' — ' + escapeHtml(c.title) + '</option>').join('') + '</select></div>' +
+    '<button class="btn btn-solid btn-sm" type="button" onclick="addPreauth()">Pre-autorizar</button></div>' +
+    '<div id="pa-msg" class="form-msg" role="status" style="margin-top:10px;"></div><div class="pa-list" id="pa-list"></div>';
+  if(prevMail) document.getElementById('pa-email').value = prevMail;
+  if(prevCourse && state.courses.some(c => c.id === prevCourse)) document.getElementById('pa-course').value = prevCourse;
+  renderPreauthList();
+}
+function renderPreauthList(){
+  const box = document.getElementById('pa-list');
+  if(!box || !state.drive) return;
+  const rows = state.drive.preauth || [];
+  if(!rows.length){ box.innerHTML = '<div class="empty">Todavía no hay correos pre-autorizados esperando.</div>'; return; }
+  box.innerHTML = rows.map(p => {
+    const c = state.courses.find(x => x.id === p.course_id);
+    return '<div class="pa-row"><span class="pa-mail">' + escapeHtml(p.email) + '</span><span class="dchip off">' + escapeHtml(c ? c.code : 'Curso') + '</span>' +
+      '<span class="dchip wait">Esperando que se registre</span>' +
+      '<button class="btn btn-ghost btn-sm" type="button" onclick="removePreauth(' + Number(p.id) + ')">Quitar</button></div>';
+  }).join('');
+}
+async function addPreauth(){
+  const say = (t, k) => { const m = document.getElementById('pa-msg'); if(m){ m.className = 'form-msg' + (k ? ' ' + k : ''); m.textContent = t; } };
+  const email = (document.getElementById('pa-email').value || '').trim().toLowerCase();
+  const course = document.getElementById('pa-course').value;
+  if(!email){ say('Escribe el correo del alumno.', 'err'); return; }
+  if(!course){ say('Primero sube un curso.', 'err'); return; }
+  say('Guardando…');
+  try{
+    const r = await driveRpc('admin_preauth_add', { p_email: email, p_course: course });
+    if(!r || r.ok !== true){ say((r && r.error) || 'No se pudo pre-autorizar.', 'err'); return; }
+    if(r.granted_now){ await loadAdminData(); } else { await loadDriveOverview(); }
+    renderPreauthPanel();
+    document.getElementById('pa-email').value = '';
+    say(r.granted_now ? 'Listo: esa persona ya tenía cuenta confirmada, el curso se le habilitó ahora mismo.' : 'Listo: cuando cree su cuenta y confirme su correo, entra solo a ese curso.', 'ok');
+  }catch(e){
+    console.error(e);
+    say('No se pudo pre-autorizar: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+  }
+}
+async function removePreauth(id){
+  try{ await driveRpc('admin_preauth_remove', { p_id: id }); }catch(e){ console.error(e); }
+  await loadDriveOverview();
+  renderPreauthList();
+}
+
+function parseDriveFolder(v){
+  v = String(v == null ? '' : v).trim();
+  if(!v) return { empty: true };
+  if(/drive\.google\.com\/file\/|docs\.google\.com\//i.test(v)) return { error: 'Ese enlace es de un archivo, no de una carpeta. Abre la carpeta del curso en Drive y copia el enlace de la barra de direcciones.' };
+  const m = v.match(/\/folders\/([\w-]{10,})/) || v.match(/[?&]id=([\w-]{10,})/);
+  if(m) return { id: m[1] };
+  if(/^[\w-]{10,}$/.test(v)) return { id: v };
+  return { error: 'No reconozco ese enlace. Abre la carpeta del curso en Drive y copia el enlace de la barra de direcciones (lleva /folders/).' };
+}
+function foldSay(courseId, text, kind){
+  const m = document.getElementById('fold-msg-' + courseId);
+  if(m){ m.className = 'form-msg' + (kind ? ' ' + kind : ''); m.textContent = text; }
+}
+function folderStateHtml(courseId){
+  const f = driveFolder(courseId);
+  if(!f) return '<span class="dchip off">Sin carpeta</span><span>Los alumnos de este curso no reciben acceso automático a Drive.</span>';
+  let ok = 0, wait = 0, bad = 0;
+  ((state.drive && state.drive.states) || []).forEach(s => {
+    if(s.course_id !== courseId) return;
+    if(s.state === 'ok') ok++;
+    else if(s.state === 'queued' || s.state === 'retry') wait++;
+    else if(s.state === 'error' || s.state === 'missing') bad++;
+  });
+  let h = '<span class="dchip ok">✓ Carpeta guardada</span><span class="dchip ' + (ok ? 'ok' : 'off') + '">' + ok + ' con acceso</span>';
+  if(wait) h += '<span class="dchip wait">' + wait + ' en proceso</span>';
+  if(bad) h += '<span class="dchip bad">' + bad + ' con problema</span>';
+  if(f.warning) h += '<div class="dnote warn" role="alert"><div>' + escapeHtml(f.warning) + '</div></div>';
+  return h;
+}
+function renderFoldersPanel(){
+  const box = document.getElementById('drv-folders');
+  if(!box || !state.drive) return;
+  let h = '<h3>Carpeta de Drive de cada curso</h3>' +
+    '<p class="panel-lede">Crea en tu Drive una carpeta por curso y sube ahí los videos (déjalos en «Restringido»). Pega aquí el enlace de la carpeta: el robot se la comparte a cada alumno que tenga el curso y se la quita a quien lo pierda.</p>';
+  if(!state.courses.length){
+    box.innerHTML = h + '<div class="empty">Primero sube un curso en la pestaña «Cursos».</div>';
+    return;
+  }
+  h += state.courses.map(c => {
+    const f = driveFolder(c.id);
+    const val = (folderDraft[c.id] !== undefined) ? folderDraft[c.id] : (f ? 'https://drive.google.com/drive/folders/' + f.folder_id : '');
+    return '<div class="fold-row"><div class="fold-head"><span>' + escapeHtml(c.code) + '</span>' + escapeHtml(c.title) + '</div>' +
+      '<div class="fold-edit"><input id="fold-' + c.id + '" type="text" autocomplete="off" spellcheck="false" placeholder="Pega aquí el enlace de la carpeta de Drive" value="' + escapeHtml(val) + '" oninput="folderDraft[\'' + c.id + '\']=this.value">' +
+        '<button class="btn btn-solid btn-sm" type="button" onclick="saveFolder(\'' + c.id + '\')">Guardar</button>' +
+        (f ? '<a class="btn btn-ghost btn-sm" href="https://drive.google.com/drive/folders/' + escapeHtml(f.folder_id) + '" target="_blank" rel="noopener">Abrir en Drive ↗</a><button class="btn btn-ghost btn-sm" type="button" onclick="clearFolder(\'' + c.id + '\')">Quitar</button>' : '') +
+      '</div><div class="fold-state" data-fstate="' + c.id + '">' + folderStateHtml(c.id) + '</div><div class="form-msg" id="fold-msg-' + c.id + '" role="status" style="margin:8px 0 0;"></div></div>';
+  }).join('');
+  box.innerHTML = h;
+}
+function clearFolder(courseId){
+  const input = document.getElementById('fold-' + courseId);
+  if(input) input.value = '';
+  folderDraft[courseId] = '';
+  saveFolder(courseId);
+}
+async function saveFolder(courseId){
+  const input = document.getElementById('fold-' + courseId);
+  if(!input) return;
+  const p = parseDriveFolder(input.value);
+  if(p.error){ foldSay(courseId, p.error, 'err'); return; }
+  const saved = driveFolder(courseId);
+  const newId = p.empty ? '' : p.id;
+  if(saved && saved.folder_id === newId){ foldSay(courseId, 'Esa ya es la carpeta guardada.'); return; }
+  if(!saved && !newId){ foldSay(courseId, 'Pega el enlace de la carpeta de este curso.', 'err'); return; }
+  if(saved && (!folderArm[courseId] || Date.now() - folderArm[courseId] > 20000)){
+    folderArm[courseId] = Date.now();
+    foldSay(courseId, newId
+      ? 'Ya hay otra carpeta guardada. Si la cambias, a los alumnos se les quita de la anterior y se les comparte la nueva. Pulsa Guardar otra vez para confirmar.'
+      : 'Si quitas la carpeta, a los alumnos se les quita de ella en Drive. Pulsa Guardar otra vez para confirmar.', 'err');
+    return;
+  }
+  delete folderArm[courseId];
+  foldSay(courseId, 'Guardando…');
+  try{
+    const r = await driveRpc('admin_set_course_folder', { p_course: courseId, p_folder: newId });
+    if(!r || r.ok !== true){ foldSay(courseId, (r && r.error) || 'No se pudo guardar la carpeta.', 'err'); return; }
+    delete folderDraft[courseId];
+    await loadDriveOverview();
+    renderFoldersPanel();
+    foldSay(courseId, !newId ? 'Listo: curso sin carpeta.'
+      : (r.queued ? 'Listo: carpeta guardada. Se compartirá con ' + r.queued + ' alumno' + (r.queued === 1 ? '' : 's') + ' en 1 o 2 minutos.' : 'Listo: carpeta guardada. Cada alumno que reciba este curso la recibe solo.'), 'ok');
+  }catch(e){
+    console.error(e);
+    foldSay(courseId, 'No se pudo guardar: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+  }
+}
+
+/* ---- robot ---- */
+const ROBOT_STATUS_TXT = {
+  none: ['', 'Robot sin instalar', 'Genera la clave y copia el código (abajo).'],
+  wait: ['wait', 'Esperando que el robot se conecte…', 'Ya hay clave: pega el código en Google y ejecuta «instalar».'],
+  on: ['on', 'Robot activo', ''],
+  off: ['off', 'El robot no responde', 'Revisa en script.google.com → Activadores que siga el reloj de «revisarCola».']
+};
+function updateRobotStatus(){
+  const box = document.getElementById('drv-robot-status');
+  if(!box) return;
+  const r = robotInfo();
+  const t = ROBOT_STATUS_TXT[r.kind];
+  const extra = (r.kind === 'on' || r.kind === 'off') ? 'Última señal hace ' + fmtSecs(r.ago) + '. ' + t[2] : t[2];
+  box.className = 'rb-status ' + t[0];
+  box.innerHTML = '<span class="rb-dot"></span>' + t[1] + '<small>' + escapeHtml(extra) + '</small>';
+}
+function buildRobotCode(secret){
+  return ROBOT_TEMPLATE.split('__SUPABASE_URL__').join(SUPABASE_URL).split('__SUPABASE_KEY__').join(SUPABASE_ANON_KEY).split('__ROBOT_SECRET__').join(secret);
+}
+function robotCodeHtml(){
+  return '<div class="code-box"><div class="dnote warn"><div><b>Este código lleva tu clave privada.</b> No lo compartas ni lo pegues en ningún otro sitio. Si recargas esta página ya no se vuelve a mostrar (tendrías que generar uno nuevo).</div></div>' +
+    '<ol class="steps">' +
+      '<li>Entra a <b>script.google.com</b> con <b>tu Gmail</b> (el dueño de las carpetas de Drive) y pulsa <b>Proyecto nuevo</b>.</li>' +
+      '<li>Borra todo lo que aparece, pega el código de abajo y pulsa <b>Guardar</b> (💾).</li>' +
+      '<li>Arriba elige la función <code>instalar</code> y pulsa <b>Ejecutar</b>. Google pide permisos: <b>Revisar permisos</b> → tu cuenta → <b>Avanzado</b> → <b>Ir a (nombre del proyecto) (no seguro)</b> → <b>Permitir</b>. Es tu propio código, por eso sale ese aviso.</li>' +
+      '<li>Vuelve aquí: en menos de un minuto debe decir <b>Robot activo</b>.</li>' +
+    '</ol>' +
+    '<pre id="rb-code">' + escapeHtml(robotCode) + '</pre>' +
+    '<button type="button" class="btn btn-solid btn-sm" onclick="copyRobotCode(this)">Copiar el código</button></div>';
+}
+function renderRobotPanel(){
+  const box = document.getElementById('drv-robot');
+  if(!box || !state.drive) return;
+  const has = !!(state.drive.robot && state.drive.robot.has_secret);
+  box.innerHTML = '<h3>Robot de Drive</h3><div id="drv-robot-status" class="rb-status"></div>' +
+    '<p class="panel-lede">Es un pequeño programa de Google que vive en <b>tu</b> cuenta de Gmail. Cada minuto revisa el aula y comparte o quita las carpetas de Drive de cada alumno. Se instala una sola vez.</p>' +
+    '<div class="rb-actions"><button class="btn btn-solid btn-sm" type="button" onclick="genRobot(this)">' + (has ? 'Generar clave nueva y código' : 'Instalar el robot') + '</button>' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="syncDrive(this)">Sincronizar ahora</button></div>' +
+    '<div id="rb-msg" class="form-msg" role="status" style="margin-top:10px;"></div><div id="rb-code-wrap">' + (robotCode ? robotCodeHtml() : '') + '</div>';
+  updateRobotStatus();
+}
+async function genRobot(btn){
+  const say = (t, k) => { const m = document.getElementById('rb-msg'); if(m){ m.className = 'form-msg' + (k ? ' ' + k : ''); m.textContent = t; } };
+  const has = !!(state.drive && state.drive.robot && state.drive.robot.has_secret);
+  if(has && (!rbArm || Date.now() - rbArm > 20000)){
+    rbArm = Date.now();
+    say('Ya hay un robot con clave. Si generas una nueva, el actual deja de funcionar hasta que pegues el código nuevo en Google. Pulsa otra vez para confirmar.', 'err');
+    return;
+  }
+  rbArm = 0;
+  if(btn) btn.disabled = true;
+  say('Generando…');
+  try{
+    const secret = await driveRpc('admin_rotate_robot_secret');
+    robotCode = buildRobotCode(String(secret));
+    await loadDriveOverview();
+    renderRobotPanel();
+    const w = document.getElementById('rb-code-wrap');
+    if(w) w.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }catch(e){
+    console.error(e);
+    say('No se pudo generar la clave: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+    if(btn) btn.disabled = false;
+  }
+}
+async function copyRobotCode(btn){
+  const old = btn.textContent;
+  try{ await navigator.clipboard.writeText(robotCode); btn.textContent = 'Copiado ✓'; }
+  catch(e){
+    const pre = document.getElementById('rb-code');
+    if(pre){
+      const r = document.createRange(); r.selectNodeContents(pre);
+      const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+    btn.textContent = 'Seleccionado: pulsa Ctrl + C';
+  }
+  setTimeout(() => { btn.textContent = old; }, 2600);
+}
+
+/* ---------------- se actualiza solo ---------------- */
+let drivePollTimer = null;
+function startDrivePoll(){ if(!drivePollTimer) drivePollTimer = setInterval(drivePollTick, 15000); }
+function stopDrivePoll(){ if(drivePollTimer){ clearInterval(drivePollTimer); drivePollTimer = null; } }
+function driveStopPolls(){ stopDrivePoll(); myDriveStop(); }
+async function drivePollTick(){
+  if(!session || session.role !== 'admin'){ stopDrivePoll(); return; }
+  if(document.hidden || state.driveMissing) return;
+  if(adminTab !== 'clients' && adminTab !== 'retirar' && adminTab !== 'drive') return;
+  const changed = (adminTab === 'clients' || adminTab === 'retirar') ? await refreshAdminClients() : false;
+  await loadDriveOverview();
+  if(changed){
+    if(adminTab === 'clients') renderClientsTable(); else renderRetirarSelect();
+  }
+  refreshDriveLive();
+}
+function refreshDriveLive(){
+  if(adminTab === 'clients'){
+    renderDriveStats();
+    renderDriveBanners();
+    if(state.drive) refreshClientChips();
+  }
+  if(adminTab === 'retirar'){
+    renderRetirarChips();
+    renderRetirarRecent();
+  }
+  if(adminTab === 'drive' && state.drive){
+    updateRobotStatus();
+    renderPreauthList();
+    document.querySelectorAll('#drv-folders [data-fstate]').forEach(el => { el.innerHTML = folderStateHtml(el.getAttribute('data-fstate')); });
+  }
+}
+
+/* ---------------- clases y material (administrador) ---------------- */
+async function addMaterialToLesson(lessonId){
+  const linkInput = document.getElementById('mat-link-' + lessonId);
+  const fileInput = document.getElementById('mat-file-' + lessonId);
+  const nameInput = document.getElementById('mat-name-' + lessonId);
+  const msg = document.getElementById('mat-msg-' + lessonId);
+  const link = linkInput.value.trim();
+  const file = fileInput.files[0];
+  const custom = nameInput ? nameInput.value.trim() : '';
+  if(!link && !file){ msg.textContent = 'Pon un enlace o elige un archivo.'; msg.className = 'form-msg err'; return; }
+  if(link && !file && !/^https?:\/\//i.test(link)){ msg.textContent = 'El enlace debe empezar con https://'; msg.className = 'form-msg err'; return; }
+
+  let url = link, storagePath = null, name = custom || (isDriveUrl(link) ? 'Material en Drive' : link);
+  if(file){
+    msg.textContent = 'Subiendo…';
+    msg.className = 'form-msg';
+    const path = `${Date.now()}-${file.name}`.replace(/\s+/g, '-');
+    const { error: upErr } = await sb.storage.from('materials').upload(path, file);
+    if(upErr){ msg.textContent = 'Error al subir: ' + upErr.message; msg.className = 'form-msg err'; return; }
+    const { data: urlData } = sb.storage.from('materials').getPublicUrl(path);
+    url = urlData.publicUrl;
+    storagePath = path;
+    name = custom || file.name;
+  }
+
+  const { error } = await sb.from('lesson_materials').insert({ lesson_id: lessonId, name, url, storage_path: storagePath });
+  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
   loadAndRenderLessons();
 }
 
