@@ -613,6 +613,130 @@
   #clients-table-wrap tr.client-row>td:nth-child(4){display:flex;align-items:center;gap:8px;padding-top:8px}
   #clients-table-wrap tr.client-row>td:nth-child(4)::before{content:attr(data-label);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 }
+
+  /* ---- varias cuentas de Gmail: lista de cuentas y carpetas por curso ---- */
+  .dnote-list{margin:6px 0 8px 18px;padding:0;}
+  .dnote-list li{margin:2px 0;}
+  .acc-list{display:grid;gap:12px;margin:14px 0 4px;}
+  .acc-card{border:1.5px solid var(--border);border-radius:14px;background:#fff;padding:14px 16px;min-width:0;}
+  .acc-head{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;justify-content:space-between;}
+  .acc-label{font-size:15px;font-weight:800;color:var(--text);overflow-wrap:anywhere;}
+  .acc-mail{font-size:12.5px;color:var(--muted);font-weight:600;overflow-wrap:anywhere;}
+  .acc-card .rb-status{margin:10px 0 0;}
+  .acc-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .acc-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .acc-rename{display:flex;flex-wrap:wrap;gap:8px;align-items:center;flex:1 1 280px;min-width:0;}
+  .acc-rename input{flex:1;min-width:150px;background:var(--field);border:1.5px solid var(--border);color:var(--text);padding:9px 14px;font:600 13.5px 'Montserrat',sans-serif;border-radius:var(--radius);}
+  .acc-rename input:focus{outline:none;border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.18);}
+  .acc-add{margin-top:18px;padding-top:16px;border-top:1px solid #E4ECF4;}
+  .acc-add h4{margin:0 0 6px;font-size:14.5px;font-weight:800;color:var(--text);}
+  .acc-add-form{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;}
+  .acc-add-form .field{margin-bottom:0;}
+  .acc-add-form .btn{margin-bottom:1px;}
+  .acc-chip{display:inline-flex;align-items:center;font:700 11px/1.2 'Montserrat',sans-serif;letter-spacing:.02em;border-radius:999px;padding:5px 11px;background:#E6F3FF;color:var(--line-dark);max-width:100%;overflow-wrap:anywhere;}
+  .fold-item{border:1.5px solid var(--border);border-radius:12px;background:#fff;padding:12px 14px;margin:0 0 10px;min-width:0;}
+  .fold-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .fold-top .fold-id{flex:1 1 130px;min-width:0;font-size:12px;color:var(--muted);overflow-wrap:anywhere;}
+  .fold-acc{max-width:100%;min-width:0;}
+  .fold-item .fold-state{margin-top:10px;}
+  .fold-total{margin:2px 0 10px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .fold-total small{font-size:12px;font-weight:500;}
+  .fold-edit select{max-width:100%;min-width:0;}
+  @media (max-width:560px){ .acc-add-form{grid-template-columns:1fr;} .acc-card{padding:12px 13px;} .fold-item{padding:11px 12px;} }
+
+  /* ================= CONTENIDO DEL CURSO (administrador): temas con su video y material ================= */
+  /* mientras la pantalla de un curso está abierta, solo se ve ella (así no queda perdida al final de la página) */
+  #admin-courses-panel.lm-open > .panel:not(#lessons-manager),
+  #admin-courses-panel.lm-open > .lm-jump{display:none;}
+
+  .lm-jump{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#EAF4FF;border:1px solid #B6D9F8;border-left:5px solid var(--line);border-radius:14px;padding:14px 18px;margin:0 0 20px;font-size:13.5px;line-height:1.55;color:#0D4F8C;}
+  .lm-jump > div{flex:1 1 260px;min-width:0;}
+  .lm-jump b{color:#08406f;}
+
+  /* botón "Temas, videos y material" dentro de la lista de cursos */
+  .crs-title{display:block;font-weight:700;overflow-wrap:anywhere;}
+  .crs-content{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:9px;}
+  .crs-content .btn{white-space:normal;text-align:center;}
+  .crs-counts{font-size:12px;font-weight:600;color:var(--muted);line-height:1.4;}
+  .crs-counts .w{color:var(--warn);}
+
+  /* en el celular cada curso se ve como una tarjeta (así el botón nunca queda fuera de la pantalla) */
+  @media(max-width:700px){
+    #courses-table-wrap .table-scroll{overflow-x:visible;}
+    #courses-table-wrap table,#courses-table-wrap tbody,#courses-table-wrap tr,#courses-table-wrap td{display:block;width:100%;}
+    #courses-table-wrap thead{display:none;}
+    #courses-table-wrap tr{border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;margin:0 0 12px;background:#fff;}
+    #courses-table-wrap td{border:0;padding:5px 0;}
+    #courses-table-wrap td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 3px;}
+    #courses-table-wrap td[data-label="Código"]::before,#courses-table-wrap td[data-label="Título"]::before{display:none;}
+    #courses-table-wrap td.mono{font-size:12px;color:var(--line-dark);font-weight:700;padding-bottom:0;}
+    #courses-table-wrap .crs-title{font-size:15px;}
+    #courses-table-wrap .crs-content .btn{width:100%;}
+    #courses-table-wrap td.crs-actions{padding-top:8px;}
+    #courses-table-wrap .access-select{width:100%;}
+  }
+
+  /* pantalla de un curso */
+  .lm-back{margin:0 0 16px;}
+  .lm-head{margin:0 0 16px;}
+  .lm-eyebrow{display:inline-block;font:700 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;color:var(--line-dark);background:#EAF4FF;border-radius:999px;padding:6px 11px;margin:0 0 9px;}
+  #lessons-manager .lm-head h3{font-size:21px;line-height:1.25;margin:0;overflow-wrap:anywhere;}
+  .lm-fresh{margin-top:12px;background:#E9F7F1;border:1px solid #A9DCC7;color:#0B5E43;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.55;}
+  .lm-tabs{display:flex;gap:6px;margin:0 0 18px;border-bottom:2px solid var(--border);overflow-x:auto;}
+  .lm-tab{appearance:none;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:12px 14px;font:700 13.5px 'Montserrat',sans-serif;color:var(--muted);cursor:pointer;border-radius:10px 10px 0 0;white-space:nowrap;}
+  .lm-tab:hover{color:var(--line-dark);}
+  .lm-tab.active{color:var(--line-dark);border-bottom-color:var(--line);background:#F3F9FF;}
+  .lm-count{display:inline-block;min-width:22px;text-align:center;font-size:11px;font-weight:800;color:var(--muted);background:#EDF1F6;border-radius:999px;padding:2px 7px;margin-left:4px;}
+  .lm-count:empty{display:none;}
+  .lm-tab.active .lm-count{background:var(--line);color:#fff;}
+
+  .lm-add{background:#F6FAFE;border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin:0 0 24px;}
+  .lm-add .section-tag{display:block;margin:0 0 12px;}
+  .lm-sub{font-size:14px;font-weight:800;margin:0 0 12px;}
+  .lm-sub span{color:var(--muted);font-weight:600;}
+  .lm-mat{border:1.5px dashed #BFCDDC;border-radius:12px;padding:12px 14px;margin:0 0 14px;background:#fff;}
+  .lm-mat-t{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;}
+  .lm-mat-t span{text-transform:none;letter-spacing:0;font-weight:600;}
+  .lm-mat-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .lm-mat-row input[type=text],.lm-mat-row input[type=url]{flex:1 1 180px;min-width:0;background:var(--field);border:1.5px solid var(--border);color:var(--text);padding:9px 12px;font-size:13px;font-family:'Montserrat',sans-serif;border-radius:var(--radius);}
+  .lm-mat-row input:focus{outline:none;border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.18);}
+  .lm-mat-row input[type=file]{flex:1 1 200px;min-width:0;font-size:12px;color:var(--muted);}
+  .lm-mat-or{font-size:12px;font-weight:600;color:var(--muted);margin:10px 0 6px;}
+  .lm-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;font-weight:600;line-height:1.45;margin:0 0 14px;cursor:pointer;}
+  .lm-check input{margin-top:2px;width:18px;height:18px;flex:none;}
+
+  .lm-lesson{border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;margin:0 0 16px;background:#fff;}
+  .lm-lesson-top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 12px;}
+  .lm-lesson-n{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--line-dark);background:#EAF4FF;border-radius:999px;padding:5px 11px;}
+  .lm-kind{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;margin:0 10px 12px 0;background:#EDF1F6;color:var(--muted);}
+  .lm-kind.ok{background:#DFF4EA;color:var(--ok);}
+  .lm-kind.bad{background:#FBE3DE;color:var(--danger);}
+  .lm-kind.none{background:#FFF1CC;color:var(--warn);}
+  .lm-lesson .form-msg.inline{display:inline-block;margin:0 0 0 10px;}
+  .lm-matbox{background:#F6FAFE;border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:14px 0 0;}
+  .lm-matitem{display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid #E4ECF4;}
+  .lm-matitem:last-of-type{border-bottom:0;}
+  .lm-matitem > span{min-width:0;overflow-wrap:anywhere;}
+  .lm-matitem a{color:var(--line-dark);font-weight:700;}
+  .lm-matitem .x{flex:none;background:none;border:1.5px solid #E9BDB5;color:var(--danger);border-radius:999px;padding:3px 11px;font:700 11.5px 'Montserrat',sans-serif;cursor:pointer;}
+  .lm-matitem .x:hover{background:var(--danger);border-color:var(--danger);color:#fff;}
+  .lm-none{font-size:12.5px;color:var(--muted);margin:0 0 10px;}
+  .lm-access{margin:14px 0 0;}
+  .lm-access > summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--muted);padding:4px 0;}
+  .lm-access[open] > summary{margin-bottom:10px;}
+  .lm-access .toggle-list{margin:0 0 10px;}
+  .lm-access .lm-acc-actions{margin:0 0 10px;}
+
+  /* lo que ve el alumno: material de todo el curso */
+  .cm-box{margin:0 0 18px;}
+  .cm-box .mat-list{margin-top:0;}
+
+  @media(max-width:640px){
+    .lm-add{padding:14px;}
+    .lm-lesson{padding:14px;}
+    .lm-tab{padding:11px 10px;font-size:13px;}
+    .lm-jump .btn{width:100%;}
+  }
 </style>
 </head>
 <body class="guest">
@@ -787,6 +911,7 @@
     </div>
 
     <div id="admin-courses-panel" class="hidden">
+      <div class="lm-jump" id="crs-jump"><div id="crs-jump-txt"></div><button class="btn btn-solid btn-sm hidden" type="button" id="crs-jump-btn" onclick="goCoursesList()">Ir a mis cursos ↓</button></div>
       <div class="panel" id="nc-panel">
         <h3>Subir un curso</h3>
         <div class="step-label"><span class="step-n">1</span>¿En qué programa va este curso?</div>
@@ -820,14 +945,57 @@
         <div id="cat-msg" class="form-msg"></div>
       </div>
       <div class="panel hidden" id="lessons-manager">
-        <h3 id="lm-course-title">Clases del curso</h3>
-        <div id="lm-list" style="margin-bottom:18px;"></div>
-        <div id="lm-next-label" class="section-tag" style="display:block;margin-bottom:8px;">SESIÓN 01</div>
-        <div class="field"><label>Tema de la clase</label><input id="lm-tema" placeholder="Ej: Introducción al modelado"></div>
-        <div class="field"><label>Enlace de video (YouTube, Vimeo o Drive)</label><input id="lm-video" placeholder="https://drive.google.com/file/d/… o https://www.youtube.com/watch?v=…"><div class="field-hint">Con Drive: sube el video a la carpeta del curso, clic derecho → Compartir → Copiar enlace. Déjalo en «Restringido»: el aula da acceso a cada alumno sola.</div></div>
-        <div id="lm-msg" class="form-msg"></div>
-        <button class="btn btn-solid btn-sm" onclick="addLesson()">Agregar clase</button>
-        <button class="btn btn-ghost btn-sm" onclick="closeLessonManager()">Cerrar</button>
+        <button class="btn btn-ghost btn-sm lm-back" type="button" onclick="closeLessonManager()">← Volver a la lista de cursos</button>
+        <div class="lm-head">
+          <span class="lm-eyebrow" id="lm-code"></span>
+          <h3 id="lm-course-title">Contenido del curso</h3>
+          <div id="lm-fresh" class="lm-fresh hidden" role="status"></div>
+        </div>
+        <div class="lm-tabs" role="tablist" aria-label="Contenido del curso">
+          <button class="lm-tab active" id="lm-tab-temas" type="button" role="tab" aria-selected="true" onclick="setLessonTab('temas')">Temas y videos <span class="lm-count" id="lm-count-temas"></span></button>
+          <button class="lm-tab" id="lm-tab-material" type="button" role="tab" aria-selected="false" onclick="setLessonTab('material')">Material del curso <span class="lm-count" id="lm-count-material"></span></button>
+        </div>
+
+        <div id="lm-pane-temas">
+          <p class="panel-lede">Cada tema tiene su propio video: escribe el nombre del tema y pega el enlace de su video. Si quieres, agrégale también su material. Los alumnos ven los temas en este mismo orden.</p>
+          <div class="lm-add">
+            <div id="lm-next-label" class="section-tag">SESIÓN 01 (siguiente)</div>
+            <div class="field"><label for="lm-tema">Tema</label><input id="lm-tema" placeholder="Ej: Introducción al modelado" autocomplete="off"></div>
+            <div class="field"><label for="lm-video">Enlace del video de este tema (YouTube, Vimeo o Drive)</label><input id="lm-video" inputmode="url" autocomplete="off" placeholder="https://drive.google.com/file/d/… o https://www.youtube.com/watch?v=…"><div class="field-hint">Con Drive: sube el video a la carpeta del curso, clic derecho → Compartir → Copiar enlace. Déjalo en «Restringido»: el aula da acceso a cada alumno sola.</div></div>
+            <div class="lm-mat">
+              <div class="lm-mat-t">Material de este tema <span>(opcional · los alumnos pueden descargarlo)</span></div>
+              <div class="lm-mat-row">
+                <input type="text" id="lm-mat-name" placeholder="Nombre (opcional)" autocomplete="off">
+                <input type="text" id="lm-mat-link" inputmode="url" placeholder="Enlace del material (Drive u otro)" autocomplete="off">
+              </div>
+              <div class="lm-mat-or">o sube un archivo desde tu computadora:</div>
+              <div class="lm-mat-row"><input type="file" id="lm-mat-file"></div>
+            </div>
+            <label class="lm-check"><input type="checkbox" id="lm-open-all" checked><span>Abrir este tema ya a los alumnos que tienen el curso <small style="font-weight:500;color:var(--muted);">(si lo desmarcas, queda cerrado y lo abres alumno por alumno)</small></span></label>
+            <div id="lm-msg" class="form-msg" role="status" aria-live="polite"></div>
+            <button class="btn btn-solid" id="lm-add-btn" type="button" onclick="addLesson()">Agregar tema</button>
+          </div>
+          <h4 class="lm-sub">Temas del curso <span id="lm-sub-count"></span></h4>
+          <div id="lm-list"></div>
+        </div>
+
+        <div id="lm-pane-material" class="hidden">
+          <p class="panel-lede">Aquí va el material que sirve para <b>todo el curso</b>: por ejemplo el enlace a la carpeta de material en Drive, plantillas, PDF o Excel. El alumno lo ve dentro de su curso y lo descarga. Si lo pones en Drive, déjalo dentro de la carpeta del curso para que los alumnos tengan permiso.</p>
+          <div id="lm-cm-missing" class="hidden"></div>
+          <div id="lm-cm-add" class="lm-add">
+            <div class="section-tag">AGREGAR MATERIAL DEL CURSO</div>
+            <div class="lm-mat-row" style="margin:0 0 4px;">
+              <input type="text" id="cm-name" placeholder="Nombre (opcional)" autocomplete="off">
+              <input type="text" id="cm-link" inputmode="url" placeholder="Enlace del material (Drive u otro)" autocomplete="off">
+            </div>
+            <div class="lm-mat-or">o sube un archivo desde tu computadora:</div>
+            <div class="lm-mat-row" style="margin:0 0 14px;"><input type="file" id="cm-file"></div>
+            <div id="cm-msg" class="form-msg" role="status" aria-live="polite"></div>
+            <button class="btn btn-solid" id="cm-add-btn" type="button" onclick="addCourseMaterial()">Agregar material del curso</button>
+          </div>
+          <h4 class="lm-sub">Material del curso <span id="lm-cm-sub-count"></span></h4>
+          <div id="lm-cm-list"></div>
+        </div>
       </div>
     </div>
 
@@ -1179,6 +1347,7 @@ async function loadAdminData(){
     state.certified[r.user_id][r.course_id] = { status: r.status, code: r.certificate_code, completed_at: r.completed_at };
   });
   await loadDriveOverview();
+  await loadContentCounts();
 }
 
 async function loadClientData(){
@@ -1215,6 +1384,7 @@ async function loadClientData(){
   state.progress = {};
   (progRows||[]).forEach(r => { state.progress[r.lesson_id] = { seconds: r.seconds, duration: r.duration }; });
   await loadMyDrive();
+  await loadStudentCourseMaterials();
   if(!(state.access[session.id] || []).length) await loadSignupOptions();
 }
 
@@ -1604,7 +1774,8 @@ function renderClientCourseDetail(id){
         <h2 class="cd-title">${escapeHtml(c.title)}</h2>
       </div>
       ${tabsHtml}
-      <div class="content-view" style="margin-top:18px;">${escapeHtml(c.desc||'')}<br><br>Todavía no tienes clases desbloqueadas de este curso. Pregúntale a tu asesor.</div>`;
+      <div style="margin-top:18px;">${courseMaterialsBoxHtml(id)}</div>
+      <div class="content-view" style="margin-top:0;">${escapeHtml(c.desc||'')}<br><br>Todavía no tienes clases desbloqueadas de este curso. Pregúntale a tu asesor.</div>`;
     return;
   }
 
@@ -1616,6 +1787,7 @@ function renderClientCourseDetail(id){
     ${tabsHtml}
     <div id="drive-banner">${driveBannerHtml(id)}</div>
     ${zoomHtml}
+    ${courseMaterialsBoxHtml(id)}
     <div class="cv-layout">
       <div class="cv-player-col">
         <div class="lesson-player" id="lesson-player-detail"></div>
@@ -2506,20 +2678,21 @@ async function createCourse(){
     msg.className = 'form-msg err';
     return;
   }
-  const { error } = await sb.from('courses').insert({
+  const { data: created, error } = await sb.from('courses').insert({
     code, title, hours: hours || '—', instructor: instructor || '—', description: desc || 'Sin descripción.',
     category, image_url: image || null
-  });
+  }).select('id').single();
   if(error){
     msg.textContent = 'Error al publicar: ' + error.message;
     msg.className = 'form-msg err';
     return;
   }
   ['nc-code','nc-title','nc-hours','nc-instructor','nc-desc','nc-image'].forEach(id => document.getElementById(id).value = '');   // el programa se queda elegido para subir el siguiente
-  msg.innerHTML = `Curso publicado en <b>${escapeHtml(category)}</b>. Ya aparece en la lista de ese programa (<a href="${progUrl(category)}" target="_blank" rel="noopener">verla en la web ↗</a>). Ahora agrégale clases con el botón "Clases".`;
+  msg.innerHTML = `Curso publicado en <b>${escapeHtml(category)}</b>. Ya aparece en la lista de ese programa (<a href="${progUrl(category)}" target="_blank" rel="noopener">verla en la web ↗</a>). Se abrió la pantalla para ponerle sus temas, videos y material.`;
   msg.className = 'form-msg ok';
   await loadAdminData();
   renderAdmin();
+  if(created && created.id) openLessonManager(created.id, { fresh: true });
 }
 
 /* ---------------- CURSOS PUBLICADOS: por programa ---------------- */
@@ -2555,12 +2728,12 @@ function renderCoursesTable(){
     <div class="prog-filter">${pills}</div>${link}
     ${rows.length === 0 ? `<div class="empty">Todavía no hay cursos. Sube el primero arriba.</div>` : `<div class="table-scroll"><table><thead><tr><th>Código</th><th>Título</th><th>Programa</th><th>Horas</th><th>Instructor</th><th></th></tr></thead><tbody>
     ${rows.map(c => `<tr>
-      <td class="mono">${escapeHtml(c.code)}</td>
-      <td style="color:var(--text)">${escapeHtml(c.title)}</td>
-      <td><select class="access-select prog-move" aria-label="Programa de ${escapeHtml(c.code)}" onchange="moveCourse('${c.id}', this.value)">${opts(c.category)}</select></td>
-      <td>${escapeHtml(c.hours)}</td>
-      <td>${escapeHtml(c.instructor)}</td>
-      <td style="white-space:nowrap;"><button class="btn btn-ghost btn-sm" onclick="openLessonManager('${c.id}')">Clases</button> <button class="btn btn-danger btn-sm" onclick="deleteCourse('${c.id}')">Eliminar</button></td>
+      <td class="mono" data-label="Código">${escapeHtml(c.code)}</td>
+      <td style="color:var(--text)" data-label="Título"><span class="crs-title">${escapeHtml(c.title)}</span>${courseContentCellHtml(c.id)}</td>
+      <td data-label="Programa"><select class="access-select prog-move" aria-label="Programa de ${escapeHtml(c.code)}" onchange="moveCourse('${c.id}', this.value)">${opts(c.category)}</select></td>
+      <td data-label="Horas">${escapeHtml(c.hours)}</td>
+      <td data-label="Instructor">${escapeHtml(c.instructor)}</td>
+      <td style="white-space:nowrap;" class="crs-actions"><button class="btn btn-danger btn-sm" onclick="deleteCourse('${c.id}')">Eliminar</button></td>
     </tr>`).join('')}
   </tbody></table></div>`}`;
 }
@@ -2679,137 +2852,7 @@ async function deletePromotion(id){
   renderPromotions();
 }
 
-/* ---------------- LESSON MANAGER (admin) ---------------- */
-function openLessonManager(courseId){
-  manageCourseId = courseId;
-  const c = state.courses.find(x=>x.id===courseId);
-  document.getElementById('lm-course-title').textContent = 'Clases de: ' + (c ? c.title : '');
-  document.getElementById('lessons-manager').classList.remove('hidden');
-  document.getElementById('lessons-manager').scrollIntoView({behavior:'smooth'});
-  loadAndRenderLessons();
-}
-function closeLessonManager(){
-  manageCourseId = null;
-  document.getElementById('lessons-manager').classList.add('hidden');
-}
-
-function sessionLabel(index){
-  return 'SESIÓN ' + String(index+1).padStart(2,'0');
-}
-
-async function loadAndRenderLessons(){
-  const list = document.getElementById('lm-list');
-  const { data: lessons } = await sb.from('course_lessons').select('*').eq('course_id', manageCourseId).order('order_index');
-  const nextLabelEl = document.getElementById('lm-next-label');
-  if(nextLabelEl) nextLabelEl.textContent = sessionLabel((lessons||[]).length) + ' (siguiente)';
-
-  if(!lessons || lessons.length === 0){
-    list.innerHTML = `<div class="empty">Sin clases todavía.</div>`;
-    return;
-  }
-
-  const { data: accessRows } = await sb.from('course_access').select('user_id').eq('course_id', manageCourseId);
-  const clientIds = (accessRows||[]).map(r=>r.user_id);
-  const clients = state.clients.filter(c => clientIds.includes(c.id));
-
-  const lessonIds = lessons.map(l=>l.id);
-  let laMap = {};
-  if(clients.length > 0){
-    const { data: laRows } = await sb.from('lesson_access').select('*').in('lesson_id', lessonIds);
-    (laRows||[]).forEach(r => {
-      if(!laMap[r.lesson_id]) laMap[r.lesson_id] = [];
-      laMap[r.lesson_id].push(r.user_id);
-    });
-  }
-
-  const { data: matRows } = await sb.from('lesson_materials').select('*').in('lesson_id', lessonIds).order('created_at');
-  const matMap = {};
-  (matRows||[]).forEach(r => {
-    if(!matMap[r.lesson_id]) matMap[r.lesson_id] = [];
-    matMap[r.lesson_id].push(r);
-  });
-
-  list.innerHTML = lessons.map((l,i) => {
-    const granted = laMap[l.id] || [];
-    const materials = matMap[l.id] || [];
-    const accessHtml = clients.length === 0
-      ? `<div style="font-size:11px;color:var(--muted);font-family:'Montserrat';margin-bottom:10px;">Aún ningún cliente tiene acceso a este curso — dales acceso en "Clientes y accesos" para poder habilitarles esta clase.</div>`
-      : `<div class="toggle-list" style="margin-bottom:10px;">
-          ${clients.map(c => `<button class="toggle-chip ${granted.includes(c.id)?'on':''}" onclick="toggleLessonAccess('${c.id}','${l.id}')">${granted.includes(c.id)?'✓ ':''}${escapeHtml(c.name || c.email)}</button>`).join('')}
-        </div>`;
-    const materialsHtml = materials.length === 0
-      ? `<div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Sin material todavía.</div>`
-      : `<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;">
-          ${materials.map(m => `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;">
-            <span class="mono" style="color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px;">${escapeHtml(m.name || m.url)}</span>
-            <button onclick="deleteMaterial('${m.id}', ${m.storage_path ? `'${escapeHtml(m.storage_path)}'` : 'null'})" style="background:none;border:none;color:var(--warn);cursor:pointer;font-size:14px;padding:0 4px;">×</button>
-          </div>`).join('')}
-        </div>`;
-    return `
-    <div style="padding:10px 0;border-bottom:1px solid var(--border);">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <span style="font-size:13px;color:var(--text)">${sessionLabel(i)}: ${escapeHtml(l.tema)}</span>
-        <button class="btn btn-danger btn-sm" onclick="deleteLesson('${l.id}')">Eliminar</button>
-      </div>
-      ${accessHtml}
-      <div style="background:var(--field);border:1px solid var(--border);padding:10px;">
-        <div style="font-family:'Montserrat';font-size:9.5px;color:var(--muted);letter-spacing:.5px;margin-bottom:8px;">MATERIAL DE APOYO · LOS ALUMNOS PUEDEN DESCARGARLO</div>
-        ${materialsHtml}
-        <div style="display:flex;gap:6px;flex-wrap:wrap;">
-          <input id="mat-name-${l.id}" placeholder="Nombre (opcional)" style="flex:1;min-width:120px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:7px 9px;font-size:11.5px;border-radius:var(--radius);">
-          <input id="mat-link-${l.id}" placeholder="Enlace de Drive u otro (opcional)" style="flex:1;min-width:140px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:7px 9px;font-size:11.5px;border-radius:var(--radius);">
-          <input id="mat-file-${l.id}" type="file" style="flex:1;min-width:140px;font-size:11px;color:var(--muted);">
-          <button class="btn btn-ghost btn-sm" onclick="addMaterialToLesson('${l.id}')">Agregar archivo</button>
-        </div>
-        <div id="mat-msg-${l.id}" class="form-msg"></div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-async function deleteMaterial(materialId, storagePath){
-  if(storagePath){
-    try{ await sb.storage.from('materials').remove([storagePath]); }catch(e){ console.error(e); }
-  }
-  await sb.from('lesson_materials').delete().eq('id', materialId);
-  loadAndRenderLessons();
-}
-
-async function toggleLessonAccess(userId, lessonId){
-  const { data } = await sb.from('lesson_access').select('*').eq('user_id', userId).eq('lesson_id', lessonId);
-  const has = data && data.length > 0;
-  if(has){
-    await sb.from('lesson_access').delete().eq('user_id', userId).eq('lesson_id', lessonId);
-  } else {
-    await sb.from('lesson_access').insert({ user_id: userId, lesson_id: lessonId });
-  }
-  loadAndRenderLessons();
-}
-
-async function addLesson(){
-  const tema = document.getElementById('lm-tema').value.trim();
-  const video = document.getElementById('lm-video').value.trim();
-  const msg = document.getElementById('lm-msg');
-  if(!tema){ msg.textContent = 'Ponle un tema a la clase.'; msg.className = 'form-msg err'; return; }
-  if(isDriveUrl(video) && !driveFileId(video)){ msg.textContent = 'Ese enlace de Drive no es de un video. Abre el video en Drive y copia su enlace (lleva /file/d/).'; msg.className = 'form-msg err'; return; }
-
-  const { data: existing } = await sb.from('course_lessons').select('id').eq('course_id', manageCourseId);
-  const order = existing ? existing.length : 0;
-  const { error } = await sb.from('course_lessons').insert({ course_id: manageCourseId, tema, video_url: video, order_index: order });
-  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
-  document.getElementById('lm-tema').value = '';
-  document.getElementById('lm-video').value = '';
-  msg.textContent = 'Clase agregada — está bloqueada para todos hasta que le des acceso a cada cliente abajo.';
-  msg.className = 'form-msg ok';
-  loadAndRenderLessons();
-}
-
-async function deleteLesson(lessonId){
-  await sb.from('course_lessons').delete().eq('id', lessonId);
-  loadAndRenderLessons();
-}
-
-const ROBOT_TEMPLATE = "/**\n * ROBOT DE DRIVE — INFINITY WORK\n *\n * Vive en TU cuenta de Gmail (la que es dueña de las carpetas de los cursos).\n * Cada minuto le pregunta al aula qué falta hacer y, según eso,\n * comparte o quita la carpeta de Drive de cada alumno.\n *\n * Instalación (una sola vez): en el aula entra a Administrador →\n * \"Carpetas y reglas\" → \"Robot de Drive\" y sigue los pasos.\n * No compartas este código: lleva tu clave privada.\n */\n\nvar SUPABASE_URL = '__SUPABASE_URL__';\nvar SUPABASE_KEY = '__SUPABASE_KEY__';\nvar ROBOT_SECRET = '__ROBOT_SECRET__';\n\nvar CADA_MINUTOS = 1;      // cada cuánto revisa (1, 5, 10, 15 o 30)\nvar MAXIMO_POR_VUELTA = 15; // cuántas órdenes atiende en cada revisión\n\n/** Ejecuta esta función UNA vez: crea el reloj de cada minuto y hace la primera revisión. */\nfunction instalar() {\n  desinstalar();\n  ScriptApp.newTrigger('revisarCola').timeBased().everyMinutes(CADA_MINUTOS).create();\n  Logger.log('Listo: el robot revisará el aula cada ' + CADA_MINUTOS + ' minuto(s).');\n  var n = revisarCola();\n  Logger.log('Primera revisión hecha (' + n + ' orden(es) atendida(s)). Vuelve al aula: debe decir \"Robot activo\".');\n}\n\n/** Detiene el robot (borra su reloj). */\nfunction desinstalar() {\n  ScriptApp.getProjectTriggers().forEach(function (t) {\n    if (t.getHandlerFunction() === 'revisarCola') ScriptApp.deleteTrigger(t);\n  });\n}\n\n/** Lo que corre cada minuto. */\nfunction revisarCola() {\n  var lock = LockService.getScriptLock();\n  if (!lock.tryLock(5000)) return 0; // ya hay una revisión en marcha\n  try {\n    var res = rpc_('drive_robot_claim', { p_secret: ROBOT_SECRET, p_max: MAXIMO_POR_VUELTA });\n    if (!res || res.ok !== true) {\n      throw new Error('El aula no aceptó la clave del robot (' + (res && res.error) + '). ' +\n        'En el aula genera una clave nueva y vuelve a copiar el código completo aquí.');\n    }\n    var jobs = res.jobs || [];\n    for (var i = 0; i \u003c jobs.length; i++) atender_(jobs[i]);\n    return jobs.length;\n  } finally {\n    lock.releaseLock();\n  }\n}\n\n/** Atiende una orden: compartir o quitar la carpeta, y avisa al aula cómo salió. */\nfunction atender_(job) {\n  var ok = false, error = null, aviso = null;\n  try {\n    var email = String(job.email || '').toLowerCase().trim();\n    if (!email) throw new Error('La orden no trae correo.');\n    var carpeta = DriveApp.getFolderById(job.folder_id);\n    aviso = avisoSeguridad_(carpeta, job.folder_id);\n    var esDuena = duena_(carpeta) === email;\n\n    if (job.action === 'grant') {\n      if (!esDuena) carpeta.addViewer(email);          // solo lectura\n    } else if (job.action === 'revoke') {\n      if (!esDuena) carpeta.removeViewer(email);\n    } else {\n      throw new Error('Orden desconocida: ' + job.action);\n    }\n    ok = true;\n  } catch (e) {\n    error = traducir_(e);\n    if (/carpeta/i.test(error)) aviso = error;\n  }\n  try {\n    rpc_('drive_robot_report', { p_secret: ROBOT_SECRET, p_id: job.id, p_ok: ok, p_error: error, p_warn: aviso });\n  } catch (e) {\n    Logger.log('No pude avisar al aula de la orden ' + job.id + ': ' + e.message);\n  }\n}\n\n/**\n * Revisa que la carpeta (y sus videos) estén \"Restringidos\": si no, cualquiera con el enlace podría verlos.\n * Devuelve '' si todo está bien o un texto si hay algo abierto (null si no se pudo revisar).\n * Los videos se revisan a lo mucho cada 6 horas (cada 5 minutos si había algo abierto).\n */\nfunction avisoSeguridad_(carpeta, carpetaId) {\n  try {\n    var cache = CacheService.getScriptCache();\n    var marca = 'revisada_' + carpetaId;\n    if (carpeta.getSharingAccess() !== DriveApp.Access.PRIVATE) {\n      cache.remove(marca);\n      return 'La carpeta está abierta (cualquiera con el enlace puede verla). En Drive: Compartir → Acceso general → Restringido.';\n    }\n    var guardado = cache.get(marca);\n    if (guardado) return guardado === 'OK' ? '' : guardado;\n    var abiertos = archivosAbiertos_(carpeta);\n    var aviso = abiertos.length\n      ? abiertos.length + ' archivo(s) de la carpeta están abiertos con enlace público (por ejemplo «' + abiertos[0] +\n        '»). En Drive: clic derecho → Compartir → Acceso general → Restringido.'\n      : '';\n    cache.put(marca, aviso || 'OK', aviso ? 5 * 60 : 6 * 60 * 60);\n    return aviso;\n  } catch (e) {\n    return null; // si no se puede revisar, no se toca el aviso\n  }\n}\n\n/** Nombres de los archivos (hasta 150, con subcarpetas) que no están restringidos. */\nfunction archivosAbiertos_(carpeta) {\n  var abiertos = [], vistos = 0, pendientes = [carpeta], limite = Date.now() + 45000;\n  while (pendientes.length && vistos \u003c 150 && Date.now() \u003c limite) {\n    var actual = pendientes.shift();\n    var archivos = actual.getFiles();\n    while (archivos.hasNext() && vistos \u003c 150) {\n      var f = archivos.next();\n      vistos++;\n      if (f.getSharingAccess() !== DriveApp.Access.PRIVATE) abiertos.push(f.getName());\n    }\n    var sub = actual.getFolders();\n    while (sub.hasNext()) pendientes.push(sub.next());\n  }\n  return abiertos;\n}\n\nfunction duena_(carpeta) {\n  try {\n    var o = carpeta.getOwner();\n    return o ? String(o.getEmail()).toLowerCase() : '';\n  } catch (e) {\n    return '';\n  }\n}\n\nfunction traducir_(e) {\n  var m = String((e && e.message) || e || 'Error desconocido');\n  if (/no item with the given id|not found|permission to access|no se encuentra/i.test(m)) {\n    return 'No encuentro la carpeta, o esta cuenta de Gmail no es su dueña. Revisa el enlace de la carpeta en el aula.';\n  }\n  if (/invalid (argument|email)|correo no es v/i.test(m)) return 'Ese correo no es válido para Drive.';\n  if (/limit exceeded|too many times|quota|rate limit/i.test(m)) {\n    return 'Google puso un límite diario a esta cuenta. Se reintenta más tarde.';\n  }\n  return m.length > 240 ? m.slice(0, 240) : m;\n}\n\n/** Llama a una función de la base de datos del aula. */\nfunction rpc_(nombre, cuerpo) {\n  var cabeceras = { apikey: SUPABASE_KEY };\n  if (/^eyJ/.test(SUPABASE_KEY)) cabeceras.Authorization = 'Bearer ' + SUPABASE_KEY;\n  var resp = UrlFetchApp.fetch(SUPABASE_URL + '/rest/v1/rpc/' + nombre, {\n    method: 'post',\n    contentType: 'application/json',\n    headers: cabeceras,\n    payload: JSON.stringify(cuerpo),\n    muteHttpExceptions: true\n  });\n  var codigo = resp.getResponseCode();\n  var texto = resp.getContentText();\n  if (codigo \u003c 200 || codigo >= 300) {\n    throw new Error('El aula respondió ' + codigo + ': ' + String(texto).slice(0, 200));\n  }\n  return texto ? JSON.parse(texto) : null;\n}\n";
+const ROBOT_TEMPLATE = "/**\n * ROBOT DE DRIVE — INFINITY WORK\n *\n * Vive en la cuenta de Gmail que es dueña de las carpetas de los cursos.\n * Cada minuto le pregunta al aula qué falta hacer en las carpetas de ESTA cuenta y,\n * según eso, comparte o quita la carpeta de Drive de cada alumno.\n *\n * Si usas varias cuentas de Gmail (cuando una se llena de espacio), cada cuenta tiene\n * su propio robot con su propia clave. En el aula entra a Administrador →\n * \"Carpetas y reglas\" → \"Cuentas de Gmail\" y copia el código de la cuenta que toca.\n * Instalación (una sola vez por cuenta): sigue los pasos que te muestra el aula.\n * No compartas este código: lleva tu clave privada.\n */\n\n// Cuenta de Gmail en el aula: __ACCOUNT_LABEL__\nvar SUPABASE_URL = '__SUPABASE_URL__';\nvar SUPABASE_KEY = '__SUPABASE_KEY__';\nvar ROBOT_SECRET = '__ROBOT_SECRET__';\n\nvar CADA_MINUTOS = 1;      // cada cuánto revisa (1, 5, 10, 15 o 30)\nvar MAXIMO_POR_VUELTA = 15; // cuántas órdenes atiende en cada revisión\n\n/** Ejecuta esta función UNA vez: crea el reloj de cada minuto y hace la primera revisión. */\nfunction instalar() {\n  desinstalar();\n  ScriptApp.newTrigger('revisarCola').timeBased().everyMinutes(CADA_MINUTOS).create();\n  Logger.log('Listo: el robot revisará el aula cada ' + CADA_MINUTOS + ' minuto(s).');\n  var n = revisarCola();\n  Logger.log('Primera revisión hecha (' + n + ' orden(es) atendida(s)). Vuelve al aula: debe decir \"Robot activo\".');\n}\n\n/** Detiene el robot (borra su reloj). */\nfunction desinstalar() {\n  ScriptApp.getProjectTriggers().forEach(function (t) {\n    if (t.getHandlerFunction() === 'revisarCola') ScriptApp.deleteTrigger(t);\n  });\n}\n\n/** Lo que corre cada minuto. */\nfunction revisarCola() {\n  var lock = LockService.getScriptLock();\n  if (!lock.tryLock(5000)) return 0; // ya hay una revisión en marcha\n  try {\n    var res = rpc_('drive_robot_claim', { p_secret: ROBOT_SECRET, p_max: MAXIMO_POR_VUELTA, p_email: cuenta_() });\n    if (!res || res.ok !== true) {\n      throw new Error('El aula no aceptó la clave del robot (' + (res && res.error) + '). ' +\n        'En el aula (Carpetas y reglas → Cuentas de Gmail) genera una clave nueva para ESTA cuenta y vuelve a copiar el código completo aquí.');\n    }\n    var jobs = res.jobs || [];\n    for (var i = 0; i \u003c jobs.length; i++) atender_(jobs[i]);\n    return jobs.length;\n  } finally {\n    lock.releaseLock();\n  }\n}\n\n/** Atiende una orden: compartir o quitar la carpeta, y avisa al aula cómo salió. */\nfunction atender_(job) {\n  var ok = false, error = null, aviso = null;\n  try {\n    var email = String(job.email || '').toLowerCase().trim();\n    if (!email) throw new Error('La orden no trae correo.');\n    var carpeta = DriveApp.getFolderById(job.folder_id);\n    aviso = avisoSeguridad_(carpeta, job.folder_id);\n    var esDuena = duena_(carpeta) === email;\n\n    if (job.action === 'grant') {\n      if (!esDuena) carpeta.addViewer(email);          // solo lectura\n    } else if (job.action === 'revoke') {\n      if (!esDuena) carpeta.removeViewer(email);\n    } else {\n      throw new Error('Orden desconocida: ' + job.action);\n    }\n    ok = true;\n  } catch (e) {\n    error = traducir_(e);\n    if (/carpeta/i.test(error)) aviso = error;\n  }\n  try {\n    rpc_('drive_robot_report', { p_secret: ROBOT_SECRET, p_id: job.id, p_ok: ok, p_error: error, p_warn: aviso });\n  } catch (e) {\n    Logger.log('No pude avisar al aula de la orden ' + job.id + ': ' + e.message);\n  }\n}\n\n/**\n * Revisa que la carpeta (y sus videos) estén \"Restringidos\": si no, cualquiera con el enlace podría verlos.\n * Devuelve '' si todo está bien o un texto si hay algo abierto (null si no se pudo revisar).\n * Los videos se revisan a lo mucho cada 6 horas (cada 5 minutos si había algo abierto).\n */\nfunction avisoSeguridad_(carpeta, carpetaId) {\n  try {\n    var cache = CacheService.getScriptCache();\n    var marca = 'revisada_' + carpetaId;\n    if (carpeta.getSharingAccess() !== DriveApp.Access.PRIVATE) {\n      cache.remove(marca);\n      return 'La carpeta está abierta (cualquiera con el enlace puede verla). En Drive: Compartir → Acceso general → Restringido.';\n    }\n    var guardado = cache.get(marca);\n    if (guardado) return guardado === 'OK' ? '' : guardado;\n    var abiertos = archivosAbiertos_(carpeta);\n    var aviso = abiertos.length\n      ? abiertos.length + ' archivo(s) de la carpeta están abiertos con enlace público (por ejemplo «' + abiertos[0] +\n        '»). En Drive: clic derecho → Compartir → Acceso general → Restringido.'\n      : '';\n    cache.put(marca, aviso || 'OK', aviso ? 5 * 60 : 6 * 60 * 60);\n    return aviso;\n  } catch (e) {\n    return null; // si no se puede revisar, no se toca el aviso\n  }\n}\n\n/** Nombres de los archivos (hasta 150, con subcarpetas) que no están restringidos. */\nfunction archivosAbiertos_(carpeta) {\n  var abiertos = [], vistos = 0, pendientes = [carpeta], limite = Date.now() + 45000;\n  while (pendientes.length && vistos \u003c 150 && Date.now() \u003c limite) {\n    var actual = pendientes.shift();\n    var archivos = actual.getFiles();\n    while (archivos.hasNext() && vistos \u003c 150) {\n      var f = archivos.next();\n      vistos++;\n      if (f.getSharingAccess() !== DriveApp.Access.PRIVATE) abiertos.push(f.getName());\n    }\n    var sub = actual.getFolders();\n    while (sub.hasNext()) pendientes.push(sub.next());\n  }\n  return abiertos;\n}\n\n/** Correo de la cuenta de Gmail donde vive este robot (el aula lo muestra para que sepas cuál es cuál). */\nfunction cuenta_() {\n  try {\n    return String(Session.getEffectiveUser().getEmail() || '').toLowerCase();\n  } catch (e) {\n    return '';\n  }\n}\n\nfunction duena_(carpeta) {\n  try {\n    var o = carpeta.getOwner();\n    return o ? String(o.getEmail()).toLowerCase() : '';\n  } catch (e) {\n    return '';\n  }\n}\n\nfunction traducir_(e) {\n  var m = String((e && e.message) || e || 'Error desconocido');\n  if (/no item with the given id|not found|permission to access|no se encuentra/i.test(m)) {\n    var cuenta = cuenta_();\n    return 'No encuentro la carpeta en la cuenta de Gmail' + (cuenta ? ' ' + cuenta : '') +\n      '. Revisa que el enlace sea el correcto y que en el aula hayas elegido la cuenta que es dueña de esa carpeta.';\n  }\n  if (/invalid (argument|email)|correo no es v/i.test(m)) return 'Ese correo no es válido para Drive.';\n  if (/limit exceeded|too many times|quota|rate limit/i.test(m)) {\n    return 'Google puso un límite diario a esta cuenta. Se reintenta más tarde.';\n  }\n  return m.length > 240 ? m.slice(0, 240) : m;\n}\n\n/** Llama a una función de la base de datos del aula. */\nfunction rpc_(nombre, cuerpo) {\n  var cabeceras = { apikey: SUPABASE_KEY };\n  if (/^eyJ/.test(SUPABASE_KEY)) cabeceras.Authorization = 'Bearer ' + SUPABASE_KEY;\n  var resp = UrlFetchApp.fetch(SUPABASE_URL + '/rest/v1/rpc/' + nombre, {\n    method: 'post',\n    contentType: 'application/json',\n    headers: cabeceras,\n    payload: JSON.stringify(cuerpo),\n    muteHttpExceptions: true\n  });\n  var codigo = resp.getResponseCode();\n  var texto = resp.getContentText();\n  if (codigo \u003c 200 || codigo >= 300) {\n    throw new Error('El aula respondió ' + codigo + ': ' + String(texto).slice(0, 200));\n  }\n  return texto ? JSON.parse(texto) : null;\n}\n";
 
 /* ================= GOOGLE DRIVE · acceso automático (registro + alumno) =================
    Todo esto necesita el archivo supabase-drive.sql en Supabase. Si aún no está instalado,
@@ -2902,7 +2945,8 @@ function driveWaiting(s){ return s === 'queued' || s === 'retry' || s === 'missi
 
 function courseUsesDrive(courseId){
   const ls = (state.lessons && state.lessons[courseId]) || [];
-  return ls.some(l => detectPlatform(l.video_url) === 'drive' || ((state.materials && state.materials[l.id]) || []).some(m => isDriveUrl(m.url)));
+  return ls.some(l => detectPlatform(l.video_url) === 'drive' || ((state.materials && state.materials[l.id]) || []).some(m => isDriveUrl(m.url)))
+    || ((state.courseMaterials && state.courseMaterials[courseId]) || []).some(m => isDriveUrl(m.url));
 }
 function driveChipHtml(courseId){
   const s = driveStateOf(courseId);
@@ -2974,9 +3018,9 @@ function materialInfo(m){
   if(id) return { href: 'https://drive.google.com/uc?export=download&id=' + id, dl: true, blank: true, name };
   return { href: url, dl: false, blank: true, name };
 }
-function materialsHtml(list){
+function materialsHtml(list, title){
   if(!list || !list.length) return '';
-  return '<div class="mat-list"><div class="mat-title">Material de apoyo</div><div class="mat-btns">' + list.map(m => {
+  return '<div class="mat-list"><div class="mat-title">' + escapeHtml(title || 'Material de apoyo') + '</div><div class="mat-btns">' + list.map(m => {
     const i = materialInfo(m);
     return '<a class="btn btn-ghost btn-sm mat-btn" href="' + escapeHtml(i.href) + '"' + (i.blank ? ' target="_blank" rel="noopener"' : '') + (i.dl && !i.blank ? ' download' : '') + '>' +
       (i.dl ? '⬇ Descargar: ' : '↗ Abrir: ') + escapeHtml(i.name) + '</a>';
@@ -3119,9 +3163,14 @@ function updateProgressBar(lessonId, seconds, duration){
 const ADMIN_TABS = ['clients', 'retirar', 'drive', 'courses', 'projects', 'promos', 'settings', 'images'];
 
 let robotCode = '';          // código del robot recién generado (solo vive en esta pantalla)
-let rbArm = 0;               // confirmación antes de generar una clave nueva
-const folderDraft = {};      // lo que se está escribiendo en cada carpeta
-const folderArm = {};        // confirmación antes de cambiar una carpeta ya guardada
+let robotFor = null;         // { id, label } de la cuenta de Gmail a la que pertenece ese código
+const accArm = {};           // confirmaciones pendientes por cuenta: 'regen:<id>' / 'remove:<id>' → hora
+const accEdit = {};          // cuentas cuyo nombre se está editando
+const folderDraft = {};      // lo que se está escribiendo en cada curso
+const folderAccPick = {};    // cuenta de Gmail elegida para la carpeta nueva de cada curso
+let lastAccPick = 0;         // última cuenta elegida entre varias (se propone para el siguiente curso)
+function forgetAccPick(){ lastAccPick = 0; Object.keys(folderAccPick).forEach(k => { delete folderAccPick[k]; }); }
+const folderArm = {};        // confirmación antes de quitar una carpeta: 'curso|carpeta' → hora
 const ret = { uid: '', sel: new Set(), confirm: null };   // pestaña «Retirar accesos»
 
 async function loadDriveOverview(){
@@ -3148,21 +3197,43 @@ function driveUnavailableHtml(){
   return '<div class="dnote warn"><div>No se pudo consultar el estado de Drive en este momento. Se vuelve a intentar solo.</div></div>';
 }
 
+function driveOldHtml(){
+  return '<div class="drv-setup"><b>Hay que actualizar el acceso a Drive (se hace una sola vez).</b> Esta versión del aula permite usar varias cuentas de Gmail, pero tu base de datos todavía tiene la versión anterior.<ol>' +
+    '<li>Abre tu proyecto en <b>Supabase</b> → <b>SQL Editor</b> → <b>New query</b>.</li>' +
+    '<li>Pega todo el contenido del archivo <b>supabase-drive.sql</b> nuevo y pulsa <b>Run</b>. Conserva todo lo que ya tienes: tus carpetas, tus alumnos y el robot que ya instalaste siguen funcionando.</li>' +
+    '<li>Vuelve aquí y recarga la página (Ctrl + F5).</li></ol></div>';
+}
+function driveNeedsUpdate(){
+  const d = state.drive;
+  return !!(d && !Array.isArray(d.accounts));
+}
+
 function driveStatesMap(){
   const m = {};
   const d = state.drive;
   if(d && Array.isArray(d.states)) d.states.forEach(s => { m[s.user_id + '|' + s.course_id] = s; });
   return m;
 }
-function driveFolder(courseId){
+function driveAccounts(){
   const d = state.drive;
-  return d ? ((d.folders || []).find(f => f.course_id === courseId && f.folder_id) || null) : null;
+  return (d && Array.isArray(d.accounts)) ? d.accounts : [];
 }
-function robotInfo(){
+function driveAccount(id){
+  return driveAccounts().find(a => Number(a.id) === Number(id)) || null;
+}
+function accLabel(id){
+  const a = driveAccount(id);
+  return a ? a.label : 'una cuenta que ya no existe';
+}
+function driveFolders(courseId){
   const d = state.drive;
-  if(!d || !d.robot || !d.robot.has_secret) return { kind: 'none', ago: null };
-  if(d.robot.seconds_ago == null) return { kind: 'wait', ago: null };
-  const ago = d.robot.seconds_ago + Math.max(0, (Date.now() - (state.driveAt || Date.now())) / 1000);
+  return d ? (d.folders || []).filter(f => f.course_id === courseId && f.folder_id) : [];
+}
+function driveFolder(courseId){ return driveFolders(courseId)[0] || null; }
+function robotInfo(a){
+  if(!a || !a.has_secret) return { kind: 'none', ago: null };
+  if(a.seconds_ago == null) return { kind: 'wait', ago: null };
+  const ago = a.seconds_ago + Math.max(0, (Date.now() - (state.driveAt || Date.now())) / 1000);
   return { kind: ago <= 150 ? 'on' : 'off', ago };
 }
 function fmtSecs(s){
@@ -3198,6 +3269,7 @@ async function retryDriveJob(id){
 
 /* ---------------- pestañas ---------------- */
 function setAdminTab(tab){
+  if(tab !== 'courses' && manageCourseId) closeLessonManager(true);
   adminTab = tab;
   ADMIN_TABS.forEach(t => {
     const b = document.getElementById('atab-' + t);
@@ -3225,6 +3297,7 @@ function renderAdmin(){
   setAdminTab(adminTab);
   renderClientsTable();
   renderCoursesTable();
+  renderCoursesJump();
 }
 
 function clientTagsHtml(u){
@@ -3309,18 +3382,29 @@ function renderDriveBanners(){
   if(!box) return;
   const d = state.drive;
   if(!d){ box.innerHTML = driveUnavailableHtml(); return; }
+  if(driveNeedsUpdate()){ box.innerHTML = driveOldHtml(); return; }
   const out = [];
-  const folders = (d.folders || []).filter(f => f.folder_id);
-  const rb = robotInfo();
-  if(folders.length && rb.kind !== 'on'){
-    const what = rb.kind === 'none' ? 'El robot de Drive aún no está instalado.'
-      : rb.kind === 'wait' ? 'El robot de Drive todavía no se conectó.'
-      : 'El robot de Drive no responde (última señal hace ' + fmtSecs(rb.ago) + ').';
-    out.push('<div class="dnote bad" role="alert"><div><b>' + what + '</b> Hasta que funcione, nadie recibe ni pierde acceso a las carpetas. <button class="btn btn-ghost btn-sm" type="button" onclick="setAdminTab(\'drive\')">Ir a «Carpetas y reglas»</button></div></div>');
+  const accs = driveAccounts();
+  const multi = accs.length > 1;
+  // robots que deberían estar trabajando (tienen carpetas u órdenes) y no lo están
+  const off = accs.filter(a => (Number(a.folders) > 0 || Number(a.pending) > 0) && robotInfo(a).kind !== 'on');
+  if(off.length){
+    const what = a => {
+      const r = robotInfo(a);
+      return r.kind === 'none' ? 'aún no está instalado'
+        : r.kind === 'wait' ? 'todavía no se conectó'
+        : 'no responde (última señal hace ' + fmtSecs(r.ago) + ')';
+    };
+    const head = !multi
+      ? '<b>El robot de Drive ' + what(off[0]) + '.</b> Hasta que funcione, nadie recibe ni pierde acceso a las carpetas.'
+      : '<b>' + (off.length === 1 ? 'Un robot de Drive no está funcionando' : off.length + ' robots de Drive no están funcionando') + ':</b>' +
+        '<ul class="dnote-list">' + off.map(a => '<li>«' + escapeHtml(a.label) + '» ' + what(a) + '</li>').join('') + '</ul>' +
+        'Hasta que funcione' + (off.length === 1 ? '' : 'n') + ', nadie recibe ni pierde acceso a las carpetas de ' + (off.length === 1 ? 'esa cuenta' : 'esas cuentas') + '.';
+    out.push('<div class="dnote bad" role="alert"><div>' + head + ' <button class="btn btn-ghost btn-sm" type="button" onclick="setAdminTab(\'drive\')">Ir a «Carpetas y reglas»</button></div></div>');
   }
-  folders.filter(f => f.warning).forEach(f => {
+  (d.folders || []).filter(f => f.folder_id && f.warning).forEach(f => {
     const c = state.courses.find(x => x.id === f.course_id);
-    out.push('<div class="dnote warn" role="alert"><div><b>' + escapeHtml(c ? c.code : 'Curso') + ':</b> ' + escapeHtml(f.warning) + '</div></div>');
+    out.push('<div class="dnote warn" role="alert"><div><b>' + escapeHtml(c ? c.code : 'Curso') + (multi ? ' · ' + escapeHtml(accLabel(f.account_id)) : '') + ':</b> ' + escapeHtml(f.warning) + '</div></div>');
   });
   const bad = (d.states || []).filter(s => s.state === 'error' || s.state === 'missing').length;
   if(bad) out.push('<div class="dnote warn" role="status"><div><b>' + bad + ' acceso(s) sin compartir o con error.</b> <button class="btn btn-ghost btn-sm" type="button" onclick="syncDrive(this)">Reintentar todos</button></div></div>');
@@ -3529,12 +3613,17 @@ function renderDrivePanel(){
     main.classList.add('hidden');
     return;
   }
-  miss.classList.add('hidden');
+  const old = driveNeedsUpdate();       // base de datos con la versión anterior: se pide actualizarla
+  miss.innerHTML = old ? driveOldHtml() : '';
+  miss.classList.toggle('hidden', !old);
+  ['drv-folders', 'drv-robot'].forEach(id => { const p = document.getElementById(id); if(p) p.classList.toggle('hidden', old); });
   main.classList.remove('hidden');
   renderRulePanel();
   renderPreauthPanel();
-  renderFoldersPanel();
-  renderRobotPanel();
+  if(!old){
+    renderFoldersPanel();
+    renderRobotPanel();
+  }
 }
 
 function renderRulePanel(){
@@ -3629,143 +3718,429 @@ function foldSay(courseId, text, kind){
   const m = document.getElementById('fold-msg-' + courseId);
   if(m){ m.className = 'form-msg' + (kind ? ' ' + kind : ''); m.textContent = text; }
 }
-function folderStateHtml(courseId){
-  const f = driveFolder(courseId);
-  if(!f) return '<span class="dchip off">Sin carpeta</span><span>Los alumnos de este curso no reciben acceso automático a Drive.</span>';
+function countStates(list){
   let ok = 0, wait = 0, bad = 0;
-  ((state.drive && state.drive.states) || []).forEach(s => {
-    if(s.course_id !== courseId) return;
+  list.forEach(s => {
     if(s.state === 'ok') ok++;
     else if(s.state === 'queued' || s.state === 'retry') wait++;
     else if(s.state === 'error' || s.state === 'missing') bad++;
   });
-  let h = '<span class="dchip ok">✓ Carpeta guardada</span><span class="dchip ' + (ok ? 'ok' : 'off') + '">' + ok + ' con acceso</span>';
-  if(wait) h += '<span class="dchip wait">' + wait + ' en proceso</span>';
-  if(bad) h += '<span class="dchip bad">' + bad + ' con problema</span>';
+  return { ok, wait, bad };
+}
+function countChipsHtml(c, okText){
+  let h = '<span class="dchip ' + (c.ok ? 'ok' : 'off') + '">' + c.ok + ' ' + okText + '</span>';
+  if(c.wait) h += '<span class="dchip wait">' + c.wait + ' en proceso</span>';
+  if(c.bad) h += '<span class="dchip bad">' + c.bad + ' con problema</span>';
+  return h;
+}
+function shortFolderId(id){
+  id = String(id || '');
+  return id.length > 16 ? id.slice(0, 8) + '…' + id.slice(-5) : id;
+}
+function accountOptions(sel, placeholder){
+  return (placeholder ? '<option value=""' + (sel ? '' : ' selected') + '>' + escapeHtml(placeholder) + '</option>' : '') +
+    driveAccounts().map(a => '<option value="' + Number(a.id) + '"' + (Number(a.id) === Number(sel) ? ' selected' : '') + '>' +
+      escapeHtml(a.label + (a.email ? ' · ' + a.email : '')) + '</option>').join('');
+}
+/* estado de UNA carpeta: cuántos alumnos ya la tienen compartida, cuántos esperan, cuántos con problema */
+function folderStateHtml(courseId, folderId){
+  const f = driveFolders(courseId).find(x => x.folder_id === folderId);
+  if(!f) return '';
+  let h = '<span class="dchip ok">✓ Carpeta guardada</span>' +
+    countChipsHtml({ ok: Number(f.ok) || 0, wait: Number(f.wait) || 0, bad: Number(f.bad) || 0 }, 'con acceso');
   if(f.warning) h += '<div class="dnote warn" role="alert"><div>' + escapeHtml(f.warning) + '</div></div>';
   return h;
 }
+/* el curso completo (cuando tiene varias carpetas): el alumno ve los videos cuando están todas compartidas */
+function courseTotalHtml(courseId){
+  const c = countStates(((state.drive && state.drive.states) || []).filter(s => s.course_id === courseId));
+  return '<b>El curso completo:</b>' + countChipsHtml(c, 'listos') + '<small>El alumno ve los videos cuando están compartidas todas las carpetas.</small>';
+}
+function folderItemHtml(c, f){
+  const multi = driveAccounts().length > 1;
+  const a = driveAccount(f.account_id);
+  const key = c.id + '|' + f.folder_id;
+  const url = 'https://drive.google.com/drive/folders/' + encodeURIComponent(f.folder_id);
+  return '<div class="fold-item"><div class="fold-top">' +
+      (multi ? '<span class="acc-chip" title="' + escapeHtml(a && a.email ? a.email : '') + '">' + escapeHtml(a ? a.label : 'Cuenta desconocida') + '</span>' : '') +
+      '<span class="fold-id mono" title="' + escapeHtml(f.folder_id) + '">Carpeta ' + escapeHtml(shortFolderId(f.folder_id)) + '</span>' +
+      '<a class="btn btn-ghost btn-sm" href="' + url + '" target="_blank" rel="noopener">Abrir en Drive ↗</a>' +
+      (multi ? '<select class="access-select fold-acc" aria-label="Cuenta de Gmail de esta carpeta" onchange="changeFolderAccount(\'' + c.id + '\',\'' + f.folder_id + '\',this.value)">' + accountOptions(f.account_id) + '</select>' : '') +
+      '<button class="btn btn-ghost btn-sm" type="button" onclick="removeFolder(\'' + c.id + '\',\'' + f.folder_id + '\',this)">Quitar</button>' +
+    '</div><div class="fold-state" data-fstate="' + escapeHtml(key) + '">' + folderStateHtml(c.id, f.folder_id) + '</div></div>';
+}
 function renderFoldersPanel(){
   const box = document.getElementById('drv-folders');
-  if(!box || !state.drive) return;
-  let h = '<h3>Carpeta de Drive de cada curso</h3>' +
-    '<p class="panel-lede">Crea en tu Drive una carpeta por curso y sube ahí los videos (déjalos en «Restringido»). Pega aquí el enlace de la carpeta: el robot se la comparte a cada alumno que tenga el curso y se la quita a quien lo pierda.</p>';
+  if(!box || !state.drive || driveNeedsUpdate()) return;
+  let h = '<h3>Carpetas de Drive de cada curso</h3>' +
+    '<p class="panel-lede">Crea en Drive una carpeta por curso y sube ahí los videos (déjalos en «Restringido»). Pega aquí el enlace de la carpeta: el robot se la comparte a cada alumno que tenga el curso y se la quita a quien lo pierda. Si tus videos están repartidos en más de un Gmail, un curso puede tener varias carpetas (una por Gmail).</p>';
   if(!state.courses.length){
     box.innerHTML = h + '<div class="empty">Primero sube un curso en la pestaña «Cursos».</div>';
     return;
   }
+  const multi = driveAccounts().length > 1;
   h += state.courses.map(c => {
-    const f = driveFolder(c.id);
-    const val = (folderDraft[c.id] !== undefined) ? folderDraft[c.id] : (f ? 'https://drive.google.com/drive/folders/' + f.folder_id : '');
+    const fs = driveFolders(c.id);
+    const val = (folderDraft[c.id] !== undefined) ? folderDraft[c.id] : '';
+    let pick = folderAccPick[c.id];
+    if(!driveAccount(pick)) pick = driveAccount(lastAccPick) ? lastAccPick : 0;
     return '<div class="fold-row"><div class="fold-head"><span>' + escapeHtml(c.code) + '</span>' + escapeHtml(c.title) + '</div>' +
-      '<div class="fold-edit"><input id="fold-' + c.id + '" type="text" autocomplete="off" spellcheck="false" placeholder="Pega aquí el enlace de la carpeta de Drive" value="' + escapeHtml(val) + '" oninput="folderDraft[\'' + c.id + '\']=this.value">' +
-        '<button class="btn btn-solid btn-sm" type="button" onclick="saveFolder(\'' + c.id + '\')">Guardar</button>' +
-        (f ? '<a class="btn btn-ghost btn-sm" href="https://drive.google.com/drive/folders/' + escapeHtml(f.folder_id) + '" target="_blank" rel="noopener">Abrir en Drive ↗</a><button class="btn btn-ghost btn-sm" type="button" onclick="clearFolder(\'' + c.id + '\')">Quitar</button>' : '') +
-      '</div><div class="fold-state" data-fstate="' + c.id + '">' + folderStateHtml(c.id) + '</div><div class="form-msg" id="fold-msg-' + c.id + '" role="status" style="margin:8px 0 0;"></div></div>';
+      (fs.length
+        ? fs.map(f => folderItemHtml(c, f)).join('') + (fs.length > 1 ? '<div class="fold-total" data-ftotal="' + c.id + '">' + courseTotalHtml(c.id) + '</div>' : '')
+        : '<div class="fold-state"><span class="dchip off">Sin carpeta</span><span>Los alumnos de este curso no reciben acceso automático a Drive.</span></div>') +
+      '<div class="fold-edit">' +
+        '<input id="fold-' + c.id + '" type="text" autocomplete="off" spellcheck="false" aria-label="Enlace de la carpeta de Drive de ' + escapeHtml(c.code) + '" placeholder="' + (fs.length ? 'Pega el enlace de otra carpeta para este curso' : 'Pega aquí el enlace de la carpeta de Drive') + '" value="' + escapeHtml(val) + '" oninput="folderDraft[\'' + c.id + '\']=this.value">' +
+        (multi ? '<select id="facc-' + c.id + '" class="access-select" aria-label="Gmail dueño de la carpeta" onchange="folderAccPick[\'' + c.id + '\']=Number(this.value)||0">' + accountOptions(pick, '¿En qué Gmail está?') + '</select>' : '') +
+        '<button class="btn btn-solid btn-sm" type="button" onclick="saveFolder(\'' + c.id + '\')">' + (fs.length ? 'Agregar carpeta' : 'Guardar') + '</button>' +
+      '</div><div class="form-msg" id="fold-msg-' + c.id + '" role="status" style="margin:8px 0 0;"></div></div>';
   }).join('');
   box.innerHTML = h;
 }
-function clearFolder(courseId){
-  const input = document.getElementById('fold-' + courseId);
-  if(input) input.value = '';
-  folderDraft[courseId] = '';
-  saveFolder(courseId);
+function renderAccountsAndFolders(){
+  renderFoldersPanel();
+  renderRobotPanel();
 }
-async function saveFolder(courseId){
+/* agrega UNA carpeta al curso (con varios Gmail hay que decir en cuál está) */
+const driveBusy = {};        // acciones en curso (así un doble clic no repite la orden)
+async function driveOnce(key, fn){
+  if(driveBusy[key]) return;
+  driveBusy[key] = true;
+  try{ return await fn(); }
+  finally{ delete driveBusy[key]; }
+}
+function saveFolder(courseId){ return driveOnce('f:' + courseId, () => saveFolderNow(courseId)); }
+async function saveFolderNow(courseId){
   const input = document.getElementById('fold-' + courseId);
   if(!input) return;
   const p = parseDriveFolder(input.value);
   if(p.error){ foldSay(courseId, p.error, 'err'); return; }
-  const saved = driveFolder(courseId);
-  const newId = p.empty ? '' : p.id;
-  if(saved && saved.folder_id === newId){ foldSay(courseId, 'Esa ya es la carpeta guardada.'); return; }
-  if(!saved && !newId){ foldSay(courseId, 'Pega el enlace de la carpeta de este curso.', 'err'); return; }
-  if(saved && (!folderArm[courseId] || Date.now() - folderArm[courseId] > 20000)){
-    folderArm[courseId] = Date.now();
-    foldSay(courseId, newId
-      ? 'Ya hay otra carpeta guardada. Si la cambias, a los alumnos se les quita de la anterior y se les comparte la nueva. Pulsa Guardar otra vez para confirmar.'
-      : 'Si quitas la carpeta, a los alumnos se les quita de ella en Drive. Pulsa Guardar otra vez para confirmar.', 'err');
-    return;
+  if(p.empty){ foldSay(courseId, 'Pega el enlace de la carpeta de este curso.', 'err'); return; }
+  if(driveFolders(courseId).some(f => f.folder_id === p.id)){ foldSay(courseId, 'Esa carpeta ya está en este curso.', 'err'); return; }
+  const accs = driveAccounts();
+  const args = { p_course: courseId, p_folder: p.id };
+  if(accs.length > 1){
+    const sel = document.getElementById('facc-' + courseId);
+    const acc = sel ? Number(sel.value) : 0;
+    if(!acc){ foldSay(courseId, 'Elige en qué cuenta de Gmail está esa carpeta (la que es dueña de ella).', 'err'); return; }
+    args.p_account = acc;
+  }else if(accs.length === 1){
+    args.p_account = Number(accs[0].id);
   }
-  delete folderArm[courseId];
   foldSay(courseId, 'Guardando…');
   try{
-    const r = await driveRpc('admin_set_course_folder', { p_course: courseId, p_folder: newId });
+    const r = await driveRpc('admin_drive_folder_add', args);
     if(!r || r.ok !== true){ foldSay(courseId, (r && r.error) || 'No se pudo guardar la carpeta.', 'err'); return; }
+    if(accs.length > 1 && r.account){ lastAccPick = Number(r.account); folderAccPick[courseId] = lastAccPick; }
     delete folderDraft[courseId];
     await loadDriveOverview();
-    renderFoldersPanel();
-    foldSay(courseId, !newId ? 'Listo: curso sin carpeta.'
-      : (r.queued ? 'Listo: carpeta guardada. Se compartirá con ' + r.queued + ' alumno' + (r.queued === 1 ? '' : 's') + ' en 1 o 2 minutos.' : 'Listo: carpeta guardada. Cada alumno que reciba este curso la recibe solo.'), 'ok');
+    renderAccountsAndFolders();
+    const acc = driveAccount(r.account);
+    let msg = r.queued
+      ? 'Listo: carpeta guardada. Se compartirá con ' + r.queued + ' alumno' + (r.queued === 1 ? '' : 's') + ' en 1 o 2 minutos.'
+      : 'Listo: carpeta guardada. Cada alumno que reciba este curso la recibe solo.';
+    if(acc && robotInfo(acc).kind !== 'on') msg += ' Ojo: el robot de «' + acc.label + '» todavía no está activo (más abajo, en «Cuentas de Gmail y robots»); hasta que lo esté no se comparte nada.';
+    foldSay(courseId, msg, 'ok');
   }catch(e){
     console.error(e);
     foldSay(courseId, 'No se pudo guardar: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
   }
 }
+/* quita UNA carpeta del curso (pide confirmar con un segundo clic) */
+function removeFolder(courseId, folderId, btn){ return driveOnce('r:' + courseId + '|' + folderId, () => removeFolderNow(courseId, folderId, btn)); }
+async function removeFolderNow(courseId, folderId, btn){
+  if(!driveFolders(courseId).some(f => f.folder_id === folderId)) return;
+  const key = courseId + '|' + folderId;
+  if(!folderArm[key] || Date.now() - folderArm[key] > 20000){
+    folderArm[key] = Date.now();
+    if(btn){
+      btn.classList.remove('btn-ghost'); btn.classList.add('btn-danger'); btn.textContent = 'Sí, quitar';
+      setTimeout(() => { if(btn.isConnected){ btn.classList.remove('btn-danger'); btn.classList.add('btn-ghost'); btn.textContent = 'Quitar'; } }, 20000);
+    }
+    foldSay(courseId, 'Si quitas esta carpeta, a los alumnos de este curso se les quita el acceso a ella en Drive (el robot lo hace en 1 o 2 minutos). Pulsa «Sí, quitar» para confirmar.', 'err');
+    return;
+  }
+  delete folderArm[key];
+  foldSay(courseId, 'Quitando…');
+  try{
+    const r = await driveRpc('admin_drive_folder_remove', { p_course: courseId, p_folder: folderId });
+    if(!r || r.ok !== true){ foldSay(courseId, (r && r.error) || 'No se pudo quitar la carpeta.', 'err'); return; }
+    await loadDriveOverview();
+    renderAccountsAndFolders();
+    foldSay(courseId, 'Listo: carpeta quitada del curso. A los alumnos se les quita de ella en Drive en 1 o 2 minutos.', 'ok');
+  }catch(e){
+    console.error(e);
+    foldSay(courseId, 'No se pudo quitar: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+  }
+}
+/* corrige la cuenta de Gmail de una carpeta (por si se eligió la equivocada) */
+function changeFolderAccount(courseId, folderId, accId){ return driveOnce('c:' + courseId + '|' + folderId, () => changeFolderAccountNow(courseId, folderId, accId)); }
+async function changeFolderAccountNow(courseId, folderId, accId){
+  accId = Number(accId);
+  const f = driveFolders(courseId).find(x => x.folder_id === folderId);
+  if(!f || !accId || Number(f.account_id) === accId) return;
+  foldSay(courseId, 'Cambiando de cuenta…');
+  try{
+    const r = await driveRpc('admin_drive_folder_set_account', { p_course: courseId, p_folder: folderId, p_account: accId });
+    if(!r || r.ok !== true){
+      renderFoldersPanel();
+      foldSay(courseId, (r && r.error) || 'No se pudo cambiar la cuenta.', 'err');
+      return;
+    }
+    lastAccPick = accId;
+    await loadDriveOverview();
+    renderAccountsAndFolders();
+    foldSay(courseId, 'Listo: esa carpeta ahora se busca en «' + accLabel(accId) + '». El robot de esa cuenta la comparte en 1 o 2 minutos.', 'ok');
+  }catch(e){
+    console.error(e);
+    renderFoldersPanel();
+    foldSay(courseId, 'No se pudo cambiar la cuenta: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+  }
+}
 
-/* ---- robot ---- */
+/* ---- cuentas de Gmail y sus robots ---- */
 const ROBOT_STATUS_TXT = {
-  none: ['', 'Robot sin instalar', 'Genera la clave y copia el código (abajo).'],
+  none: ['', 'Robot sin instalar', 'Genera la clave y copia el código.'],
   wait: ['wait', 'Esperando que el robot se conecte…', 'Ya hay clave: pega el código en Google y ejecuta «instalar».'],
   on: ['on', 'Robot activo', ''],
   off: ['off', 'El robot no responde', 'Revisa en script.google.com → Activadores que siga el reloj de «revisarCola».']
 };
-function updateRobotStatus(){
-  const box = document.getElementById('drv-robot-status');
-  if(!box) return;
-  const r = robotInfo();
+function accStatus(a){
+  const r = robotInfo(a);
   const t = ROBOT_STATUS_TXT[r.kind];
   const extra = (r.kind === 'on' || r.kind === 'off') ? 'Última señal hace ' + fmtSecs(r.ago) + '. ' + t[2] : t[2];
-  box.className = 'rb-status ' + t[0];
-  box.innerHTML = '<span class="rb-dot"></span>' + t[1] + '<small>' + escapeHtml(extra) + '</small>';
+  return { cls: 'rb-status ' + t[0], html: '<span class="rb-dot"></span>' + t[1] + '<small>' + escapeHtml(extra) + '</small>' };
 }
-function buildRobotCode(secret){
-  return ROBOT_TEMPLATE.split('__SUPABASE_URL__').join(SUPABASE_URL).split('__SUPABASE_KEY__').join(SUPABASE_ANON_KEY).split('__ROBOT_SECRET__').join(secret);
+function accMetaHtml(a){
+  const f = Number(a.folders) || 0, p = Number(a.pending) || 0, e = Number(a.errors) || 0;
+  return '<span class="dchip ' + (f ? 'wait' : 'off') + '">' + f + ' carpeta' + (f === 1 ? '' : 's') + '</span>' +
+    (p ? '<span class="dchip wait">' + p + ' ' + (p === 1 ? 'orden' : 'órdenes') + ' en proceso</span>' : '') +
+    (e ? '<span class="dchip bad">' + e + ' con error</span>' : '');
 }
-function robotCodeHtml(){
-  return '<div class="code-box"><div class="dnote warn"><div><b>Este código lleva tu clave privada.</b> No lo compartas ni lo pegues en ningún otro sitio. Si recargas esta página ya no se vuelve a mostrar (tendrías que generar uno nuevo).</div></div>' +
+/* texto del botón principal de una cuenta según el estado de su robot */
+function accGenLabel(a){
+  if(!a.has_secret) return 'Instalar el robot';
+  return a.seconds_ago == null ? 'Mostrar el código de instalación' : 'Generar clave nueva y código';
+}
+function accMailHtml(a){
+  return a.email ? escapeHtml(a.email) : 'Su correo aparece cuando el robot se conecte';
+}
+/* estados, contadores y correo de cada cuenta: se actualizan solos sin tocar lo que estás escribiendo */
+function updateAccStatuses(){
+  const accs = driveAccounts();
+  if(!accs.length){
+    const box = document.getElementById('drv-robot-status');
+    if(box){ box.className = 'rb-status'; box.innerHTML = '<span class="rb-dot"></span>Robot sin instalar<small>Pulsa «Instalar el robot» para generar su clave y su código.</small>'; }
+    return;
+  }
+  accs.forEach(a => {
+    const id = Number(a.id);
+    const st = document.querySelector('[data-acc-status="' + id + '"]');
+    if(st){ const s = accStatus(a); st.className = s.cls; st.innerHTML = s.html; }
+    const meta = document.querySelector('[data-acc-meta="' + id + '"]');
+    if(meta) meta.innerHTML = accMetaHtml(a);
+    const mail = document.querySelector('[data-acc-mail="' + id + '"]');
+    if(mail) mail.innerHTML = accMailHtml(a);
+    const gb = document.querySelector('[data-acc-gen="' + id + '"]');
+    if(gb && !gb.disabled) gb.textContent = accGenLabel(a);
+  });
+}
+function accSay(id, text, kind){
+  const m = (id && document.getElementById('acc-msg-' + id)) || document.getElementById('rb-msg');
+  if(m){ m.className = 'form-msg' + (kind ? ' ' + kind : ''); m.textContent = text; }
+}
+function buildRobotCode(secret, label){
+  const lab = String(label || '').split(String.fromCharCode(0x2028)).join(' ').split(String.fromCharCode(0x2029)).join(' ').replace(/[\x00-\x1f]+/g, ' ').trim() || 'Cuenta principal';
+  return ROBOT_TEMPLATE.split('__SUPABASE_URL__').join(SUPABASE_URL).split('__SUPABASE_KEY__').join(SUPABASE_ANON_KEY)
+    .split('__ROBOT_SECRET__').join(secret).split('__ACCOUNT_LABEL__').join(lab);
+}
+function robotCodeHtml(a){
+  const who = a.email
+    ? '<b>' + escapeHtml(a.email) + '</b>'
+    : 'el Gmail de «<b>' + escapeHtml(a.label) + '</b>» (el que va a ser dueño de sus carpetas)';
+  return '<div class="code-box"><div class="dnote warn"><div><b>Este código lleva la clave privada de «' + escapeHtml(a.label) + '».</b> No lo compartas ni lo pegues en ningún otro sitio. Si recargas esta página ya no se vuelve a mostrar (tendrías que generar uno nuevo).</div></div>' +
     '<ol class="steps">' +
-      '<li>Entra a <b>script.google.com</b> con <b>tu Gmail</b> (el dueño de las carpetas de Drive) y pulsa <b>Proyecto nuevo</b>.</li>' +
+      '<li>Entra a <b>script.google.com</b> con ' + who + ' y pulsa <b>Proyecto nuevo</b>. Tiene que ser con ese Gmail y no con otro: el robot solo ve las carpetas de la cuenta donde vive.</li>' +
       '<li>Borra todo lo que aparece, pega el código de abajo y pulsa <b>Guardar</b> (💾).</li>' +
       '<li>Arriba elige la función <code>instalar</code> y pulsa <b>Ejecutar</b>. Google pide permisos: <b>Revisar permisos</b> → tu cuenta → <b>Avanzado</b> → <b>Ir a (nombre del proyecto) (no seguro)</b> → <b>Permitir</b>. Es tu propio código, por eso sale ese aviso.</li>' +
-      '<li>Vuelve aquí: en menos de un minuto debe decir <b>Robot activo</b>.</li>' +
+      '<li>Vuelve aquí: en menos de un minuto esta cuenta debe decir <b>Robot activo</b>.</li>' +
     '</ol>' +
     '<pre id="rb-code">' + escapeHtml(robotCode) + '</pre>' +
     '<button type="button" class="btn btn-solid btn-sm" onclick="copyRobotCode(this)">Copiar el código</button></div>';
 }
+function accCardHtml(a){
+  const id = Number(a.id);
+  const s = accStatus(a);
+  const head = accEdit[id]
+    ? '<div class="acc-rename"><input id="acc-name-' + id + '" type="text" maxlength="40" autocomplete="off" aria-label="Nombre de la cuenta" value="' + escapeHtml(a.label) + '" onkeydown="if(event.key===\'Enter\'){saveAccName(' + id + ')}else if(event.key===\'Escape\'){cancelAccName(' + id + ')}">' +
+        '<button class="btn btn-solid btn-sm" type="button" onclick="saveAccName(' + id + ')">Guardar nombre</button>' +
+        '<button class="btn btn-ghost btn-sm" type="button" onclick="cancelAccName(' + id + ')">Cancelar</button></div>'
+    : '<b class="acc-label">' + escapeHtml(a.label) + '</b>';
+  return '<div class="acc-card" id="acc-' + id + '"><div class="acc-head">' + head +
+      '<span class="acc-mail" data-acc-mail="' + id + '">' + accMailHtml(a) + '</span></div>' +
+    '<div class="' + s.cls + '" data-acc-status="' + id + '">' + s.html + '</div>' +
+    '<div class="acc-meta" data-acc-meta="' + id + '">' + accMetaHtml(a) + '</div>' +
+    '<div class="acc-actions">' +
+      '<button class="btn btn-solid btn-sm" type="button" data-acc-gen="' + id + '" onclick="genRobot(' + id + ',this)">' + accGenLabel(a) + '</button>' +
+      '<button class="btn btn-ghost btn-sm" type="button" onclick="editAccName(' + id + ')">Cambiar nombre</button>' +
+      '<button class="btn btn-ghost btn-sm" type="button" onclick="removeAccount(' + id + ',this)">Quitar cuenta</button>' +
+    '</div>' +
+    '<div class="form-msg" id="acc-msg-' + id + '" role="status" style="margin-top:10px;"></div>' +
+    ((robotFor && robotFor.id === id && robotCode) ? '<div id="rb-code-wrap">' + robotCodeHtml(a) + '</div>' : '') +
+  '</div>';
+}
 function renderRobotPanel(){
   const box = document.getElementById('drv-robot');
-  if(!box || !state.drive) return;
-  const has = !!(state.drive.robot && state.drive.robot.has_secret);
-  box.innerHTML = '<h3>Robot de Drive</h3><div id="drv-robot-status" class="rb-status"></div>' +
-    '<p class="panel-lede">Es un pequeño programa de Google que vive en <b>tu</b> cuenta de Gmail. Cada minuto revisa el aula y comparte o quita las carpetas de Drive de cada alumno. Se instala una sola vez.</p>' +
-    '<div class="rb-actions"><button class="btn btn-solid btn-sm" type="button" onclick="genRobot(this)">' + (has ? 'Generar clave nueva y código' : 'Instalar el robot') + '</button>' +
-    '<button class="btn btn-ghost btn-sm" type="button" onclick="syncDrive(this)">Sincronizar ahora</button></div>' +
-    '<div id="rb-msg" class="form-msg" role="status" style="margin-top:10px;"></div><div id="rb-code-wrap">' + (robotCode ? robotCodeHtml() : '') + '</div>';
-  updateRobotStatus();
-}
-async function genRobot(btn){
-  const say = (t, k) => { const m = document.getElementById('rb-msg'); if(m){ m.className = 'form-msg' + (k ? ' ' + k : ''); m.textContent = t; } };
-  const has = !!(state.drive && state.drive.robot && state.drive.robot.has_secret);
-  if(has && (!rbArm || Date.now() - rbArm > 20000)){
-    rbArm = Date.now();
-    say('Ya hay un robot con clave. Si generas una nueva, el actual deja de funcionar hasta que pegues el código nuevo en Google. Pulsa otra vez para confirmar.', 'err');
-    return;
+  if(!box || !state.drive || driveNeedsUpdate()) return;
+  const accs = driveAccounts();
+  const typed = (document.getElementById('acc-new-name') || {}).value || '';
+  let h = '<h3>' + (accs.length ? 'Cuentas de Gmail y robots' : 'Robot de Drive') + '</h3>' +
+    '<p class="panel-lede">Un robot es un pequeño programa de Google que vive en <b>tu</b> cuenta de Gmail: cada minuto revisa el aula y comparte o quita las carpetas de Drive de cada alumno. Se instala una sola vez por cada Gmail donde guardes videos. <b>Cuando un Gmail se llene</b> (cada uno da 15 GB gratis), crea otro Gmail de tu empresa, sube ahí los videos nuevos y agrégalo aquí.</p>';
+  if(!accs.length){
+    h += '<div id="drv-robot-status" class="rb-status"></div>' +
+      '<div class="rb-actions"><button class="btn btn-solid btn-sm" type="button" onclick="genRobot(0,this)">Instalar el robot</button>' +
+      '<button class="btn btn-ghost btn-sm" type="button" onclick="syncDrive(this)">Sincronizar ahora</button></div>' +
+      '<p class="field-hint">Instala primero el robot de tu primer Gmail. Cuando se llene, aquí mismo aparecerá el botón para agregar otro.</p>';
+  }else{
+    h += '<div class="acc-list">' + accs.map(accCardHtml).join('') + '</div>' +
+      '<div class="acc-add"><h4>Agregar otra cuenta de Gmail</h4>' +
+        '<p class="panel-lede">Crea el nuevo Gmail (por ejemplo, uno más de tu empresa), agrégalo aquí y sigue los pasos para instalar su robot. Después, al pegar la carpeta de un curso, elegirás en cuál Gmail está.</p>' +
+        '<div class="acc-add-form"><div class="field"><label for="acc-new-name">Nombre para reconocerla (opcional)</label>' +
+          '<input id="acc-new-name" type="text" maxlength="40" autocomplete="off" placeholder="Ej.: Gmail 2 · cursos nuevos"></div>' +
+          '<button class="btn btn-solid btn-sm" type="button" onclick="addAccount(this)">Agregar cuenta</button></div>' +
+        '<div id="acc-add-msg" class="form-msg" role="status" style="margin-top:10px;"></div></div>' +
+      '<div class="rb-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="syncDrive(this)">Sincronizar ahora</button></div>';
   }
-  rbArm = 0;
+  h += '<div id="rb-msg" class="form-msg" role="status" style="margin-top:10px;"></div>';
+  box.innerHTML = h;
+  const nn = document.getElementById('acc-new-name');
+  if(nn && typed) nn.value = typed;
+  updateAccStatuses();
+}
+function showRobotCode(){
+  const w = document.getElementById('rb-code-wrap');
+  if(w) w.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+/* genera la clave y el código del robot de una cuenta (id 0 = todavía no hay ninguna: se crea la primera) */
+async function genRobot(accId, btn){
+  accId = Number(accId) || 0;
+  const acc = accId ? driveAccount(accId) : null;
+  if(accId && !acc){ accSay(0, 'Esa cuenta ya no existe.', 'err'); return; }
+  const say = (t, k) => accSay(accId, t, k);
+  if(acc && acc.has_secret && acc.seconds_ago != null){   // ya hay un robot trabajando con esa clave: antes de apagarlo se pide confirmar
+    const key = 'regen:' + accId;
+    if(!accArm[key] || Date.now() - accArm[key] > 20000){
+      accArm[key] = Date.now();
+      say('«' + acc.label + '» ya tiene un robot con clave. Si generas una nueva, ese robot deja de funcionar hasta que pegues el código nuevo en Google. Pulsa otra vez para confirmar.', 'err');
+      return;
+    }
+    delete accArm[key];
+  }
   if(btn) btn.disabled = true;
   say('Generando…');
   try{
-    const secret = await driveRpc('admin_rotate_robot_secret');
-    robotCode = buildRobotCode(String(secret));
+    let secret, id = accId, label = acc ? acc.label : '';
+    if(acc){
+      secret = await driveRpc('admin_rotate_robot_secret', { p_account: accId });
+    }else{
+      const r = await driveRpc('admin_drive_account_add', { p_label: null });
+      if(!r || r.ok !== true){ say((r && r.error) || 'No se pudo crear la cuenta.', 'err'); if(btn) btn.disabled = false; return; }
+      secret = r.secret; id = r.id; label = r.label;
+    }
+    robotCode = buildRobotCode(String(secret), label);
+    robotFor = { id: Number(id), label };
+    if(!acc) forgetAccPick();
     await loadDriveOverview();
-    renderRobotPanel();
-    const w = document.getElementById('rb-code-wrap');
-    if(w) w.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    renderAccountsAndFolders();
+    showRobotCode();
   }catch(e){
     console.error(e);
     say('No se pudo generar la clave: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
     if(btn) btn.disabled = false;
+  }
+}
+async function addAccount(btn){
+  const say = (t, k) => { const m = document.getElementById('acc-add-msg'); if(m){ m.className = 'form-msg' + (k ? ' ' + k : ''); m.textContent = t; } };
+  const inp = document.getElementById('acc-new-name');
+  const label = inp ? inp.value.trim() : '';
+  if(btn) btn.disabled = true;
+  say('Agregando…');
+  try{
+    const r = await driveRpc('admin_drive_account_add', { p_label: label || null });
+    if(!r || r.ok !== true){ say((r && r.error) || 'No se pudo agregar la cuenta.', 'err'); if(btn) btn.disabled = false; return; }
+    robotCode = buildRobotCode(String(r.secret), r.label);
+    robotFor = { id: Number(r.id), label: r.label };
+    forgetAccPick();
+    await loadDriveOverview();
+    if(inp) inp.value = '';
+    renderAccountsAndFolders();
+    accSay(Number(r.id), 'Listo: «' + r.label + '» quedó agregada. Ahora instala su robot con los pasos de abajo.', 'ok');
+    showRobotCode();
+  }catch(e){
+    console.error(e);
+    say('No se pudo agregar la cuenta: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+    if(btn) btn.disabled = false;
+  }
+}
+function editAccName(id){
+  accEdit[id] = true;
+  renderRobotPanel();
+  const i = document.getElementById('acc-name-' + id);
+  if(i){ i.focus(); i.select(); }
+}
+function cancelAccName(id){
+  delete accEdit[id];
+  renderRobotPanel();
+}
+function saveAccName(id){ return driveOnce('n:' + id, () => saveAccNameNow(id)); }
+async function saveAccNameNow(id){
+  const i = document.getElementById('acc-name-' + id);
+  const name = i ? i.value.trim() : '';
+  if(!name){ accSay(id, 'Escribe un nombre para la cuenta.', 'err'); return; }
+  try{
+    const r = await driveRpc('admin_drive_account_update', { p_account: id, p_label: name });
+    if(!r || r.ok !== true){ accSay(id, (r && r.error) || 'No se pudo cambiar el nombre.', 'err'); return; }
+    delete accEdit[id];
+    if(robotFor && robotFor.id === Number(id)) robotFor.label = r.label;
+    await loadDriveOverview();
+    renderAccountsAndFolders();
+    accSay(id, 'Listo: ahora se llama «' + r.label + '».', 'ok');
+  }catch(e){
+    console.error(e);
+    accSay(id, 'No se pudo cambiar el nombre: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
+  }
+}
+function removeAccount(id, btn){ return driveOnce('ra:' + id, () => removeAccountNow(id, btn)); }
+async function removeAccountNow(id, btn){
+  const a = driveAccount(id);
+  if(!a) return;
+  const nf = Number(a.folders) || 0;
+  if(nf > 0){
+    accSay(id, 'Esta cuenta todavía tiene ' + nf + ' carpeta' + (nf === 1 ? '' : 's') + ' de cursos. Quítalas o pásalas a otra cuenta (arriba, en «Carpetas de Drive de cada curso») antes de quitar la cuenta.', 'err');
+    return;
+  }
+  const key = 'remove:' + id;
+  if(!accArm[key] || Date.now() - accArm[key] > 20000){
+    accArm[key] = Date.now();
+    if(btn){ btn.classList.remove('btn-ghost'); btn.classList.add('btn-danger'); btn.textContent = 'Sí, quitar cuenta'; }
+    const np = Number(a.pending) || 0;
+    accSay(id, 'Se quitará «' + a.label + '» del aula y su robot dejará de funcionar (en script.google.com puedes borrar su proyecto).' +
+      (np ? ' Ojo: todavía tiene ' + np + ' ' + (np === 1 ? 'orden' : 'órdenes') + ' pendiente' + (np === 1 ? '' : 's') + ' (por ejemplo, quitar accesos de alumnos): si la quitas ahora se cancelan y esos alumnos seguirán viendo esas carpetas en Drive hasta que los quites a mano.' : '') +
+      ' Pulsa «Sí, quitar cuenta» para confirmar.', 'err');
+    return;
+  }
+  delete accArm[key];
+  try{
+    const r = await driveRpc('admin_drive_account_remove', { p_account: id });
+    if(!r || r.ok !== true){ accSay(id, (r && r.error) || 'No se pudo quitar la cuenta.', 'err'); return; }
+    if(robotFor && robotFor.id === Number(id)){ robotCode = ''; robotFor = null; }
+    delete accEdit[id];
+    forgetAccPick();
+    await loadDriveOverview();
+    renderAccountsAndFolders();
+    accSay(0, 'Listo: «' + a.label + '» se quitó del aula.', 'ok');
+  }catch(e){
+    console.error(e);
+    accSay(id, 'No se pudo quitar la cuenta: ' + (e && e.message ? e.message : 'inténtalo de nuevo.'), 'err');
   }
 }
 async function copyRobotCode(btn){
@@ -3786,7 +4161,7 @@ async function copyRobotCode(btn){
 let drivePollTimer = null;
 function startDrivePoll(){ if(!drivePollTimer) drivePollTimer = setInterval(drivePollTick, 15000); }
 function stopDrivePoll(){ if(drivePollTimer){ clearInterval(drivePollTimer); drivePollTimer = null; } }
-function driveStopPolls(){ stopDrivePoll(); myDriveStop(); }
+function driveStopPolls(){ stopDrivePoll(); myDriveStop(); robotCode = ''; robotFor = null; }
 async function drivePollTick(){
   if(!session || session.role !== 'admin'){ stopDrivePoll(); return; }
   if(document.hidden || state.driveMissing) return;
@@ -3808,41 +4183,540 @@ function refreshDriveLive(){
     renderRetirarChips();
     renderRetirarRecent();
   }
-  if(adminTab === 'drive' && state.drive){
-    updateRobotStatus();
+  if(adminTab === 'drive' && state.drive && !driveNeedsUpdate()){
+    updateAccStatuses();
     renderPreauthList();
-    document.querySelectorAll('#drv-folders [data-fstate]').forEach(el => { el.innerHTML = folderStateHtml(el.getAttribute('data-fstate')); });
+    document.querySelectorAll('#drv-folders [data-fstate]').forEach(el => {
+      const k = String(el.getAttribute('data-fstate') || '').split('|');
+      el.innerHTML = folderStateHtml(k[0], k[1]);
+    });
+    document.querySelectorAll('#drv-folders [data-ftotal]').forEach(el => { el.innerHTML = courseTotalHtml(el.getAttribute('data-ftotal')); });
   }
 }
 
-/* ---------------- clases y material (administrador) ---------------- */
-async function addMaterialToLesson(lessonId){
-  const linkInput = document.getElementById('mat-link-' + lessonId);
-  const fileInput = document.getElementById('mat-file-' + lessonId);
-  const nameInput = document.getElementById('mat-name-' + lessonId);
-  const msg = document.getElementById('mat-msg-' + lessonId);
-  const link = linkInput.value.trim();
-  const file = fileInput.files[0];
-  const custom = nameInput ? nameInput.value.trim() : '';
-  if(!link && !file){ msg.textContent = 'Pon un enlace o elige un archivo.'; msg.className = 'form-msg err'; return; }
-  if(link && !file && !/^https?:\/\//i.test(link)){ msg.textContent = 'El enlace debe empezar con https://'; msg.className = 'form-msg err'; return; }
+/* ================= CONTENIDO DEL CURSO: temas con su video, material por tema y material del curso =================
+   Administrador: cada curso tiene su propia pantalla con dos pestañas
+     • «Temas y videos»: un tema por clase, con el enlace de su video (y, si quieres, su material).
+     • «Material del curso»: archivos o enlaces que sirven para todo el curso.
+   Alumno: ve el material del curso arriba de sus clases y el de cada tema debajo de su video. */
+state.content = null;        // para la lista de cursos: { lessons: {curso: [{id, video_url}]}, lmat: {clase: n}, cmat: {curso: n} }
+state.courseMaterials = {};  // alumno: curso -> material de todo el curso
+let lmTab = 'temas';
+let lmSeq = 0;               // una lectura vieja no pisa a una nueva si se cambia de curso rápido
+let lmSeqC = 0;
+const lmArm = {};            // confirmaciones pendientes (eliminar un tema): 'dl:<clase>' → hora
+const lmBusy = {};           // acciones en curso: un doble clic no repite la orden
+const lmRows = {};           // material leído del curso abierto, por id (para borrar también el archivo)
 
-  let url = link, storagePath = null, name = custom || (isDriveUrl(link) ? 'Material en Drive' : link);
+function lmEl(id){ return document.getElementById(id); }
+function lmSay(id, text, kind){
+  const e = lmEl(id);
+  if(!e) return;
+  const inline = e.classList.contains('inline');
+  e.textContent = text || '';
+  e.className = 'form-msg' + (inline ? ' inline' : '') + (kind ? ' ' + kind : '');
+}
+async function lmOnce(key, fn){
+  if(lmBusy[key]) return;
+  lmBusy[key] = true;
+  try{ return await fn(); } finally{ delete lmBusy[key]; }
+}
+function lmScrollTo(el){
+  const h = document.querySelector('header');
+  const top = el.getBoundingClientRect().top + window.pageYOffset - (h ? h.offsetHeight : 0) - 12;
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+}
+function sessionLabel(index){
+  return 'SESIÓN ' + String(index + 1).padStart(2, '0');
+}
+
+/* ---------------- enlaces ---------------- */
+function normalizeLink(v){
+  v = String(v || '').trim();
+  if(!v) return '';
+  if(/^https?:\/\//i.test(v)) return v;
+  if(/^(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i.test(v)) return 'https://' + v;   // lo pegaron sin https://
+  return v;
+}
+function isHttpLink(v){ return /^https?:\/\/\S+$/i.test(String(v || '')); }
+function videoProblem(v){
+  if(!v) return '';
+  if(!isHttpLink(v)) return 'Pega el enlace completo del video (empieza con https://).';
+  if(isDriveUrl(v) && !driveFileId(v)) return 'Ese enlace de Drive no es de un video. Abre el video en Drive y copia su enlace (lleva /file/d/).';
+  return '';
+}
+function videoKind(v){
+  v = String(v || '').trim();
+  if(!v) return { cls: 'none', text: 'Sin video todavía' };
+  const p = detectPlatform(v);
+  if(p === 'drive') return driveFileId(v) ? { cls: 'ok', text: '✓ Video de Drive' } : { cls: 'bad', text: 'Enlace de Drive que no es de un video' };
+  if(p === 'youtube') return extractYouTubeId(v) ? { cls: 'ok', text: '✓ Video de YouTube' } : { cls: 'bad', text: 'Enlace de YouTube incompleto' };
+  if(p === 'vimeo') return extractVimeoId(v) ? { cls: 'ok', text: '✓ Video de Vimeo' } : { cls: 'bad', text: 'Enlace de Vimeo incompleto' };
+  return { cls: 'ok', text: '✓ Enlace de video' };
+}
+function linkLabel(link){
+  if(isDriveUrl(link)) return 'Material en Drive';
+  try{ return new URL(link).hostname.replace(/^www\./, ''); }catch(e){ return link; }
+}
+function safeKey(name){
+  // nombre de archivo sin tildes ni símbolos raros: el almacenamiento rechaza algunos caracteres
+  const base = String(name || 'archivo').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '').slice(-80) || 'archivo';
+  return Date.now() + '-' + base;
+}
+function lmMissingTable(err){
+  return !!err && (err.code === 'PGRST205' || err.code === '42P01' || /could not find the table|does not exist|schema cache/i.test(String(err.message || '')));
+}
+function lmUpdateHtml(){
+  return '<div class="drv-setup"><b>Falta un paso para activar el material del curso (se hace una sola vez).</b><ol>' +
+    '<li>Abre tu proyecto en <b>Supabase</b> → <b>SQL Editor</b> → <b>New query</b>.</li>' +
+    '<li>Pega todo el contenido del archivo <b>supabase-drive.sql</b> nuevo y pulsa <b>Run</b>. No borra nada de lo que ya tienes.</li>' +
+    '<li>Vuelve aquí y recarga la página (Ctrl + F5).</li></ol></div>';
+}
+function lmErrHtml(text, err){
+  return '<div class="dnote warn"><div>' + escapeHtml(text) + (err && err.message ? ': ' + escapeHtml(err.message) : '') + '. Recarga la página e inténtalo de nuevo.</div></div>';
+}
+
+/* sube el archivo (si hay) o arma la fila con el enlace; devuelve { row } o { error } */
+async function lmPrepareMaterial(file, link, name){
   if(file){
-    msg.textContent = 'Subiendo…';
-    msg.className = 'form-msg';
-    const path = `${Date.now()}-${file.name}`.replace(/\s+/g, '-');
-    const { error: upErr } = await sb.storage.from('materials').upload(path, file);
-    if(upErr){ msg.textContent = 'Error al subir: ' + upErr.message; msg.className = 'form-msg err'; return; }
-    const { data: urlData } = sb.storage.from('materials').getPublicUrl(path);
-    url = urlData.publicUrl;
-    storagePath = path;
-    name = custom || file.name;
+    const path = safeKey(file.name);
+    const up = await sb.storage.from('materials').upload(path, file);
+    if(up.error) return { error: 'No se pudo subir el archivo: ' + up.error.message + '. Si pesa mucho, súbelo a Drive y pega aquí su enlace.' };
+    const pub = sb.storage.from('materials').getPublicUrl(path);
+    return { row: { name: name || file.name, url: pub.data.publicUrl, storage_path: path } };
   }
+  return { row: { name: name || linkLabel(link), url: link, storage_path: null } };
+}
+async function lmRemoveMaterial(table, row){
+  const r = await sb.from(table).delete().eq('id', row.id);
+  if(r.error) return r.error.message;
+  if(row.storage_path){
+    try{ await sb.storage.from('materials').remove([row.storage_path]); }catch(e){ console.error(e); }
+  }
+  return '';
+}
 
-  const { error } = await sb.from('lesson_materials').insert({ lesson_id: lessonId, name, url, storage_path: storagePath });
-  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
+/* ---------------- lista de cursos: botón y resumen de cada curso ---------------- */
+function contentSqlReady(){ return !!(state.drive && Array.isArray(state.drive.accounts)); }
+async function loadContentCounts(){
+  const cc = { lessons: {}, lmat: {}, cmat: {} };
+  try{
+    const l = await sb.from('course_lessons').select('id, course_id, video_url').order('order_index');
+    (l.data || []).forEach(r => { (cc.lessons[r.course_id] = cc.lessons[r.course_id] || []).push(r); });
+    const m = await sb.from('lesson_materials').select('id, lesson_id');
+    (m.data || []).forEach(r => { cc.lmat[r.lesson_id] = (cc.lmat[r.lesson_id] || 0) + 1; });
+    if(contentSqlReady()){
+      const c = await sb.from('course_materials').select('id, course_id');
+      (c.data || []).forEach(r => { cc.cmat[r.course_id] = (cc.cmat[r.course_id] || 0) + 1; });
+    }
+    state.content = cc;
+  }catch(e){ console.error(e); }
+}
+function courseContentCellHtml(id){
+  const cc = state.content;
+  let info = '';
+  if(cc){
+    const ls = cc.lessons[id] || [];
+    const sinVideo = ls.filter(l => !String(l.video_url || '').trim()).length;
+    const nm = ls.reduce((n, l) => n + (cc.lmat[l.id] || 0), 0) + (cc.cmat[id] || 0);
+    const parts = [];
+    parts.push(ls.length ? ls.length + (ls.length === 1 ? ' tema' : ' temas') : '<span class="w">Sin temas todavía</span>');
+    if(ls.length && sinVideo) parts.push('<span class="w">' + sinVideo + ' sin video</span>');
+    if(nm) parts.push(nm + (nm === 1 ? ' material' : ' materiales'));
+    info = '<span class="crs-counts">' + parts.join(' · ') + '</span>';
+  }
+  return '<div class="crs-content"><button class="btn btn-solid btn-sm" type="button" onclick="openLessonManager(\'' + id + '\')">Temas, videos y material</button>' + info + '</div>';
+}
+function renderCoursesJump(){
+  const t = lmEl('crs-jump-txt'), b = lmEl('crs-jump-btn');
+  if(!t || !b) return;
+  if((state.courses || []).length){
+    t.innerHTML = '<b>¿Dónde pongo el video de cada tema y el material?</b> En la lista «Cursos publicados» (más abajo), pulsa <b>«Temas, videos y material»</b> en el curso que quieras.';
+    b.classList.remove('hidden');
+  } else {
+    t.innerHTML = '<b>¿Dónde pongo el video de cada tema y el material?</b> Primero sube tu curso con el formulario de abajo. Al publicarlo se abre solo la pantalla para poner el video de cada tema y el material.';
+    b.classList.add('hidden');
+  }
+}
+function goCoursesList(){
+  const w = lmEl('courses-panel');
+  if(w) lmScrollTo(w);
+}
+
+/* ---------------- pantalla de un curso ---------------- */
+function openLessonManager(courseId, opts){
+  opts = opts || {};
+  const c = (state.courses || []).find(x => x.id === courseId);
+  if(!c) return;
+  manageCourseId = courseId;
+  lmEl('lm-code').textContent = c.code || '';
+  lmEl('lm-course-title').textContent = c.title || '';
+  const fresh = lmEl('lm-fresh');
+  if(opts.fresh){
+    fresh.innerHTML = '<b>Curso publicado.</b> Ahora agrega sus temas: para cada uno escribe su nombre y pega el enlace de su video. El material lo puedes poner en cada tema o, para todo el curso, en la pestaña «Material del curso».';
+    fresh.classList.remove('hidden');
+  } else {
+    fresh.classList.add('hidden');
+  }
+  ['lm-tema', 'lm-video', 'lm-mat-name', 'lm-mat-link', 'cm-name', 'cm-link'].forEach(id => { const e = lmEl(id); if(e) e.value = ''; });
+  ['lm-mat-file', 'cm-file'].forEach(id => { const e = lmEl(id); if(e) e.value = ''; });
+  lmEl('lm-open-all').checked = true;
+  lmSay('lm-msg', '');
+  lmSay('cm-msg', '');
+  lmEl('admin-courses-panel').classList.add('lm-open');
+  lmEl('lessons-manager').classList.remove('hidden');
+  lmEl('lm-list').innerHTML = '<div class="empty">Cargando los temas…</div>';
+  lmEl('lm-cm-list').innerHTML = '';
+  setLessonTab(opts.tab || 'temas', true);
+  lmScrollTo(lmEl('lessons-manager'));
   loadAndRenderLessons();
+  renderCourseMaterials();
+}
+function closeLessonManager(silent){
+  if(!manageCourseId && lmEl('lessons-manager').classList.contains('hidden')) return;
+  manageCourseId = null;
+  lmSeq++; lmSeqC++;
+  lmEl('lessons-manager').classList.add('hidden');
+  lmEl('admin-courses-panel').classList.remove('lm-open');
+  renderCoursesTable();
+  loadContentCounts().then(() => { renderCoursesTable(); });
+  if(silent !== true){
+    const w = lmEl('courses-panel');
+    if(w) lmScrollTo(w);
+  }
+}
+function setLessonTab(tab){
+  lmTab = tab === 'material' ? 'material' : 'temas';
+  ['temas', 'material'].forEach(t => {
+    const b = lmEl('lm-tab-' + t);
+    b.classList.toggle('active', t === lmTab);
+    b.setAttribute('aria-selected', t === lmTab ? 'true' : 'false');
+    lmEl('lm-pane-' + t).classList.toggle('hidden', t !== lmTab);
+  });
+}
+function lmCount(which, n){
+  const e = lmEl('lm-count-' + which);
+  if(e) e.textContent = n ? String(n) : '';
+}
+
+/* ---------------- pestaña «Temas y videos» ---------------- */
+function lmLessonHtml(l, i, ctx){
+  const kind = videoKind(l.video_url);
+  const mats = ctx.mats[l.id] || [];
+  const granted = ctx.granted[l.id] || new Set();
+  const total = ctx.clients.length;
+  const gcount = ctx.clients.filter(c => granted.has(c.id)).length;
+  const matItems = mats.length
+    ? mats.map(m => '<div class="lm-matitem"><span>' + escapeHtml(m.name || m.url) +
+        (m.storage_path ? ' <em>(archivo subido)</em>' : (isDriveUrl(m.url) ? ' <em>(Drive)</em>' : '')) +
+        '</span><button class="x" type="button" data-mid="' + escapeHtml(m.id) + '" onclick="deleteLessonMaterial(this)">Quitar</button></div>').join('')
+    : '<div class="lm-none">Este tema todavía no tiene material.</div>';
+  const accessHtml = total === 0
+    ? '<div class="lm-none" style="margin-top:12px;">Todavía ningún alumno tiene este curso. Cuando alguien lo reciba, verá los temas que ya estén agregados.</div>'
+    : '<details class="lm-access" data-lesson="' + l.id + '"><summary' + (gcount < total ? ' style="color:var(--warn)"' : '') + '>Quién puede ver este tema: ' + gcount + ' de ' + total + (total === 1 ? ' alumno' : ' alumnos') + (gcount < total ? ' · faltan ' + (total - gcount) : '') + '</summary>' +
+      '<div class="lm-acc-actions"><button class="btn btn-ghost btn-sm" type="button" onclick="openLessonToAll(\'' + l.id + '\')">Abrir a todos los alumnos del curso</button></div>' +
+      '<div class="toggle-list">' + ctx.clients.map(c => '<button class="toggle-chip ' + (granted.has(c.id) ? 'on' : '') + '" type="button" onclick="toggleLessonAccess(\'' + c.id + '\',\'' + l.id + '\')">' + (granted.has(c.id) ? '✓ ' : '') + escapeHtml(c.name || c.email) + '</button>').join('') + '</div>' +
+      '<div id="acc-msg-' + l.id + '" class="form-msg"></div></details>';
+  return '<div class="lm-lesson" data-lesson="' + l.id + '">' +
+    '<div class="lm-lesson-top"><span class="lm-lesson-n">' + sessionLabel(i) + '</span>' +
+    '<button class="btn btn-danger btn-sm" type="button" onclick="deleteLesson(\'' + l.id + '\', this)">Eliminar tema</button></div>' +
+    '<div class="field"><label for="les-tema-' + l.id + '">Tema</label><input id="les-tema-' + l.id + '" value="' + escapeHtml(l.tema) + '" autocomplete="off"></div>' +
+    '<div class="field"><label for="les-video-' + l.id + '">Enlace del video de este tema</label><input id="les-video-' + l.id + '" value="' + escapeHtml(l.video_url || '') + '" inputmode="url" autocomplete="off" placeholder="Pega aquí el enlace del video (Drive, YouTube o Vimeo)"></div>' +
+    '<span class="lm-kind ' + kind.cls + '" id="les-kind-' + l.id + '">' + kind.text + '</span>' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="saveLesson(\'' + l.id + '\')">Guardar cambios</button><span id="les-msg-' + l.id + '" class="form-msg inline"></span>' +
+    '<div class="lm-matbox"><div class="lm-mat-t">MATERIAL DE APOYO · LOS ALUMNOS PUEDEN DESCARGARLO</div>' + matItems +
+    '<div class="lm-mat-row" style="margin-top:10px;">' +
+    '<input type="text" id="mat-name-' + l.id + '" placeholder="Nombre (opcional)" autocomplete="off">' +
+    '<input type="text" id="mat-link-' + l.id + '" placeholder="Enlace de Drive u otro (opcional)" inputmode="url" autocomplete="off">' +
+    '<input type="file" id="mat-file-' + l.id + '">' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="addMaterialToLesson(\'' + l.id + '\')">Agregar material</button></div>' +
+    '<div id="mat-msg-' + l.id + '" class="form-msg"></div></div>' +
+    accessHtml + '</div>';
+}
+
+async function loadAndRenderLessons(){
+  const cid = manageCourseId;
+  if(!cid) return;
+  const seq = ++lmSeq;
+  const list = lmEl('lm-list');
+  const lr = await sb.from('course_lessons').select('*').eq('course_id', cid).order('order_index');
+  if(seq !== lmSeq || cid !== manageCourseId) return;
+  if(lr.error){ list.innerHTML = lmErrHtml('No se pudieron leer los temas', lr.error); return; }
+  const lessons = lr.data || [];
+  lmEl('lm-next-label').textContent = sessionLabel(lessons.length) + ' (siguiente)';
+  lmCount('temas', lessons.length);
+  lmEl('lm-sub-count').textContent = lessons.length ? '(' + lessons.length + ')' : '';
+  if(!lessons.length){
+    list.innerHTML = '<div class="empty">Este curso todavía no tiene temas. Agrega el primero aquí arriba: el nombre del tema y el enlace de su video.</div>';
+    return;
+  }
+  const ids = lessons.map(l => l.id);
+  const [ar, lar, mr] = await Promise.all([
+    sb.from('course_access').select('user_id').eq('course_id', cid),
+    sb.from('lesson_access').select('user_id, lesson_id').in('lesson_id', ids),
+    sb.from('lesson_materials').select('*').in('lesson_id', ids).order('created_at')
+  ]);
+  if(seq !== lmSeq || cid !== manageCourseId) return;
+  const clientIds = new Set((ar.data || []).map(r => r.user_id));
+  const ctx = { clients: (state.clients || []).filter(c => clientIds.has(c.id)), granted: {}, mats: {} };
+  (lar.data || []).forEach(r => { (ctx.granted[r.lesson_id] = ctx.granted[r.lesson_id] || new Set()).add(r.user_id); });
+  (mr.data || []).forEach(r => { (ctx.mats[r.lesson_id] = ctx.mats[r.lesson_id] || []).push(r); lmRows[r.id] = r; });
+  // lo que se estaba escribiendo y todavía no se guardó se conserva al volver a pintar
+  const keep = {};
+  list.querySelectorAll('input[type=text], input:not([type])').forEach(i => { if(i.id && i.value !== i.defaultValue) keep[i.id] = i.value; });
+  const opened = new Set(Array.from(list.querySelectorAll('details[open]')).map(d => d.getAttribute('data-lesson')));
+  list.innerHTML = lessons.map((l, i) => lmLessonHtml(l, i, ctx)).join('');
+  Object.keys(keep).forEach(id => { const e = lmEl(id); if(e) e.value = keep[id]; });
+  list.querySelectorAll('details.lm-access').forEach(d => { if(opened.has(d.getAttribute('data-lesson'))) d.open = true; });
+}
+
+function addLesson(){ return lmOnce('add', addLessonNow); }
+async function addLessonNow(){
+  const cid = manageCourseId;
+  if(!cid) return;
+  const tema = lmEl('lm-tema').value.trim();
+  const video = normalizeLink(lmEl('lm-video').value);
+  const matLink = normalizeLink(lmEl('lm-mat-link').value);
+  const matName = lmEl('lm-mat-name').value.trim();
+  const file = lmEl('lm-mat-file').files[0] || null;
+  const openAll = lmEl('lm-open-all').checked;
+  if(!tema){ lmSay('lm-msg', 'Ponle un nombre al tema.', 'err'); lmEl('lm-tema').focus(); return; }
+  const vp = videoProblem(video);
+  if(vp){ lmSay('lm-msg', vp, 'err'); lmEl('lm-video').focus(); return; }
+  if(matLink && !file && !isHttpLink(matLink)){ lmSay('lm-msg', 'El enlace del material debe empezar con https://', 'err'); lmEl('lm-mat-link').focus(); return; }
+  const btn = lmEl('lm-add-btn');
+  btn.disabled = true;
+  try{
+    lmSay('lm-msg', file ? 'Subiendo el archivo y guardando…' : 'Guardando…');
+    // primero el archivo: si falla, no queda un tema a medias
+    let mat = null;
+    if(file || matLink){
+      const p = await lmPrepareMaterial(file, matLink, matName);
+      if(p.error){ lmSay('lm-msg', p.error, 'err'); return; }
+      mat = p.row;
+    }
+    const ex = await sb.from('course_lessons').select('order_index').eq('course_id', cid);
+    const order = (ex.data || []).reduce((m, r) => Math.max(m, (r.order_index || 0) + 1), (ex.data || []).length);
+    const ins = await sb.from('course_lessons').insert({ course_id: cid, tema, video_url: video, order_index: order }).select('id').single();
+    if(ins.error){ lmSay('lm-msg', 'No se pudo guardar el tema: ' + ins.error.message, 'err'); return; }
+    const lessonId = ins.data.id;
+    let extra = '';
+    if(mat){
+      const mi = await sb.from('lesson_materials').insert({ lesson_id: lessonId, name: mat.name, url: mat.url, storage_path: mat.storage_path });
+      if(mi.error) extra = ' Ojo: el material no se pudo guardar (' + mi.error.message + '); agrégalo desde el tema.';
+    }
+    let said;
+    if(openAll){
+      const o = await lmOpenForAll(lessonId, cid);
+      said = o.ok ? (o.n ? 'Ya lo ven los ' + o.n + (o.n === 1 ? ' alumno que tiene' : ' alumnos que tienen') + ' el curso.' : 'Los alumnos que reciban el curso lo verán.') : 'No se pudo abrir a los alumnos (' + o.error + '): ábrelo en «Quién puede ver este tema».';
+    } else {
+      said = 'Está cerrado para todos: ábrelo en «Quién puede ver este tema».';
+    }
+    ['lm-tema', 'lm-video', 'lm-mat-name', 'lm-mat-link'].forEach(id => { lmEl(id).value = ''; });
+    lmEl('lm-mat-file').value = '';
+    lmEl('lm-open-all').checked = true;   // lo normal es abrirlo: el siguiente tema vuelve a empezar marcado
+    lmEl('lm-fresh').classList.add('hidden');
+    lmSay('lm-msg', 'Tema agregado ✓ ' + said + extra, extra ? 'err' : 'ok');
+    await loadAndRenderLessons();
+    if(!(window.matchMedia && window.matchMedia('(pointer:coarse)').matches)) lmEl('lm-tema').focus();
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function lmOpenForAll(lessonId, cid){
+  const ar = await sb.from('course_access').select('user_id').eq('course_id', cid);
+  if(ar.error) return { ok: false, error: ar.error.message };
+  const rows = (ar.data || []).map(r => ({ user_id: r.user_id, lesson_id: lessonId }));
+  if(rows.length){
+    const r = await sb.from('lesson_access').upsert(rows, { onConflict: 'user_id,lesson_id', ignoreDuplicates: true });
+    if(r.error) return { ok: false, error: r.error.message };
+  }
+  return { ok: true, n: rows.length };
+}
+function openLessonToAll(lessonId){
+  return lmOnce('oa:' + lessonId, async () => {
+    const cid = manageCourseId;
+    if(!cid) return;
+    const o = await lmOpenForAll(lessonId, cid);
+    if(!o.ok){ lmSay('acc-msg-' + lessonId, 'No se pudo: ' + o.error, 'err'); return; }
+    await loadAndRenderLessons();
+    const d = document.querySelector('details.lm-access[data-lesson="' + lessonId + '"]');
+    if(d) d.open = true;
+    lmSay('acc-msg-' + lessonId, 'Listo: lo ven todos los alumnos del curso.', 'ok');
+  });
+}
+async function toggleLessonAccess(userId, lessonId){
+  const { data } = await sb.from('lesson_access').select('user_id').eq('user_id', userId).eq('lesson_id', lessonId);
+  if(data && data.length){
+    await sb.from('lesson_access').delete().eq('user_id', userId).eq('lesson_id', lessonId);
+  } else {
+    await sb.from('lesson_access').insert({ user_id: userId, lesson_id: lessonId });
+  }
+  await loadAndRenderLessons();
+  const d = document.querySelector('details.lm-access[data-lesson="' + lessonId + '"]');
+  if(d) d.open = true;
+}
+
+function saveLesson(id){ return lmOnce('sl:' + id, () => saveLessonNow(id)); }
+async function saveLessonNow(id){
+  const tEl = lmEl('les-tema-' + id), vEl = lmEl('les-video-' + id);
+  if(!tEl || !vEl) return;
+  const tema = tEl.value.trim();
+  const video = normalizeLink(vEl.value);
+  if(!tema){ lmSay('les-msg-' + id, 'El tema no puede quedar sin nombre.', 'err'); return; }
+  const vp = videoProblem(video);
+  if(vp){ lmSay('les-msg-' + id, vp, 'err'); return; }
+  lmSay('les-msg-' + id, 'Guardando…');
+  const { error } = await sb.from('course_lessons').update({ tema, video_url: video }).eq('id', id);
+  if(error){ lmSay('les-msg-' + id, 'No se pudo guardar: ' + error.message, 'err'); return; }
+  tEl.value = tema; tEl.defaultValue = tema;
+  vEl.value = video; vEl.defaultValue = video;
+  const k = videoKind(video), kEl = lmEl('les-kind-' + id);
+  if(kEl){ kEl.className = 'lm-kind ' + k.cls; kEl.textContent = k.text; }
+  lmSay('les-msg-' + id, 'Guardado ✓', 'ok');
+}
+
+function deleteLesson(id, btn){
+  const k = 'dl:' + id;
+  if(!(lmArm[k] && Date.now() - lmArm[k] < 6000)){
+    lmArm[k] = Date.now();
+    if(btn){
+      btn.textContent = 'Pulsa otra vez para eliminar';
+      setTimeout(() => { if(btn.isConnected) btn.textContent = 'Eliminar tema'; }, 6000);
+    }
+    return;
+  }
+  delete lmArm[k];
+  return lmOnce('dl:' + id, async () => {
+    const mr = await sb.from('lesson_materials').select('storage_path').eq('lesson_id', id);
+    const paths = (mr.data || []).map(r => r.storage_path).filter(Boolean);
+    const r = await sb.from('course_lessons').delete().eq('id', id);
+    if(r.error){ lmSay('les-msg-' + id, 'No se pudo eliminar el tema: ' + r.error.message, 'err'); return; }
+    if(paths.length){ try{ await sb.storage.from('materials').remove(paths); }catch(e){ console.error(e); } }
+    await loadAndRenderLessons();
+  });
+}
+
+function addMaterialToLesson(lessonId){ return lmOnce('am:' + lessonId, () => addMaterialToLessonNow(lessonId)); }
+async function addMaterialToLessonNow(lessonId){
+  const link = normalizeLink((lmEl('mat-link-' + lessonId) || {}).value);
+  const fileInput = lmEl('mat-file-' + lessonId);
+  const file = fileInput && fileInput.files[0] || null;
+  const custom = ((lmEl('mat-name-' + lessonId) || {}).value || '').trim();
+  const say = (t, k) => lmSay('mat-msg-' + lessonId, t, k);
+  if(!link && !file){ say('Pon un enlace o elige un archivo.', 'err'); return; }
+  if(link && !file && !isHttpLink(link)){ say('El enlace debe empezar con https://', 'err'); return; }
+  say(file ? 'Subiendo…' : 'Guardando…');
+  const p = await lmPrepareMaterial(file, link, custom);
+  if(p.error){ say(p.error, 'err'); return; }
+  const { error } = await sb.from('lesson_materials').insert({ lesson_id: lessonId, name: p.row.name, url: p.row.url, storage_path: p.row.storage_path });
+  if(error){ say('Error: ' + error.message, 'err'); return; }
+  // ya quedó guardado: se vacían los campos (si no, al volver a pintar la lista se restaurarían como "sin guardar")
+  ['mat-name-', 'mat-link-', 'mat-file-'].forEach(pre => { const e = lmEl(pre + lessonId); if(e) e.value = ''; });
+  await loadAndRenderLessons();
+  lmSay('mat-msg-' + lessonId, 'Material agregado ✓', 'ok');
+}
+function deleteLessonMaterial(btn){
+  const row = lmRows[btn.getAttribute('data-mid')];
+  if(!row) return;
+  return lmOnce('dm:' + row.id, async () => {
+    btn.disabled = true;
+    const err = await lmRemoveMaterial('lesson_materials', row);
+    if(err){ btn.disabled = false; lmSay('mat-msg-' + row.lesson_id, 'No se pudo quitar el material: ' + err, 'err'); return; }
+    await loadAndRenderLessons();
+  });
+}
+
+/* ---------------- pestaña «Material del curso» ---------------- */
+function courseMatItemHtml(m){
+  const tag = m.storage_path ? ' <em>(archivo subido)</em>' : (isDriveUrl(m.url) ? ' <em>(enlace de Drive)</em>' : ' <em>(enlace)</em>');
+  return '<div class="lm-matitem"><span>' + escapeHtml(m.name || m.url) + tag + ' · <a href="' + escapeHtml(m.url) + '" target="_blank" rel="noopener">Abrir ↗</a></span>' +
+    '<button class="x" type="button" data-mid="' + escapeHtml(m.id) + '" onclick="deleteCourseMaterial(this)">Quitar</button></div>';
+}
+async function renderCourseMaterials(){
+  const cid = manageCourseId;
+  if(!cid) return;
+  const seq = ++lmSeqC;
+  const miss = lmEl('lm-cm-missing'), add = lmEl('lm-cm-add'), list = lmEl('lm-cm-list');
+  const r = await sb.from('course_materials').select('*').eq('course_id', cid).order('created_at');
+  if(seq !== lmSeqC || cid !== manageCourseId) return;
+  if(r.error){
+    if(lmMissingTable(r.error)){
+      miss.innerHTML = lmUpdateHtml();
+      miss.classList.remove('hidden');
+      add.classList.add('hidden');
+      list.innerHTML = '';
+    } else {
+      miss.classList.add('hidden');
+      add.classList.remove('hidden');
+      list.innerHTML = lmErrHtml('No se pudo leer el material del curso', r.error);
+    }
+    lmCount('material', 0);
+    return;
+  }
+  miss.classList.add('hidden');
+  add.classList.remove('hidden');
+  const rows = r.data || [];
+  rows.forEach(m => { lmRows[m.id] = m; });
+  lmCount('material', rows.length);
+  lmEl('lm-cm-sub-count').textContent = rows.length ? '(' + rows.length + ')' : '';
+  list.innerHTML = rows.length ? rows.map(courseMatItemHtml).join('') : '<div class="empty">Todavía no hay material para todo el curso.</div>';
+}
+function addCourseMaterial(){ return lmOnce('acm', addCourseMaterialNow); }
+async function addCourseMaterialNow(){
+  const cid = manageCourseId;
+  if(!cid) return;
+  const link = normalizeLink(lmEl('cm-link').value);
+  const file = lmEl('cm-file').files[0] || null;
+  const name = lmEl('cm-name').value.trim();
+  if(!link && !file){ lmSay('cm-msg', 'Pon el enlace del material o elige un archivo.', 'err'); lmEl('cm-link').focus(); return; }
+  if(link && !file && !isHttpLink(link)){ lmSay('cm-msg', 'El enlace debe empezar con https://', 'err'); lmEl('cm-link').focus(); return; }
+  const btn = lmEl('cm-add-btn');
+  btn.disabled = true;
+  try{
+    lmSay('cm-msg', file ? 'Subiendo el archivo…' : 'Guardando…');
+    const p = await lmPrepareMaterial(file, link, name);
+    if(p.error){ lmSay('cm-msg', p.error, 'err'); return; }
+    const { error } = await sb.from('course_materials').insert({ course_id: cid, name: p.row.name, url: p.row.url, storage_path: p.row.storage_path });
+    if(error){
+      lmSay('cm-msg', lmMissingTable(error) ? 'Falta activar el material del curso en la base de datos (mira el aviso de arriba).' : 'No se pudo guardar: ' + error.message, 'err');
+      if(file && p.row.storage_path){ try{ await sb.storage.from('materials').remove([p.row.storage_path]); }catch(e){ console.error(e); } }
+      return;
+    }
+    ['cm-name', 'cm-link'].forEach(id => { lmEl(id).value = ''; });
+    lmEl('cm-file').value = '';
+    lmSay('cm-msg', 'Material agregado ✓ Los alumnos que tienen el curso ya lo ven.', 'ok');
+    await renderCourseMaterials();
+  } finally {
+    btn.disabled = false;
+  }
+}
+function deleteCourseMaterial(btn){
+  const row = lmRows[btn.getAttribute('data-mid')];
+  if(!row) return;
+  return lmOnce('dcm:' + row.id, async () => {
+    btn.disabled = true;
+    const err = await lmRemoveMaterial('course_materials', row);
+    if(err){ btn.disabled = false; lmSay('cm-msg', 'No se pudo quitar: ' + err, 'err'); return; }
+    lmSay('cm-msg', 'Material quitado.', 'ok');
+    await renderCourseMaterials();
+  });
+}
+
+/* ---------------- alumno: material de todo el curso ---------------- */
+async function loadStudentCourseMaterials(){
+  state.courseMaterials = {};
+  if(!session || !(state.access[session.id] || []).length) return;
+  try{
+    const { data, error } = await sb.from('course_materials').select('*').order('created_at');
+    if(error) return;          // la tabla nueva todavía no está en la base de datos: no se muestra nada
+    (data || []).forEach(r => { (state.courseMaterials[r.course_id] = state.courseMaterials[r.course_id] || []).push(r); });
+  }catch(e){ console.error(e); }
+}
+function courseMaterialsBoxHtml(courseId){
+  const list = (state.courseMaterials && state.courseMaterials[courseId]) || [];
+  return list.length ? '<div class="cm-box">' + materialsHtml(list, 'Material del curso') + '</div>' : '';
 }
 
 /* #registro abre "Crear cuenta"; cualquier otro enlace abre "Iniciar sesión" */
