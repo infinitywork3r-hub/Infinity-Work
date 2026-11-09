@@ -705,6 +705,32 @@
   .lm-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;font-weight:600;line-height:1.45;margin:0 0 14px;cursor:pointer;}
   .lm-check input{margin-top:2px;width:18px;height:18px;flex:none;}
 
+  /* agregar varias sesiones de una vez */
+  .lm-bulk{background:#F6FAFE;border:1px solid var(--border);border-radius:14px;margin:0 0 16px;}
+  .lm-bulk > summary{cursor:pointer;list-style:none;padding:14px 18px;font-size:14px;font-weight:800;color:var(--line-dark);display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;}
+  .lm-bulk > summary::-webkit-details-marker{display:none;}
+  .lm-bulk > summary::before{content:'+';display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:999px;background:var(--line);color:#fff;font-size:16px;font-weight:800;line-height:1;flex:none;align-self:center;}
+  .lm-bulk[open] > summary::before{content:'–';}
+  .lm-bulk > summary span{font-size:12.5px;font-weight:600;color:var(--muted);}
+  .lm-bulk-body{padding:0 18px 16px;}
+  .lm-bulk-help{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 10px;}
+  .lm-bulk textarea{display:block;width:100%;min-height:150px;resize:vertical;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:10px 12px;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace;border-radius:var(--radius);}
+  .lm-bulk textarea:focus{outline:none;border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.18);}
+  .lm-bulk-preview{margin:12px 0 14px;}
+  .lm-bulk-preview:empty{display:none;}
+  .lm-bulk-sum{font-size:13px;font-weight:700;line-height:1.5;margin:0 0 8px;color:var(--text);}
+  .lm-bulk-sum.ok{color:var(--ok);}
+  .lm-bulk-sum.bad{color:var(--danger);}
+  .lm-bulk-rows{border:1px solid var(--border);border-radius:12px;background:#fff;max-height:340px;overflow:auto;}
+  .lm-bulk-row{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;padding:9px 12px;border-bottom:1px solid #E4ECF4;font-size:13px;}
+  .lm-bulk-row:last-child{border-bottom:0;}
+  .lm-bulk-row.bad{background:#FFF5F3;}
+  .lm-bulk-n{flex:none;font-size:10.5px;font-weight:800;letter-spacing:.12em;color:var(--line-dark);background:#EAF4FF;border-radius:999px;padding:4px 9px;}
+  .lm-bulk-t{flex:1 1 180px;min-width:0;font-weight:700;overflow-wrap:anywhere;}
+  .lm-bulk-row .lm-kind{margin:0;flex:none;}
+  .lm-bulk .btn:disabled,.lm-add .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .lm-bulk-why{flex:1 1 100%;font-size:12.5px;font-weight:600;color:var(--danger);line-height:1.45;}
+
   .lm-lesson{border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;margin:0 0 16px;background:#fff;}
   .lm-lesson-top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 12px;}
   .lm-lesson-n{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--line-dark);background:#EAF4FF;border-radius:999px;padding:5px 11px;}
@@ -733,10 +759,44 @@
 
   @media(max-width:640px){
     .lm-add{padding:14px;}
+    .lm-bulk > summary{padding:13px 14px;}
+    .lm-bulk-body{padding:0 14px 14px;}
     .lm-lesson{padding:14px;}
     .lm-tab{padding:11px 10px;font-size:13px;}
     .lm-jump .btn{width:100%;}
   }
+
+  /* ================= SESIONES: «Anterior» / «Siguiente» (alumno) ================= */
+  .lesson-nav{margin:0 0 12px;}
+  .ln-bar{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-radius:14px;padding:12px 14px;}
+  .ln-info{min-width:0;flex:1 1 220px;display:flex;flex-direction:column;gap:3px;}
+  .ln-n{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--line-dark);}
+  .ln-of{font-weight:600;letter-spacing:.04em;text-transform:none;color:var(--muted);}
+  .ln-t{font-size:15px;font-weight:700;line-height:1.35;color:var(--text);overflow-wrap:anywhere;}
+  .ln-btns{display:flex;gap:8px;flex:0 0 auto;}
+  .ln-btns .btn[disabled]{opacity:.45;cursor:not-allowed;}
+  .ln-all{display:none;appearance:none;background:none;border:0;padding:2px 0;font:700 12.5px 'Montserrat',sans-serif;color:var(--line-dark);text-align:left;text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
+  .ln-auto{display:flex;gap:8px;align-items:center;font-size:12.5px;font-weight:600;color:var(--muted);margin:9px 2px 0;cursor:pointer;}
+  .ln-auto input{width:16px;height:16px;flex:0 0 auto;accent-color:var(--line);}
+  .ln-msg{font-size:13px;font-weight:600;color:var(--muted);margin:8px 2px 0;}
+  .ln-msg:empty{display:none;}
+  .ln-msg.ok{color:var(--ok);}
+  .ln-msg .btn{margin-left:6px;}
+  .ln-pulse{animation:lnPulse 1.4s ease-in-out infinite;}
+  @keyframes lnPulse{0%,100%{box-shadow:0 0 0 0 rgba(29,155,255,.5);}50%{box-shadow:0 0 0 8px rgba(29,155,255,0);}}
+  @media (prefers-reduced-motion:reduce){ .ln-pulse{animation:none;} }
+  @media (max-width:700px){
+    .ln-bar{padding:12px;}
+    .ln-btns{width:100%;}
+    .ln-btns .btn{flex:1;justify-content:center;}
+    .ln-all{display:block;flex:1 1 100%;}
+  }
+
+  /* ================= INGRESO CON GOOGLE ================= */
+  #google-msg:empty{display:none;}
+  #google-admin-note .dnote{margin:0 0 16px;}
+  #google-admin-note code{display:inline-block;max-width:100%;overflow-wrap:anywhere;background:#fff;border:1px solid #EBCB85;border-radius:6px;padding:2px 6px;font:12px ui-monospace,Menlo,Consolas,monospace;color:#4a2c04;}
+  #google-admin-note .btn{margin:6px 8px 0 0;}
 </style>
 </head>
 <body class="guest">
@@ -779,11 +839,14 @@
           <h1>Acceso para<em>clientes</em></h1>
           <p class="desc">Ingresa con tu cuenta para ver los cursos que tienes habilitados, seguir tu avance y descargar tus certificados.</p>
           <div class="auth-card">
+            <div class="form-msg err" id="google-msg" role="alert"></div>
+            <div id="google-block" class="hidden">
             <button class="btn-google" type="button" onclick="signInWithGoogle()">
               <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.91c1.7-1.57 2.69-3.88 2.69-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.91-2.26c-.81.54-1.84.86-3.05.86-2.34 0-4.33-1.58-5.04-3.7H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.96 10.72A5.4 5.4 0 0 1 3.68 9c0-.6.1-1.18.28-1.72V4.95H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.05l3-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.95l3 2.33C4.67 5.16 6.66 3.58 9 3.58z"/></svg>
               Continuar con Google
             </button>
             <div class="or-line">O CON TU CORREO</div>
+            </div>
             <div class="tabs">
               <button class="tab active" id="tab-login" type="button" onclick="switchTab('login')">Iniciar sesión</button>
               <button class="tab" id="tab-register" type="button" onclick="switchTab('register')">Crear cuenta</button>
@@ -872,6 +935,7 @@
     <div class="wrap">
     <div id="admin-clients-panel">
       <div id="drv-stats" class="cstats-row cstats-4 hidden"></div>
+      <div id="google-admin-note" class="hidden"></div>
       <div id="drv-banners"></div>
       <div class="panel">
         <div class="tbl-tools">
@@ -957,7 +1021,18 @@
         </div>
 
         <div id="lm-pane-temas">
-          <p class="panel-lede">Cada tema tiene su propio video: escribe el nombre del tema y pega el enlace de su video. Si quieres, agrégale también su material. Los alumnos ven los temas en este mismo orden.</p>
+          <p class="panel-lede">Cada tema (sesión) tiene su propio video: escribe el nombre del tema y pega el enlace de su video. Si quieres, agrégale también su material. Los alumnos ven las sesiones en este mismo orden, escogen la que quieran en la lista y, al terminar una, pasan a la siguiente con el botón «Siguiente».</p>
+          <details class="lm-bulk" id="lm-bulk">
+            <summary>Agregar varias sesiones de una vez <span>(pega una lista: una sesión por línea)</span></summary>
+            <div class="lm-bulk-body">
+              <p class="lm-bulk-help">Escribe o pega <b>una sesión por línea</b>: el nombre del tema y, al lado, el enlace de su video. Puedes separarlos con una barra ( | ), un guion o un espacio. También sirve si el enlace va en la línea de abajo. Si todavía no tienes el video de una sesión, deja solo el nombre y se lo pones después. La numeración («Sesión 1:», «2.») no hace falta: el aula la pone sola.</p>
+              <textarea id="lm-bulk-text" rows="7" spellcheck="false" autocomplete="off" oninput="lmBulkInput()" placeholder="Introducción al curso | https://drive.google.com/file/d/AAAA/view&#10;Modelado de columnas | https://www.youtube.com/watch?v=BBBB&#10;Cierre y resumen"></textarea>
+              <div id="lm-bulk-preview" class="lm-bulk-preview" aria-live="polite"></div>
+              <label class="lm-check"><input type="checkbox" id="lm-bulk-open" checked><span>Abrir estas sesiones ya a los alumnos que tienen el curso <small style="font-weight:500;color:var(--muted);">(si lo desmarcas, quedan cerradas y las abres alumno por alumno)</small></span></label>
+              <div id="lm-bulk-msg" class="form-msg" role="status" aria-live="polite"></div>
+              <button class="btn btn-solid" id="lm-bulk-btn" type="button" onclick="addBulkLessons()" disabled>Agregar sesiones</button>
+            </div>
+          </details>
           <div class="lm-add">
             <div id="lm-next-label" class="section-tag">SESIÓN 01 (siguiente)</div>
             <div class="field"><label for="lm-tema">Tema</label><input id="lm-tema" placeholder="Ej: Introducción al modelado" autocomplete="off"></div>
@@ -1412,18 +1487,6 @@ function authMsg(error){
   return m || 'No se pudo completar. Inténtalo de nuevo.';
 }
 
-async function signInWithGoogle(){
-  if(!sb){
-    alert('Falta configurar SUPABASE_URL / SUPABASE_ANON_KEY en el código.');
-    return;
-  }
-  const { error } = await sb.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: window.location.origin + window.location.pathname }
-  });
-  if(error){ alert('No se pudo iniciar con Google: ' + error.message); }
-}
-
 function switchTab(tab){
   document.getElementById('tab-login').classList.toggle('active', tab==='login');
   document.getElementById('tab-register').classList.toggle('active', tab==='register');
@@ -1790,6 +1853,7 @@ function renderClientCourseDetail(id){
     ${courseMaterialsBoxHtml(id)}
     <div class="cv-layout">
       <div class="cv-player-col">
+        <div class="lesson-nav" id="lesson-nav-detail"></div>
         <div class="lesson-player" id="lesson-player-detail"></div>
         <div class="cert-action">${certAction}</div>
       </div>
@@ -1804,7 +1868,7 @@ function renderClientCourseDetail(id){
             const prog = state.progress && state.progress[l.id];
             const lpct = prog && prog.duration ? Math.min(100, (prog.seconds/prog.duration*100)) : 0;
             const lessonDone = prog && prog.duration > 0 && prog.seconds >= prog.duration * 0.9;
-            return `<button class="lesson-item ${i===0?'active':''}" type="button" data-lesson="${l.id}" onclick="selectLesson('detail','${l.id}')">
+            return `<button class="lesson-item ${i===0?'active':''}" type="button" data-lesson="${l.id}" onclick="pickLesson('${l.id}')">
               <span>${lessonDone ? '✓ ' : ''}${sessionLabel(i)}: ${escapeHtml(l.tema)}</span>
               <span class="lesson-progress-track"><span class="lesson-progress-fill" style="width:${lpct.toFixed(1)}%"></span></span>
             </button>`;
@@ -1942,8 +2006,9 @@ async function selectLesson(slot, lessonId){
   const startSeconds = saved && saved.duration && (saved.seconds < saved.duration - 3) ? saved.seconds : 0;
   const platform = detectPlatform(l.video_url);
   const materials = (state.materials && state.materials[lessonId]) || [];
-  const materialHtml = materialsHtml(materials);
+  const materialHtml = materialsHtml(materials, 'Material de esta sesión');
   viewLessonId = lessonId;
+  renderLessonNav(slot, courseId, lessonId, platform);
 
   if(platform === 'youtube'){
     const vid = extractYouTubeId(l.video_url);
@@ -1959,6 +2024,7 @@ async function selectLesson(slot, lessonId){
         },
         onStateChange: (e) => {
           if(e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) trackTick();
+          if(e.data === YT.PlayerState.ENDED) lessonEnded(lessonId);
         }
       }
     });
@@ -1971,10 +2037,12 @@ async function selectLesson(slot, lessonId){
       if(startSeconds > 1) currentPlayer.setCurrentTime(startSeconds);
       progressTimer = setInterval(trackTick, 5000);
       currentPlayer.on('pause', trackTick);
-      currentPlayer.on('ended', trackTick);
+      currentPlayer.on('ended', () => { trackTick(); lessonEnded(lessonId); });
     });
   } else if(platform === 'drive'){
     renderDriveLesson(courseId, l, playerBox, materialHtml);
+  } else if(!String(l.video_url || '').trim()){
+    playerBox.innerHTML = `<div class="vid-wait"><div class="vid-wait-in"><b>Esta sesión todavía no tiene video</b><p>Tu asesor lo está preparando. Mientras tanto puedes ver las otras sesiones de la lista.</p></div></div>${materialHtml}`;
   } else {
     playerBox.innerHTML = `<div class="vid-frame" style="position:relative;padding-top:56.25%;">
       <iframe src="${escapeHtml(l.video_url)}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
@@ -3034,8 +3102,11 @@ const driveForce = {};       // clases que el alumno quiso abrir aunque el acces
 function driveWatchHtml(lessonId){
   const p = state.progress && state.progress[lessonId];
   const done = p && p.duration > 0 && p.seconds >= p.duration * 0.9;
+  const nx = done ? nextLessonOf(lessonId) : null;
   return done
-    ? '<span class="cert-note ok">✓ Clase marcada como vista</span><button class="btn btn-ghost btn-sm" type="button" onclick="setDriveWatched(\'' + lessonId + '\', false)">Quitar marca</button>'
+    ? '<span class="cert-note ok">✓ Clase marcada como vista</span>' +
+      (nx ? '<button class="btn btn-solid btn-sm" type="button" id="drive-next-btn" onclick="goLesson(1)">Siguiente sesión →</button>' : '') +
+      '<button class="btn btn-ghost btn-sm" type="button" onclick="setDriveWatched(\'' + lessonId + '\', false)">Quitar marca</button>'
     : '<button class="btn btn-solid btn-sm" type="button" onclick="setDriveWatched(\'' + lessonId + '\', true)">Marcar como vista</button><span class="dt-note">Drive no nos avisa cuánto viste. Cuando termines la clase, márcala para llevar tu avance y poder pedir tu certificado.</span>';
 }
 async function setDriveWatched(lessonId, on){
@@ -3298,6 +3369,7 @@ function renderAdmin(){
   renderClientsTable();
   renderCoursesTable();
   renderCoursesJump();
+  renderGoogleAdminNote();
 }
 
 function clientTagsHtml(u){
@@ -4207,6 +4279,7 @@ let lmSeqC = 0;
 const lmArm = {};            // confirmaciones pendientes (eliminar un tema): 'dl:<clase>' → hora
 const lmBusy = {};           // acciones en curso: un doble clic no repite la orden
 const lmRows = {};           // material leído del curso abierto, por id (para borrar también el archivo)
+let lmLessonCount = 0;       // cuántas sesiones tiene el curso abierto (para numerar la vista previa de «varias sesiones»)
 
 function lmEl(id){ return document.getElementById(id); }
 function lmSay(id, text, kind){
@@ -4353,7 +4426,7 @@ function openLessonManager(courseId, opts){
   lmEl('lm-course-title').textContent = c.title || '';
   const fresh = lmEl('lm-fresh');
   if(opts.fresh){
-    fresh.innerHTML = '<b>Curso publicado.</b> Ahora agrega sus temas: para cada uno escribe su nombre y pega el enlace de su video. El material lo puedes poner en cada tema o, para todo el curso, en la pestaña «Material del curso».';
+    fresh.innerHTML = '<b>Curso publicado.</b> Ahora agrega sus temas: para cada uno escribe su nombre y pega el enlace de su video. Si tienes varios, usa «Agregar varias sesiones de una vez». El material lo puedes poner en cada tema o, para todo el curso, en la pestaña «Material del curso».';
     fresh.classList.remove('hidden');
   } else {
     fresh.classList.add('hidden');
@@ -4363,6 +4436,8 @@ function openLessonManager(courseId, opts){
   lmEl('lm-open-all').checked = true;
   lmSay('lm-msg', '');
   lmSay('cm-msg', '');
+  lmLessonCount = 0;
+  lmBulkReset();
   lmEl('admin-courses-panel').classList.add('lm-open');
   lmEl('lessons-manager').classList.remove('hidden');
   lmEl('lm-list').innerHTML = '<div class="empty">Cargando los temas…</div>';
@@ -4443,6 +4518,8 @@ async function loadAndRenderLessons(){
   if(seq !== lmSeq || cid !== manageCourseId) return;
   if(lr.error){ list.innerHTML = lmErrHtml('No se pudieron leer los temas', lr.error); return; }
   const lessons = lr.data || [];
+  lmLessonCount = lessons.length;
+  lmBulkPreview();
   lmEl('lm-next-label').textContent = sessionLabel(lessons.length) + ' (siguiente)';
   lmCount('temas', lessons.length);
   lmEl('lm-sub-count').textContent = lessons.length ? '(' + lessons.length + ')' : '';
@@ -4524,15 +4601,147 @@ async function addLessonNow(){
   }
 }
 
-async function lmOpenForAll(lessonId, cid){
+/* abre una o varias sesiones a todos los alumnos que ya tienen el curso (los alumnos nuevos las reciben solos) */
+async function lmOpenManyForAll(lessonIds, cid){
   const ar = await sb.from('course_access').select('user_id').eq('course_id', cid);
   if(ar.error) return { ok: false, error: ar.error.message };
-  const rows = (ar.data || []).map(r => ({ user_id: r.user_id, lesson_id: lessonId }));
-  if(rows.length){
-    const r = await sb.from('lesson_access').upsert(rows, { onConflict: 'user_id,lesson_id', ignoreDuplicates: true });
+  const users = (ar.data || []).map(r => r.user_id);
+  const rows = [];
+  lessonIds.forEach(lid => users.forEach(u => rows.push({ user_id: u, lesson_id: lid })));
+  for(let i = 0; i < rows.length; i += 500){
+    const r = await sb.from('lesson_access').upsert(rows.slice(i, i + 500), { onConflict: 'user_id,lesson_id', ignoreDuplicates: true });
     if(r.error) return { ok: false, error: r.error.message };
   }
-  return { ok: true, n: rows.length };
+  return { ok: true, n: users.length };
+}
+function lmOpenForAll(lessonId, cid){ return lmOpenManyForAll([lessonId], cid); }
+
+/* ---------------- agregar varias sesiones de una vez ----------------
+   Una sesión por línea: «nombre | enlace del video». El enlace puede ir antes, después o en la línea de abajo.
+   Se muestra una vista previa con la numeración real y lo que está mal; no se crea nada hasta que todo esté bien. */
+const LM_BULK_MAX = 100;
+const LM_URL_RE = /[(\[{]?(?:https?:\/\/|(?:www\.)?(?:drive\.google\.com|docs\.google\.com|youtube\.com|youtu\.be|vimeo\.com)\/)[^\s|<>"]+/gi;   // acepta el enlace entre paréntesis: «Tema (https://…)»
+const LM_NUM_RE = /^(?:(?:sesi[oó]n|clase|tema|class|session)\s*)?\d{1,3}\s*[.):|\-–—]+\s*(?=[^\s\d])/i;
+
+function lmBulkCleanName(s){
+  return String(s || '').replace(/[\s ]+/g, ' ').replace(/^[\s|,;:\-–—•·*]+|[\s|,;:\-–—•·*]+$/g, '');
+}
+function lmBulkParse(text, startIndex){
+  const out = { items: [], tooMany: false };
+  const lines = String(text || '').split(/\r?\n/);
+  let prev = null;                         // línea anterior que era solo un nombre (por si el enlace viene en la línea de abajo)
+  for(let li = 0; li < lines.length; li++){
+    const raw = lines[li].trim();
+    if(!raw) continue;
+    const urls = (raw.match(LM_URL_RE) || []).map(u => u.replace(/^[(\[{]+/, '').replace(/[)\]},.;:]+$/, ''));
+    const name = lmBulkCleanName(raw.replace(LM_URL_RE, ' '));
+    // línea con solo un enlace, justo debajo de una línea con solo un nombre: van juntos
+    if(urls.length === 1 && !name && prev && !prev.video && !prev.problem){
+      prev.video = normalizeLink(urls[0]);
+      prev.problem = videoProblem(prev.video);
+      prev = null;
+      continue;
+    }
+    if(out.items.length >= LM_BULK_MAX){ out.tooMany = true; break; }
+    const it = { line: li + 1, index: (startIndex || 0) + out.items.length, tema: '', video: '', problem: '' };
+    const short = lmBulkCleanName(name.replace(LM_NUM_RE, ''));
+    it.tema = short || name;
+    if(urls.length > 1){
+      it.problem = 'Tiene más de un enlace en la misma línea: pon una sesión por línea.';
+    } else if(urls.length === 1){
+      it.video = normalizeLink(urls[0]);
+      it.problem = videoProblem(it.video);
+    }
+    if(!it.tema && !it.problem) it.problem = 'Falta el nombre de la sesión: escribe el nombre y, al lado, el enlace.';
+    out.items.push(it);
+    prev = (!urls.length && it.tema) ? it : null;
+  }
+  return out;
+}
+function lmBulkInput(){
+  lmSay('lm-bulk-msg', '');
+  lmBulkPreview();
+}
+function lmBulkPreview(){
+  const ta = lmEl('lm-bulk-text'), box = lmEl('lm-bulk-preview'), btn = lmEl('lm-bulk-btn');
+  if(!ta || !box || !btn) return;
+  const r = lmBulkParse(ta.value, lmLessonCount);
+  if(!r.items.length){
+    box.innerHTML = '';
+    btn.disabled = true;
+    btn.textContent = 'Agregar sesiones';
+    return;
+  }
+  const bad = r.items.filter(x => x.problem).length;
+  const noVideo = r.items.filter(x => !x.problem && !x.video).length;
+  const n = r.items.length;
+  let sum, cls;
+  if(bad){
+    cls = 'bad';
+    sum = 'Revisa ' + (bad === 1 ? 'la línea marcada' : 'las ' + bad + ' líneas marcadas') + ' en rojo: mientras tanto no se puede agregar.';
+  } else if(r.tooMany){
+    cls = 'bad';
+    sum = 'Son demasiadas: agrega hasta ' + LM_BULK_MAX + ' sesiones por vez y el resto después.';
+  } else {
+    cls = 'ok';
+    sum = n + (n === 1 ? ' sesión lista' : ' sesiones listas') + ' para agregar' + (noVideo ? ' (' + noVideo + (noVideo === 1 ? ' sin video todavía' : ' sin video todavía') + ': su enlace se lo pones después).' : '.');
+  }
+  box.innerHTML = '<div class="lm-bulk-sum ' + cls + '">' + escapeHtml(sum) + '</div><div class="lm-bulk-rows">' + r.items.map(x => {
+    const k = x.problem ? null : videoKind(x.video);
+    return '<div class="lm-bulk-row' + (x.problem ? ' bad' : '') + '"><span class="lm-bulk-n">' + sessionLabel(x.index) + '</span>' +
+      '<span class="lm-bulk-t">' + (x.tema ? escapeHtml(x.tema) : '<em>(sin nombre)</em>') + '</span>' +
+      (k ? '<span class="lm-kind ' + k.cls + '">' + escapeHtml(k.text) + '</span>' : '') +
+      (x.problem ? '<span class="lm-bulk-why">Línea ' + x.line + ': ' + escapeHtml(x.problem) + '</span>' : '') + '</div>';
+  }).join('') + '</div>';
+  btn.disabled = !!bad || r.tooMany;
+  btn.textContent = (bad || r.tooMany) ? 'Agregar sesiones' : 'Agregar ' + n + (n === 1 ? ' sesión' : ' sesiones');
+}
+function lmBulkReset(){
+  const ta = lmEl('lm-bulk-text');
+  if(ta) ta.value = '';
+  const d = lmEl('lm-bulk');
+  if(d) d.open = false;
+  const o = lmEl('lm-bulk-open');
+  if(o) o.checked = true;
+  lmSay('lm-bulk-msg', '');
+  lmBulkPreview();
+}
+function addBulkLessons(){ return lmOnce('bulk', addBulkLessonsNow); }
+async function addBulkLessonsNow(){
+  const cid = manageCourseId;
+  if(!cid) return;
+  const ta = lmEl('lm-bulk-text'), btn = lmEl('lm-bulk-btn');
+  const r = lmBulkParse(ta.value, lmLessonCount);
+  if(!r.items.length){ lmSay('lm-bulk-msg', 'Escribe o pega la lista de sesiones.', 'err'); ta.focus(); return; }
+  if(r.tooMany || r.items.some(x => x.problem)){ lmSay('lm-bulk-msg', 'Corrige las líneas marcadas en rojo y vuelve a intentar.', 'err'); return; }
+  const openAll = lmEl('lm-bulk-open').checked;
+  const n = r.items.length;
+  btn.disabled = true;
+  try{
+    lmSay('lm-bulk-msg', 'Guardando ' + n + (n === 1 ? ' sesión…' : ' sesiones…'));
+    const ex = await sb.from('course_lessons').select('order_index').eq('course_id', cid);
+    if(ex.error){ lmSay('lm-bulk-msg', 'No se pudo leer el curso: ' + ex.error.message, 'err'); return; }
+    const start = (ex.data || []).reduce((m, x) => Math.max(m, (x.order_index || 0) + 1), (ex.data || []).length);
+    const ins = await sb.from('course_lessons').insert(r.items.map((x, i) => ({ course_id: cid, tema: x.tema, video_url: x.video, order_index: start + i }))).select('id');
+    if(ins.error){ lmSay('lm-bulk-msg', 'No se pudieron guardar las sesiones: ' + ins.error.message, 'err'); return; }
+    let said, failed = false;
+    if(openAll){
+      const o = await lmOpenManyForAll((ins.data || []).map(x => x.id), cid);
+      if(o.ok) said = o.n ? ' Ya las ven los ' + o.n + (o.n === 1 ? ' alumno que tiene' : ' alumnos que tienen') + ' el curso.' : ' Los alumnos que reciban el curso las verán.';
+      else { failed = true; said = ' Ojo: no se pudieron abrir a los alumnos (' + o.error + '); ábrelas en «Quién puede ver este tema».'; }
+    } else {
+      said = ' Están cerradas para todos: ábrelas en «Quién puede ver este tema».';
+    }
+    if(cid !== manageCourseId) return;
+    ta.value = '';
+    lmEl('lm-bulk-open').checked = true;
+    lmEl('lm-fresh').classList.add('hidden');
+    lmBulkPreview();
+    lmSay('lm-bulk-msg', n + (n === 1 ? ' sesión agregada ✓' : ' sesiones agregadas ✓') + said, failed ? 'err' : 'ok');
+    await loadAndRenderLessons();
+  } finally {
+    lmBulkPreview();   // vuelve a encender el botón si todavía hay una lista válida (si falló algo)
+  }
 }
 function openLessonToAll(lessonId){
   return lmOnce('oa:' + lessonId, async () => {
@@ -4718,6 +4927,257 @@ function courseMaterialsBoxHtml(courseId){
   const list = (state.courseMaterials && state.courseMaterials[courseId]) || [];
   return list.length ? '<div class="cm-box">' + materialsHtml(list, 'Material del curso') + '</div>' : '';
 }
+
+/* ================= SESIONES DEL CURSO (alumno): «Anterior» / «Siguiente» =================
+   Arriba del video se muestra en qué sesión está el alumno (SESIÓN 02 de 12 + su tema) con los botones «← Anterior» y «Siguiente →».
+   La lista de sesiones de la derecha (o de abajo en el celular) sigue sirviendo para escoger cualquiera.
+   YouTube y Vimeo avisan cuando el video termina: se resalta «Siguiente» y, si el alumno lo activó, pasa solo a la siguiente.
+   Drive no avisa: ahí el alumno marca «Marcar como vista» y le aparece «Siguiente sesión →». */
+let autoNextTimer = null;
+
+function autoNextOn(){
+  try{ return localStorage.getItem('iw_autonext') === '1'; }catch(e){ return false; }
+}
+function setAutoNext(on){
+  try{ localStorage.setItem('iw_autonext', on ? '1' : '0'); }catch(e){}
+  if(!on) clearAutoNext();
+}
+function clearAutoNext(silent){
+  const had = !!autoNextTimer;
+  if(autoNextTimer){ clearInterval(autoNextTimer); autoNextTimer = null; }
+  if(had && silent !== true){
+    const m = document.getElementById('ln-msg');
+    if(m) m.innerHTML = '✓ Sesión terminada. Pulsa <b>Siguiente</b> cuando quieras continuar.';
+  }
+}
+
+function courseLessonsOf(courseId){
+  return (state.lessons && state.lessons[courseId]) || [];
+}
+/* la sesión que sigue a la que se está viendo (null si es la última disponible) */
+function nextLessonOf(lessonId){
+  const ls = courseLessonsOf(clientDetailCourseId);
+  const i = ls.findIndex(x => x.id === lessonId);
+  return i >= 0 && i < ls.length - 1 ? ls[i + 1] : null;
+}
+
+function renderLessonNav(slot, courseId, lessonId, platform){
+  clearAutoNext(true);
+  const box = document.getElementById('lesson-nav-' + slot);
+  if(!box) return;
+  const ls = courseLessonsOf(courseId);
+  const i = ls.findIndex(x => x.id === lessonId);
+  if(i < 0){ box.innerHTML = ''; return; }
+  const l = ls[i], prev = ls[i - 1], next = ls[i + 1];
+  const canAuto = platform === 'youtube' || platform === 'vimeo';
+  box.innerHTML =
+    '<div class="ln-bar">' +
+      '<div class="ln-info"><span class="ln-n">' + sessionLabel(i) + ' <span class="ln-of">de ' + ls.length + '</span></span><span class="ln-t">' + escapeHtml(l.tema) + '</span></div>' +
+      '<div class="ln-btns">' +
+        '<button class="btn btn-ghost btn-sm" type="button" id="ln-prev" onclick="goLesson(-1)"' + (prev ? '' : ' disabled') + '>← Anterior</button>' +
+        '<button class="btn btn-solid btn-sm" type="button" id="ln-next" onclick="goLesson(1)"' + (next ? '' : ' disabled') + '>' + (next ? 'Siguiente →' : 'Última sesión') + '</button>' +
+      '</div>' +
+      '<button class="ln-all" type="button" onclick="lessonShowList()">↓ Ver todas las sesiones y escoger una</button>' +
+    '</div>' +
+    (canAuto ? '<label class="ln-auto"><input type="checkbox" id="ln-auto"' + (autoNextOn() ? ' checked' : '') + ' onchange="setAutoNext(this.checked)"><span>Pasar solo a la siguiente sesión cuando termine el video</span></label>' : '') +
+    '<div class="ln-msg" id="ln-msg" role="status" aria-live="polite"></div>';
+  // en pantallas grandes la lista de sesiones tiene su propio desplazamiento: la sesión actual se deja a la vista
+  const list = document.getElementById('lesson-sidebar-' + slot);
+  const act = list && list.querySelector('.lesson-item.active');
+  if(act && list.scrollHeight > list.clientHeight + 4){
+    list.scrollTop = Math.max(0, act.getBoundingClientRect().top - list.getBoundingClientRect().top + list.scrollTop - 8);
+  }
+}
+
+/* deja a la vista el encabezado de la sesión y su video (en el celular, al escoger una sesión de la lista, el video queda más arriba) */
+function lessonScrollToNav(){
+  const nav = document.getElementById('lesson-nav-detail');
+  if(!nav) return;
+  const h = document.querySelector('header');
+  const hh = h ? h.offsetHeight : 0;
+  const box = document.getElementById('lesson-player-detail');
+  const top = nav.getBoundingClientRect().top;
+  const bottom = box ? box.getBoundingClientRect().bottom : top;
+  if(top >= hh + 4 && bottom <= window.innerHeight) return;   // ya se ve todo
+  window.scrollTo({ top: Math.max(0, top + window.pageYOffset - hh - 12), behavior: 'smooth' });
+}
+/* baja hasta la lista de todas las sesiones (en el celular queda debajo del video) */
+function lessonShowList(){
+  const side = document.querySelector('#client-detail-body .cv-side');
+  if(!side) return;
+  const h = document.querySelector('header');
+  window.scrollTo({ top: Math.max(0, side.getBoundingClientRect().top + window.pageYOffset - (h ? h.offsetHeight : 0) - 12), behavior: 'smooth' });
+}
+/* el alumno escoge una sesión de la lista */
+function pickLesson(lessonId){
+  selectLesson('detail', lessonId);
+  lessonScrollToNav();
+}
+function goLesson(delta){
+  const cid = clientDetailCourseId;
+  if(!cid || !viewLessonId) return;
+  const ls = courseLessonsOf(cid);
+  const i = ls.findIndex(x => x.id === viewLessonId);
+  const t = i >= 0 ? ls[i + delta] : null;
+  if(!t) return;
+  selectLesson('detail', t.id);
+  lessonScrollToNav();
+}
+
+/* el video (YouTube o Vimeo) llegó al final */
+function lessonEnded(lessonId){
+  if(lessonId !== viewLessonId) return;
+  const msg = document.getElementById('ln-msg');
+  if(!msg) return;
+  const next = nextLessonOf(lessonId);
+  if(!next){
+    msg.className = 'ln-msg ok';
+    msg.innerHTML = '✓ Terminaste la última sesión disponible.';
+    return;
+  }
+  msg.className = 'ln-msg ok';
+  const btn = document.getElementById('ln-next');
+  if(btn) btn.classList.add('ln-pulse');
+  if(!autoNextOn()){
+    msg.innerHTML = '✓ Sesión terminada. Pulsa <b>Siguiente</b> para continuar.';
+    return;
+  }
+  let n = 5;
+  const paint = () => { msg.innerHTML = '✓ Sesión terminada. Pasando a la siguiente en ' + n + ' s… <button class="btn btn-ghost btn-sm" type="button" onclick="clearAutoNext()">Quedarme aquí</button>'; };
+  paint();
+  clearAutoNext(true);
+  autoNextTimer = setInterval(() => {
+    n--;
+    if(n <= 0){
+      clearAutoNext(true);
+      if(viewLessonId === lessonId) goLesson(1);
+    } else paint();
+  }, 1000);
+}
+
+/* ================= INGRESO CON GOOGLE =================
+   «Continuar con Google» solo funciona si Google está ACTIVADO en Supabase (Authentication → Sign In / Providers → Google).
+   Si no lo está, Supabase contesta con un texto técnico: {"code":400,"error_code":"validation_failed","msg":"Unsupported provider: provider is not enabled"}
+   y la persona se queda mirando esa pantalla. Aquí se hace lo siguiente:
+     • Al abrir la página se consulta a Supabase si Google está activado.
+         - Si NO lo está: el botón se esconde (nadie ve un error) y el administrador ve un aviso con el enlace que hay que pegar en Google.
+         - Si SÍ lo está, o no se pudo saber (sin internet, etc.): el botón se muestra como siempre.
+     • Si Google/Supabase devuelve un error al volver a la página (cuenta cancelada, etc.), se muestra en español en vez de quedar en silencio. */
+let googleOk = null;          // true = activado · false = no activado · null = no se pudo saber
+const GOOGLE_CALLBACK_URL = String(SUPABASE_URL).replace(/\/+$/, '') + '/auth/v1/callback';
+
+function oauthErrorText(code, desc){
+  const all = String(code || '') + ' ' + String(desc || '');
+  if(/unsupported provider|provider is not enabled/i.test(all)) return 'El ingreso con Google todavía no está activado. Ingresa con tu correo y contraseña.';
+  if(/access_denied|denied/i.test(all)) return 'Cancelaste el ingreso con Google. Si quieres, inténtalo de nuevo.';
+  if(/database error saving new user/i.test(all)) return 'Google confirmó tu cuenta, pero no se pudo crear tu perfil en el aula. Avisa a tu asesor.';
+  return 'No se pudo iniciar con Google' + (desc ? ': ' + desc : '.');
+}
+
+/* si al volver de Google la dirección trae un error (#error=… o ?error=…), se muestra y se limpia la dirección */
+function readOAuthReturnError(){
+  try{
+    const h = new URLSearchParams(String(location.hash || '').replace(/^#/, ''));
+    const q = new URLSearchParams(location.search || '');
+    const err = h.get('error') || q.get('error');
+    if(!err) return '';
+    const desc = h.get('error_description') || q.get('error_description') || '';
+    ['error', 'error_code', 'error_description'].forEach(k => q.delete(k));
+    const qs = q.toString();
+    try{ history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '')); }catch(e){}
+    return oauthErrorText(err, desc);
+  }catch(e){ return ''; }
+}
+
+function googleSay(text){
+  const e = document.getElementById('google-msg');
+  if(e){ e.textContent = text || ''; return; }
+  if(text) alert(text);
+}
+
+/* ¿está activado Google en Supabase? (consulta pública; si algo falla se devuelve null y el botón queda como estaba) */
+async function checkGoogleEnabled(){
+  try{
+    const ctl = (typeof AbortController === 'function') ? new AbortController() : null;
+    const timer = ctl ? setTimeout(() => ctl.abort(), 7000) : null;
+    let r;
+    try{
+      r = await fetch(String(SUPABASE_URL).replace(/\/+$/, '') + '/auth/v1/settings', { headers: { apikey: SUPABASE_ANON_KEY }, signal: ctl ? ctl.signal : undefined });
+    } finally { if(timer) clearTimeout(timer); }
+    if(!r.ok) return null;
+    const j = await r.json();
+    if(j && j.external && typeof j.external.google === 'boolean') return j.external.google;
+  }catch(e){ console.warn('No se pudo consultar si Google está activado:', e && e.message); }
+  return null;
+}
+
+function applyGoogleState(){
+  const b = document.getElementById('google-block');
+  if(b) b.classList.toggle('hidden', googleOk === false);
+  renderGoogleAdminNote();
+}
+
+/* aviso para el administrador (solo cuando Google NO está activado) */
+function googleNoteDismissed(){
+  try{ return localStorage.getItem('iw_google_note') === '1'; }catch(e){ return false; }
+}
+function renderGoogleAdminNote(){
+  const box = document.getElementById('google-admin-note');
+  if(!box) return;
+  const show = googleOk === false && session && session.role === 'admin' && !googleNoteDismissed();
+  box.classList.toggle('hidden', !show);
+  if(!show){ box.innerHTML = ''; return; }
+  box.innerHTML = '<div class="dnote warn" role="status"><div>' +
+    '<b>El ingreso con Google todavía no está activado.</b> Por eso el botón «Continuar con Google» no aparece en la página de ingreso (así nadie ve un error). ' +
+    'Para activarlo hay que hacer unos pasos en Google Cloud y en Supabase: están en la guía, en «Ingreso con Google». ' +
+    'El enlace que Google te pide es este: <code id="google-cb-url">' + escapeHtml(GOOGLE_CALLBACK_URL) + '</code> ' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="copyGoogleCallback(this)">Copiar enlace</button> ' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="hideGoogleNote()">Entendido</button>' +
+    '</div></div>';
+}
+function hideGoogleNote(){
+  try{ localStorage.setItem('iw_google_note', '1'); }catch(e){}
+  renderGoogleAdminNote();
+}
+async function copyGoogleCallback(btn){
+  const old = btn ? btn.textContent : '';
+  let done = false;
+  try{ await navigator.clipboard.writeText(GOOGLE_CALLBACK_URL); done = true; }catch(e){}
+  if(!done){
+    try{
+      const el = document.getElementById('google-cb-url');
+      const r = document.createRange(); r.selectNodeContents(el);
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      done = document.execCommand('copy');
+    }catch(e){}
+  }
+  if(btn){ btn.textContent = done ? 'Copiado ✓' : 'Selecciónalo y copia (Ctrl + C)'; setTimeout(() => { btn.textContent = old; }, 2500); }
+}
+
+async function signInWithGoogle(){
+  googleSay('');
+  if(!sb){ googleSay(noConnMsg()); return; }
+  if(googleOk === null){ googleOk = await checkGoogleEnabled(); applyGoogleState(); }
+  if(googleOk === false){ googleSay(oauthErrorText('', 'provider is not enabled')); return; }
+  try{
+    const { error } = await sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + window.location.pathname }
+    });
+    if(error) googleSay(oauthErrorText(error.code, error.message));
+  }catch(e){
+    console.error(e);
+    googleSay('No se pudo iniciar con Google. Inténtalo de nuevo o ingresa con tu correo y contraseña.');
+  }
+}
+
+(function startGoogle(){
+  const back = readOAuthReturnError();
+  if(back) googleSay(back);
+  // si Supabase tarda en contestar, el botón aparece igual a los 3 segundos (y se vuelve a esconder si al final Google no está activado)
+  setTimeout(() => { if(googleOk === null) applyGoogleState(); }, 3000);
+  checkGoogleEnabled().then(v => { googleOk = v; applyGoogleState(); }).catch(e => { console.error(e); applyGoogleState(); });
+})();
 
 /* #registro abre "Crear cuenta"; cualquier otro enlace abre "Iniciar sesión" */
 function applyHashIntent(){
