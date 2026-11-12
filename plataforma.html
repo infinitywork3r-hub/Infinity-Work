@@ -1118,6 +1118,7 @@
 
   /* formulario de un certificado manual */
   .cx-form-overlay{align-items:flex-start;overflow-y:auto;}
+  #cd-overlay{z-index:300;}   /* «Fechas y nombre» también se abre desde la vista previa del certificado (capa 200): tiene que quedar encima, no detrás */
   .cx-modal{max-width:780px !important;margin:auto;padding:30px 26px 0 !important;}
   .cx-fs{border:1px solid var(--border);border-radius:14px;padding:14px 16px 4px;margin:0 0 14px;min-width:0;}
   .cx-fs legend{font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--line-dark);padding:0 8px;}
@@ -1214,11 +1215,44 @@
     .cx-stage-wrap{position:static;}
   }
 
+  /* fechas y nombre de un certificado del aula (certdates.js) */
+  .cd-modal{max-width:640px !important;}
+  .cd-live{background:#F3F8FF;border:1px solid #D5E6FA;border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.55;margin:0 0 10px;color:var(--text);}
+  .cd-live span{color:var(--muted);font-weight:600;}
+  #cx-kind-other,#cxf-kind-other{width:100%;}
+
   /* ================= INGRESO CON GOOGLE ================= */
   #google-msg:empty{display:none;}
   #google-admin-note .dnote{margin:0 0 16px;}
   #google-admin-note code{display:inline-block;max-width:100%;overflow-wrap:anywhere;background:#fff;border:1px solid #EBCB85;border-radius:6px;padding:2px 6px;font:12px ui-monospace,Menlo,Consolas,monospace;color:#4a2c04;}
   #google-admin-note .btn{margin:6px 8px 0 0;}
+
+  /* ================= CUENTAS: DNI, contraseña olvidada, Mi perfil, eliminar la cuenta ================= */
+  .auth-sub{margin:0 0 6px;font-size:16px;font-weight:800;color:var(--text);}
+  #view-login.acct-solo .tabs,#view-login.acct-solo #google-block,#view-login.acct-solo #google-msg{display:none !important;}
+  .forgot-row{margin:-4px 0 14px;text-align:right;font-size:12.5px;}
+  .forgot-row a{color:var(--line-dark);font-weight:700;text-decoration:none;}
+  .forgot-row a:hover{text-decoration:underline;}
+  .acct-banner{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;background:#FFF8E6;border:1px solid #EBCB85;border-left:4px solid #E0A526;border-radius:14px;padding:13px 16px;margin:0 0 18px;font-size:13.5px;line-height:1.5;color:#5C3A06;}
+  .acct-banner > div{min-width:0;flex:1 1 260px;}
+  .acct-wrap{display:grid;gap:4px;max-width:780px;}
+  .acct-panel h3{margin:0 0 4px;}
+  .acct-panel .btn{margin-top:2px;}
+  .acct-panel input[readonly]{background:#F1F5F9;color:var(--muted);cursor:default;}
+  .acct-lock{border:1.5px solid #BFDDF8;background:#F4F9FF;border-radius:12px;padding:11px 14px;margin:0 0 14px;font-size:13px;line-height:1.55;color:var(--text);}
+  .acct-danger{border-color:#E9BDB5;}
+  .acct-danger h3{color:var(--danger);}
+  .acct-modal{max-width:520px;max-height:calc(100vh - 40px);overflow-y:auto;}
+  .acct-modal h3{margin:0 0 4px;padding-right:34px;}
+  .acct-list{margin:0 0 16px;padding:0 0 0 18px;font-size:13.5px;line-height:1.6;color:var(--text);}
+  .acct-list li{margin:0 0 8px;}
+  .acct-bar{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;}
+  .acct-bar .btn[disabled]{opacity:.5;cursor:not-allowed;}
+  @media (max-width:640px){
+    .acct-bar{flex-direction:column;}
+    .acct-bar .btn{width:100%;}
+    .acct-modal{padding:26px 18px 20px;}
+  }
 </style>
 </head>
 <body class="guest">
@@ -1276,6 +1310,7 @@
             <form id="form-login" onsubmit="doLogin();return false" novalidate>
               <div class="field"><label for="li-email">Correo</label><input id="li-email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com"></div>
               <div class="field"><label for="li-pass">Contraseña</label><input id="li-pass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+              <div class="forgot-row"><a href="#" id="li-forgot" onclick="switchTab('forgot');return false">¿Olvidaste tu contraseña?</a></div>
               <div class="form-msg err" id="li-msg" role="alert"></div>
               <button class="btn btn-solid full" type="submit">Ingresar</button>
               <p class="auth-note hidden">¿Problemas para ingresar? <a id="auth-wa" href="#" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
@@ -1283,12 +1318,29 @@
             </form>
             <form id="form-register" class="hidden" onsubmit="doRegister();return false" novalidate>
               <div class="field"><label for="rg-name">Nombre</label><input id="rg-name" autocomplete="name" placeholder="Tu nombre completo"></div>
+              <div class="field"><label for="rg-dni">DNI</label><input id="rg-dni" autocomplete="off" maxlength="15" placeholder="Tus 8 números" oninput="acctDniInput(this)"><div class="field-hint" id="rg-dni-hint">Sale impreso en tu certificado: revísalo bien.</div></div>
               <div class="field"><label for="rg-email">Correo</label><input id="rg-email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com" oninput="onRegEmailInput()"><div class="field-hint warn hidden" id="rg-gmail-hint">Ojo: los videos se comparten por Google Drive, así que este correo debe tener una cuenta de Google. Si no la tienes, regístrate con tu Gmail.</div></div>
               <div class="field"><label for="rg-pass">Contraseña</label><input id="rg-pass" type="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres"></div>
               <div id="rg-extra"></div>
               <div class="form-msg err" id="rg-msg" role="alert"></div>
               <button class="btn btn-solid full" type="submit">Crear cuenta</button>
               <p class="auth-note" id="rg-note">Cuando tengas tu cuenta, tu asesor te habilita los cursos.</p>
+            </form>
+            <form id="form-forgot" class="hidden" onsubmit="doForgot();return false" novalidate>
+              <p class="auth-sub">Recupera tu contraseña</p>
+              <p class="auth-note" style="text-align:left;margin:0 0 14px;">Escribe el correo de tu cuenta y te enviamos un enlace para crear una contraseña nueva.</p>
+              <div class="field"><label for="fg-email">Correo</label><input id="fg-email" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com"></div>
+              <div class="form-msg err" id="fg-msg" role="alert"></div>
+              <button class="btn btn-solid full" type="submit" id="fg-btn">Enviar enlace</button>
+              <p class="auth-note"><a href="#" onclick="switchTab('login');return false">← Volver a iniciar sesión</a></p>
+            </form>
+            <form id="form-reset" class="hidden" onsubmit="doReset();return false" novalidate>
+              <p class="auth-sub">Crea tu contraseña nueva</p>
+              <p class="auth-note" style="text-align:left;margin:0 0 14px;">Escríbela dos veces. Después ya entras a tu aula con ella.</p>
+              <div class="field"><label for="rs-pass">Contraseña nueva</label><input id="rs-pass" type="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres"></div>
+              <div class="field"><label for="rs-pass2">Repite la contraseña</label><input id="rs-pass2" type="password" autocomplete="new-password" placeholder="Igual que la de arriba"></div>
+              <div class="form-msg err" id="rs-msg" role="alert"></div>
+              <button class="btn btn-solid full" type="submit" id="rs-btn">Guardar contraseña</button>
             </form>
           </div>
         </div>
@@ -1307,11 +1359,13 @@
       <div class="band-tabs">
         <button class="band-tab active" id="csb-cursos" type="button" onclick="setClientTab('cursos')">Mis cursos</button>
         <button class="band-tab" id="csb-certs" type="button" onclick="setClientTab('certs')">Certificados</button>
+        <button class="band-tab" id="csb-perfil" type="button" onclick="setClientTab('perfil')">Mi perfil</button>
       </div>
     </div>
   </section>
   <section class="content">
     <div class="wrap">
+      <div id="acct-banner"></div>
       <div class="cstats-row" id="client-stats-row"></div>
 
       <div id="client-cursos-view">
@@ -1330,6 +1384,10 @@
 
       <div id="client-certs-view" class="hidden">
         <div id="client-certs-list"></div>
+      </div>
+
+      <div id="client-perfil-view" class="hidden">
+        <div id="client-perfil-body"></div>
       </div>
     </div>
   </section>
@@ -1444,6 +1502,9 @@
         </div>
         <div class="field"><label>Título</label><input id="nc-title" placeholder="Nombre del curso"></div>
         <div class="field"><label>Descripción</label><textarea id="nc-desc" rows="3" placeholder="Breve descripción del contenido"></textarea></div>
+        <div class="field"><label for="nc-kind">Tipo de certificado</label>
+          <select id="nc-kind"><option value="curso" selected>Curso</option><option value="especializacion">Curso de especialización</option></select>
+          <div class="field-hint">En el certificado dirá «Por haber aprobado el <b>curso de</b>…» o «…el <b>curso de especialización integral en:</b>…». Lo puedes cambiar después en «Cursos publicados».</div></div>
         <div class="field"><label>URL de imagen (opcional)</label><input id="nc-image" placeholder="https://..."></div>
         <div class="step-label"><span class="step-n">3</span>Sesiones del curso</div>
         <div id="nc-sessions" class="nc-sessions">
@@ -1763,6 +1824,9 @@ function closeMobileMenu(){
 const SUPABASE_URL = 'https://xsxdlvlffcypbaiolfwj.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_vIKz188_VTuxm4zvoRnyCQ_GgeNcQvW';
 
+/* lo que trae la dirección al abrir la página (el enlace del correo para la contraseña nueva): Supabase la limpia enseguida, por eso se guarda antes de crear el cliente */
+const ACCT_BOOT = { hash: String(location.hash || ''), search: String(location.search || '') };
+
 let sb = null;
 let sbInitError = null;
 try{
@@ -1777,7 +1841,7 @@ async function loadSession(){
   if(!s){ session = null; return; }
   const { data: profile } = await sb.from('profiles').select('*').eq('id', s.user.id).single();
   if(!profile){ session = null; return; }
-  session = { id: s.user.id, email: profile.email, name: profile.name, role: profile.role };
+  session = { id: s.user.id, email: profile.email, name: profile.name, role: profile.role, dni: profile.dni || '', dniCol: ('dni' in profile) };
 }
 
 async function loadCourses(){
@@ -1785,7 +1849,7 @@ async function loadCourses(){
   state.courses = (data||[]).map(c => ({
     id: c.id, code: c.code, title: c.title,
     hours: c.hours || '—', instructor: c.instructor || '—', desc: c.description || '',
-    category: c.category || '', image_url: c.image_url || ''
+    category: c.category || '', image_url: c.image_url || '', cert_kind: c.cert_kind || ''
   }));
 }
 
@@ -1904,12 +1968,14 @@ async function loadAdminData(){
     if(!state.access[r.user_id]) state.access[r.user_id] = [];
     state.access[r.user_id].push(r.course_id);
   });
+  state.grantedAt = {};
+  certStoreGranted(accessRows);
 
   const { data: compRows } = await sb.from('completions').select('*');
   state.certified = {};
   (compRows||[]).forEach(r => {
     if(!state.certified[r.user_id]) state.certified[r.user_id] = {};
-    state.certified[r.user_id][r.course_id] = { status: r.status, code: r.certificate_code, completed_at: r.completed_at };
+    state.certified[r.user_id][r.course_id] = certAdminInfo(r);
   });
   await loadDriveOverview();
   await loadContentCounts();
@@ -1917,19 +1983,13 @@ async function loadAdminData(){
 
 async function loadClientData(){
   await loadPublicContent();
-  const { data: accessRows } = await sb.from('course_access').select('course_id').eq('user_id', session.id);
+  const { data: accessRows } = await sb.from('course_access').select('*').eq('user_id', session.id);
   state.access[session.id] = (accessRows||[]).map(r=>r.course_id);
+  state.grantedAt = {};
+  certStoreGranted(accessRows);
 
-  const { data: compRows } = await sb.from('completions').select('course_id, completed_at, certificate_code, status').eq('user_id', session.id);
-  state.completions[session.id] = (compRows||[]).map(r=>r.course_id);
-  state.completionDates = {};
-  state.certCodes = {};
-  state.certStatus = {};
-  (compRows||[]).forEach(r => {
-    state.completionDates[r.course_id] = r.completed_at;
-    state.certCodes[r.course_id] = r.certificate_code;
-    state.certStatus[r.course_id] = r.status;
-  });
+  const { data: compRows } = await sb.from('completions').select('*').eq('user_id', session.id);
+  certStoreCompletions(compRows || []);
 
   const { data: lessonRows } = await sb.from('course_lessons').select('*').order('order_index');
   state.lessons = {};
@@ -1978,13 +2038,6 @@ function authMsg(error){
   return m || 'No se pudo completar. Inténtalo de nuevo.';
 }
 
-function switchTab(tab){
-  document.getElementById('tab-login').classList.toggle('active', tab==='login');
-  document.getElementById('tab-register').classList.toggle('active', tab==='register');
-  document.getElementById('form-login').classList.toggle('hidden', tab!=='login');
-  document.getElementById('form-register').classList.toggle('hidden', tab!=='register');
-}
-
 async function doLogin(){
   const email = document.getElementById('li-email').value.trim().toLowerCase();
   const pass = document.getElementById('li-pass').value;
@@ -2025,6 +2078,14 @@ async function doRegister(){
     msg.textContent = 'Completa todos los campos (contraseña mínimo 6 caracteres).';
     return;
   }
+  const dniEl = document.getElementById('rg-dni');
+  const dni = dniEl ? acctDniClean(dniEl.value) : '';
+  if(dniEl && !acctDniOk(dni)){
+    msg.className = 'form-msg err';
+    msg.textContent = acctDniError(dni);
+    dniEl.focus();
+    return;
+  }
   const rgc = document.getElementById('rg-course');
   const wanted = rgc ? rgc.value : '';
   if(rgc && !wanted){
@@ -2035,7 +2096,7 @@ async function doRegister(){
   msg.className = 'form-msg';
   msg.textContent = 'Creando cuenta…';
   try{
-    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: wanted ? { name, wanted_course: wanted } : { name } } });
+    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: wanted ? { name, dni, wanted_course: wanted } : { name, dni } } });
     if(error){ msg.textContent = authMsg(error); msg.className = 'form-msg err'; return; }
     if(!data.session){
       msg.textContent = wanted
@@ -2126,6 +2187,7 @@ function render(){
     renderRegisterExtras();
     driveStopPolls();
     aulaReset();
+    acctReset();
     return;
   }
 
@@ -2149,6 +2211,7 @@ function render(){
     myDriveSchedule();
     aulaPollStart();
     aulaAutoCerts();
+    acctBannerRender();
   }
 }
 
@@ -2187,19 +2250,6 @@ function renderPromotions(){
       ? `<a href="${escapeHtml(p.link_url)}" target="_blank" rel="noopener">${img}</a>`
       : img;
   }).join('');
-}
-
-function setClientTab(tab){
-  clientTab = tab;
-  document.getElementById('csb-cursos').classList.toggle('active', tab==='cursos');
-  document.getElementById('csb-certs').classList.toggle('active', tab==='certs');
-  document.getElementById('client-cursos-view').classList.toggle('hidden', tab!=='cursos');
-  document.getElementById('client-certs-view').classList.toggle('hidden', tab!=='certs');
-  document.getElementById('client-detail-view').classList.add('hidden');
-  document.getElementById('client-heading').textContent = tab==='certs' ? 'Certificados' : 'Mis cursos';
-  document.getElementById('client-stats-row').classList.toggle('hidden', tab==='certs');
-  if(tab==='cursos') document.getElementById('client-cursos-view').classList.remove('hidden');
-  if(tab==='certs') renderClientCerts();
 }
 
 function courseProgressPct(courseId){
@@ -3103,13 +3153,14 @@ function renderCoursesTable(){
   const link = (f !== 'all' && f !== '__none') ? `<p class="panel-lede" style="margin:0 0 14px;">Así lo ven los visitantes: <a href="${progUrl(f)}" target="_blank" rel="noopener">abrir la lista de «${escapeHtml(f)}» ↗</a></p>` : '';
   wrap.innerHTML = `<h3>Cursos publicados</h3>
     <div class="prog-filter">${pills}</div>${link}
-    ${rows.length === 0 ? `<div class="empty">Todavía no hay cursos. Sube el primero arriba.</div>` : `<div class="table-scroll"><table><thead><tr><th>Código</th><th>Título</th><th>Programa</th><th>Horas</th><th>Instructor</th><th></th></tr></thead><tbody>
+    ${rows.length === 0 ? `<div class="empty">Todavía no hay cursos. Sube el primero arriba.</div>` : `<div class="table-scroll"><table><thead><tr><th>Código</th><th>Título</th><th>Programa</th><th>Horas</th><th>Instructor</th><th>Certificado</th><th></th></tr></thead><tbody>
     ${rows.map(c => `<tr>
       <td class="mono" data-label="Código">${escapeHtml(c.code)}</td>
       <td style="color:var(--text)" data-label="Título"><span class="crs-title">${escapeHtml(c.title)}</span>${courseContentCellHtml(c.id)}</td>
       <td data-label="Programa"><select class="access-select prog-move" aria-label="Programa de ${escapeHtml(c.code)}" onchange="moveCourse('${c.id}', this.value)">${opts(c.category)}</select></td>
       <td data-label="Horas">${escapeHtml(c.hours)}</td>
       <td data-label="Instructor">${escapeHtml(c.instructor)}</td>
+      <td data-label="Certificado">${courseKindCellHtml(c)}</td>
       <td style="white-space:nowrap;" class="crs-actions"><button class="btn btn-danger btn-sm" onclick="deleteCourse('${c.id}')">Eliminar</button></td>
     </tr>`).join('')}
   </tbody></table></div>`}`;
@@ -5490,7 +5541,8 @@ function ncValidate(){
   return null;
 }
 function ncResetForm(){
-  ['nc-code', 'nc-title', 'nc-hours', 'nc-instructor', 'nc-desc', 'nc-image'].forEach(id => { const e = ncEl(id); if(e) e.value = ''; });   // el programa se queda elegido para subir el siguiente
+  ['nc-code', 'nc-title', 'nc-hours', 'nc-instructor', 'nc-desc', 'nc-image'].forEach(id => { const e = ncEl(id); if(e) e.value = ''; });
+  { const k = ncEl('nc-kind'); if(k) k.value = 'curso'; }   // el programa se queda elegido para subir el siguiente
   NC.rows = [ncNewRow()];
   NC.arm = {};
   const ta = ncEl('nc-bulk-text');
@@ -5570,10 +5622,20 @@ async function createCourse(){
     }
     // 2) el curso
     say(rows.length ? 'Publicando el curso y sus ' + rows.length + (rows.length === 1 ? ' sesión…' : ' sesiones…') : 'Publicando el curso…');
-    const ins = await sb.from('courses').insert({
+    const kindEl = ncEl('nc-kind');
+    const newRow = {
       code, title, hours: hours || '—', instructor: instructor || '—', description: desc || 'Sin descripción.',
       category, image_url: image || null
-    }).select('id').single();
+    };
+    /* «Curso» es lo que la base le pone sola a un curso nuevo: el tipo solo se manda cuando se eligió otro y la columna existe (o aún no se sabe).
+       Así, mientras no se haya corrido la versión nueva de supabase-certificados.sql, no se hace ningún pedido que vaya a fallar. */
+    if(kindEl && kindEl.value === 'especializacion' && courseKindColumn() !== false) newRow.cert_kind = 'especializacion';
+    let ins = await sb.from('courses').insert(newRow).select('id').single();
+    /* si todavía no se corrió la versión nueva de supabase-certificados.sql y no se sabía (aún no había cursos), la columna «cert_kind» no existe: se publica igual (saldrá como especialización) */
+    if(ins.error && /cert_kind/i.test(String(ins.error.message || ''))){
+      delete newRow.cert_kind;
+      ins = await sb.from('courses').insert(newRow).select('id').single();
+    }
     if(ins.error){
       await ncRemoveFiles(uploaded);
       say('Error al publicar: ' + ins.error.message, 'err');
@@ -5651,6 +5713,41 @@ function ncPublishedMsg(category, n, note){
 
 NC.rows = [ncNewRow()];
 ncRender();
+
+
+/* ---------------- «Cursos publicados»: tipo de certificado de cada curso ---------------- */
+/* ¿Ya se corrió la versión nueva de supabase-certificados.sql? Con ella, todo curso de la lista trae su «cert_kind» ('curso' o 'especializacion');
+   si hay cursos y ninguno lo trae, esa columna todavía no existe. Sin cursos no se puede saber (null). */
+function courseKindColumn(){
+  const list = state.courses || [];
+  return list.length ? list.some(c => c && !!c.cert_kind) : null;
+}
+function courseKindCellHtml(c){
+  const k = c.cert_kind === 'curso' ? 'curso' : 'especializacion';
+  return '<select class="access-select prog-move" aria-label="Tipo de certificado de ' + escapeHtml(c.code) + '" onchange="setCourseKind(\'' + c.id + '\', this.value)">' +
+    '<option value="curso"' + (k === 'curso' ? ' selected' : '') + '>Curso</option>' +
+    '<option value="especializacion"' + (k === 'especializacion' ? ' selected' : '') + '>Curso de especialización</option></select>';
+}
+async function setCourseKind(id, kind){
+  const c = (state.courses || []).find(x => x.id === id);
+  const msg = document.getElementById('courses-msg');
+  if(!c) return;
+  kind = kind === 'curso' ? 'curso' : 'especializacion';
+  const r = await sb.from('courses').update({ cert_kind: kind }).eq('id', id).select('id');
+  if(r.error || !r.data || !r.data.length){
+    if(msg){
+      msg.className = 'form-msg err';
+      msg.textContent = r.error && /cert_kind|schema cache/i.test(String(r.error.message || '')) ? 'Falta correr la versión nueva de supabase-certificados.sql en Supabase (una sola vez).' : 'No se pudo cambiar: ' + ((r.error && r.error.message) || 'inténtalo de nuevo.');
+    }
+    renderCoursesTable();
+    return;
+  }
+  c.cert_kind = kind;
+  if(msg){
+    msg.className = 'form-msg ok';
+    msg.textContent = '✓ «' + c.title + '»: sus certificados dirán «' + (kind === 'curso' ? 'curso de' : 'curso de especialización integral en:') + '».';
+  }
+}
 
 /* ================= SESIONES DEL CURSO (alumno): «Anterior» / «Siguiente» =================
    Arriba del video se muestra en qué sesión está el alumno (SESIÓN 02 de 12 + su tema) con los botones «← Anterior» y «Siguiente →».
@@ -6048,15 +6145,9 @@ async function aulaReloadSubs(){
   if(!r.error){ AULA.subs = {}; (r.data || []).forEach(s => { AULA.subs[s.activity_id] = s; }); }
 }
 async function reloadCompletions(){
-  const { data, error } = await sb.from('completions').select('course_id, completed_at, certificate_code, status').eq('user_id', session.id);
+  const { data, error } = await sb.from('completions').select('*').eq('user_id', session.id);
   if(error) return false;
-  state.completions[session.id] = (data || []).map(r => r.course_id);
-  state.completionDates = {}; state.certCodes = {}; state.certStatus = {};
-  (data || []).forEach(r => {
-    state.completionDates[r.course_id] = r.completed_at;
-    state.certCodes[r.course_id] = r.certificate_code;
-    state.certStatus[r.course_id] = r.status;
-  });
+  certStoreCompletions(data || []);
   return true;
 }
 
@@ -6837,7 +6928,9 @@ function amCertRows(){
   const rows = [];
   Object.keys(state.certified || {}).forEach(uid => Object.keys(state.certified[uid]).forEach(cid => {
     const i = state.certified[uid][cid];
-    rows.push({ uid: uid, cid: cid, status: i.status === 'approved' ? 'approved' : 'pending', code: i.code, at: i.completed_at });
+    rows.push({ uid: uid, cid: cid, status: i.status === 'approved' ? 'approved' : 'pending', code: i.code, at: i.completed_at,
+      issue: certIsoDay(i.issue_date) || (i.status === 'approved' ? certIsoDay(i.approved_at || i.completed_at) : ''),
+      custom: !!(i.issue_date || i.period_start || i.period_end) });
   }));
   return rows;
 }
@@ -6847,7 +6940,7 @@ async function amReloadCerts(){
   const cert = {};
   r.data.forEach(x => {
     if(!cert[x.user_id]) cert[x.user_id] = {};
-    cert[x.user_id][x.course_id] = { status: x.status, code: x.certificate_code, completed_at: x.completed_at };
+    cert[x.user_id][x.course_id] = certAdminInfo(x);
   });
   state.certified = cert;
   return true;
@@ -6883,19 +6976,21 @@ function amRenderCerts(){
   const shown = list.slice(0, AM.certLimit);
   const missing = shown.map(r => r.uid).filter(u => !AM.prog[u]);
   const dniKeep = (typeof CX !== 'undefined' && CX.dniEdit && auEl('cx-dni-in')) ? auEl('cx-dni-in').value : null;
-  wrap.innerHTML = '<div class="table-scroll"><table class="am-table"><thead><tr><th>Alumno</th><th>DNI</th><th>Curso</th><th>Sesiones vistas</th><th>Solicitado</th><th>Estado</th><th></th></tr></thead><tbody>' +
+  wrap.innerHTML = '<div class="table-scroll"><table class="am-table"><thead><tr><th>Alumno</th><th>DNI</th><th>Curso</th><th>Sesiones vistas</th><th>Solicitado</th><th>Emisión</th><th>Estado</th><th></th></tr></thead><tbody>' +
     shown.map(r => {
       const c = amCourse(r.cid), key = r.uid + '|' + r.cid;
       const s = amSeen(r.uid, r.cid);
       const warn = s && s.seen < s.total;
       return '<tr>' +
-        '<td data-label="Alumno"><b>' + escapeHtml(amName(r.uid)) + '</b><div class="au-muted">' + escapeHtml(amEmail(r.uid)) + '</div></td>' +
+        '<td data-label="Alumno"><b>' + escapeHtml(amName(r.uid)) + '</b> <button class="cx-link" type="button" onclick="cdOpen(\'' + r.uid + '\',\'' + r.cid + '\',\'name\')" aria-label="Corregir el nombre de ' + escapeHtml(amName(r.uid)) + '">Corregir</button><div class="au-muted">' + escapeHtml(amEmail(r.uid)) + '</div></td>' +
         '<td data-label="DNI">' + cxDniCell(r.uid) + '</td>' +
         '<td data-label="Curso">' + escapeHtml(c ? c.title : 'Curso') + '<div class="au-muted mono">' + escapeHtml(c ? c.code : '') + '</div></td>' +
         '<td data-label="Sesiones vistas">' + amSeenText(r.uid, r.cid) + (warn ? '<div class="au-muted">Faltan sesiones por ver</div>' : '') + '</td>' +
         '<td data-label="Solicitado">' + escapeHtml(auDate(r.at, true)) + '</td>' +
+        '<td data-label="Emisión">' + (r.issue ? escapeHtml(cxFmtDay(r.issue)) + (r.custom ? '<div class="au-muted">fechas elegidas</div>' : '') : '<span class="au-muted">al aprobar</span>') + '</td>' +
         '<td data-label="Estado">' + (r.status === 'approved' ? '<span class="au-chip ok">Aprobado</span>' : '<span class="au-chip warn">Por aprobar</span>') + '</td>' +
         '<td data-label="" class="am-acts"><button class="btn btn-ghost btn-sm" type="button" onclick="amViewCert(\'' + r.uid + '\',\'' + r.cid + '\')">Ver certificado</button> ' +
+        '<button class="btn btn-ghost btn-sm" type="button" onclick="cdOpen(\'' + r.uid + '\',\'' + r.cid + '\')">Fechas</button> ' +
         (r.status === 'approved'
           ? '<button class="btn btn-danger btn-sm" type="button" onclick="amRevokeCert(\'' + r.uid + '\',\'' + r.cid + '\')">' + (amArmed('rv:' + key) ? '¿Seguro?' : 'Quitar aprobación') + '</button>'
           : '<button class="btn btn-solid btn-sm" type="button" onclick="amApproveCert(\'' + r.uid + '\',\'' + r.cid + '\')">Aprobar</button>') +
@@ -6910,10 +7005,11 @@ function amViewCert(uid, cid){
   openCertPreviewModal(uid);
 }
 async function amSetCertStatus(uid, cid, status){
-  const r = await sb.from('completions').update({ status: status }).eq('user_id', uid).eq('course_id', cid).select('user_id');
+  const r = await sb.from('completions').update({ status: status }).eq('user_id', uid).eq('course_id', cid).select('*');
   if(r.error) return r.error;
   if(!r.data || !r.data.length) return { message: 'No se encontró la solicitud (quizá ya cambió). Recarga la página.' };
-  if(state.certified[uid] && state.certified[uid][cid]) state.certified[uid][cid].status = status;
+  /* la base anota sola el día de la aprobación (será la fecha de emisión): se trae para que la vista previa ya la muestre */
+  if(state.certified[uid] && state.certified[uid][cid]) state.certified[uid][cid] = certAdminInfo(r.data[0]);
   return null;
 }
 function amApproveCert(uid, cid){
@@ -7812,18 +7908,26 @@ const C2_SCRIPT = "'Great Vibes','Brush Script MT','Segoe Script',cursive";
 const c2font = (w, s, it) => (it ? 'italic ' : '') + w + ' ' + (Math.round(s * 100) / 100) + 'px ' + C2_SANS;
 const C2_NAVY = '#0B2A66', C2_NAVY2 = '#0A2250', C2_BLUE = '#1E6FD9', C2_INK = '#16213A', C2_GOLD = '#E2A52B';
 
-/* ---------------- plantilla por defecto (dónde va cada firma / sello / QR) ----------------
-   Las posiciones son del modelo (x de 0 a 1536, y de 0 a 1024); w = ancho. «asset» = imagen subida desde el panel (null = sin imagen / sello de la casa). */
+/* ---------------- plantilla por defecto (dónde va cada firma / sello / QR / bloque) ----------------
+   Las posiciones son del modelo (x de 0 a 1536, y de 0 a 1024); w = ancho. «asset» = imagen subida desde el panel (null = sin imagen / sello de la casa).
+   Piezas fijas de la hoja 1 (se mueven, se achican o se ocultan, pero no se quitan): dur = Duración, mod = Modalidad, fecha = Fecha (periodo) y la medalla dorada. */
+const C2_FIXED = ['dur', 'mod', 'fecha', 'medalla'];
+const C2_BLOCK_W0 = { dur: 220, mod: 180, fecha: 210 };      // ancho de diseño de cada bloque; el w de la plantilla lo escala
 function c2DefaultTemplate(){
+  const off = () => ({ show: false, x: 768, y: 900, w: 200 });
   return {
-    v: 1, infoBar: true, separators: true,
+    v: 2, separators: true,
     items: [
       { id: 'firma-1', kind: 'firma', label: 'Firma del gerente', asset: null, name: 'Ing. Rolando Díaz Saldaña', role: 'DIRECTOR GENERAL', entity: 'INFINITY WORK',
         cert: { show: true, x: 888, y: 903, w: 240 }, tem: { show: true, x: 710, y: 892, w: 214 } },
       { id: 'sello-1', kind: 'sello', label: 'Sello INFINITY WORK', asset: null,
         cert: { show: true, x: 1125, y: 906, w: 172 }, tem: { show: true, x: 929, y: 888, w: 184 } },
       { id: 'qr', kind: 'qr', label: 'Código QR de verificación',
-        cert: { show: true, x: 1362, y: 883, w: 104 }, tem: { show: false, x: 1362, y: 883, w: 104 } }
+        cert: { show: true, x: 1362, y: 883, w: 104 }, tem: { show: false, x: 1362, y: 883, w: 104 } },
+      { id: 'dur', kind: 'dur', label: 'Duración', cert: { show: true, x: 190, y: 902, w: 220 }, tem: off() },
+      { id: 'mod', kind: 'mod', label: 'Modalidad', cert: { show: true, x: 415, y: 902, w: 180 }, tem: off() },
+      { id: 'fecha', kind: 'fecha', label: 'Fecha', cert: { show: true, x: 640, y: 902, w: 210 }, tem: off() },
+      { id: 'medalla', kind: 'medalla', label: 'Medalla dorada', cert: { show: true, x: 1353, y: 501, w: 260 }, tem: off() }
     ]
   };
 }
@@ -7831,12 +7935,20 @@ function c2DefaultTemplate(){
 function c2NormTemplate(t){
   const d = c2DefaultTemplate();
   if(!t || typeof t !== 'object' || !Array.isArray(t.items)) return d;
-  const out = { v: 1, infoBar: t.infoBar !== false, separators: t.separators !== false, items: [] };
+  const out = { v: 2, separators: t.separators !== false, items: [] };
   t.items.forEach(it => {
     if(!it || !it.id || !it.kind) return;
     const base = d.items.find(x => x.id === it.id) || {};
     const pg = (k) => Object.assign({ show: true, x: 768, y: 900, w: 200 }, (base[k] || {}), (it[k] || {}));
     out.items.push(Object.assign({}, base, it, { cert: pg('cert'), tem: pg('tem') }));
+  });
+  // plantilla de la versión anterior: duración, modalidad, fecha y medalla se agregan en su lugar de siempre
+  // (si en esa plantilla la «barra de duración, modalidad y fecha» estaba apagada, los tres bloques quedan ocultos)
+  C2_FIXED.forEach(kind => {
+    if(out.items.some(i => i.kind === kind)) return;
+    const def = d.items.find(i => i.kind === kind);
+    if(t.infoBar === false && kind !== 'medalla') def.cert.show = false;
+    out.items.push(def);
   });
   if(!out.items.some(i => i.kind === 'qr')) out.items.push(d.items.find(i => i.kind === 'qr'));
   return out;
@@ -7983,46 +8095,97 @@ function c2fmtDate(d){
   const p = n => String(n).padStart(2, '0');
   return p(dt.getDate()) + '/' + p(dt.getMonth() + 1) + '/' + dt.getFullYear();
 }
+/* el número de horas, SOLO si el texto habla de horas: «18», «18 horas», «32h», «40 horas académicas».
+   «2 semanas», «3 meses», «180 min» o «Módulo 2» no son horas: devuelve vacío y el texto sale tal como se escribió (nunca «3 horas» por «3 meses») */
 function c2hoursNum(h){
-  const m = /(\d+(?:[.,]\d+)?)/.exec(String(h == null ? '' : h));
-  return m ? m[1].replace(',', '.') : '';
+  const t = String(h == null ? '' : h).trim();
+  const m = /(\d+(?:[.,]\d+)?)/.exec(t);
+  if(!m) return '';
+  if(/\b(d[ií]as?|semanas?|mes(es)?|a[ñn]os?|minutos?|min|cr[eé]ditos?)\b/i.test(t)) return '';
+  if(!/^\d+(?:[.,]\d+)?$/.test(t) && !/(\d\s*(h|hr|hrs|hora|horas)\b|\bhoras?\b|lectiv|acad[eé]mic|pedag[oó]gic|cronol[oó]gic)/i.test(t)) return '';
+  return m[1].replace(',', '.');
 }
-function c2withArticle(inst){
-  const s = String(inst || '').trim();
-  if(!s) return '';
-  if(/^(el|la|los|las)\s/i.test(s)) return s;
-  if(/^(centro|instituto|colegio|consorcio|programa|servicio|departamento)\b/i.test(s)) return 'el ' + s;
-  if(/^(academia|universidad|escuela|asociaci|fundaci|empresa|corporaci|cooperativa|facultad|plataforma)/i.test(s)) return 'la ' + s;
-  return s;
+/* «18 horas» (y «18 horas lectivas» solo si se indicó el tipo de horas); un texto libre («2 semanas») sale tal cual */
+function c2hoursPhrase(d){
+  const n = c2hoursNum(d.hours), raw = String(d.hours == null ? '' : d.hours).trim();
+  if(!n) return raw;
+  const kind = String(d.hoursKind || '').trim().toLowerCase();
+  return n.replace('.', ',') + (n === '1' ? ' hora' : ' horas') + (kind ? ' ' + kind : '');
 }
-function c2upperKeep(str){
-  const keep = new Set(['y', 'e', 'o', 'u', 'de', 'del', 'la', 'el', 'los', 'las', 'en', 'con', 'para', 'por', 'a']);
-  return String(str).split(/(\s+)/).map((w, i) => (i > 0 && keep.has(w.toLowerCase())) ? w.toLowerCase() : w.toUpperCase()).join('');
-}
-/* el párrafo central: se adapta a los datos que haya (sin software, sin fechas, etc.) */
-function c2paragraph(d){
-  const segs = [], hrs = c2hoursNum(d.hours);
-  const sw = String(d.software || '').trim();
-  const hoursTxt = hrs ? hrs + ' HORAS ' + (String(d.hoursKind || 'LECTIVAS').toUpperCase()) : (String(d.hours || '').trim() ? String(d.hours).trim().toUpperCase() : '');
-  if(sw){
-    segs.push({ t: /(,| y | e |\/)/i.test(sw) ? 'Habiéndose utilizado los softwares ' : 'Habiéndose utilizado el software ' }, { t: c2upperKeep(sw), b: true });
-    if(hoursTxt) segs.push({ t: ' con duración de ' }, { t: hoursTxt, b: true });
-  }else{
-    segs.push({ t: 'Habiéndose desarrollado' });
-    if(hoursTxt) segs.push({ t: ' con duración de ' }, { t: hoursTxt, b: true });
+const C2_MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+/* 'AAAA-MM-DD' (o una fecha) → { y, m (1-12), d }; no usa la hora del equipo cuando ya viene el día escrito */
+function c2ymd(v){
+  if(!v) return null;
+  if(!(v instanceof Date)){
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(v));
+    if(m) return { y: +m[1], m: +m[2], d: +m[3] };
   }
-  const s = c2fmtDate(d.startDate), e = c2fmtDate(d.endDate);
-  if(s && e) segs.push({ t: ' realizados del ' }, { t: s + ' al ' + e, b: true });
-  else if(e) segs.push({ t: ' culminado el ' }, { t: e, b: true });
-  const mod = String(d.modality || '').trim();
-  if(mod) segs.push({ t: ' en la modalidad ' + mod.toLowerCase() });
-  const inst = c2withArticle(d.institution);
-  if(inst){
-    const m = /^(el|la|los|las)\s+/i.exec(inst);
-    segs.push({ t: (mod ? ' ' : ' en ') + (m ? (mod ? 'en ' : '') + m[0] : (mod ? 'en ' : '')) });
-    segs.push({ br: true }, { t: inst.replace(/^(el|la|los|las)\s+/i, '') + '.', b: true });
-  }else segs.push({ t: '.' });
+  const dt = v instanceof Date ? v : new Date(v);
+  if(isNaN(dt)) return null;
+  return { y: dt.getFullYear(), m: dt.getMonth() + 1, d: dt.getDate() };
+}
+function c2dayText(p, withYear){ return p.d + ' de ' + C2_MONTHS[p.m - 1] + (withYear ? ' de ' + p.y : ''); }
+/* el periodo en letras. El año solo se escribe cuando el periodo no cae todo en el año de emisión («del presente» = ese año):
+   «del 24 de enero al 21 de febrero del presente»  ·  «del 11 de noviembre de 2026 al 11 de enero de 2027» */
+function c2periodText(start, end, issue){
+  const s = c2ymd(start), e = c2ymd(end), is = c2ymd(issue);
+  const yr = is ? is.y : (e ? e.y : (s ? s.y : 0));
+  const tail = y => y === yr ? ' del presente' : ' de ' + y;
+  if(s && e){
+    if(s.y !== e.y) return { lead: 'Realizado ', main: 'del ' + c2dayText(s, true) + ' al ' + c2dayText(e, true) };
+    if(s.m === e.m && s.d === e.d) return { lead: 'Realizado ', main: 'el ' + c2dayText(s) + tail(s.y) };
+    return { lead: 'Realizado ', main: 'del ' + c2dayText(s) + ' al ' + c2dayText(e) + tail(e.y) };
+  }
+  if(e) return { lead: 'Culminado ', main: 'el ' + c2dayText(e) + tail(e.y) };
+  if(s) return { lead: 'Iniciado ', main: 'el ' + c2dayText(s) + tail(s.y) };
+  return null;
+}
+/* la frase de la hoja 1: «Realizado del … al … del presente, con una duración de 18 horas.» (si falta algo, se adapta) */
+function c2sentence(d){
+  const per = c2periodText(d.startDate, d.endDate, d.issueDate), hrs = c2hoursPhrase(d), segs = [];
+  if(per) segs.push({ t: per.lead }, { t: per.main, b: true });
+  if(hrs) segs.push({ t: per ? ', con una duración de ' : 'Con una duración de ' }, { t: hrs, b: true });
+  if(segs.length) segs.push({ t: '.' });
   return segs;
+}
+/* «Cajamarca, diciembre de 2026»: la ciudad y el mes en que se emite */
+function c2cityLine(d){
+  const p = c2ymd(d.issueDate);
+  if(!p) return '';
+  const my = C2_MONTHS[p.m - 1] + ' de ' + p.y, city = String(d.city || '').trim();
+  return city ? city + ', ' + my : my.charAt(0).toUpperCase() + my.slice(1);
+}
+/* tipo de certificado: 'curso' | 'especializacion' (también entiende el texto libre de los certificados anteriores; vacío = especialización, como salía antes) */
+function c2kindKey(k){
+  const s = String(k == null ? '' : k).trim().toLowerCase();
+  if(s === 'curso') return 'curso';
+  if(s === '' || s === 'especializacion' || s.indexOf('especializ') >= 0) return 'especializacion';
+  return 'otro';
+}
+/* hoja 2 (temario): el encabezado en mayúsculas sobre la píldora del curso */
+function c2kindHeading(k){
+  const key = c2kindKey(k);
+  if(key === 'curso') return 'CURSO EN:';
+  if(key === 'especializacion') return 'CURSO DE ESPECIALIZACIÓN INTEGRAL EN:';
+  return String(k).trim().toUpperCase();
+}
+/* hoja 1: la frase «Por haber aprobado el curso de» */
+function c2kindWords(k){
+  const key = c2kindKey(k);
+  if(key === 'curso') return 'curso de';
+  if(key === 'especializacion') return 'curso de especialización integral en:';
+  return String(k).trim().toLowerCase();
+}
+/* parte un texto con negritas en 2 renglones parejos (si cabe en uno, queda en uno) */
+function c2richBalanced(ctx, segs, size, maxW){
+  let lines = c2richLines(ctx, segs, size, maxW);
+  if(lines.length !== 2) return lines;
+  let best = lines;
+  for(let w = maxW - 24; w > maxW * 0.45; w -= 24){
+    const t = c2richLines(ctx, segs, size, w);
+    if(t.length === 2) best = t; else break;
+  }
+  return best;
 }
 
 /* ---------------- piezas ---------------- */
@@ -8095,12 +8258,16 @@ function c2pill(ctx, o){
     ctx.font = c2font(800, s1, true);
     if(ctx.measureText(txt).width <= mw){ size = s1; lines = [txt]; } else size = o.size2 || 30;
   }
-  if(!lines){ for(;;){ ctx.font = c2font(800, size, true); lines = c2wrap(ctx, txt, mw); if(lines.length <= (o.maxLines || 2) || size <= (o.min || 24)) break; size -= 1; } }
+  if(!lines){ for(;;){ ctx.font = c2font(800, size, true); lines = c2wrapBalanced(ctx, txt, mw); if(lines.length <= (o.maxLines || 2) || size <= (o.min || 24)) break; size -= 1; } }
   let maxL = o.maxLines || 2;
   /* un título larguísimo no se corta: se achica un poco más y se deja un renglón extra (solo si la pastilla tiene alto para eso) */
   if(lines.length > maxL && o.maxLines2){
     maxL = o.maxLines2;
-    for(;;){ ctx.font = c2font(800, size, true); lines = c2wrap(ctx, txt, mw); if(lines.length <= maxL || size <= (o.min2 || 17)) break; size -= 1; }
+    for(;;){ ctx.font = c2font(800, size, true); lines = c2wrapBalanced(ctx, txt, mw); if(lines.length <= maxL || size <= (o.min2 || 17)) break; size -= 1; }
+  }
+  /* el texto tiene que caber en el alto de la pastilla (con su borde): si no cabe, se achica y se acomoda otra vez (un título de 3 renglones se salía por abajo) */
+  for(let g = 0; g < 40 && lines.length * size * 1.06 > h - 14 && size > (o.min2 || 17); g++){
+    size -= 1; ctx.font = c2font(800, size, true); lines = c2wrapBalanced(ctx, txt, mw);
   }
   if(lines.length > maxL){ lines = lines.slice(0, maxL); lines[lines.length - 1] = c2ellipsis(ctx, lines[lines.length - 1] + '…', mw); }
   const lh = size * 1.06, top = y + h / 2 - (lines.length * lh) / 2;
@@ -8109,9 +8276,8 @@ function c2pill(ctx, o){
   ctx.restore();
 }
 
-/* medalla dorada con la nota (o «CURSO APROBADO» si no hay nota) */
+/* medalla dorada «CURSO APROBADO» con las horas (la nota va solo en la hoja del temario) */
 function c2medal(ctx, cx, cy, R, d){
-  const grade = d.grade, scale = d.gradeScale || 20;
   ctx.save();
   // borde festoneado
   const N = 46, rb = R - 7, br = Math.sin(Math.PI / N) * rb * 1.18;
@@ -8146,8 +8312,7 @@ function c2medal(ctx, cx, cy, R, d){
   c2icon(ctx, 'graduation-cap', cx, cy - 78, 50, C2_NAVY, 2.1);
   // textos
   ctx.fillStyle = C2_NAVY; ctx.textAlign = 'center';
-  let t1, t2;
-  if(grade != null && grade !== ''){ t1 = 'NOTA'; t2 = 'FINAL'; } else { t1 = 'CURSO'; t2 = 'APROBADO'; }
+  const t1 = 'CURSO', t2 = 'APROBADO';
   ctx.font = c2font(800, t2.length > 5 ? 25 : 30); c2spaced(ctx, t1, cx, cy - 36, 1.2, 'center');
   ctx.font = c2font(800, t2.length > 5 ? 25 : 30); c2spaced(ctx, t2, cx, cy - 8, 1.2, 'center');
   // cinta azul con la nota
@@ -8161,9 +8326,7 @@ function c2medal(ctx, cx, cy, R, d){
   ctx.beginPath(); ctx.moveTo(cx - rw / 2 + 22, ry); ctx.lineTo(cx + rw / 2 - 22, ry); ctx.lineTo(cx + rw / 2 - 22, ry + rh); ctx.lineTo(cx - rw / 2 + 22, ry + rh); ctx.closePath(); ctx.fill();
   ctx.strokeStyle = 'rgba(160,210,255,.6)'; ctx.lineWidth = 1.5; ctx.stroke();
   ctx.fillStyle = '#FFFFFF';
-  let rt;
-  if(grade != null && grade !== '') rt = String(grade).replace('.', ',') + ' / ' + scale;
-  else { const hn = c2hoursNum(d.hours); rt = hn ? hn + ' HORAS' : 'APROBADO'; }
+  const hn = c2hoursNum(d.hours), rt = hn ? hn.replace('.', ',') + (hn === '1' ? ' HORA' : ' HORAS') : 'APROBADO';
   const fs = c2fit(ctx, rt, s => c2font(800, s), rw - 90, 42, 22);
   ctx.shadowColor = 'rgba(0,20,70,.5)'; ctx.shadowBlur = 4; ctx.shadowOffsetY = 2;
   ctx.fillText(rt, cx, ry + rh / 2 + fs * 0.36);
@@ -8221,6 +8384,8 @@ function c2itemBox(it, page, d){
   if(it.kind === 'firma'){ const k = w / 240; return { x: x - w / 2, y: y - 92 * k, w: w, h: 92 * k + 68 * k }; }
   if(it.kind === 'sello'){ return { x: x - w / 2, y: y - w / 2, w: w, h: w }; }
   if(it.kind === 'qr'){ return { x: x - w / 2, y: y - 51 * (w / 104), w: w, h: (51 + 51 + 62) * (w / 104) }; }
+  if(C2_BLOCK_W0[it.kind]){ const k = w / C2_BLOCK_W0[it.kind]; return { x: x - w / 2, y: y - 40 * k, w: w, h: 80 * k }; }
+  if(it.kind === 'medalla'){ return { x: x - w / 2, y: y - w / 2, w: w, h: w }; }
   return { x: x - w / 2, y: y - w * 0.3, w: w, h: w * 0.6 };
 }
 /* dibuja el QR cuadrito por cuadrito, con lados de píxeles enteros (así sale nítido en pantalla, PDF e impresión y se lee fácil con el celular) */
@@ -8237,6 +8402,7 @@ function c2drawQr(ctx, m, x, y, w){
 }
 function c2drawItem(ctx, it, page, d, res){
   const p = it[page]; if(!p || !p.show) return;
+  if(page !== 'cert' && C2_FIXED.indexOf(it.kind) >= 0) return;          // duración, modalidad, fecha y medalla son solo de la hoja 1
   const x = p.x, y = c2y(p.y), w = p.w;
   ctx.save();
   if(it.kind === 'firma'){
@@ -8256,6 +8422,12 @@ function c2drawItem(ctx, it, page, d, res){
   }else if(it.kind === 'logo' || it.kind === 'otro'){
     const im = it.asset && res.assets && res.assets[it.asset];
     if(im) c2drawImageFit(ctx, im, x, y, w, w * 0.6);
+  }else if(C2_BLOCK_W0[it.kind]){
+    c2infoBlock(ctx, it.kind, d, x, y, w);
+  }else if(it.kind === 'medalla'){
+    const k = (w / 2) / 130;
+    ctx.translate(x, y); ctx.scale(k, k);
+    c2medal(ctx, 0, 0, 130, d);
   }else if(it.kind === 'qr'){
     const k = w / 104, top = y - 51 * k;
     if(res.qrMatrix){
@@ -8326,59 +8498,63 @@ function c2drawCert(ctx, d, tpl, res){
   ctx.strokeStyle = c2lg(ctx, 395, 0, 1137, 0, [[0, 'rgba(46,134,240,0)'], [0.12, '#2E86F0'], [0.88, '#2E86F0'], [1, 'rgba(46,134,240,0)']]);
   ctx.lineWidth = 2.2; ctx.beginPath(); ctx.moveTo(395, c2y(twoLn ? 452 : 447)); ctx.lineTo(1137, c2y(twoLn ? 452 : 447)); ctx.stroke();
   ctx.restore();
-  // Por haber aprobado…
+  // «Por haber aprobado el curso de» / «… el curso de especialización integral en:» (según el tipo que se eligió en el curso)
   ctx.save(); ctx.textAlign = 'left';
-  const l1 = [{ t: 'Por haber ' }, { t: 'APROBADO Y CONCLUIDO', b: true }, { t: ' satisfactoriamente el' }];
-  const L1 = c2richLines(ctx, l1, 23.5, 980); c2drawRich(ctx, L1, 768, c2y(479), 30, 23.5, C2_INK);
-  ctx.textAlign = 'center'; ctx.fillStyle = C2_INK;
-  const kind = String(d.courseKind || 'CURSO DE ESPECIALIZACIÓN INTEGRAL EN:').toUpperCase();
-  c2fit(ctx, kind, s => c2font(800, s), 760, 24, 14); ctx.fillText(kind, 768, c2y(511));
+  const l1 = [{ t: 'Por haber ' }, { t: 'aprobado', b: true }, { t: ' el ' }, { t: c2kindWords(d.courseKind), b: true }];
+  let lsz = 26, L1 = c2richLines(ctx, l1, lsz, 1040);
+  while(L1.length > 1 && lsz > 17){ lsz -= 1; L1 = c2richLines(ctx, l1, lsz, 1040); }
+  c2drawRich(ctx, L1, 768, c2y(503), lsz * 1.25, lsz, C2_INK);
   ctx.restore();
   // píldora del curso
   c2pill(ctx, { x: 313, y: c2y(533), w: 879, h: 109, tabW: 182, title: d.courseTitle, icons: d.courseIcons, size: 39, min: 24, maxLines: 3, maxLines2: 4, min2: 18 });
-  // párrafo
+  // «Realizado del … al … del presente, con una duración de 18 horas.» y «Cajamarca, diciembre de 2026»
   ctx.save();
-  const segs = c2paragraph(d);
-  let psz = 22.5, plines = c2richLines(ctx, segs, psz, 1012);
-  if(plines.length > 3){ psz = 20.5; plines = c2richLines(ctx, segs, psz, 1040); }
-  const pitch = psz * 1.28, py0 = c2y(673);
-  c2drawRich(ctx, plines, 768, py0, pitch, psz, C2_INK);
-  ctx.textAlign = 'center'; ctx.font = c2font(500, psz); ctx.fillStyle = C2_INK;
-  const closeY = Math.min(c2y(779), py0 + (plines.length - 1) * pitch + 46);
-  ctx.fillText(String(d.closing || 'Por lo tanto, se le expide el siguiente certificado para que se le reconozca como tal.'), 768, closeY);
+  const segs = c2sentence(d);
+  let psz = 24, plines = [];
+  if(segs.length){
+    plines = c2richLines(ctx, segs, psz, 1090);
+    while(plines.length > 1 && psz > 21){ psz -= 0.5; plines = c2richLines(ctx, segs, psz, 1090); }
+    if(plines.length > 1){ psz = 24; plines = c2richBalanced(ctx, segs, psz, 1090); }
+    if(plines.length > 2){ psz = 20.5; plines = c2richLines(ctx, segs, psz, 1120); }
+  }
+  const pitch = psz * 1.34, py0 = c2y(695);
+  if(plines.length) c2drawRich(ctx, plines, 768, py0, pitch, psz, C2_INK);
+  const place = c2cityLine(d);
+  if(place){
+    ctx.textAlign = 'center'; ctx.font = c2font(500, 25); ctx.fillStyle = C2_INK;
+    ctx.fillText(place, 768, plines.length ? Math.min(c2y(792), py0 + (plines.length - 1) * pitch + 58) : c2y(745));
+  }
   ctx.restore();
-  // medalla
-  c2medal(ctx, 1353, c2y(501), 130, d);
-  // barra inferior: duración / modalidad / fecha
-  if(tpl.infoBar !== false) c2infoBar(ctx, d);
+  // separadores de la barra de abajo + firmas, sello, QR, duración, modalidad, fecha y medalla (cada uno donde lo pusiste)
   if(tpl.separators !== false) [305, 513, 748, 1023, 1228].forEach(x => c2sep(ctx, x, c2y(857), c2y(946)));
   tpl.items.forEach(it => c2drawItem(ctx, it, 'cert', d, res));
 }
 function c2sep(ctx, x, y0, y1){
   ctx.save(); ctx.strokeStyle = '#1B2E72'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x, y1); ctx.stroke(); ctx.restore();
 }
-function c2infoBar(ctx, d){
-  const blue = '#1F73D6', hrs = c2hoursNum(d.hours);
-  const cols = [
-    { x: 80, icon: 'clock', label: 'Duración:', lines: [hrs ? hrs + ' horas ' + String(d.hoursKind || 'lectivas').toLowerCase() : String(d.hours || '—')] },
-    { x: 325, icon: 'laptop-minimal', label: 'Modalidad:', lines: [String(d.modality || 'Virtual')] },
-    { x: 535, icon: 'calendar-days', label: 'Fecha:', lines: [] }
-  ];
-  const s = c2fmtDate(d.startDate), e = c2fmtDate(d.endDate), em = c2fmtDate(d.issueDate);
-  if(s && e) cols[2].lines = ['Del ' + s, 'al ' + e];
-  else if(e) cols[2].lines = ['Culminó el', e];
-  else cols[2].lines = [em ? 'Emitido el' : '', em].filter(Boolean);
-  ctx.save(); ctx.textAlign = 'left';
-  cols.forEach((c, i) => {
-    const yc = c2y(902), two = c.lines.length > 1;
-    c2icon(ctx, c.icon, c.x + 26, yc - 2, 54, blue, 2.2);
-    const tx = c.x + 64;
-    ctx.fillStyle = '#13213E'; c2fit(ctx, c.label, s2 => c2font(800, s2), (i === 0 ? 300 : i === 1 ? 505 : 745) - tx - 12, 21, 13);
-    const labY = two ? yc - 22 : yc - 12;
-    ctx.fillText(c.label, tx, labY);
-    ctx.font = c2font(500, 19);
-    c.lines.forEach((ln, k) => { c2fit(ctx, ln, s2 => c2font(500, s2), (i === 0 ? 300 : i === 1 ? 505 : 745) - tx - 14, 19, 12); ctx.fillText(ln, tx, labY + 23 + k * 21); });
-  });
+/* bloque suelto de la hoja 1: icono + título + valor. Se dibuja con medidas de diseño (ancho C2_BLOCK_W0) y se escala al ancho w que se le dio.
+   (x, yc) = centro del bloque */
+function c2infoBlock(ctx, kind, d, x, yc, w){
+  const W0 = C2_BLOCK_W0[kind], k = w / W0, blue = '#1F73D6';
+  let icon, label, lines;
+  if(kind === 'dur'){ icon = 'clock'; label = 'Duración:'; lines = [c2hoursPhrase(d) || '—']; }
+  else if(kind === 'mod'){ icon = 'laptop-minimal'; label = 'Modalidad:'; lines = [String(d.modality || 'Virtual')]; }
+  else{
+    icon = 'calendar-days'; label = 'Fecha:';
+    const s = c2fmtDate(d.startDate), e = c2fmtDate(d.endDate), em = c2fmtDate(d.issueDate);
+    lines = (s && e) ? ['Del ' + s, 'al ' + e] : (e ? ['Culminó el', e] : [em ? 'Emitido el' : '', em].filter(Boolean));
+    if(!lines.length) lines = ['—'];
+  }
+  ctx.save();
+  ctx.translate(x - w / 2, yc); ctx.scale(k, k);
+  ctx.textAlign = 'left';
+  const two = lines.length > 1, tx = 64;
+  c2icon(ctx, icon, 26, -2, 54, blue, 2.2);
+  ctx.fillStyle = '#13213E';
+  c2fit(ctx, label, s2 => c2font(800, s2), W0 - tx - 12, 21, 13);
+  const labY = two ? -22 : -12;
+  ctx.fillText(label, tx, labY);
+  lines.forEach((ln, i) => { c2fit(ctx, ln, s2 => c2font(500, s2), W0 - tx - 14, 19, 12); ctx.fillText(ln, tx, labY + 23 + i * 21); });
   ctx.restore();
 }
 
@@ -8532,11 +8708,12 @@ function c2infoBox(ctx, d, x, y, w, h){
   c2fit(ctx, 'INFINITY WORK', s2 => c2font(800, s2), 190, 25, 14); ctx.fillText('INFINITY WORK', x + 114, y + h / 2 + 2);
   c2fit(ctx, 'CONSTRUIMOS SIN LÍMITES', s2 => c2font(700, s2), 190, 12.2, 8, 0.2); c2spaced(ctx, 'CONSTRUIMOS SIN LÍMITES', x + 114, y + h / 2 + 22, 0.2, 'center');
   ctx.strokeStyle = '#1B2E72'; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(x + 226, y + 14); ctx.lineTo(x + 226, y + h - 14); ctx.stroke();
-  const hrs = c2hoursNum(d.hours);
-  const rows = [['laptop-minimal', 'Modalidad:', String(d.modality || 'Virtual')], ['clock', 'Duración:', hrs ? hrs + ' horas ' + String(d.hoursKind || 'lectivas').toLowerCase() : String(d.hours || '—')]];
-  const s = c2fmtDate(d.startDate), e = c2fmtDate(d.endDate);
-  rows.push(['calendar-days', s && e ? 'Periodo:' : 'Fecha:', s && e ? ['Del ' + s + ' al ' + e, s + ' al ' + e] : (e || c2fmtDate(d.issueDate) || '—')]);
-  if(String(d.software || '').trim()) rows.push(['monitor', 'Software:', String(d.software).trim()]);
+  const rows = [['laptop-minimal', 'Modalidad:', String(d.modality || 'Virtual')], ['clock', 'Duración:', c2hoursPhrase(d) || '—']];
+  const s = c2fmtDate(d.startDate), e = c2fmtDate(d.endDate), place = c2cityLine(d);
+  if(s && e) rows.push(['calendar-days', 'Periodo:', ['Del ' + s + ' al ' + e, s + ' al ' + e]]);
+  else if(e) rows.push(['calendar-days', 'Culminó el:', e]);
+  if(place) rows.push(['map-pinned', '', place]);                    // «Cajamarca, diciembre de 2026» (sin título, para que quepa)
+  if(rows.length < 3) rows.push(['calendar-days', 'Fecha:', '—']);
   const step = (h - 22) / rows.length;
   ctx.textAlign = 'left';
   rows.forEach((r, i) => {
@@ -8597,7 +8774,9 @@ function c2notesTable(ctx, d, x, y, w, h){
   ctx.fillStyle = '#0B2A66'; ctx.font = c2font(800, 17.5); ctx.textAlign = 'left'; ctx.fillText('PROMEDIO FINAL', x + 12, yy + 22);
   ctx.font = c2font(800, 20); ctx.textAlign = 'center'; ctx.fillText(hasGrade ? fmt(avg) : 'Aprobado', colX + 75, yy + 22);
   yy += avgH; line(yy);
-  ctx.fillStyle = '#16213A'; c2fit(ctx, 'TOTAL, DE HORAS PEDAGÓGICAS', s2 => c2font(800, s2), colX - x - 22, 16.5, 10); ctx.textAlign = 'left'; ctx.fillText('TOTAL, DE HORAS PEDAGÓGICAS', x + 12, yy + 22);
+  /* el tipo de horas solo se escribe si se indicó (igual que en la hoja 1): «TOTAL DE HORAS ACADÉMICAS» o, si no, «TOTAL DE HORAS» */
+  const totLbl = String(d.hoursKind || '').trim() ? 'TOTAL DE HORAS ' + String(d.hoursKind).trim().toUpperCase() : 'TOTAL DE HORAS';
+  ctx.fillStyle = '#16213A'; c2fit(ctx, totLbl, s2 => c2font(800, s2), colX - x - 22, 16.5, 10); ctx.textAlign = 'left'; ctx.fillText(totLbl, x + 12, yy + 22);
   ctx.font = c2font(800, 20); ctx.textAlign = 'center'; ctx.fillText(c2hoursNum(d.hours) || '—', colX + 75, yy + 22);
   // marco y columna
   ctx.strokeStyle = '#142B66'; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(colX, y + hh); ctx.lineTo(colX, y + h); ctx.stroke();
@@ -8625,7 +8804,7 @@ function c2drawTem(ctx, d, tpl, res, pg, pageNo, pageCount){
   ctx.restore();
   // subtítulo con líneas doradas
   ctx.save(); ctx.textAlign = 'center'; ctx.fillStyle = C2_NAVY2;
-  const kind = String(d.courseKind || 'CURSO DE ESPECIALIZACIÓN INTEGRAL EN:').toUpperCase();
+  const kind = c2kindHeading(d.courseKind);
   const ks = c2fit(ctx, kind, s => c2font(800, s), 560, 22, 13);
   ctx.fillText(kind, 788, c2y(203));
   const kw = ctx.measureText(kind).width;
@@ -8757,10 +8936,38 @@ function certIsoDay(raw){
   if(isNaN(d)) return '';
   return new Date(d.getTime() - 5 * 3600 * 1000).toISOString().slice(0, 10);
 }
+/* el tipo de horas solo sale si el docente lo escribió en el curso («18 horas académicas»); si no, el certificado dice solo «18 horas» */
 function certHoursKind(text){
   const m = /(acad[eé]mic|pedag[oó]gic|cronol[oó]gic|lectiv)/i.exec(String(text || ''));
-  if(!m) return 'lectivas';
+  if(!m) return '';
   return /acad/i.test(m[1]) ? 'académicas' : /pedag/i.test(m[1]) ? 'pedagógicas' : /cronol/i.test(m[1]) ? 'cronológicas' : 'lectivas';
+}
+/* «AAAA-MM-DD» + n meses (n puede ser negativo). Si el día no existe en el mes al que llega, queda el último día de ese mes:
+   igual que hace la base de datos, así lo que se ve aquí es lo mismo que sale en la verificación pública. */
+function certAddMonths(day, n){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(day || ''));
+  if(!m) return '';
+  const total = (+m[1]) * 12 + (+m[2] - 1) + n;
+  const y = Math.floor(total / 12), mo = total - y * 12;
+  const dt = new Date(Date.UTC(2000, 0, 1));
+  dt.setUTCFullYear(y, mo + 1, 0);                              // día 0 del mes siguiente = último día de este mes
+  const d = Math.min(+m[3], dt.getUTCDate());
+  return String(y).padStart(4, '0') + '-' + String(mo + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+}
+/* meses que dura el periodo según las sesiones del curso: hasta 12 sesiones = 1 mes, más de 12 = 2 meses */
+function certPeriodMonths(nSessions){ return nSessions > 12 ? 2 : 1; }
+/* inicio y término del curso (igual que cert_period del SQL):
+   · si el docente eligió fechas, se usan (si solo puso una, la otra sale sumando o restando los meses);
+   · si no, el periodo empieza el día de la matrícula; si ese dato no existe (matrículas antiguas), termina el día de la emisión y empezó antes. */
+function certAutoPeriod(o){
+  const m = certPeriodMonths(o.sessions || 0);
+  let s = o.start || '', e = o.end || '';
+  if(!s && !e){
+    if(o.grantedAt){ s = certIsoDay(o.grantedAt); e = certAddMonths(s, m); }
+    else if(o.issue){ e = o.issue; s = certAddMonths(e, -m); }
+  }else if(!s) s = certAddMonths(e, -m);
+  else if(!e) e = certAddMonths(s, m);
+  return { start: s, end: e };
 }
 function certFilename(data){
   return dlName('Certificado - ' + data.courseTitle + ' - ' + data.name, 'certificado.pdf');
@@ -8774,9 +8981,10 @@ async function c2AppConfig(force){
   if(C2APP.cfg && !force) return C2APP.cfg;
   if(C2APP.cfgP && !force) return C2APP.cfgP;
   C2APP.cfgP = (async () => {
-    const out = { template: c2DefaultTemplate(), institution: '', assets: [], saved: false, missing: false };
+    const out = { template: c2DefaultTemplate(), institution: '', city: 'Cajamarca', v3: false, assets: [], saved: false, missing: false };
     try{
-      const s = await sb.from('cert_settings').select('template, institution').eq('id', 1).maybeSingle();
+      /* «*» y no los nombres de las columnas: si todavía no se corrió la versión nueva del SQL, «city» no existe y la consulta fallaría */
+      const s = await sb.from('cert_settings').select('*').eq('id', 1).maybeSingle();
       const a = await sb.from('cert_assets').select('id, kind, label, path, created_at').order('created_at');
       if(s.error || a.error){
         out.missing = certMissing(s.error) || certMissing(a.error);
@@ -8785,6 +8993,8 @@ async function c2AppConfig(force){
         const t = s.data && s.data.template;
         if(t && Array.isArray(t.items) && t.items.length){ out.template = c2NormTemplate(t); out.saved = true; }
         out.institution = (s.data && s.data.institution) || '';
+        out.v3 = !!(s.data && Object.prototype.hasOwnProperty.call(s.data, 'city'));     // la versión nueva del SQL ya está puesta
+        out.city = (s.data && String(s.data.city || '').trim()) || 'Cajamarca';
         out.assets = a.data || [];
       }
     }catch(e){ console.error(e); }
@@ -8812,20 +9022,58 @@ async function c2AppAssets(cfg, ids){
 }
 
 /* ---------------- datos de cada tipo de certificado ---------------- */
-/* certificado del aula: se arma solo con el curso y sus sesiones */
+/* certificado del aula: se arma solo con el curso y sus sesiones.
+   o: name, course, code, lessons, status, completedAt (cuando el alumno lo pidió), approvedAt (cuando el docente lo aprobó),
+      grantedAt (cuando se matriculó), y lo que el docente haya elegido a mano: issueDate, periodStart, periodEnd */
 function certAulaData(o, cfg){
-  const day = certIsoDay(o.completedAt);
+  const lessons = o.lessons || [];
+  /* fecha de emisión: la que eligió el docente o, si no, el día en que se aprobó (los certificados antiguos usan el día en que se pidió).
+     En la vista previa de uno que aún no se aprueba sale la de hoy: es la que tendrá si se aprueba ahora. */
+  const waiting = !!o.status && o.status !== 'approved';
+  const issue = certIsoDay(o.issueDate) || certIsoDay(o.approvedAt) || (waiting ? certIsoDay(new Date()) : certIsoDay(o.completedAt));
+  const per = certAutoPeriod({ grantedAt: o.grantedAt, sessions: lessons.length, issue: issue, start: certIsoDay(o.periodStart), end: certIsoDay(o.periodEnd) });
+  const hrs = /\d/.test(String(o.course.hours || '')) ? o.course.hours : '';            // «—» (curso sin horas) no es un dato
   return {
-    name: o.name, courseTitle: o.course.title, hours: o.course.hours, hoursKind: certHoursKind(o.course.hours),
-    endDate: day, issueDate: day, modality: 'Virtual', institution: (cfg && cfg.institution) || 'INFINITY WORK',
-    code: o.code || '', sessions: (o.lessons || []).map(l => ({ title: l.tema, desc: l.descripcion || '' })), extraItems: [],
+    name: o.name, courseTitle: o.course.title, courseKind: o.course.cert_kind || 'especializacion',
+    hours: hrs, hoursKind: certHoursKind(hrs),
+    startDate: per.start, endDate: per.end, issueDate: issue, city: (cfg && cfg.city) || 'Cajamarca',
+    modality: 'Virtual', institution: (cfg && cfg.institution) || 'INFINITY WORK',
+    code: o.code || '', sessions: lessons.map(l => ({ title: l.tema, desc: l.descripcion || '' })), extraItems: [],
     status: o.status || 'approved'
   };
+}
+/* lo que ya está guardado de las solicitudes del alumno (se llama al cargar o recargar sus datos) */
+function certStoreCompletions(rows){
+  rows = rows || [];
+  state.completions[session.id] = rows.map(r => r.course_id);
+  state.completionDates = {}; state.certCodes = {}; state.certStatus = {}; state.certMeta = {};
+  rows.forEach(r => {
+    state.completionDates[r.course_id] = r.completed_at;
+    state.certCodes[r.course_id] = r.certificate_code;
+    state.certStatus[r.course_id] = r.status;
+    state.certMeta[r.course_id] = { approved_at: r.approved_at || null, period_start: r.period_start || null, period_end: r.period_end || null, issue_date: r.issue_date || null };
+  });
+}
+/* una fila de «completions» → lo que guarda el panel del docente (igual desde cualquier carga) */
+function certAdminInfo(r){
+  return { status: r.status, code: r.certificate_code, completed_at: r.completed_at, approved_at: r.approved_at || null,
+    period_start: r.period_start || null, period_end: r.period_end || null, issue_date: r.issue_date || null };
+}
+/* cuándo se matriculó cada alumno en cada curso: { alumno: { curso: fecha } } (la columna granted_at solo existe con la versión nueva del SQL) */
+function certStoreGranted(rows){
+  state.grantedAt = state.grantedAt || {};
+  (rows || []).forEach(r => {
+    if(!state.grantedAt[r.user_id]) state.grantedAt[r.user_id] = {};
+    if(r.granted_at) state.grantedAt[r.user_id][r.course_id] = r.granted_at;
+  });
 }
 function certDataStudent(courseId, cfg){
   const c = (state.courses || []).find(x => x.id === courseId);
   if(!c) return null;
-  return certAulaData({ name: session.name || session.email, course: c, completedAt: state.completionDates[courseId], code: state.certCodes[courseId] || '',
+  const meta = (state.certMeta && state.certMeta[courseId]) || {};
+  return certAulaData({ name: session.name || session.email, course: c, completedAt: state.completionDates[courseId], approvedAt: meta.approved_at,
+    issueDate: meta.issue_date, periodStart: meta.period_start, periodEnd: meta.period_end,
+    grantedAt: ((state.grantedAt || {})[session.id] || {})[courseId], code: state.certCodes[courseId] || '',
     lessons: (state.lessons && state.lessons[courseId]) || [], status: state.certStatus && state.certStatus[courseId] }, cfg);
 }
 function certDataAdmin(clientId, courseId, cfg, lessons){
@@ -8833,13 +9081,16 @@ function certDataAdmin(clientId, courseId, cfg, lessons){
   const client = (state.clients || []).find(c => c.id === clientId);
   const c = (state.courses || []).find(x => x.id === courseId);
   if(!info || !client || !c) return null;
-  return certAulaData({ name: client.name || client.email, course: c, completedAt: info.completed_at, code: info.code || '', lessons: lessons || [], status: info.status }, cfg);
+  return certAulaData({ name: client.name || client.email, course: c, completedAt: info.completed_at, approvedAt: info.approved_at,
+    issueDate: info.issue_date, periodStart: info.period_start, periodEnd: info.period_end,
+    grantedAt: ((state.grantedAt || {})[clientId] || {})[courseId], code: info.code || '', lessons: lessons || [], status: info.status }, cfg);
 }
 /* certificado manual: lo que se guardó en la base, tal cual */
 function certManualData(m){
   return {
     name: m.holder_name, courseTitle: m.course_title, courseKind: m.course_kind || '', hours: m.hours, hoursKind: m.hours_kind || certHoursKind(m.hours),
-    startDate: m.start_date || '', endDate: m.end_date || '', issueDate: m.issue_date || '', modality: m.modality || '', software: m.software || '',
+    startDate: m.start_date || '', endDate: m.end_date || '', issueDate: m.issue_date || '', modality: m.modality || '',
+    city: (C2APP.cfg && C2APP.cfg.city) || 'Cajamarca',
     institution: m.institution || '', grade: m.grade == null ? null : Number(m.grade), gradeScale: Number(m.grade_scale) || 20,
     sessions: Array.isArray(m.sessions) ? m.sessions : [], extraItems: Array.isArray(m.extra_items) ? m.extra_items : [],
     code: m.code || '', status: m.status === 'revoked' ? 'revoked' : 'approved'
@@ -8993,6 +9244,7 @@ async function openCertPreviewModal(clientId){
     headHtml: '<span class="cm-state ' + (ok ? 'ok' : 'pend') + '">' + (ok ? 'APROBADO · el alumno ya lo ve' : 'PENDIENTE DE APROBACIÓN · el alumno aún no lo ve') + '</span>',
     bar: '<button class="btn btn-solid btn-sm" type="button" id="cm-pdf" onclick="certAdminDownload()">⬇ Descargar PDF</button>' +
          '<button class="btn btn-ghost btn-sm" type="button" onclick="certAdminPrint()">Imprimir</button>' +
+         '<button class="btn btn-ghost btn-sm" type="button" onclick="cdOpen(\'' + clientId + '\',\'' + courseId + '\')">Fechas y nombre</button>' +
          (ok ? '<button class="btn btn-danger btn-sm" type="button" onclick="certAdminSetStatus(\'pending\')">Quitar aprobación</button>'
              : '<button class="btn btn-solid btn-sm" type="button" title="Aprobar" onclick="certAdminSetStatus(\'approved\')">✓ Aprobar certificado</button>')
   });
@@ -9172,7 +9424,7 @@ const CX = {
   sub: 'aula',
   man: { rows: [], missing: false, loaded: false, filter: 'active', q: '', limit: 100 },
   form: null,
-  sign: { tpl: null, assets: [], institution: '', page: 'cert', sel: null, dirty: false, busy: false, ready: false, missing: false, adding: false },
+  sign: { tpl: null, assets: [], institution: '', city: 'Cajamarca', v3: true, page: 'cert', sel: null, dirty: false, busy: false, ready: false, missing: false, adding: false },
   dniEdit: null, paintSeq: 0, paintT: 0, drag: null
 };
 function cxEl(id){ return document.getElementById(id); }
@@ -9316,7 +9568,7 @@ function cxRenderManual(){
       return '<tr>' +
         '<td data-label="Código" class="mono">' + escapeHtml(r.code) + '</td>' +
         '<td data-label="Nombre"><b>' + escapeHtml(r.holder_name) + '</b><div class="au-muted">' + (r.holder_dni ? 'DNI ' + escapeHtml(r.holder_dni) : 'Sin DNI') + '</div></td>' +
-        '<td data-label="Curso">' + escapeHtml(r.course_title) + '<div class="au-muted">' + escapeHtml(r.hours ? c2hoursNum(r.hours) + ' h' : '') + (Array.isArray(r.sessions) && r.sessions.length ? ' · ' + r.sessions.length + ' sesiones' : '') + '</div></td>' +
+        '<td data-label="Curso">' + escapeHtml(r.course_title) + '<div class="au-muted">' + escapeHtml(c2hoursNum(r.hours) ? c2hoursNum(r.hours) + ' h' : String(r.hours || '')) + (Array.isArray(r.sessions) && r.sessions.length ? ' · ' + r.sessions.length + ' sesiones' : '') + '</div></td>' +
         '<td data-label="Emitido">' + escapeHtml(cxFmtDay(r.issue_date)) + '</td>' +
         '<td data-label="Estado">' + (revd ? '<span class="au-chip bad">Anulado</span>' : '<span class="au-chip ok">Vigente</span>') + '</td>' +
         '<td data-label="" class="am-acts">' +
@@ -9386,9 +9638,9 @@ async function cxOpenForm(m){
     sessions: m && Array.isArray(m.sessions) ? m.sessions.map(s => ({ title: s.title || '', desc: s.desc || '' })) : [],
     extra: m && Array.isArray(m.extra_items) ? m.extra_items.slice() : [],
     v: {
-      holder_name: g('holder_name'), holder_dni: g('holder_dni'), course_title: g('course_title'), course_kind: g('course_kind'),
-      hours: g('hours'), hours_kind: m ? (g('hours_kind') || 'lectivas') : 'lectivas', start_date: g('start_date').slice(0, 10), end_date: g('end_date').slice(0, 10),
-      issue_date: m ? g('issue_date').slice(0, 10) : cxToday(), modality: m ? g('modality') : 'Virtual', software: g('software'),
+      holder_name: g('holder_name'), holder_dni: g('holder_dni'), course_title: g('course_title'), course_kind: m ? g('course_kind') : 'curso',
+      hours: g('hours'), hours_kind: g('hours_kind'), start_date: g('start_date').slice(0, 10), end_date: g('end_date').slice(0, 10),
+      issue_date: m ? g('issue_date').slice(0, 10) : cxToday(), modality: m ? g('modality') : 'Virtual',
       institution: m ? g('institution') : (cfg.institution || 'INFINITY WORK'), grade: g('grade'), grade_scale: m ? (g('grade_scale') || '20') : '20'
     }
   };
@@ -9398,6 +9650,7 @@ async function cxOpenForm(m){
   const f = (id, label, val, extra, hint) => '<div class="field"><label for="' + id + '">' + label + '</label><input id="' + id + '" value="' + escapeHtml(val) + '" ' + (extra || '') + '>' + (hint ? '<div class="field-hint">' + hint + '</div>' : '') + '</div>';
   const opt = (arr, cur) => arr.map(x => '<option value="' + escapeHtml(x) + '"' + (x === cur ? ' selected' : '') + '>' + escapeHtml(x) + '</option>').join('');
   const optional = (cfg.template.items || []).filter(i => i.mode === 'optional');
+  const kd = cxKindSplit(v.course_kind);
   const overlay = document.createElement('div');
   overlay.className = 'overlay cx-form-overlay';
   overlay.id = 'cx-form-overlay';
@@ -9417,23 +9670,29 @@ async function cxOpenForm(m){
           courses.map(c => '<option value="' + c.id + '"' + (c.id === F.courseId ? ' selected' : '') + '>' + escapeHtml(c.code + ' · ' + c.title) + '</option>').join('') + '</select></div>' +
           '<button class="btn btn-ghost btn-sm" type="button" id="cxf-use" onclick="cxUseCourse()">Copiar este curso</button></div>' +
         '<div class="field"><label for="cxf-title">Nombre del curso</label><input id="cxf-title" value="' + escapeHtml(v.course_title) + '" maxlength="240" autocomplete="off" placeholder="Ej.: Elaboración de costos y presupuestos de obra"><div class="field-hint">En el certificado sale en MAYÚSCULAS.</div></div>' +
-        '<div class="field"><label for="cxf-kind">Línea de arriba</label><input id="cxf-kind" list="cxf-kinds" value="' + escapeHtml(v.course_kind) + '" maxlength="80" autocomplete="off" placeholder="CURSO DE ESPECIALIZACIÓN INTEGRAL EN:"><datalist id="cxf-kinds">' + CX_KINDS.map(k => '<option value="' + escapeHtml(k) + '">').join('') + '</datalist><div class="field-hint">Si la dejas vacía sale «CURSO DE ESPECIALIZACIÓN INTEGRAL EN:».</div></div>' +
+        '<div class="field"><label for="cxf-kind">Tipo de certificado</label><select id="cxf-kind" onchange="cxKindChange()">' +
+          '<option value="curso"' + (kd.sel === 'curso' ? ' selected' : '') + '>Curso</option>' +
+          '<option value="especializacion"' + (kd.sel === 'especializacion' ? ' selected' : '') + '>Curso de especialización</option>' +
+          '<option value="otro"' + (kd.sel === 'otro' ? ' selected' : '') + '>Otro (lo escribo yo)</option></select>' +
+          '<input id="cxf-kind-other" class="' + (kd.sel === 'otro' ? '' : 'hidden') + '" list="cxf-kinds" value="' + escapeHtml(kd.text) + '" maxlength="80" autocomplete="off" aria-label="Cómo se llama este tipo de certificado" placeholder="Ej.: DIPLOMADO EN:" style="margin-top:8px;"><datalist id="cxf-kinds">' + CX_KINDS.map(k => '<option value="' + escapeHtml(k) + '">').join('') + '</datalist>' +
+          '<div class="field-hint" id="cxf-kind-hint"></div></div>' +
         '<div class="row3">' +
           f('cxf-hours', 'Horas', v.hours, 'inputmode="decimal" maxlength="12" autocomplete="off" placeholder="200"') +
-          '<div class="field"><label for="cxf-hkind">Tipo de horas</label><select id="cxf-hkind">' + opt(['lectivas', 'académicas', 'pedagógicas', 'cronológicas'], v.hours_kind) + '</select></div>' +
+          '<div class="field"><label for="cxf-hkind">Tipo de horas</label><select id="cxf-hkind"><option value=""' + (v.hours_kind ? '' : ' selected') + '>Sin especificar</option>' + opt(['lectivas', 'académicas', 'pedagógicas', 'cronológicas'], v.hours_kind) + '</select></div>' +
           f('cxf-mod', 'Modalidad', v.modality, 'list="cxf-mods" maxlength="40" autocomplete="off" placeholder="Virtual"') + '<datalist id="cxf-mods">' + CX_MODS.map(k => '<option value="' + escapeHtml(k) + '">').join('') + '</datalist>' +
         '</div>' +
         '<div class="row3">' +
-          '<div class="field"><label for="cxf-start">Inicio</label><input id="cxf-start" type="date" value="' + escapeHtml(v.start_date) + '"></div>' +
-          '<div class="field"><label for="cxf-end">Término</label><input id="cxf-end" type="date" value="' + escapeHtml(v.end_date) + '"></div>' +
+          '<div class="field"><label for="cxf-start">Inicio del curso</label><input id="cxf-start" type="date" value="' + escapeHtml(v.start_date) + '" onchange="cxAutoEnd()"></div>' +
+          '<div class="field"><label for="cxf-end">Fin del curso</label><input id="cxf-end" type="date" value="' + escapeHtml(v.end_date) + '" data-auto="' + (v.end_date ? '0' : '1') + '" onchange="this.dataset.auto=\'0\'"></div>' +
           '<div class="field"><label for="cxf-issue">Fecha de emisión</label><input id="cxf-issue" type="date" value="' + escapeHtml(v.issue_date) + '"></div>' +
         '</div>' +
+        '<p class="field-hint" style="margin:-6px 0 12px;">Tú eliges las tres fechas. En el certificado, la emisión sale abajo («' + escapeHtml(cfg.city || 'Cajamarca') + ', diciembre de 2026»). Al poner el inicio, el fin se calcula solo (1 mes hasta 12 sesiones, 2 meses si son más); puedes cambiarlo.</p>' +
         '<div class="row2">' +
-          f('cxf-soft', 'Programas o software (opcional)', v.software, 'maxlength="120" autocomplete="off" placeholder="Ej.: Excel y S10"', 'Si lo dejas vacío, el párrafo del certificado no lo menciona.') +
-          f('cxf-inst', 'Institución (opcional)', v.institution, 'maxlength="120" autocomplete="off" placeholder="INFINITY WORK"', 'Aparece al final del párrafo: «…en la modalidad virtual en la Academia XYZ».') +
+          f('cxf-inst', 'Institución (opcional)', v.institution, 'maxlength="120" autocomplete="off" placeholder="INFINITY WORK"', 'Se muestra en la página donde se verifica el certificado.') +
+          '<div></div>' +
         '</div>' +
         '<div class="row2">' +
-          f('cxf-grade', 'Nota final (opcional)', v.grade, 'inputmode="decimal" maxlength="6" autocomplete="off" placeholder="18"', 'Sin nota, la medalla dice «CURSO APROBADO» con las horas.') +
+          f('cxf-grade', 'Nota final (opcional)', v.grade, 'inputmode="decimal" maxlength="6" autocomplete="off" placeholder="18"', 'Sale solo en la hoja del temario («Constancia de notas»). La medalla de la primera hoja no lleva nota.') +
           f('cxf-scale', 'Nota máxima', v.grade_scale, 'inputmode="decimal" maxlength="5" autocomplete="off"') +
         '</div>' +
       '</fieldset>' +
@@ -9456,6 +9715,25 @@ async function cxOpenForm(m){
   document.body.appendChild(overlay);
   cxRenderSess();
   const n = cxEl('cxf-name'); if(n) n.focus();
+}
+/* tipo de certificado: lo guardado → { sel: curso | especializacion | otro, text } (los textos libres de antes se respetan) */
+function cxKindSplit(raw){
+  const key = c2kindKey(raw);
+  return { sel: key, text: key === 'otro' ? String(raw || '').trim() : '' };
+}
+function cxKindChange(){
+  const s = cxEl('cxf-kind'), o = cxEl('cxf-kind-other');
+  if(!s || !o) return;
+  o.classList.toggle('hidden', s.value !== 'otro');
+  if(s.value === 'otro') o.focus();
+}
+/* al elegir el inicio, el fin se llena solo mientras no lo hayas cambiado tú */
+function cxAutoEnd(){
+  const s = cxEl('cxf-start'), e = cxEl('cxf-end'), F = CX.form;
+  if(!s || !e || !F || !s.value || e.dataset.auto === '0') return;
+  const n = F.sessions.filter(x => String(x.title || '').trim()).length;
+  e.value = certAddMonths(s.value, certPeriodMonths(n));
+  e.dataset.auto = '1';
 }
 function cxCloseForm(silent){
   const el = cxEl('cx-form-overlay');
@@ -9528,8 +9806,11 @@ async function cxUseCourse(){
   const hn = c2hoursNum(c.hours);
   if(hn) cxEl('cxf-hours').value = hn;
   cxEl('cxf-hkind').value = certHoursKind(c.hours);
+  cxEl('cxf-kind').value = c.cert_kind === 'curso' ? 'curso' : 'especializacion';          // el mismo tipo que tiene el curso en el aula
+  cxKindChange();
   F.sessions = lessons.map(l => ({ title: l.tema || '', desc: l.descripcion || '' }));
   cxRenderSess();
+  cxAutoEnd();
   cxSay('✓ Copié «' + c.title + '» con ' + lessons.length + (lessons.length === 1 ? ' sesión' : ' sesiones') + '. Cambia lo que quieras antes de emitir.', 'ok');
 }
 function cxCollect(){
@@ -9540,9 +9821,9 @@ function cxCollect(){
   const sel = cxEl('cxf-course');
   if(sel && !sel.value) F.courseId = F.courseId && F.courseId === sel.value ? F.courseId : (sel.value || F.courseId);
   return {
-    holder_name: g('cxf-name'), holder_dni: g('cxf-dni'), course_id: F.courseId || '', course_title: g('cxf-title'), course_kind: g('cxf-kind'),
+    holder_name: g('cxf-name'), holder_dni: g('cxf-dni'), course_id: F.courseId || '', course_title: g('cxf-title'), course_kind: g('cxf-kind') === 'otro' ? g('cxf-kind-other') : g('cxf-kind'),
     hours: num(g('cxf-hours')), hours_kind: g('cxf-hkind'), start_date: g('cxf-start'), end_date: g('cxf-end'), issue_date: g('cxf-issue'),
-    modality: g('cxf-mod'), software: g('cxf-soft'), institution: g('cxf-inst'), grade: num(g('cxf-grade')), grade_scale: num(g('cxf-scale')) || '20',
+    modality: g('cxf-mod'), institution: g('cxf-inst'), grade: num(g('cxf-grade')), grade_scale: num(g('cxf-scale')) || '20',
     sessions: F.sessions.map(s => ({ title: String(s.title || '').trim(), desc: String(s.desc || '').trim() })).filter(s => s.title),
     extra_items: extra
   };
@@ -9550,6 +9831,7 @@ function cxCollect(){
 function cxValidate(p){
   if(!p.holder_name) return 'Escribe el nombre de la persona.';
   if(!p.course_title) return 'Escribe el nombre del curso.';
+  if(!p.course_kind) return 'Escribe cómo se llama este tipo de certificado (por ejemplo «DIPLOMADO EN:») o elige «Curso» o «Curso de especialización».';
   const dni = p.holder_dni.replace(/[^0-9A-Za-z]/g, '');
   if(p.holder_dni && (dni.length < 6 || dni.length > 15)) return 'El DNI no es válido (en Perú son 8 números).';
   const sc = Number(p.grade_scale || 20);
@@ -9594,8 +9876,9 @@ async function cxSaveForm(){
 }
 
 /* ================= FIRMAS Y SELLOS ================= */
-const CX_KIND_LABEL = { firma: 'Firma', sello: 'Sello', logo: 'Logo', otro: 'Otro', qr: 'QR' };
-const CX_LIMITS = { firma: [90, 520], sello: [60, 420], qr: [60, 260], logo: [50, 600], otro: [50, 600] };
+const CX_KIND_LABEL = { firma: 'Firma', sello: 'Sello', logo: 'Logo', otro: 'Otro', qr: 'QR', dur: 'Duración', mod: 'Modalidad', fecha: 'Fecha', medalla: 'Medalla' };
+const CX_LIMITS = { firma: [90, 520], sello: [60, 420], qr: [60, 260], logo: [50, 600], otro: [50, 600], dur: [110, 440], mod: [90, 380], fecha: [105, 420], medalla: [130, 420] };
+const cxIsFixed = it => !!it && C2_FIXED.indexOf(it.kind) >= 0;          // duración, modalidad, fecha y medalla: se mueven, se achican o se ocultan, pero no se quitan
 function cxCopyTpl(t){
   const c = JSON.parse(JSON.stringify(t));
   c.items = (c.items || []).map(i => Object.assign({}, i, { id: String(i.id).replace(/[^A-Za-z0-9_-]/g, '_') }));
@@ -9612,6 +9895,8 @@ async function cxOpenSign(){
     S.missing = !!cfg.missing;
     S.assets = (cfg.assets || []).slice();
     S.institution = cfg.institution || '';
+    S.city = cfg.city || 'Cajamarca';
+    S.v3 = !!cfg.v3;
     S.tpl = cxCopyTpl(cfg.template);
     S.ready = true; S.dirty = false;
     if(!S.sel || !S.tpl.items.some(i => i.id === S.sel)) S.sel = (S.tpl.items.find(i => i.kind === 'firma') || S.tpl.items[0] || {}).id || null;
@@ -9801,8 +10086,8 @@ async function cxUpload(){
 function cxSampleData(){
   const S = CX.sign, s = ['Introducción y alcance del curso', 'Conceptos y normativa vigente', 'Metrados y análisis de costos', 'Presupuesto de obra', 'Cronograma y control', 'Casos prácticos', 'Evaluación final', 'Cierre y recomendaciones'];
   return {
-    name: 'Nombres y Apellidos del Alumno', courseTitle: 'NOMBRE DEL CURSO DE EJEMPLO', hours: '120', hoursKind: 'lectivas', startDate: '2026-03-02', endDate: '2026-04-24', issueDate: '2026-04-25',
-    modality: 'Virtual', institution: S.institution || 'INFINITY WORK', grade: 18, gradeScale: 20, code: 'IW-CER-2026-0001', sessions: s.map(t => ({ title: t })),
+    name: 'Nombres y Apellidos del Alumno', courseTitle: 'NOMBRE DEL CURSO DE EJEMPLO', courseKind: 'curso', hours: '18', hoursKind: '', startDate: '2026-11-11', endDate: '2026-12-11', issueDate: '2026-12-12',
+    city: S.city || 'Cajamarca', modality: 'Virtual', institution: S.institution || 'INFINITY WORK', grade: 18, gradeScale: 20, code: 'IW-CER-2026-0001', sessions: s.map(t => ({ title: t })),
     extraItems: S.tpl.items.filter(i => i.mode === 'optional').map(i => i.id)
   };
 }
@@ -9937,11 +10222,11 @@ function cxRenderProps(){
     host.innerHTML = h; return;
   }
   if(!it){ host.innerHTML = h + '<div class="empty" style="margin-top:12px;">Toca un recuadro de la hoja para ajustarlo.</div>'; return; }
-  const isQr = it.kind === 'qr', pg = it[S.page], lim = CX_LIMITS[it.kind] || [50, 600];
+  const isQr = it.kind === 'qr', fixed = cxIsFixed(it), pg = it[S.page], lim = CX_LIMITS[it.kind] || [50, 600];
   const assetOpts = '<option value="">' + (it.kind === 'sello' ? '— Sello de INFINITY WORK (el de siempre) —' : '— Sin imagen —') + '</option>' +
     S.assets.map(a => '<option value="' + a.id + '"' + (a.id === it.asset ? ' selected' : '') + '>' + escapeHtml(a.label) + ' (' + escapeHtml(CX_KIND_LABEL[a.kind] || a.kind) + ')</option>').join('');
   h += '<div class="cx-pgroup"><div class="cx-pt">' + escapeHtml(it.label || CX_KIND_LABEL[it.kind] || '') + '</div>';
-  if(!isQr){
+  if(!isQr && !fixed){
     h += '<div class="field"><label for="cx-p-label">Nombre (solo para ti)</label><input id="cx-p-label" value="' + escapeHtml(it.label || '') + '" maxlength="60" oninput="cxSetProp(\'label\',this.value)"></div>' +
       '<div class="row2"><div class="field"><label for="cx-p-kind">Tipo</label><select id="cx-p-kind" onchange="cxSetProp(\'kind\',this.value,true)">' +
         ['firma', 'sello', 'logo', 'otro'].map(k => '<option value="' + k + '"' + (it.kind === k ? ' selected' : '') + '>' + CX_KIND_LABEL[k] + '</option>').join('') + '</select></div>' +
@@ -9954,7 +10239,9 @@ function cxRenderProps(){
     }
   }
   h += '<div class="cx-shows"><label class="cx-check"><input type="checkbox" ' + (it.cert && it.cert.show ? 'checked' : '') + ' onchange="cxSetShow(\'cert\',this.checked)"> Sale en la hoja del certificado</label>' +
-    '<label class="cx-check"><input type="checkbox" ' + (it.tem && it.tem.show ? 'checked' : '') + ' onchange="cxSetShow(\'tem\',this.checked)"> Sale en la hoja del temario</label></div>';
+    (fixed ? '' : '<label class="cx-check"><input type="checkbox" ' + (it.tem && it.tem.show ? 'checked' : '') + ' onchange="cxSetShow(\'tem\',this.checked)"> Sale en la hoja del temario</label>') + '</div>';
+  if(fixed && S.page === 'tem'){ host.innerHTML = h + '<div class="field-hint">«' + escapeHtml(it.label) + '» solo sale en la hoja del certificado. Cambia a «Hoja del certificado» para moverla.</div></div>'; return; }
+  if(fixed) h += '<div class="field-hint" style="margin:-4px 0 8px;">' + (it.kind === 'medalla' ? 'La medalla dice «CURSO APROBADO» con las horas del curso; no lleva nota.' : 'Se llena sola con los datos de cada curso: puedes moverla, cambiar su tamaño u ocultarla.') + '</div>';
   if(pg && pg.show){
     h += '<div class="cx-pos"><b>Ajustar en la ' + (S.page === 'cert' ? 'hoja del certificado' : 'hoja del temario') + '</b>' +
       '<div class="cx-pos-row"><button class="btn btn-solid btn-sm" type="button" onclick="cxCenter()">Centrar en la hoja</button>' +
@@ -9964,7 +10251,7 @@ function cxRenderProps(){
   }else if(pg){
     h += '<div class="field-hint">Este elemento no sale en esa hoja. Marca la casilla de arriba si quieres que salga.</div>';
   }
-  if(!isQr) h += '<div style="margin-top:12px;"><button class="btn btn-danger btn-sm" type="button" onclick="cxRemoveItem()">' + (amArmed('rmi:' + it.id) ? '¿Seguro? Quitar de la hoja' : 'Quitar de la hoja') + '</button></div>';
+  if(!isQr && !fixed) h += '<div style="margin-top:12px;"><button class="btn btn-danger btn-sm" type="button" onclick="cxRemoveItem()">' + (amArmed('rmi:' + it.id) ? '¿Seguro? Quitar de la hoja' : 'Quitar de la hoja') + '</button></div>';
   h += '</div>';
   host.innerHTML = h;
   cxRenderPropsPos();
@@ -10000,7 +10287,7 @@ function cxAddItem(kind, assetId, label){
 }
 function cxRemoveItem(){
   const S = CX.sign, it = cxCurItem();
-  if(!it || it.kind === 'qr') return;
+  if(!it || it.kind === 'qr' || cxIsFixed(it)) return;
   const key = 'rmi:' + it.id;
   if(!amArm(key)){ cxRenderProps(); setTimeout(() => { if(CX.sub === 'sign') cxRenderProps(); }, 5200); return; }
   S.tpl.items = S.tpl.items.filter(i => i.id !== it.id);
@@ -10012,11 +10299,13 @@ function cxRemoveItem(){
 function cxRenderGeneral(){
   const S = CX.sign, h = cxEl('cx-general');
   if(!h || !S.tpl) return;
-  h.innerHTML = '<div class="row2"><div class="field"><label for="cx-inst">Institución que sale por defecto en el párrafo</label><input id="cx-inst" value="' + escapeHtml(S.institution) + '" maxlength="120" placeholder="INFINITY WORK" oninput="cxSetInst(this.value)">' +
-    '<div class="field-hint">Se usa en los certificados del aula y se propone al emitir uno manual. Ej.: «la Academia INFINITY WORK».</div></div>' +
-    '<div class="cx-opts"><label class="cx-check"><input type="checkbox" ' + (S.tpl.infoBar !== false ? 'checked' : '') + ' onchange="cxSetOpt(\'infoBar\',this.checked)"> Mostrar la barra de duración, modalidad y fecha</label>' +
-    '<label class="cx-check"><input type="checkbox" ' + (S.tpl.separators !== false ? 'checked' : '') + ' onchange="cxSetOpt(\'separators\',this.checked)"> Mostrar las rayitas que separan las partes de abajo</label></div></div>';
+  h.innerHTML = '<div class="row2"><div class="field"><label for="cx-city">Ciudad que sale al pie del certificado</label><input id="cx-city" value="' + escapeHtml(S.city) + '" maxlength="60" placeholder="Cajamarca" oninput="cxSetCity(this.value)"' + (S.v3 ? '' : ' disabled') + '>' +
+      '<div class="field-hint">' + (S.v3 ? 'Sale así: «' + escapeHtml(S.city || 'Cajamarca') + ', diciembre de 2026» (el mes y el año son los del día en que se aprobó). Cambiarla cambia todos los certificados.' : 'Para cambiar la ciudad falta correr la versión nueva de supabase-certificados.sql.') + '</div></div>' +
+    '<div class="field"><label for="cx-inst">Institución (página de verificación y certificados manuales)</label><input id="cx-inst" value="' + escapeHtml(S.institution) + '" maxlength="120" placeholder="INFINITY WORK" oninput="cxSetInst(this.value)">' +
+      '<div class="field-hint">Es el nombre que se ve cuando alguien verifica un certificado, y el que se propone al emitir uno manual.</div></div></div>' +
+    '<div class="cx-opts"><label class="cx-check"><input type="checkbox" ' + (S.tpl.separators !== false ? 'checked' : '') + ' onchange="cxSetOpt(\'separators\',this.checked)"> Mostrar las rayitas que separan las partes de abajo</label></div>';
 }
+function cxSetCity(v){ CX.sign.city = v; cxMarkDirty(); cxSchedulePaint(); }
 function cxSetInst(v){ CX.sign.institution = v; cxMarkDirty(); cxSchedulePaint(); }
 function cxSetOpt(k, v){ CX.sign.tpl[k] = !!v; cxMarkDirty(); cxPaintStage(); }
 function cxCleanTemplate(t){
@@ -10028,22 +10317,25 @@ function cxCleanTemplate(t){
     let id = String(i.id || '').replace(/[^A-Za-z0-9_-]/g, '_') || 'it-' + items.length;
     while(ids[id]) id += 'x';
     ids[id] = true;
-    const kind = ['firma', 'sello', 'logo', 'otro', 'qr'].indexOf(i.kind) >= 0 ? i.kind : 'otro', lim = CX_LIMITS[kind];
+    const kind = ['firma', 'sello', 'logo', 'otro', 'qr'].concat(C2_FIXED).indexOf(i.kind) >= 0 ? i.kind : 'otro', lim = CX_LIMITS[kind];
     const pg = p => ({ show: !!(p && p.show), x: num(p && p.x, 0, C2W, C2W / 2), y: num(p && p.y, 0, 1024, 880), w: num(p && p.w, lim[0], lim[1], 200) });
     const o = { id: id, kind: kind, label: String(i.label || CX_KIND_LABEL[kind]).slice(0, 60), cert: pg(i.cert), tem: pg(i.tem) };
-    if(kind !== 'qr'){
+    if(kind !== 'qr' && C2_FIXED.indexOf(kind) < 0){
       o.asset = i.asset && assetIds[i.asset] ? i.asset : null;
       o.mode = i.mode === 'optional' ? 'optional' : 'always';
       if(kind === 'firma'){ o.name = String(i.name || '').slice(0, 60); o.role = String(i.role || '').slice(0, 60); o.entity = String(i.entity || '').slice(0, 60); }
     }
     items.push(o);
   });
-  return { v: 1, infoBar: t.infoBar !== false, separators: t.separators !== false, items: items };
+  C2_FIXED.forEach(k => { if(!items.some(x => x.kind === k)) items.push(JSON.parse(JSON.stringify(c2DefaultTemplate().items.find(x => x.kind === k)))); });   // las piezas fijas nunca faltan
+  return { v: 2, separators: t.separators !== false, items: items };
 }
 async function cxPersist(quiet){
   const S = CX.sign;
   const tpl = cxCleanTemplate(S.tpl);
-  const r = await sb.from('cert_settings').upsert({ id: 1, template: tpl, institution: (S.institution || '').trim() || null, updated_at: new Date().toISOString() }).select('id');
+  const row = { id: 1, template: tpl, institution: (S.institution || '').trim() || null, updated_at: new Date().toISOString() };
+  if(S.v3) row.city = (S.city || '').trim() || 'Cajamarca';
+  const r = await sb.from('cert_settings').upsert(row).select('id');
   if(r.error){
     if(!quiet) lmSay('cx-sign-msg', certMissing(r.error) ? 'Falta correr supabase-certificados.sql en Supabase.' : 'No se pudo guardar: ' + r.error.message, 'err');
     return false;
@@ -10084,6 +10376,146 @@ function cxResetSign(){
   lmSay('cx-sign-msg', 'Volví a la plantilla original. Pulsa «Guardar cambios» si quieres dejarla así.', 'ok');
 }
 
+/* ================= CERTIFICADOS: fechas y nombre de un certificado del aula (panel del docente) =================
+   Las fechas del certificado salen solas (ver certAutoPeriod en certpdf.js), pero aquí el docente puede elegirlas para UN certificado:
+   inicio y fin del curso, y la fecha de emisión (la que sale al pie: «Cajamarca, diciembre de 2026»).
+   Lo que deja igual que lo automático se guarda como «automático» (vacío), así el certificado sigue las reglas solo.
+   También se corrige el nombre del alumno: así sale en el certificado (y en todos los suyos). */
+const CD = { uid: null, cid: null, busy: false, granted: null, n: 0, autoIssue: '', city: 'Cajamarca', info: null };
+
+function cdEl(id){ return document.getElementById(id); }
+function cdSay(text, kind){ const m = cdEl('cd-msg'); if(m){ m.textContent = text || ''; m.className = 'form-msg' + (kind ? ' ' + kind : ''); } }
+function cdOkDay(v){ return /^\d{4}-\d{2}-\d{2}$/.test(v) && v >= '2000-01-01' && v <= '2100-12-31'; }
+/* la fecha corta que se muestra en los avisos: «11 nov 2026» */
+function cdShort(iso){ return typeof cxFmtDay === 'function' ? cxFmtDay(iso) : String(iso || ''); }
+
+/* lo automático para una fecha de emisión dada */
+function cdAutoFor(issue){ return certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue }); }
+
+async function cdOpen(uid, cid, focus){
+  cdClose();
+  const info = ((state.certified || {})[uid] || {})[cid];
+  if(!info) return;
+  const cfg = await c2AppConfig();
+  const lessons = await certAdminLessons(cid);
+  const approved = info.status === 'approved';
+  CD.uid = uid; CD.cid = cid; CD.busy = false; CD.info = info; CD.city = cfg.city || 'Cajamarca';
+  CD.granted = (((state.grantedAt || {})[uid]) || {})[cid] || null;
+  CD.n = lessons.length;
+  CD.autoIssue = certIsoDay(info.approved_at) || (approved ? certIsoDay(info.completed_at) : certIsoDay(new Date()));
+  const issue = certIsoDay(info.issue_date) || CD.autoIssue;
+  const per = certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue, start: certIsoDay(info.period_start), end: certIsoDay(info.period_end) });
+  const c = amCourse(cid);
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay cx-form-overlay';
+  overlay.id = 'cd-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-label', 'Fechas y nombre del certificado');
+  overlay.innerHTML =
+    '<div class="modal cx-modal cd-modal">' +
+      '<button class="modal-close" type="button" onclick="cdClose()" aria-label="Cerrar">×</button>' +
+      '<h3 style="margin-bottom:4px;">Fechas y nombre del certificado</h3>' +
+      '<p class="panel-lede" style="margin-top:0;"><b>' + escapeHtml(amName(uid)) + '</b> · ' + escapeHtml(c ? c.title : 'Curso') + '</p>' +
+      '<fieldset class="cx-fs"><legend>Fechas</legend>' +
+        '<div class="row3">' +
+          '<div class="field"><label for="cd-start">Inicio del curso</label><input id="cd-start" type="date" value="' + escapeHtml(per.start) + '" oninput="cdLive()"></div>' +
+          '<div class="field"><label for="cd-end">Fin del curso</label><input id="cd-end" type="date" value="' + escapeHtml(per.end) + '" oninput="cdLive()"></div>' +
+          '<div class="field"><label for="cd-issue">Fecha de emisión</label><input id="cd-issue" type="date" value="' + escapeHtml(issue) + '" oninput="cdLive()"></div>' +
+        '</div>' +
+        '<div class="cd-live" id="cd-live" aria-live="polite"></div>' +
+        '<p class="field-hint" id="cd-auto" style="margin:0 0 10px;"></p>' +
+        '<div style="margin:0 0 14px;"><button class="btn btn-ghost btn-sm" type="button" onclick="cdReset()">Volver a automático</button></div>' +
+      '</fieldset>' +
+      '<fieldset class="cx-fs"><legend>Nombre</legend>' +
+        '<div class="field"><label for="cd-name">Nombre como sale en el certificado</label><input id="cd-name" value="' + escapeHtml(amName(uid)) + '" maxlength="160" autocomplete="off">' +
+          '<div class="field-hint">Si lo cambias, se actualiza en todos los certificados de este alumno. Su correo y su DNI no cambian.</div></div>' +
+      '</fieldset>' +
+      '<div id="cd-msg" class="form-msg" role="status" aria-live="polite"></div>' +
+      '<div class="cx-form-bar"><button class="btn btn-ghost" type="button" onclick="cdClose()">Cancelar</button>' +
+        '<button class="btn btn-solid" type="button" id="cd-save" onclick="cdSave()">Guardar</button></div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target === overlay) cdClose(); });
+  cdLive();
+  const f = cdEl(focus === 'name' ? 'cd-name' : 'cd-start');
+  if(f){ f.focus(); if(focus === 'name') f.select(); }
+}
+function cdClose(){ const el = cdEl('cd-overlay'); if(el) el.remove(); CD.uid = CD.cid = null; }
+
+/* lo que hay en los tres cuadros, ya completo (si falta una fecha, se completa con la regla automática) */
+function cdValues(){
+  const g = id => { const e = cdEl(id); return e ? String(e.value || '').trim() : ''; };
+  const issue = g('cd-issue') || CD.autoIssue;
+  const per = certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue, start: g('cd-start'), end: g('cd-end') });
+  return { start: per.start, end: per.end, issue: issue };
+}
+function cdLive(){
+  const box = cdEl('cd-live'), au = cdEl('cd-auto');
+  if(!box) return;
+  const v = cdValues(), auto = cdAutoFor(v.issue);
+  const per = c2periodText(v.start, v.end, v.issue);
+  const city = c2cityLine({ issueDate: v.issue, city: CD.city });
+  box.innerHTML = per ? '<b>' + escapeHtml(per.lead + per.main) + '</b>.<br><span>' + escapeHtml(city) + '</span>' : '<span>Elige las fechas.</span>';
+  if(au){
+    const same = v.start === auto.start && v.end === auto.end && v.issue === CD.autoIssue;
+    au.textContent = (same ? 'Ahora mismo está en automático. ' : 'Elegiste fechas distintas a las automáticas. ') +
+      'Automático: del ' + cdShort(auto.start) + ' al ' + cdShort(auto.end) + (CD.granted ? ' (desde el día de la matrícula' : ' (la matrícula no tiene fecha: se cuenta hacia atrás desde la emisión') + ', ' + (CD.n > 12 ? '2 meses por tener más de 12 sesiones' : '1 mes por tener hasta 12 sesiones') + ')' +
+      '; emisión el ' + cdShort(CD.autoIssue) + (CD.info && CD.info.status === 'approved' ? ' (el día en que se aprobó).' : ' (hoy: el día en que lo apruebes).');
+  }
+}
+function cdReset(){
+  const issue = CD.autoIssue, auto = cdAutoFor(issue);
+  cdEl('cd-start').value = auto.start; cdEl('cd-end').value = auto.end; cdEl('cd-issue').value = issue;
+  cdLive();
+  cdSay('Volvieron a automático. Pulsa «Guardar» para confirmarlo.', '');
+}
+function cdFail(err, what){
+  return certMissing(err) ? 'Falta correr la versión nueva de supabase-certificados.sql en Supabase (una sola vez).' : (what + ' ' + ((err && err.message) || ''));
+}
+async function cdSave(){
+  if(CD.busy || !CD.uid) return;
+  const uid = CD.uid, cid = CD.cid, info = ((state.certified || {})[uid] || {})[cid];
+  if(!info){ cdClose(); return; }
+  const v = cdValues(), name = String((cdEl('cd-name') || {}).value || '').replace(/\s+/g, ' ').trim();
+  if(!cdOkDay(v.start) || !cdOkDay(v.end) || !cdOkDay(v.issue)){ cdSay('Revisa las fechas: tienen que ser días válidos entre los años 2000 y 2100.', 'err'); return; }
+  if(v.end < v.start){ cdSay('El fin del curso no puede ser antes del inicio.', 'err'); return; }
+  if(name.length < 2){ cdSay('Escribe el nombre completo del alumno.', 'err'); return; }
+  /* lo que sea igual a lo automático se guarda vacío («automático»); si cambia el inicio o el fin se guardan los dos, así queda tal como lo ves */
+  const auto = cdAutoFor(v.issue);
+  const perAuto = v.start === auto.start && v.end === auto.end;
+  const want = { start: perAuto ? '' : v.start, end: perAuto ? '' : v.end, issue: v.issue === CD.autoIssue ? '' : v.issue };
+  const had = { start: certIsoDay(info.period_start), end: certIsoDay(info.period_end), issue: certIsoDay(info.issue_date) };
+  const datesChanged = want.start !== had.start || want.end !== had.end || want.issue !== had.issue;
+  const nameChanged = name !== String(amName(uid)).trim();
+  if(!datesChanged && !nameChanged){ cdClose(); return; }
+  CD.busy = true;
+  const btn = cdEl('cd-save');
+  if(btn){ btn.disabled = true; btn.textContent = 'Guardando…'; }
+  cdSay('', '');
+  let failed = '';
+  try{
+    if(datesChanged){
+      const r = await sb.rpc('admin_set_cert_dates', { p_user: uid, p_course: cid, p_start: want.start, p_end: want.end, p_issue: want.issue });
+      if(r.error) failed = cdFail(r.error, 'No se pudieron guardar las fechas.');
+      else if(!r.data || r.data.ok !== true) failed = (r.data && r.data.error) || 'No se pudieron guardar las fechas.';
+      else{ info.period_start = r.data.period_start || null; info.period_end = r.data.period_end || null; info.issue_date = r.data.issue_date || null; }
+    }
+    if(!failed && nameChanged){
+      const r = await sb.rpc('admin_set_profile_name', { p_user: uid, p_name: name });
+      if(r.error) failed = cdFail(r.error, 'No se pudo guardar el nombre.');
+      else if(!r.data || r.data.ok !== true) failed = (r.data && r.data.error) || 'No se pudo guardar el nombre.';
+      else{ const u = amStudent(uid); if(u) u.name = r.data.name || name; }
+    }
+  }catch(e){ console.error(e); failed = 'No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.'; }
+  CD.busy = false;
+  if(btn){ btn.disabled = false; btn.textContent = 'Guardar'; }
+  if(failed){ cdSay(failed, 'err'); return; }
+  cdClose();
+  try{ if(typeof adminTab !== 'undefined' && adminTab === 'certs') amRenderCerts(); }catch(e){}
+  if(cdEl('admin-cert-overlay')){ adminSelectedCourse[uid] = cid; openCertPreviewModal(uid); }   // si estaba abierta la vista previa, se dibuja de nuevo con lo nuevo
+  try{ amToast('✓ Guardé ' + (datesChanged && nameChanged ? 'las fechas y el nombre' : datesChanged ? 'las fechas' : 'el nombre') + ' del certificado de ' + amName(uid) + '.'); }catch(e){}
+}
+
 /* ================= VERIFICACIÓN PÚBLICA DE CERTIFICADOS =================
    Se llega por el QR del certificado (?verify=CÓDIGO) o por el enlace sin código (?verify). No hace falta cuenta:
    cualquiera escribe el código del certificado, o el DNI de la persona, y ve si es válido.
@@ -10096,10 +10528,10 @@ function vfLong(raw){
   const d = new Date(day + 'T12:00:00');
   return isNaN(d) ? '' : d.toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+/* «18 horas» o «18 horas académicas»: la misma frase que sale en el certificado */
 function vfHours(row){
-  const n = c2hoursNum(row.hours);
-  if(!n) return String(row.hours || '').trim();
-  return n + ' horas ' + (row.hours_kind || certHoursKind(row.hours));
+  if(!/\d/.test(String(row.hours == null ? '' : row.hours))) return '';                 // «—» (curso sin horas) no es un dato: igual que en el certificado
+  return c2hoursPhrase({ hours: row.hours, hoursKind: row.hours_kind || certHoursKind(row.hours) });
 }
 function vfRow(label, value){
   return value ? '<div class="vf-f"><span>' + escapeHtml(label) + '</span><b>' + escapeHtml(value) + '</b></div>' : '';
@@ -10266,6 +10698,8 @@ function readOAuthReturnError(){
     const q = new URLSearchParams(location.search || '');
     const err = h.get('error') || q.get('error');
     if(!err) return '';
+    // el enlace del correo (contraseña nueva) ya venció: no es de Google, lo atiende account.js
+    if(acctIsMailLinkError(h.get('error_code') || q.get('error_code'), h.get('error_description') || q.get('error_description'))) return '';
     const desc = h.get('error_description') || q.get('error_description') || '';
     ['error', 'error_code', 'error_description'].forEach(k => q.delete(k));
     const qs = q.toString();
@@ -10364,8 +10798,464 @@ async function signInWithGoogle(){
   checkGoogleEnabled().then(v => { googleOk = v; applyGoogleState(); }).catch(e => { console.error(e); applyGoogleState(); });
 })();
 
+/* ================= CUENTAS: DNI, contraseña olvidada, «Mi perfil» y eliminar la cuenta =================
+   • Al crear la cuenta se pide el DNI (sale impreso en el certificado).
+   • «¿Olvidaste tu contraseña?» manda un enlace al correo; al abrirlo, la página pide la contraseña nueva.
+   • «Mi perfil»: el alumno corrige su nombre y su DNI y cambia su contraseña. Cuando ya tiene un certificado aprobado, lo que
+     salió en él se bloquea (lo cambia solo el docente); el DNI sí se puede completar si estaba vacío.
+   • «Eliminar mi cuenta»: borra su acceso, su avance, sus entregas (con sus archivos) y sus mensajes. Sus certificados APROBADOS se
+     conservan como registro de la empresa para que su código QR siga verificándose (lo dice el aviso antes de confirmar).
+   El enlace del correo llega con un «#access_token=…&type=recovery» (o un «#error=…» si ya venció) en la dirección. Supabase la limpia
+   enseguida, por eso ACCT_BOOT (que se llena al principio de la página) guarda lo que traía. */
+const ACCT = { recovery: false, linkError: '', linkShown: false, busy: false, delBusy: false, opener: null };
+const ACCT_DNI_HINT = 'Sale impreso en tu certificado: revísalo bien.';
+
+function acctIsMailLinkError(code, desc){
+  return /^otp_/i.test(String(code || '')) || /email link|link is invalid|link has expired/i.test(String(desc || ''));
+}
+(function acctReadBoot(){
+  try{
+    const b = (typeof ACCT_BOOT === 'object' && ACCT_BOOT) || { hash: '', search: '' };
+    const h = new URLSearchParams(String(b.hash || '').replace(/^#/, ''));
+    const q = new URLSearchParams(String(b.search || '').replace(/^\?/, ''));
+    const get = k => h.get(k) || q.get(k) || '';
+    if(get('type') === 'recovery' && h.get('access_token')) ACCT.recovery = true;
+    const code = get('error_code');
+    if(acctIsMailLinkError(code, get('error_description'))) ACCT.linkError = code || 'link';
+  }catch(e){ console.warn(e); }
+})();
+
+function acctEl(id){ return document.getElementById(id); }
+function acctVal(id){ const e = acctEl(id); return e ? String(e.value || '').trim() : ''; }
+function acctSay(target, text, kind){
+  const e = typeof target === 'string' ? acctEl(target) : target;
+  if(!e) return;
+  e.textContent = text || '';
+  e.className = 'form-msg' + (kind ? ' ' + kind : '');
+}
+function acctNorm(v){ return String(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '').toUpperCase(); }
+
+/* ---------------- DNI ---------------- */
+/* igual que en la base de datos: solo letras y números, en mayúsculas */
+function acctDniClean(v){ return String(v == null ? '' : v).toUpperCase().replace(/[^0-9A-Z]/g, ''); }
+function acctDniOk(d){ return d.length >= 6 && d.length <= 15; }
+function acctDniError(d){
+  return d ? 'El DNI no es válido. En Perú son 8 números; si tu documento es de otro país, escribe de 6 a 15 letras o números.'
+           : 'Escribe tu DNI: sale impreso en tu certificado.';
+}
+/* mientras escribe: se limpia y, si son solo números pero no 8, un aviso suave (un documento extranjero puede tener otra cantidad) */
+function acctDniInput(inp){
+  const c = acctDniClean(inp.value);
+  if(c !== inp.value) inp.value = c;
+  const hint = acctEl(inp.id + '-hint');
+  if(!hint) return;
+  const odd = /^\d+$/.test(c) && c.length !== 8;
+  hint.classList.toggle('warn', odd);
+  hint.textContent = odd ? 'Los DNI de Perú tienen 8 números. Si tu documento es de otro país, déjalo así.' : ACCT_DNI_HINT;
+}
+
+/* ---------------- mensajes de error en español ---------------- */
+function acctAuthMsg(error){
+  const m = String((error && error.message) || ''), c = String((error && (error.code || error.error_code)) || '');
+  if(c === 'same_password' || /different from the old password/i.test(m)) return 'Esa es tu contraseña actual. Escribe una distinta.';
+  if(/known to be weak|easy to guess|pwned/i.test(m)) return 'Esa contraseña es muy conocida y fácil de adivinar. Elige otra.';
+  if(/at least one character of each|should contain/i.test(m)) return 'La contraseña tiene que mezclar mayúsculas, minúsculas y números.';
+  if(c === 'weak_password' || /at least \d+ characters/i.test(m)) return 'La contraseña es muy corta o muy simple. Usa por lo menos ' + ((m.match(/at least (\d+)/i) || [])[1] || '6') + ' caracteres.';
+  if(/session missing|session_not_found|bad_jwt|invalid jwt|jwt expired|not authenticated/i.test(c + ' ' + m)) return 'El enlace ya no sirve o se venció. Pide uno nuevo.';
+  if(/reauthenticat/i.test(c + ' ' + m)) return 'Por seguridad, cierra sesión, vuelve a entrar y cámbiala de nuevo (o usa «¿Olvidaste tu contraseña?»).';
+  const secs = (m.match(/after (\d+) seconds?/i) || [])[1];
+  if(secs) return 'Pediste el enlace hace muy poco. Espera ' + secs + ' segundos e inténtalo de nuevo.';
+  if(/email rate limit|over_email_send_rate_limit/i.test(c + ' ' + m)) return 'Se enviaron muchos correos en poco tiempo. Espera un rato e inténtalo de nuevo; si sigue igual, avisa a tu asesor.';
+  if(/rate limit|too many/i.test(c + ' ' + m)) return 'Demasiados intentos. Espera un momento e inténtalo de nuevo.';
+  if(/error sending|sending (recovery|confirmation|email)|smtp/i.test(m)) return 'No se pudo enviar el correo ahora. Avisa a tu asesor para que revise el envío de correos.';
+  if(/invalid.*email|unable to validate email|email_address_invalid/i.test(c + ' ' + m)) return 'Revisa el correo: no parece válido.';
+  if(/failed to fetch|networkerror|fetch failed|load failed|retryable/i.test(c + ' ' + m)) return 'No hay conexión. Revisa tu internet e inténtalo de nuevo.';
+  return authMsg(error);
+}
+/* una función del servidor que no existe todavía (falta correr el SQL nuevo) */
+function acctNotReady(err){ return typeof certMissing === 'function' && certMissing(err); }
+const ACCT_NOT_READY = 'Esta opción todavía no está activada. Avisa a tu asesor.';
+
+/* ---------------- las cuatro pantallas del ingreso ---------------- */
+function switchTab(tab){
+  const t = ['login', 'register', 'forgot', 'reset'].indexOf(tab) >= 0 ? tab : 'login';
+  const view = acctEl('view-login');
+  if(view) view.classList.toggle('acct-solo', t === 'forgot' || t === 'reset');   // sin pestañas ni botón de Google
+  const tl = acctEl('tab-login'), tr = acctEl('tab-register');
+  if(tl) tl.classList.toggle('active', t === 'login');
+  if(tr) tr.classList.toggle('active', t === 'register');
+  ['login', 'register', 'forgot', 'reset'].forEach(k => { const f = acctEl('form-' + k); if(f) f.classList.toggle('hidden', k !== t); });
+  if(t === 'forgot'){
+    const fe = acctEl('fg-email'), le = acctEl('li-email');
+    if(fe && !fe.value && le && le.value) fe.value = le.value;
+    acctSay('fg-msg', '', '');
+  }
+}
+
+/* el enlace del correo: contraseña nueva, o enlace vencido. Devuelve true si se encargó de la pantalla */
+function acctApplyLink(){
+  if(session) return false;
+  if(ACCT.recovery){ switchTab('reset'); return true; }
+  if(ACCT.linkError){
+    if(!ACCT.linkShown){
+      ACCT.linkShown = true;
+      switchTab('forgot');
+      acctSay('fg-msg', 'Ese enlace ya se usó o se venció. Escribe tu correo y te mandamos uno nuevo.', 'err');
+      try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+    }
+    return true;
+  }
+  return false;
+}
+/* con el enlace de «contraseña nueva» no se entra al aula: primero se crea la contraseña */
+function acctAfterSession(){
+  if(ACCT.recovery) session = null;
+}
+/* al mostrar el ingreso: nada de datos de la persona anterior (computadoras compartidas) */
+function acctReset(){
+  const b = acctEl('client-perfil-body'); if(b) b.innerHTML = '';
+  const n = acctEl('acct-banner'); if(n) n.innerHTML = '';
+  ['rg-dni', 'rs-pass', 'rs-pass2'].forEach(id => { const e = acctEl(id); if(e) e.value = ''; });
+  acctDeleteClose(true);
+  if(clientTab === 'perfil'){ try{ setClientTab('cursos'); }catch(e){ clientTab = 'cursos'; } }
+  acctApplyLink();
+}
+
+/* ---------------- contraseña olvidada ---------------- */
+async function doForgot(){
+  if(ACCT.busy) return;
+  const email = acctVal('fg-email').toLowerCase();
+  const btn = acctEl('fg-btn');
+  if(!sb){ acctSay('fg-msg', noConnMsg(), 'err'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ acctSay('fg-msg', 'Escribe el correo con el que creaste tu cuenta.', 'err'); return; }
+  ACCT.busy = true; if(btn) btn.disabled = true;
+  acctSay('fg-msg', 'Enviando…', '');
+  try{
+    const r = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+    if(r && r.error) acctSay('fg-msg', acctAuthMsg(r.error), 'err');
+    else acctSay('fg-msg', 'Listo. Si ese correo tiene una cuenta, en unos minutos te llega un mensaje con el enlace para crear tu contraseña nueva. Revisa también la carpeta de spam.', 'ok');
+  }catch(e){
+    console.error(e);
+    acctSay('fg-msg', acctAuthMsg(e), 'err');
+  }
+  ACCT.busy = false; if(btn) btn.disabled = false;
+}
+
+/* ---------------- contraseña nueva (después del enlace del correo) ---------------- */
+async function doReset(){
+  if(ACCT.busy) return;
+  const p1 = acctEl('rs-pass') ? acctEl('rs-pass').value : '', p2 = acctEl('rs-pass2') ? acctEl('rs-pass2').value : '';
+  const btn = acctEl('rs-btn');
+  if(!sb){ acctSay('rs-msg', noConnMsg(), 'err'); return; }
+  if(p1.length < 6){ acctSay('rs-msg', 'La contraseña tiene que tener por lo menos 6 caracteres.', 'err'); return; }
+  if(p1 !== p2){ acctSay('rs-msg', 'Las dos contraseñas no son iguales.', 'err'); return; }
+  ACCT.busy = true; if(btn) btn.disabled = true;
+  acctSay('rs-msg', 'Guardando…', '');
+  try{
+    const r = await sb.auth.updateUser({ password: p1 });
+    if(r && r.error){
+      acctSay('rs-msg', acctAuthMsg(r.error), 'err');
+      ACCT.busy = false; if(btn) btn.disabled = false;
+      return;
+    }
+    ACCT.recovery = false;
+    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+    ['rs-pass', 'rs-pass2'].forEach(id => { const e = acctEl(id); if(e) e.value = ''; });
+    acctSay('rs-msg', '', '');
+    await loadSession();
+    if(!session){
+      switchTab('login');
+      acctSay('li-msg', 'Tu contraseña ya cambió. Ingresa con ella.', 'ok');
+    } else {
+      await renderAll();
+      try{ aulaToast('✓ Listo: tu contraseña nueva ya está guardada.'); }catch(e){}
+      window.scrollTo(0, 0);
+    }
+  }catch(e){
+    console.error(e);
+    acctSay('rs-msg', acctAuthMsg(e), 'err');
+  }
+  ACCT.busy = false; if(btn) btn.disabled = false;
+}
+
+/* ---------------- aviso: falta el DNI ---------------- */
+function acctApprovedCount(){
+  const st = state.certStatus || {};
+  return Object.keys(st).filter(cid => st[cid] === 'approved').length;
+}
+function acctBannerRender(){
+  const box = acctEl('acct-banner');
+  if(!box) return;
+  const need = !!session && session.role !== 'admin' && session.dniCol !== false && !session.dni && clientTab !== 'perfil';
+  box.innerHTML = need
+    ? '<div class="acct-banner" role="status"><div><b>Falta tu DNI.</b> Lo necesitamos para que salga en tu certificado.</div>' +
+      '<button class="btn btn-solid btn-sm" type="button" onclick="acctGoProfile(\'dni\')">Completar ahora</button></div>'
+    : '';
+}
+function acctGoProfile(focus){
+  if(!session || session.role === 'admin') return;
+  setClientTab('perfil');
+  const f = acctEl(focus === 'dni' ? 'pf-dni' : 'pf-name');
+  if(f && !f.readOnly){ try{ f.focus(); }catch(e){} }
+  window.scrollTo(0, 0);
+}
+
+/* ---------------- las pestañas del panel del alumno ---------------- */
+function setClientTab(tab){
+  if(tab === 'perfil' && clientDetailCourseId !== null) closeClientDetail();   // sale del curso (y detiene el video) antes de cambiar de pestaña
+  clientTab = tab;
+  [['cursos', 'csb-cursos', 'client-cursos-view'], ['certs', 'csb-certs', 'client-certs-view'], ['perfil', 'csb-perfil', 'client-perfil-view']].forEach(x => {
+    const b = acctEl(x[1]), v = acctEl(x[2]);
+    if(b) b.classList.toggle('active', tab === x[0]);
+    if(v) v.classList.toggle('hidden', tab !== x[0]);
+  });
+  acctEl('client-detail-view').classList.add('hidden');
+  acctEl('client-heading').textContent = tab === 'certs' ? 'Certificados' : tab === 'perfil' ? 'Mi perfil' : 'Mis cursos';
+  acctEl('client-stats-row').classList.toggle('hidden', tab !== 'cursos');
+  if(tab === 'certs') renderClientCerts();
+  if(tab === 'perfil') renderAcctProfile();
+  acctBannerRender();
+}
+
+/* ---------------- Mi perfil ---------------- */
+function renderAcctProfile(){
+  const box = acctEl('client-perfil-body');
+  if(!box || !session) return;
+  const locked = acctApprovedCount() > 0;
+  const nameLocked = locked && !!String(session.name || '').trim();
+  const dniLocked = locked && !!session.dni;
+  const lockMsg = nameLocked || dniLocked
+    ? '<div class="acct-lock" role="note">Tu ' + (nameLocked && dniLocked ? 'nombre y tu DNI ya salieron' : nameLocked ? 'nombre ya salió' : 'DNI ya salió') +
+      ' en un certificado aprobado, por eso no se pueden cambiar desde aquí. Si hay un error, escríbele a tu asesor y lo corrige.</div>'
+    : '';
+  box.innerHTML =
+    '<div class="acct-wrap">' +
+      '<section class="panel acct-panel" aria-labelledby="pf-h-datos">' +
+        '<h3 id="pf-h-datos">Mis datos</h3>' +
+        '<p class="panel-lede">Con estos datos sale tu certificado. Revísalos bien.</p>' + lockMsg +
+        '<div class="row2">' +
+          '<div class="field"><label for="pf-name">Nombre completo</label><input id="pf-name" autocomplete="name" maxlength="160" value="' + escapeHtml(session.name || '') + '"' + (nameLocked ? ' readonly' : '') + '></div>' +
+          '<div class="field"><label for="pf-dni">DNI</label><input id="pf-dni" autocomplete="off" maxlength="15" value="' + escapeHtml(session.dni || '') + '"' + (dniLocked ? ' readonly' : ' oninput="acctDniInput(this)"') + '>' +
+            '<div class="field-hint" id="pf-dni-hint">' + escapeHtml(ACCT_DNI_HINT) + '</div></div>' +
+        '</div>' +
+        '<div class="field"><label for="pf-email">Correo</label><input id="pf-email" value="' + escapeHtml(session.email || '') + '" readonly>' +
+          '<div class="field-hint">Con este correo entras al aula. Si necesitas cambiarlo, escríbele a tu asesor.</div></div>' +
+        '<div class="form-msg" id="pf-msg" role="status" aria-live="polite"></div>' +
+        ((nameLocked && dniLocked) ? '' : '<button class="btn btn-solid" type="button" id="pf-save" onclick="acctSaveProfile()">Guardar mis datos</button>') +
+      '</section>' +
+      '<section class="panel acct-panel" aria-labelledby="pf-h-pass">' +
+        '<h3 id="pf-h-pass">Cambiar mi contraseña</h3>' +
+        '<p class="panel-lede">Escríbela dos veces. Mínimo 6 caracteres.</p>' +
+        '<div class="row2">' +
+          '<div class="field"><label for="pf-pass">Contraseña nueva</label><input id="pf-pass" type="password" autocomplete="new-password"></div>' +
+          '<div class="field"><label for="pf-pass2">Repite la contraseña</label><input id="pf-pass2" type="password" autocomplete="new-password"></div>' +
+        '</div>' +
+        '<div class="form-msg" id="pf-pmsg" role="status" aria-live="polite"></div>' +
+        '<button class="btn btn-solid" type="button" id="pf-psave" onclick="acctSavePassword()">Cambiar contraseña</button>' +
+      '</section>' +
+      '<section class="panel acct-panel acct-danger" aria-labelledby="pf-h-del">' +
+        '<h3 id="pf-h-del">Eliminar mi cuenta</h3>' +
+        '<p class="panel-lede">Borra tu acceso, tu avance y tus entregas. No se puede deshacer. Antes de confirmar te explico qué se borra y qué se conserva.</p>' +
+        '<button class="btn btn-danger" type="button" id="pf-del" onclick="acctDeleteOpen()">Eliminar mi cuenta…</button>' +
+      '</section>' +
+    '</div>';
+}
+/* el nombre de arriba (barra, saludo e iniciales) */
+function acctSyncWho(){
+  const who = session.name || session.email || '';
+  const set = (id, v) => { const e = acctEl(id); if(e) e.textContent = v; };
+  set('nav-uname', who); set('nav-initials', initials(who)); set('client-name-tag', who);
+}
+async function acctSaveProfile(){
+  if(ACCT.busy || !session || session.role === 'admin') return;
+  const name = acctVal('pf-name').replace(/\s+/g, ' ');
+  const dni = acctDniClean(acctVal('pf-dni'));
+  if(name.length < 2){ acctSay('pf-msg', 'Escribe tu nombre completo.', 'err'); return; }
+  if(!acctDniOk(dni)){ acctSay('pf-msg', acctDniError(dni), 'err'); return; }
+  if(name === String(session.name || '').replace(/\s+/g, ' ').trim() && dni === acctDniClean(session.dni)){ acctSay('pf-msg', 'No hay cambios que guardar.', ''); return; }
+  const btn = acctEl('pf-save');
+  ACCT.busy = true; if(btn) btn.disabled = true;
+  acctSay('pf-msg', 'Guardando…', '');
+  try{
+    const r = await sb.rpc('update_my_profile', { p_name: name, p_dni: dni });
+    if(r.error){
+      acctSay('pf-msg', acctNotReady(r.error) ? ACCT_NOT_READY : 'No se pudo guardar. ' + (r.error.message || ''), 'err');
+    } else if(!r.data || r.data.ok !== true){
+      acctSay('pf-msg', (r.data && r.data.error) || 'No se pudo guardar.', 'err');
+    } else {
+      session.name = r.data.name || name;
+      session.dni = r.data.dni || dni;
+      acctSyncWho();
+      acctBannerRender();
+      renderAcctProfile();
+      acctSay('pf-msg', '✓ Guardé tus datos.', 'ok');
+      try{ aulaToast('✓ Guardé tus datos.'); }catch(e){}
+    }
+  }catch(e){
+    console.error(e);
+    acctSay('pf-msg', 'No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.', 'err');
+  }
+  ACCT.busy = false;
+  const b2 = acctEl('pf-save'); if(b2) b2.disabled = false;
+}
+async function acctSavePassword(){
+  if(ACCT.busy || !session) return;
+  const p1 = acctEl('pf-pass') ? acctEl('pf-pass').value : '', p2 = acctEl('pf-pass2') ? acctEl('pf-pass2').value : '';
+  if(p1.length < 6){ acctSay('pf-pmsg', 'La contraseña tiene que tener por lo menos 6 caracteres.', 'err'); return; }
+  if(p1 !== p2){ acctSay('pf-pmsg', 'Las dos contraseñas no son iguales.', 'err'); return; }
+  const btn = acctEl('pf-psave');
+  ACCT.busy = true; if(btn) btn.disabled = true;
+  acctSay('pf-pmsg', 'Guardando…', '');
+  try{
+    const r = await sb.auth.updateUser({ password: p1 });
+    if(r && r.error) acctSay('pf-pmsg', acctAuthMsg(r.error), 'err');
+    else{
+      ['pf-pass', 'pf-pass2'].forEach(id => { const e = acctEl(id); if(e) e.value = ''; });
+      acctSay('pf-pmsg', '✓ Cambié tu contraseña. Desde ahora entras con la nueva.', 'ok');
+    }
+  }catch(e){
+    console.error(e);
+    acctSay('pf-pmsg', acctAuthMsg(e), 'err');
+  }
+  ACCT.busy = false;
+  const b2 = acctEl('pf-psave'); if(b2) b2.disabled = false;
+}
+
+/* ---------------- Eliminar mi cuenta ---------------- */
+function acctDeleteOpen(){
+  if(!session || session.role === 'admin') return;
+  acctDeleteClose(true);
+  ACCT.opener = document.activeElement;
+  const n = acctApprovedCount();
+  const keep = n > 0
+    ? '<li><b>Se conserva:</b> ' + (n === 1 ? 'tu certificado aprobado queda guardado' : 'tus ' + n + ' certificados aprobados quedan guardados') +
+      ' en el registro de INFINITY WORK (tu nombre, tu DNI, el curso y las fechas), para que quien lo reciba pueda comprobarlo con su código o su QR. Si prefieres que también se borre, escríbenos.</li>'
+    : '<li>No tienes certificados aprobados, así que no queda ningún dato tuyo.</li>';
+  const ov = document.createElement('div');
+  ov.className = 'overlay acct-overlay';
+  ov.id = 'acct-del-overlay';
+  ov.setAttribute('role', 'dialog');
+  ov.setAttribute('aria-modal', 'true');
+  ov.setAttribute('aria-labelledby', 'ad-title');
+  ov.innerHTML =
+    '<div class="modal acct-modal">' +
+      '<button class="modal-close" type="button" onclick="acctDeleteClose()" aria-label="Cerrar">×</button>' +
+      '<h3 id="ad-title">Eliminar mi cuenta</h3>' +
+      '<p class="panel-lede" style="margin-top:0;">Esto es definitivo y no se puede deshacer.</p>' +
+      '<ul class="acct-list">' +
+        '<li><b>Se borra:</b> tu acceso a los cursos y tu avance, tus entregas con sus archivos y notas, tus mensajes, tus datos de perfil y tu acceso a las carpetas de videos.</li>' +
+        keep +
+        '<li>Si más adelante quieres volver, tendrás que crear una cuenta nueva y tu asesor te habilitará los cursos otra vez.</li>' +
+      '</ul>' +
+      '<div class="field"><label for="ad-confirm">Para confirmar, escribe ELIMINAR</label><input id="ad-confirm" autocomplete="off" autocapitalize="characters" spellcheck="false" oninput="acctDeleteCheck()"></div>' +
+      '<div class="form-msg" id="ad-msg" role="status" aria-live="polite"></div>' +
+      '<div class="acct-bar"><button class="btn btn-ghost" type="button" id="ad-cancel" onclick="acctDeleteClose()">Cancelar</button>' +
+        '<button class="btn btn-danger" type="button" id="ad-go" onclick="acctDeleteGo()" disabled>Eliminar mi cuenta definitivamente</button></div>' +
+    '</div>';
+  document.body.appendChild(ov);
+  ov.addEventListener('click', e => { if(e.target === ov) acctDeleteClose(); });
+  ov.addEventListener('keydown', e => { if(e.key === 'Escape') acctDeleteClose(); });
+  const f = acctEl('ad-confirm'); if(f) f.focus();
+}
+function acctDeleteCheck(){
+  const go = acctEl('ad-go'), f = acctEl('ad-confirm');
+  if(go && f) go.disabled = ACCT.delBusy || acctNorm(f.value) !== 'ELIMINAR';
+}
+function acctDeleteClose(silent){
+  if(ACCT.delBusy && !silent) return;      // mientras borra no se puede cerrar
+  const ov = acctEl('acct-del-overlay');
+  if(ov) ov.remove();
+  const op = ACCT.opener; ACCT.opener = null;
+  if(!silent && op && op.focus && document.contains(op)){ try{ op.focus(); }catch(e){} }
+}
+
+/* sus archivos del almacenamiento privado «submissions» (carpeta <su id>/<actividad>/<archivo>) */
+async function acctListAll(bucket, prefix){
+  const out = [];
+  for(let off = 0; off < 20000; off += 1000){
+    const r = await bucket.list(prefix, { limit: 1000, offset: off });
+    if(r.error) throw r.error;
+    const rows = r.data || [];
+    out.push.apply(out, rows);
+    if(rows.length < 1000) break;
+  }
+  return out;
+}
+async function acctRemoveMyFiles(){
+  const bucket = sb.storage.from('submissions'), uid = session.id;
+  const paths = new Set();
+  try{
+    const r = await sb.from('activity_submissions').select('file_path').eq('user_id', uid);
+    (r.data || []).forEach(x => { if(x.file_path) paths.add(x.file_path); });
+  }catch(e){ console.warn(e); }
+  const top = await acctListAll(bucket, uid);
+  for(const it of top){
+    if(it.id) paths.add(uid + '/' + it.name);
+    else{
+      const sub = await acctListAll(bucket, uid + '/' + it.name);
+      sub.filter(f => f.id).forEach(f => paths.add(uid + '/' + it.name + '/' + f.name));
+    }
+  }
+  const all = Array.from(paths);
+  for(let i = 0; i < all.length; i += 100){
+    const r = await bucket.remove(all.slice(i, i + 100));
+    if(r && r.error) throw r.error;
+  }
+  return all.length;
+}
+async function acctDeleteGo(){
+  if(ACCT.delBusy || !session || session.role === 'admin') return;
+  const f = acctEl('ad-confirm');
+  if(!f || acctNorm(f.value) !== 'ELIMINAR'){ acctSay('ad-msg', 'Escribe ELIMINAR para confirmar.', 'err'); return; }
+  ACCT.delBusy = true;
+  ['ad-go', 'ad-cancel', 'ad-confirm'].forEach(id => { const e = acctEl(id); if(e) e.disabled = true; });
+  acctSay('ad-msg', 'Eliminando… no cierres esta página.', '');
+  let stage = 'check', kept = 0, failed = '', removed = 0;
+  try{
+    try{ stopProgressTracking(); }catch(e){}
+    // 1) antes de tocar nada: ¿la base de datos ya tiene las funciones nuevas? (si no, no se borran archivos de una cuenta que luego no se podría eliminar)
+    const pre = await sb.rpc('update_my_profile', {});
+    if(pre.error) failed = acctNotReady(pre.error) ? ACCT_NOT_READY : 'No se pudo preparar la eliminación. ' + (pre.error.message || '');
+    else if(!pre.data || pre.data.ok !== true) failed = (pre.data && pre.data.error) || 'No se pudo preparar la eliminación.';
+    if(!failed){
+      // 2) sus archivos del almacenamiento (el navegador es quien puede borrarlos; la base de datos no)
+      stage = 'files';
+      removed = await acctRemoveMyFiles();
+      // 3) la cuenta y todo lo que cuelga de ella
+      stage = 'account';
+      const r = await sb.rpc('delete_my_account');
+      if(r.error) failed = acctNotReady(r.error) ? ACCT_NOT_READY : 'No se pudo eliminar la cuenta. ' + (r.error.message || '');
+      else if(!r.data || r.data.ok !== true) failed = (r.data && r.data.error) || 'No se pudo eliminar la cuenta.';
+      else kept = r.data.kept_certificates || 0;
+    }
+  }catch(e){
+    console.error(e);
+    failed = stage === 'files'
+      ? 'No pude borrar tus archivos, así que no eliminé nada: tu cuenta sigue activa. Inténtalo de nuevo.'
+      : 'No se pudo eliminar la cuenta. Revisa tu conexión e inténtalo de nuevo.';
+  }
+  if(failed && stage === 'account' && removed > 0) failed += ' Tus archivos ya se borraron, pero tu cuenta sigue activa.';
+  ACCT.delBusy = false;
+  if(failed){
+    ['ad-cancel', 'ad-confirm'].forEach(id => { const e = acctEl(id); if(e) e.disabled = false; });
+    acctDeleteCheck();
+    acctSay('ad-msg', failed, 'err');
+    return;
+  }
+  acctDeleteClose(true);
+  try{ await sb.auth.signOut({ scope: 'local' }); }catch(e){ console.warn(e); }
+  session = null;
+  clientDetailCourseId = null;
+  clientTab = 'cursos';
+  await renderAll();
+  switchTab('login');
+  acctSay('li-msg', 'Tu cuenta fue eliminada.' + (kept ? ' Tus certificados aprobados se siguen verificando con su código.' : ''), 'ok');
+  window.scrollTo(0, 0);
+}
+
 /* #registro abre "Crear cuenta"; cualquier otro enlace abre "Iniciar sesión" */
 function applyHashIntent(){
+  if(acctApplyLink()) return;     // enlace del correo: contraseña nueva, o enlace vencido
   if(session) return;
   switchTab((location.hash || '').toLowerCase() === '#registro' ? 'register' : 'login');
 }
@@ -10379,6 +11269,7 @@ window.addEventListener('hashchange', applyHashIntent);
     return;
   }
   try{ await loadSession(); }catch(e){ console.error(e); session = null; }
+  acctAfterSession();
   await renderAll();
   applyHashIntent();
 })();
