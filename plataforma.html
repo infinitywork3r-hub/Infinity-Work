@@ -8968,17 +8968,35 @@ function certAddMonths(day, n){
 }
 /* meses que dura el periodo según las sesiones del curso: hasta 12 sesiones = 1 mes, más de 12 = 2 meses */
 function certPeriodMonths(nSessions){ return nSessions > 12 ? 2 : 1; }
+/* «AAAA-MM-DD» + n días (n puede ser negativo) */
+function certAddDays(day, n){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(day || ''));
+  if(!m) return '';
+  const dt = new Date(Date.UTC(2000, 0, 1));
+  dt.setUTCFullYear(+m[1], +m[2] - 1, +m[3] + n);
+  return String(dt.getUTCFullYear()).padStart(4, '0') + '-' + String(dt.getUTCMonth() + 1).padStart(2, '0') + '-' + String(dt.getUTCDate()).padStart(2, '0');
+}
+/* desfase de días de CADA certificado: de −4 a +4, nunca 0, y siempre el mismo para el mismo código (así el fin no cae el mismo número que el inicio,
+   «del 9 de octubre al 9 de noviembre», y el PDF, el QR y la verificación dicen lo mismo). Igual que cert_offset_days del SQL: solo cuentan letras y números. */
+function certOffsetDays(code){
+  const s = String(code == null ? '' : code).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if(!s) return 0;
+  let h = 7;
+  for(let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 1000003;
+  return [-4, -3, -2, -1, 1, 2, 3, 4][h % 8];
+}
 /* inicio y término del curso (igual que cert_period del SQL):
-   · si el docente eligió fechas, se usan (si solo puso una, la otra sale sumando o restando los meses);
-   · si no, el periodo empieza el día de la matrícula; si ese dato no existe (matrículas antiguas), termina el día de la emisión y empezó antes. */
+   · si el docente eligió fechas, se usan (si solo puso una, la otra sale sumando o restando los meses y el desfase del certificado);
+   · si no, el periodo empieza el día de la matrícula y termina 1 o 2 meses después, corrido entre 4 días antes y 4 días después según el código del certificado (o.code);
+     si ese dato no existe (matrículas antiguas), termina el día de la emisión y empezó antes (el desfase se aplica al inicio). */
 function certAutoPeriod(o){
-  const m = certPeriodMonths(o.sessions || 0);
+  const m = certPeriodMonths(o.sessions || 0), off = certOffsetDays(o.code);
   let s = o.start || '', e = o.end || '';
   if(!s && !e){
-    if(o.grantedAt){ s = certIsoDay(o.grantedAt); e = certAddMonths(s, m); }
-    else if(o.issue){ e = o.issue; s = certAddMonths(e, -m); }
-  }else if(!s) s = certAddMonths(e, -m);
-  else if(!e) e = certAddMonths(s, m);
+    if(o.grantedAt){ s = certIsoDay(o.grantedAt); e = certAddDays(certAddMonths(s, m), off); }
+    else if(o.issue){ e = o.issue; s = certAddDays(certAddMonths(e, -m), -off); }
+  }else if(!s) s = certAddDays(certAddMonths(e, -m), -off);
+  else if(!e) e = certAddDays(certAddMonths(s, m), off);
   return { start: s, end: e };
 }
 function certFilename(data){
@@ -9043,7 +9061,7 @@ function certAulaData(o, cfg){
      En la vista previa de uno que aún no se aprueba sale la de hoy: es la que tendrá si se aprueba ahora. */
   const waiting = !!o.status && o.status !== 'approved';
   const issue = certIsoDay(o.issueDate) || certIsoDay(o.approvedAt) || (waiting ? certIsoDay(new Date()) : certIsoDay(o.completedAt));
-  const per = certAutoPeriod({ grantedAt: o.grantedAt, sessions: lessons.length, issue: issue, start: certIsoDay(o.periodStart), end: certIsoDay(o.periodEnd) });
+  const per = certAutoPeriod({ grantedAt: o.grantedAt, sessions: lessons.length, issue: issue, code: o.code, start: certIsoDay(o.periodStart), end: certIsoDay(o.periodEnd) });
   const hrs = /\d/.test(String(o.course.hours || '')) ? o.course.hours : '';            // «—» (curso sin horas) no es un dato
   return {
     name: o.name, courseTitle: o.course.title, courseKind: o.course.cert_kind || 'especializacion',
@@ -9699,7 +9717,7 @@ async function cxOpenForm(m){
           '<div class="field"><label for="cxf-end">Fin del curso</label><input id="cxf-end" type="date" value="' + escapeHtml(v.end_date) + '" data-auto="' + (v.end_date ? '0' : '1') + '" onchange="this.dataset.auto=\'0\'"></div>' +
           '<div class="field"><label for="cxf-issue">Fecha de emisión</label><input id="cxf-issue" type="date" value="' + escapeHtml(v.issue_date) + '"></div>' +
         '</div>' +
-        '<p class="field-hint" style="margin:-6px 0 12px;">Tú eliges las tres fechas. En el certificado, la emisión sale abajo («' + escapeHtml(cfg.city || 'Cajamarca') + ', diciembre de 2026»). Al poner el inicio, el fin se calcula solo (1 mes hasta 12 sesiones, 2 meses si son más); puedes cambiarlo.</p>' +
+        '<p class="field-hint" style="margin:-6px 0 12px;">Tú eliges las tres fechas. En el certificado, la emisión sale abajo («' + escapeHtml(cfg.city || 'Cajamarca') + ', diciembre de 2026»). Al poner el inicio, el fin se calcula solo (1 mes hasta 12 sesiones, 2 meses si son más, con unos días de más o de menos para que no caiga el mismo número); puedes cambiarlo.</p>' +
         '<div class="row2">' +
           f('cxf-inst', 'Institución (opcional)', v.institution, 'maxlength="120" autocomplete="off" placeholder="INFINITY WORK"', 'Se muestra en la página donde se verifica el certificado.') +
           '<div></div>' +
@@ -9745,7 +9763,9 @@ function cxAutoEnd(){
   const s = cxEl('cxf-start'), e = cxEl('cxf-end'), F = CX.form;
   if(!s || !e || !F || !s.value || e.dataset.auto === '0') return;
   const n = F.sessions.filter(x => String(x.title || '').trim()).length;
-  e.value = certAddMonths(s.value, certPeriodMonths(n));
+  /* como en los certificados del aula: 1 mes (o 2) y entre 4 días antes y 4 después, nunca el mismo número del inicio.
+     Este certificado aún no tiene código, así que el desfase sale del inicio y del nombre (el mismo inicio y nombre dan siempre la misma fecha). */
+  e.value = certAddDays(certAddMonths(s.value, certPeriodMonths(n)), certOffsetDays(s.value + '|' + String((cxEl('cxf-name') || {}).value || '').trim()));
   e.dataset.auto = '1';
 }
 function cxCloseForm(silent){
@@ -10411,7 +10431,7 @@ function cxResetSign(){
    inicio y fin del curso, y la fecha de emisión (la que sale al pie: «Cajamarca, diciembre de 2026»).
    Lo que deja igual que lo automático se guarda como «automático» (vacío), así el certificado sigue las reglas solo.
    También se corrige el nombre del alumno: así sale en el certificado (y en todos los suyos). */
-const CD = { uid: null, cid: null, busy: false, granted: null, n: 0, autoIssue: '', city: 'Cajamarca', info: null };
+const CD = { uid: null, cid: null, busy: false, granted: null, n: 0, code: '', autoIssue: '', city: 'Cajamarca', info: null };
 
 function cdEl(id){ return document.getElementById(id); }
 function cdSay(text, kind){ const m = cdEl('cd-msg'); if(m){ m.textContent = text || ''; m.className = 'form-msg' + (kind ? ' ' + kind : ''); } }
@@ -10420,7 +10440,9 @@ function cdOkDay(v){ return /^\d{4}-\d{2}-\d{2}$/.test(v) && v >= '2000-01-01' &
 function cdShort(iso){ return typeof cxFmtDay === 'function' ? cxFmtDay(iso) : String(iso || ''); }
 
 /* lo automático para una fecha de emisión dada */
-function cdAutoFor(issue){ return certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue }); }
+function cdAutoFor(issue){ return certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue, code: CD.code }); }
+/* «, +3 días de ajuste propio de este certificado»: el desfase de −4 a +4 días que evita que el fin caiga el mismo número que el inicio */
+function cdOffText(off){ return off ? ', ' + (off > 0 ? '+' : '−') + Math.abs(off) + (Math.abs(off) === 1 ? ' día' : ' días') + ' de ajuste propio de este certificado' : ''; }
 
 async function cdOpen(uid, cid, focus){
   cdClose();
@@ -10432,9 +10454,10 @@ async function cdOpen(uid, cid, focus){
   CD.uid = uid; CD.cid = cid; CD.busy = false; CD.info = info; CD.city = cfg.city || 'Cajamarca';
   CD.granted = (((state.grantedAt || {})[uid]) || {})[cid] || null;
   CD.n = lessons.length;
+  CD.code = info.code || '';
   CD.autoIssue = certIsoDay(info.approved_at) || (approved ? certIsoDay(info.completed_at) : certIsoDay(new Date()));
   const issue = certIsoDay(info.issue_date) || CD.autoIssue;
-  const per = certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue, start: certIsoDay(info.period_start), end: certIsoDay(info.period_end) });
+  const per = certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue, code: CD.code, start: certIsoDay(info.period_start), end: certIsoDay(info.period_end) });
   const c = amCourse(cid);
   const overlay = document.createElement('div');
   overlay.className = 'overlay cx-form-overlay';
@@ -10476,7 +10499,7 @@ function cdClose(){ const el = cdEl('cd-overlay'); if(el) el.remove(); CD.uid = 
 function cdValues(){
   const g = id => { const e = cdEl(id); return e ? String(e.value || '').trim() : ''; };
   const issue = g('cd-issue') || CD.autoIssue;
-  const per = certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue, start: g('cd-start'), end: g('cd-end') });
+  const per = certAutoPeriod({ grantedAt: CD.granted, sessions: CD.n, issue: issue, code: CD.code, start: g('cd-start'), end: g('cd-end') });
   return { start: per.start, end: per.end, issue: issue };
 }
 function cdLive(){
@@ -10489,7 +10512,7 @@ function cdLive(){
   if(au){
     const same = v.start === auto.start && v.end === auto.end && v.issue === CD.autoIssue;
     au.textContent = (same ? 'Ahora mismo está en automático. ' : 'Elegiste fechas distintas a las automáticas. ') +
-      'Automático: del ' + cdShort(auto.start) + ' al ' + cdShort(auto.end) + (CD.granted ? ' (desde el día de la matrícula' : ' (la matrícula no tiene fecha: se cuenta hacia atrás desde la emisión') + ', ' + (CD.n > 12 ? '2 meses por tener más de 12 sesiones' : '1 mes por tener hasta 12 sesiones') + ')' +
+      'Automático: del ' + cdShort(auto.start) + ' al ' + cdShort(auto.end) + (CD.granted ? ' (desde el día de la matrícula' : ' (la matrícula no tiene fecha: se cuenta hacia atrás desde la emisión') + ', ' + (CD.n > 12 ? '2 meses por tener más de 12 sesiones' : '1 mes por tener hasta 12 sesiones') + cdOffText(certOffsetDays(CD.code)) + ')' +
       '; emisión el ' + cdShort(CD.autoIssue) + (CD.info && CD.info.status === 'approved' ? ' (el día en que se aprobó).' : ' (hoy: el día en que lo apruebes).');
   }
 }
