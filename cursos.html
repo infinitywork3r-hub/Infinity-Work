@@ -497,8 +497,9 @@
   .prj-body p{margin:0;font-size:14px;line-height:1.55;color:#4A5B70;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;}
   @media (max-width:900px){ .prj-grid{grid-template-columns:repeat(2,1fr);} }
   @media (max-width:560px){ .projects{padding:48px 0 56px;} .prj-grid{grid-template-columns:1fr;gap:16px;margin-top:24px;} }
-  /* ---------- REDES: botones flotantes junto al de WhatsApp, en fila hacia la izquierda (se llenan en el aula → "Contacto y redes") ---------- */
-  .float-social{position:fixed;right:90px;bottom:25px;z-index:60;display:flex;flex-direction:row;gap:10px;}
+  /* ---------- REDES: botones flotantes junto al de WhatsApp, en fila hacia la izquierda (se llenan en el aula → "Contacto y redes") ----------
+     Pueden ser 8 (Facebook, Instagram, TikTok, YouTube, LinkedIn, X, Telegram y «Otra red»): solo se ven las que tienen enlace. */
+  .float-social{position:fixed;right:90px;bottom:25px;z-index:60;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:10px;max-width:calc(100vw - 110px);}
   .float-social[hidden],.float-social a[hidden]{display:none !important;}
   .float-social a{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.55);transition:transform .18s,box-shadow .18s;}
   .float-social a:hover{transform:translateY(-3px);box-shadow:0 14px 26px -8px rgba(0,0,0,.6);}
@@ -506,15 +507,28 @@
   .float-social a svg{width:24px;height:24px;fill:#fff;}
   .float-social .fs-facebook{background:#1877F2;}
   .float-social .fs-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);}
-  .float-social .fs-linkedin{background:#0A66C2;}
+  .float-social .fs-tiktok,.float-social .fs-x{background:#111;box-shadow:0 0 0 1.5px rgba(255,255,255,.3),0 10px 24px -8px rgba(0,0,0,.55);}
   .float-social .fs-youtube{background:#FF0000;}
+  .float-social .fs-linkedin{background:#0A66C2;}
+  .float-social .fs-telegram{background:#26A5E4;}
+  .float-social .fs-other{background:#0D6FB8;}
+  .float-social .fs-other svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   /* que los botones no tapen la última línea del pie de página al llegar al final */
   body:has(#float-social:not([hidden])) footer{padding-bottom:84px;}
   @media (max-width:760px){
-    .float-social{right:14px;bottom:calc(60px + env(safe-area-inset-bottom,0px));gap:9px;}
+    .float-social{right:14px;bottom:calc(60px + env(safe-area-inset-bottom,0px));gap:9px;max-width:calc(100vw - 28px);}
     .float-social a{width:44px;height:44px;}
     .float-social a svg{width:22px;height:22px;}
+    .float-social[data-n="7"],.float-social[data-n="8"]{max-width:calc(4 * 44px + 3 * 9px);}      /* 7 u 8 redes: 4 por fila (4+3 o 4+4), nunca una sola sobrando en la segunda fila */
     body:has(#float-social:not([hidden])) footer{padding-bottom:132px;}
+    body:has(#float-social:is([data-n="7"],[data-n="8"])) footer{padding-bottom:182px;}      /* 7 u 8 redes ocupan 2 filas */
+  }
+  /* en celulares muy angostos (≤ 350 px) el texto de la barra verde de WhatsApp pasa a 2 renglones y la barra crece (64 px): las redes suben para no tocarla */
+  @media (max-width:350px){
+    .float-social{bottom:calc(76px + env(safe-area-inset-bottom,0px));}
+    .float-social[data-n="6"]{max-width:calc(3 * 44px + 2 * 9px);}      /* 6 redes: 3 + 3 (en una sola fila no caben) */
+    body:has(#float-social:not([hidden])) footer{padding-bottom:148px;}
+    body:has(#float-social:is([data-n="6"],[data-n="7"],[data-n="8"])) footer{padding-bottom:198px;}
   }
   body.ed-on .float-social{display:none !important;}
   /* ---------- FOTOS QUE SE CAMBIAN DESDE EL ADMINISTRADOR (aula → "Imágenes de la portada") ----------
@@ -667,6 +681,16 @@
     .cp-grid{grid-template-columns:minmax(0,1fr);gap:16px;}
   }
 </style>
+<style id="site2-css">
+[data-job][hidden]{display:none !important;}
+/* ---------- CONTADOR DE VISITAS (pie de página) ---------- */
+  .f-visits{display:inline-flex;align-items:center;gap:7px;color:#8fa2b8;}
+  .f-visits[hidden]{display:none !important;}
+  .f-visits svg{width:15px;height:15px;flex:none;color:var(--line);}
+  .f-visits b{font-weight:700;color:#c3d0e0;}
+  @media (min-width:761px){ .f-bottom{padding-right:78px;} }      /* que el botón de WhatsApp no tape la última frase del pie */
+
+  </style>
 </head>
 <body>
 
@@ -684,6 +708,7 @@
       <a href="index.html#programas" class="active" aria-current="page">Programas</a>
       <a href="index.html#proyectos" data-prj hidden>Proyectos</a>
       <a href="index.html#clientes">Clientes</a>
+      <a href="index.html#trabaja" data-job hidden>Trabaja con nosotros</a>
       <a href="#contacto">Contacto</a>
       <a href="plataforma.html#ingresar" class="nav-aula nav-login"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.9-3.7 3.9-5.7 7.5-5.7s6.6 2 7.5 5.7"/></svg><span>Iniciar sesión</span></a>
     </nav>
@@ -748,6 +773,7 @@
           <li><a href="index.html#programas">Programas</a></li>
           <li data-prj hidden><a href="index.html#proyectos">Proyectos</a></li>
           <li><a href="index.html#clientes">Clientes</a></li>
+          <li data-job hidden><a href="index.html#trabaja">Trabaja con nosotros</a></li>
           <li><a href="plataforma.html#ingresar">Aula virtual (clientes)</a></li>
         </ul>
       </div>
@@ -773,6 +799,7 @@
     </div>
     <div class="f-bottom">
       <span>© 2026 INFINITY WORK. Todos los derechos reservados.</span>
+      <span class="f-visits" id="iw-visits" hidden title="Visitas a nuestra página"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b id="iw-visits-n">0</b> <span id="iw-visits-l">visitas</span></span></span>
       <span>Construimos sin límites</span>
     </div>
   </div>
@@ -785,8 +812,12 @@
 <div class="float-social" id="float-social" hidden>
   <a class="fs-facebook" id="fs-facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" hidden><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12"/></svg></a>
   <a class="fs-instagram" id="fs-instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram" hidden><svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.65.25 1.21.6 1.76 1.15.5.5.9 1.11 1.15 1.76.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.76 4.9 4.9 0 0 1-1.76 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.76-1.15 4.9 4.9 0 0 1-1.15-1.76c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.25-.65.6-1.21 1.15-1.76A4.9 4.9 0 0 1 5.44 2.5c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2m0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65C4.28 8.54 4.27 8.86 4.27 12s.01 3.46.06 4.51c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.51s-.01-3.46-.06-4.51c-.04-.87-.18-1.34-.3-1.65a2.8 2.8 0 0 0-.66-1.02 2.8 2.8 0 0 0-1.02-.66c-.31-.12-.78-.26-1.65-.3C14.99 3.81 14.67 3.8 12 3.8m0 3.05a5.15 5.15 0 1 1 0 10.3 5.15 5.15 0 0 1 0-10.3m0 1.8a3.35 3.35 0 1 0 0 6.7 3.35 3.35 0 0 0 0-6.7m5.35-1.99a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg></a>
-  <a class="fs-linkedin" id="fs-linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" hidden><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.11 20.45H3.55V9h3.56z"/></svg></a>
+  <a class="fs-tiktok" id="fs-tiktok" href="#" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok" hidden><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
   <a class="fs-youtube" id="fs-youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube" hidden><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8M9.6 15.6V8.4l6.3 3.6z"/></svg></a>
+  <a class="fs-linkedin" id="fs-linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" hidden><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.11 20.45H3.55V9h3.56z"/></svg></a>
+  <a class="fs-x" id="fs-x" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)" hidden><svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+  <a class="fs-telegram" id="fs-telegram" href="#" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram" hidden><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+  <a class="fs-other" id="fs-other" href="#" target="_blank" rel="noopener" aria-label="Otra red" title="Otra red" hidden><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a>
 </div>
 
 <a class="mobile-wa-bar" href="https://wa.me/51987654321" target="_blank" rel="noopener" data-iw="wa">
@@ -844,18 +875,20 @@
     if(/^[a-z][a-z0-9+.-]*:/i.test(s)) return '';
     return /^[^\/\s]+\.[^\/\s]+/.test(s)?'https://'+s.replace(/^\/+/,''):'';
   }
-  var SOC=[['facebook','facebook_url'],['instagram','instagram_url'],['linkedin','linkedin_url'],['youtube','youtube_url']];
-  /* cada red con enlace aparece como botón flotante sobre el de WhatsApp; sin enlace no se ve */
+  var SOC=[['facebook','facebook_url'],['instagram','instagram_url'],['tiktok','tiktok_url'],['youtube','youtube_url'],['linkedin','linkedin_url'],['x','x_url'],['telegram','telegram_url'],['other','other_url']];
+  /* cada red con enlace aparece como botón flotante junto al de WhatsApp; sin enlace no se ve. «Otra red» lleva el nombre que tú le pongas */
   function social(c){
-    var any=false;
+    var n=0;
     SOC.forEach(function(s){
       var a=D.getElementById('fs-'+s[0]); if(!a) return;
       var u=link(c[s[1]]);
-      if(u){ a.setAttribute('href',u); a.removeAttribute('hidden'); any=true; }
-      else { a.setAttribute('hidden',''); a.setAttribute('href','#'); }
+      if(u){
+        a.setAttribute('href',u); a.removeAttribute('hidden'); n++;
+        if(s[0]==='other'){ var t=txt(c.other_name).slice(0,40)||'Otra red'; a.setAttribute('title',t); a.setAttribute('aria-label',t); }
+      } else { a.setAttribute('hidden',''); a.setAttribute('href','#'); }
     });
     var box=D.getElementById('float-social');
-    if(box){ if(any) box.removeAttribute('hidden'); else box.setAttribute('hidden',''); }
+    if(box){ if(n) box.removeAttribute('hidden'); else box.setAttribute('hidden',''); box.setAttribute('data-n',String(n)); }
   }
 
   /* ---------- FOTOS: se cambian desde el administrador (aula → pestaña "Imágenes de la portada") ----------
@@ -1103,6 +1136,14 @@
     D.addEventListener('keydown',function(e){ if(e.key==='Escape') setNav(false); });
     window.addEventListener('resize',function(){ if(window.innerWidth>1100) setNav(false); });
   }
+  /* «Trabaja con nosotros» aparece en el menú cuando la base de datos de empleo ya está activa (igual que en la portada) */
+  try{
+    fetch('https://xsxdlvlffcypbaiolfwj.supabase.co/rest/v1/job_posts?select=id&limit=1',{headers:{apikey:'sb_publishable_vIKz188_VTuxm4zvoRnyCQ_GgeNcQvW'},cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+      .then(function(rows){
+        if(Array.isArray(rows)) [].forEach.call(D.querySelectorAll('[data-job]'),function(n){ n.removeAttribute('hidden'); });
+      }).catch(function(){});
+  }catch(e){}
   /* «Proyectos» en el menú solo aparece si ya hay proyectos publicados (igual que en la portada) */
   try{
     fetch('https://xsxdlvlffcypbaiolfwj.supabase.co/rest/v1/projects?select=id&limit=1',{headers:{apikey:'sb_publishable_vIKz188_VTuxm4zvoRnyCQ_GgeNcQvW'},cache:'no-store'})
@@ -1436,6 +1477,44 @@
   ensurePills(); paintHero(); renderResults(); revealPill();
   load();
   W.__iwCursos={select:select,search:function(v){ inp.value=v; inp.dispatchEvent(new Event('input',{bubbles:true})); },reload:load,state:function(){ return {st:st,cur:cur,q:q,n:courses.length}; }};
+})();
+</script>
+<script id="visits-js">
+(function(){
+  'use strict';
+  /* VISITAS: contador pequeño del pie de página. Solo cuenta cuántas veces se abrió cada página por día:
+     no guarda nombres, IP ni nada de la persona. Una visita por navegador y por día (si recarga no suma).
+     No se cuenta cuando el dueño entró al aula en este mismo navegador, ni en modo edición, ni a los programas automáticos. */
+  var D=document;
+  var SB='https://xsxdlvlffcypbaiolfwj.supabase.co';
+  var KEY='sb_publishable_vIKz188_VTuxm4zvoRnyCQ_GgeNcQvW';
+  var box=D.getElementById('iw-visits'), num=D.getElementById('iw-visits-n');
+  if(!box||!num||typeof fetch!=='function') return;
+  var page=/cursos/i.test(location.pathname)?'cursos':'inicio';
+  var store=null; try{ store=window.localStorage; }catch(e){}
+  function get(k){ try{ return store?store.getItem(k):null; }catch(e){ return null; } }
+  function lima(){ return new Date(Date.now()-5*3600*1000).toISOString().slice(0,10); }
+  function run(){
+    var day=lima(), key='iw_vd_'+page, skip=false;
+    try{ skip=!!navigator.webdriver||get('iw_nocount')==='1'||/(^|[#&])editar/.test(location.hash); }catch(e){}
+    var count=!skip&&get(key)!==day;
+    fetch(SB+'/rest/v1/rpc/'+(count?'track_visit':'visit_total'),{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(count?{p_page:page}:{})})
+      .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+      .then(function(n){
+        n=Number(n);
+        if(!isFinite(n)||n<0) return;
+        if(count){ try{ if(store) store.setItem(key,day); }catch(e){} }
+        try{ num.textContent=n.toLocaleString('es-PE'); }catch(e){ num.textContent=String(n); }
+        var lab=D.getElementById('iw-visits-l'); if(lab) lab.textContent=n===1?'visita':'visitas';
+        box.removeAttribute('hidden');
+      })
+      .catch(function(){});
+  }
+  if(D.visibilityState==='hidden'){
+    // pestaña abierta en segundo plano: se cuenta cuando la persona la mira de verdad
+    var once=function(){ if(D.visibilityState!=='visible') return; D.removeEventListener('visibilitychange',once); run(); };
+    D.addEventListener('visibilitychange',once);
+  } else run();
 })();
 </script>
 </body>

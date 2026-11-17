@@ -1269,6 +1269,179 @@
   }
   /* mientras se arrastra: mano cerrada en toda la página y sin que se seleccione texto por donde pasa el mouse */
   html.ds-drag,html.ds-drag *{cursor:grabbing!important;-webkit-user-select:none!important;user-select:none!important;}
+
+  /* ---------- SITIO WEB: pestañas Proyectos (con fotos), Empleo y Visitas del administrador ---------- */
+  .pj-head-row,.emp-head-row,.emp-jobs-top,.pj-ed-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+  .pj-head-row h3,.emp-head-row h3{margin-bottom:8px;}
+  .pj-head-row > div,.emp-head-row > div{min-width:0;max-width:720px;}
+  .pj-head-row > .btn,.emp-head-row > .btn{flex:none;}
+  .pj-hint{font-size:12px;line-height:1.5;color:var(--muted);margin-top:7px;}
+  .pj-total{display:inline-block;margin-left:6px;font-size:12px;font-weight:800;color:var(--muted);background:#EDF1F6;border-radius:999px;padding:3px 10px;vertical-align:middle;}
+  .drv-setup + .panel,.emp-head .drv-setup{margin-top:14px;}
+  .pj-head .drv-setup{margin:16px 0 0;}
+
+  /* lista de proyectos */
+  .pj-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;}
+  .pj-item{display:flex;flex-direction:column;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;}
+  .pj-item.on{border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.18);}
+  .pj-item-ph{position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,var(--navy-2),var(--line-dark));display:flex;align-items:center;justify-content:center;color:#cfe3f7;font-size:12px;font-weight:700;}
+  .pj-item-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .pj-item-n{position:absolute;left:10px;bottom:10px;font-size:11px;font-weight:800;color:#fff;background:rgba(11,20,32,.72);border-radius:999px;padding:4px 10px;}
+  .pj-item-n.low{background:#B26A00;}
+  .pj-item-body{padding:13px 15px 6px;min-width:0;flex:1;}
+  .pj-item-loc{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--line-dark);margin-bottom:4px;overflow-wrap:anywhere;}
+  .pj-item-body h4{margin:0;font-size:15px;font-weight:800;line-height:1.25;overflow-wrap:anywhere;}
+  .pj-item-btns{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 15px 15px;}
+  .pj-move{display:inline-flex;gap:6px;margin-right:auto;}
+  .pj-move .btn{padding:7px 12px;}
+  .pj-item-btns .btn[disabled]{opacity:.4;cursor:default;pointer-events:none;}
+
+  /* editor de un proyecto */
+  .pj-editor{border-color:var(--line);box-shadow:0 18px 40px -26px rgba(13,111,184,.65);}
+  .pj-ed-head{align-items:center;margin-bottom:14px;}
+  .pj-ed-head h3{margin:0;}
+  .pj-ed-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:30px;align-items:start;}
+  .pj-ed-form{min-width:0;}
+  .pj-ed-form .field textarea{resize:vertical;min-height:108px;}
+  .pj-n{font-weight:700;text-transform:none;letter-spacing:0;color:var(--line-dark);margin-left:6px;}
+  .pj-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;}
+  .pj-th{position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:#DDE7F1;border:1.5px solid var(--border);}
+  .pj-th img{width:100%;height:100%;object-fit:cover;display:block;}
+  .pj-th.wait{display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:var(--muted);background:repeating-linear-gradient(135deg,#EDF1F6 0 10px,#E2EAF3 10px 20px);}
+  .pj-th-n{position:absolute;left:6px;top:6px;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:rgba(11,20,32,.75);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .pj-th-main{position:absolute;left:6px;bottom:34px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--line-dark);border-radius:999px;padding:3px 8px;}
+  .pj-th-btns{position:absolute;left:0;right:0;bottom:0;display:flex;gap:4px;padding:5px;background:linear-gradient(0deg,rgba(11,20,32,.78),rgba(11,20,32,0));}
+  .pj-th-btns button{flex:1;height:26px;border:0;border-radius:7px;background:rgba(255,255,255,.92);color:var(--text);font-size:11px;font-weight:800;line-height:1;padding:0;}
+  .pj-th-btns button:hover{background:#fff;color:var(--line-dark);}
+  .pj-th-btns button[disabled]{opacity:.4;cursor:default;}
+  .pj-th-btns .pj-x{flex:0 0 30px;color:var(--danger);}
+  @media (pointer:coarse){ .pj-th-btns button{height:34px;font-size:13px;} .pj-th-btns .pj-x{flex-basis:36px;} }
+  .pj-th-btns .pj-x:hover{background:var(--danger);color:#fff;}
+  .pj-add{aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:2px dashed #9FB3C8;border-radius:10px;background:#F5F8FC;color:var(--line-dark);font-size:12px;font-weight:700;padding:0;}
+  .pj-add b{font-size:24px;line-height:1;}
+  .pj-add:hover{border-color:var(--line);background:#EAF4FF;}
+  .pj-th button:focus-visible,.pj-add:focus-visible{outline:2px solid var(--line);outline-offset:2px;}
+  .pj-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+  .pj-actions .btn[disabled]{opacity:.65;cursor:progress;}
+
+  /* vista previa: la misma tarjeta de la página */
+  .pj-ed-prev{position:sticky;top:18px;min-width:0;}
+  .pj-prev-tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .pjv-card{background:#fff;border:1px solid #DCE4EE;border-radius:16px;overflow:hidden;box-shadow:0 12px 28px -18px rgba(11,20,32,.35);}
+  .pjv-photo{position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,var(--navy-2),var(--line-dark));overflow:hidden;display:flex;align-items:center;justify-content:center;color:#cfe3f7;font-size:13px;font-weight:700;}
+  .pjv-track{display:flex;width:100%;height:100%;transition:transform .75s cubic-bezier(.22,.7,.2,1);}
+  .pjv-slide{flex:0 0 100%;min-width:0;height:100%;margin:0;}
+  .pjv-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+  .pjv-photo:not(.empty)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:54px;pointer-events:none;background:linear-gradient(0deg,rgba(11,20,32,.5),rgba(11,20,32,0));}
+  .pjv-nav{position:absolute;top:50%;z-index:2;width:34px;height:34px;margin-top:-17px;border:0;border-radius:50%;background:rgba(11,20,32,.58);color:#fff;font-size:22px;line-height:1;padding:0 0 3px;display:flex;align-items:center;justify-content:center;}
+  .pjv-nav:hover{background:var(--line-dark);}
+  .pjv-prev{left:10px;}
+  .pjv-next{right:10px;}
+  .pjv-dots{position:absolute;left:0;right:0;bottom:11px;z-index:2;display:flex;justify-content:center;gap:7px;}
+  .pjv-dots button{position:relative;width:8px;height:8px;padding:0;border-radius:4px;border:1.5px solid rgba(255,255,255,.9);background:transparent;transition:width .25s,background .25s;}
+  .pjv-dots button::after{content:"";position:absolute;inset:-10px -5px;}
+  .pjv-dots button[aria-current="true"]{width:22px;background:var(--cyan);border-color:var(--cyan);}
+  .pjv-body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;min-width:0;}
+  .pjv-loc{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--line-dark);overflow-wrap:anywhere;}
+  .pjv-body h4{margin:0;font-size:18px;font-weight:800;color:var(--navy);line-height:1.2;overflow-wrap:anywhere;}
+  .pjv-ph{color:#9FB0C3;font-weight:700;}
+  .pjv-body p{margin:0;font-size:14px;line-height:1.55;color:#4A5B70;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;white-space:pre-line;}
+
+  /* empleo */
+  .emp-head .cfilters{margin:18px 0 0;align-items:center;}
+  .emp-head .emp-view{flex:none;}
+  .emp-head #emp-flash{margin:12px 0 0;min-height:0;}
+  .emp-head #emp-flash:empty{display:none;}
+  .emp-n{display:inline-block;margin-left:6px;font-size:10.5px;font-weight:800;color:#fff;background:#D93C2B;border-radius:999px;padding:2px 8px;vertical-align:1px;}
+  .cf-pill.active .emp-n{background:#fff;color:#D93C2B;}
+  .emp-n.soft{background:#E6F3FF;color:var(--line-dark);}
+  .cf-pill.active .emp-n.soft{background:rgba(255,255,255,.9);color:var(--line-dark);}
+  .emp-pc{font-weight:800;opacity:.75;margin-left:3px;}
+  .emp-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;}
+  .emp-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+  .emp-tools select{max-width:280px;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:10px 12px;font-size:13px;font-family:'Montserrat',sans-serif;border-radius:var(--radius);}
+  .emp-tools .search-input{min-width:230px;}
+  .emp-apps,.emp-jobs{display:flex;flex-direction:column;gap:12px;}
+  .emp-app{display:grid;grid-template-columns:minmax(0,1.3fr) auto minmax(0,1.1fr);gap:14px 22px;align-items:start;border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;background:#fff;}
+  .emp-app.st-nuevo{border-color:#9ACBFF;background:#F7FBFF;box-shadow:0 0 0 3px rgba(29,155,255,.09);}
+  .emp-app.st-descartado{opacity:.72;}
+  .emp-app-name{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:15.5px;}
+  .emp-app-name b{font-weight:800;overflow-wrap:anywhere;}
+  .emp-app-meta{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:6px;font-size:12.5px;font-weight:600;color:var(--muted);}
+  .emp-app-meta span{overflow-wrap:anywhere;}
+  .emp-app-cv{margin-top:8px;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere;}
+  .emp-app-act{display:flex;flex-wrap:wrap;gap:8px;max-width:310px;}
+  .emp-app-act .btn[disabled]{opacity:.45;pointer-events:none;}
+  .emp-app-edit{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:8px 12px;align-items:start;}
+  .emp-app-edit .field{margin:0;}
+  .emp-app-edit .field select{padding:9px 10px;font-size:13px;}
+  .emp-app-edit .field textarea{padding:9px 11px;font-size:13px;resize:vertical;min-height:62px;}
+  .emp-app-edit > .btn{grid-column:1 / -1;justify-self:end;}
+  .emp-saved{font-weight:700;text-transform:none;letter-spacing:0;color:var(--ok);margin-left:6px;}
+  .emp-saved.err{color:var(--danger);}
+  .emp-more{margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;font-size:13px;font-weight:600;color:var(--muted);}
+  .emp-jobs-top{align-items:center;margin-bottom:16px;}
+  .emp-jobs-top h3{margin:0;}
+  .emp-jform{border:1.5px solid var(--line);border-radius:14px;padding:20px 20px 16px;margin-bottom:18px;background:#FAFDFF;}
+  .emp-jform h4{margin:0 0 14px;font-size:15px;font-weight:800;}
+  .emp-check{display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:600;color:var(--text);margin:2px 0 6px;cursor:pointer;}
+  .emp-check input{flex:none;width:18px;height:18px;margin:1px 0 0;accent-color:var(--line-dark);}
+  .emp-job{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px;border:1.5px solid var(--border);border-radius:14px;padding:15px 18px;background:#fff;}
+  .emp-job.on{border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.18);}
+  .emp-job-main{min-width:0;flex:1 1 320px;}
+  .emp-job-title{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:15.5px;}
+  .emp-job-btns{display:flex;flex-wrap:wrap;gap:8px;}
+
+  /* visitas: SOLO el acumulado, en un cuadrito chiquito y en vertical, al final de la página del administrador (no es una pestaña y no abre paneles) */
+  .vis-end{margin-top:30px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+  .vis-box{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 15px 8px 12px;}
+  .vis-box-h{display:inline-flex;align-items:center;gap:6px;font:700 10px/1.2 'Montserrat',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  .vis-box-h svg{width:13px;height:13px;flex:none;color:var(--line-dark);}
+  .vis-box-n{font:800 18px/1.1 'Montserrat',sans-serif;color:var(--text);font-variant-numeric:tabular-nums;}
+  .vis-box.off .vis-box-n{color:var(--muted);}
+  .vis-hint{max-width:540px;margin:0;font-size:12px;line-height:1.55;color:var(--warn);}      /* solo se ve mientras falta correr el SQL */
+  .vis-hint b{color:var(--text);}
+
+  /* redes sociales (Contacto y redes): ayuda, 8 campos y la vista de cómo se verán junto al WhatsApp; en el pie del aula pasan a otra línea si no caben */
+  .set-help{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 14px;}
+  .set-help b{color:var(--text);}
+  .set-hint-cell{display:flex;align-items:flex-end;}
+  .set-hint-cell .set-help{margin:0 0 12px;font-size:12px;}
+  .soc-prev{display:flex;flex-direction:column;align-items:flex-start;gap:9px;margin:6px 0 18px;padding:12px 14px;border:1.5px dashed var(--border);border-radius:12px;background:var(--surface);}
+  .soc-prev-t{font:700 10px/1.2 'Montserrat',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  .soc-prev-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .soc-prev .sp{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:opacity .15s,filter .15s;}
+  .soc-prev .sp svg{width:17px;height:17px;fill:#fff;}
+  .soc-prev .sp.off{opacity:.3;filter:grayscale(1);}
+  .soc-prev .fs-facebook{background:#1877F2;}
+  .soc-prev .fs-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);}
+  .soc-prev .fs-tiktok,.soc-prev .fs-x{background:#111;}
+  .soc-prev .fs-youtube{background:#FF0000;}
+  .soc-prev .fs-linkedin{background:#0A66C2;}
+  .soc-prev .fs-telegram{background:#26A5E4;}
+  .soc-prev .fs-other{background:#0D6FB8;}
+  .soc-prev .fs-other svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .soc-prev-n{font-size:12px;line-height:1.5;color:var(--muted);}
+  .social-row{flex-wrap:wrap;}
+  .social-row .so-other svg{fill:none;stroke:#c3d0e0;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  @media (max-width:640px){
+    .soc-prev-row{display:grid;grid-template-columns:repeat(4,34px);}
+    .social-row[data-n="7"],.social-row[data-n="8"]{display:grid;grid-template-columns:repeat(4,36px);}
+  }
+
+  @media (max-width:980px){
+    .pj-ed-grid{grid-template-columns:1fr;gap:22px;}
+    .pj-ed-prev{position:static;}
+    .emp-app{grid-template-columns:1fr;}
+    .emp-app-act{max-width:none;}
+  }
+  @media (max-width:640px){
+    .pj-head-row,.emp-head-row{flex-direction:column;gap:12px;}
+    .emp-tools{width:100%;}
+    .emp-tools .search-input,.emp-tools select{width:100%;max-width:none;}
+    .emp-app-edit{grid-template-columns:1fr;}
+    .pj-cards{grid-template-columns:1fr;}
+  }
 </style>
 </head>
 <body class="guest">
@@ -1424,6 +1597,7 @@
       <button class="admin-tab" id="atab-drive" onclick="setAdminTab('drive')">Carpetas y reglas</button>
       <button class="admin-tab" id="atab-courses" onclick="setAdminTab('courses')">Cursos</button>
       <button class="admin-tab" id="atab-projects" onclick="setAdminTab('projects')">Proyectos</button>
+      <button class="admin-tab" id="atab-empleo" onclick="setAdminTab('empleo')">Empleo</button>
       <button class="admin-tab" id="atab-promos" onclick="setAdminTab('promos')">Promociones</button>
       <button class="admin-tab" id="atab-settings" onclick="setAdminTab('settings')">Contacto y redes</button>
       <button class="admin-tab" id="atab-images" onclick="setAdminTab('images')">Imágenes de la portada</button>
@@ -1638,18 +1812,11 @@
     </div>
 
     <div id="admin-projects-panel" class="hidden">
-      <div class="panel">
-        <h3>Nuevo proyecto</h3>
-        <div class="row2">
-          <div class="field"><label>Título</label><input id="pj-title" placeholder="Nombre del proyecto"></div>
-          <div class="field"><label>Ubicación</label><input id="pj-location" placeholder="Ej: Cajamarca, Perú"></div>
-        </div>
-        <div class="field"><label>Descripción</label><textarea id="pj-desc" rows="3" placeholder="Breve descripción de la obra"></textarea></div>
-        <div class="field"><label>URL de imagen</label><input id="pj-image" placeholder="https://..."></div>
-        <div id="pj-msg" class="form-msg"></div>
-        <button class="btn btn-solid" onclick="createProject()">Publicar proyecto</button>
-      </div>
-      <div class="panel" id="projects-table-wrap"></div>
+      <div id="pj-root"></div>
+    </div>
+
+    <div id="admin-empleo-panel" class="hidden">
+      <div id="emp-root"></div>
     </div>
 
     <div id="admin-promos-panel" class="hidden">
@@ -1679,14 +1846,32 @@
       </div>
       <div class="panel">
         <h3>Redes sociales</h3>
-        <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 18px;">Cada red en la que pongas su enlace aparece como botón flotante en tu portada, junto al de WhatsApp. Las que dejes vacías no se muestran.</p>
+        <p class="set-help">Pega el enlace de cada red que uses. Cada una que llenes aparece como botón flotante en tu portada y en la lista de cursos, junto al de WhatsApp (y también en el pie del aula). Las que dejes vacías no se muestran.</p>
+        <p class="set-help"><b>¿Cómo consigo el enlace?</b> Abre tu perfil o tu página en la aplicación de esa red, toca <b>Compartir</b> y luego <b>Copiar enlace</b>. Vuelve aquí y pégalo.</p>
         <div class="row2">
-          <div class="field"><label>Facebook</label><input id="set-facebook" placeholder="https://facebook.com/tu-pagina"></div>
-          <div class="field"><label>Instagram</label><input id="set-instagram" placeholder="https://instagram.com/tu-usuario"></div>
+          <div class="field"><label for="set-facebook">Facebook</label><input id="set-facebook" inputmode="url" autocomplete="off" oninput="socPrev()" placeholder="https://facebook.com/tu-pagina"></div>
+          <div class="field"><label for="set-instagram">Instagram</label><input id="set-instagram" inputmode="url" autocomplete="off" oninput="socPrev()" placeholder="https://instagram.com/tu-usuario"></div>
         </div>
         <div class="row2">
-          <div class="field"><label>LinkedIn</label><input id="set-linkedin" placeholder="https://linkedin.com/company/tu-empresa"></div>
-          <div class="field"><label>YouTube</label><input id="set-youtube" placeholder="https://youtube.com/@tu-canal"></div>
+          <div class="field"><label for="set-tiktok">TikTok</label><input id="set-tiktok" inputmode="url" autocomplete="off" oninput="socPrev()" placeholder="https://tiktok.com/@tu-usuario"></div>
+          <div class="field"><label for="set-youtube">YouTube</label><input id="set-youtube" inputmode="url" autocomplete="off" oninput="socPrev()" placeholder="https://youtube.com/@tu-canal"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="set-linkedin">LinkedIn</label><input id="set-linkedin" inputmode="url" autocomplete="off" oninput="socPrev()" placeholder="https://linkedin.com/company/tu-empresa"></div>
+          <div class="field"><label for="set-x">X (Twitter)</label><input id="set-x" inputmode="url" autocomplete="off" oninput="socPrev()" placeholder="https://x.com/tu-usuario"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="set-telegram">Telegram</label><input id="set-telegram" inputmode="url" autocomplete="off" oninput="socPrev()" placeholder="https://t.me/tu-usuario"></div>
+          <div class="field set-hint-cell"><p class="set-help">¿Usas otra red (Pinterest, Threads, Kwai…)? Agrégala abajo en «Otra red».</p></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="set-other-name">Otra red · nombre (opcional)</label><input id="set-other-name" maxlength="40" autocomplete="off" oninput="socPrev()" placeholder="Pinterest, Threads, Kwai…"></div>
+          <div class="field"><label for="set-other">Otra red · enlace</label><input id="set-other" inputmode="url" autocomplete="off" oninput="socPrev()" placeholder="https://…"></div>
+        </div>
+        <div class="soc-prev" id="soc-prev" aria-label="Así se verán tus redes en la portada">
+          <span class="soc-prev-t">Así se verán junto al WhatsApp</span>
+          <span class="soc-prev-row"><span class="sp fs-facebook off" data-sp="facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12"/></svg></span><span class="sp fs-instagram off" data-sp="instagram" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.65.25 1.21.6 1.76 1.15.5.5.9 1.11 1.15 1.76.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.76 4.9 4.9 0 0 1-1.76 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.76-1.15 4.9 4.9 0 0 1-1.15-1.76c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.25-.65.6-1.21 1.15-1.76A4.9 4.9 0 0 1 5.44 2.5c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2m0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65C4.28 8.54 4.27 8.86 4.27 12s.01 3.46.06 4.51c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.51s-.01-3.46-.06-4.51c-.04-.87-.18-1.34-.3-1.65a2.8 2.8 0 0 0-.66-1.02 2.8 2.8 0 0 0-1.02-.66c-.31-.12-.78-.26-1.65-.3C14.99 3.81 14.67 3.8 12 3.8m0 3.05a5.15 5.15 0 1 1 0 10.3 5.15 5.15 0 0 1 0-10.3m0 1.8a3.35 3.35 0 1 0 0 6.7 3.35 3.35 0 0 0 0-6.7m5.35-1.99a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg></span><span class="sp fs-tiktok off" data-sp="tiktok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span><span class="sp fs-youtube off" data-sp="youtube" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8M9.6 15.6V8.4l6.3 3.6z"/></svg></span><span class="sp fs-linkedin off" data-sp="linkedin" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.11 20.45H3.55V9h3.56z"/></svg></span><span class="sp fs-x off" data-sp="x" title="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></span><span class="sp fs-telegram off" data-sp="telegram" title="Telegram"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></span><span class="sp fs-other off" data-sp="other" title="Otra red"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span></span>
+          <span class="soc-prev-n" id="soc-prev-n">Las apagadas no se muestran porque no tienen enlace.</span>
         </div>
         <div id="set-msg" class="form-msg"></div>
         <button class="btn btn-solid" onclick="saveSettings()">Guardar cambios</button>
@@ -1731,6 +1916,13 @@
         <div id="img-brand-wrap" class="img-grid"></div>
       </div>
     </div>
+    <div class="vis-end">
+      <div class="vis-box" id="vis-box" role="group" aria-label="Visitas acumuladas de tu página">
+        <span class="vis-box-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Visitas acumuladas</span>
+        <b class="vis-box-n" id="vis-n">…</b>
+      </div>
+      <p class="vis-hint hidden" id="vis-hint"><b>Falta un paso para activar el contador (se hace una sola vez):</b> en Supabase → SQL Editor pega todo <b>supabase-sitio-web.sql</b> y pulsa <b>Run</b>. No borra nada. Luego recarga esta página (Ctrl + F5).</p>
+    </div>
     </div>
   </section>
 </main>
@@ -1757,10 +1949,14 @@
         <a class="brand" href="index.html"><img class="b-icon" src="data:image/png;base64,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" alt="INFINITY WORK"><div class="b-word"><span class="w1">INFINITY</span><span class="w2">WORK</span></div></a>
         <p>Construimos sin límites: soluciones integrales en construcción, ingeniería y gestión de proyectos en Cajamarca y todo el Perú.</p>
         <div class="social-row">
-      <a class="hidden" id="social-facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12"/></svg></a>
-      <a class="hidden" id="social-instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.65.25 1.21.6 1.76 1.15.5.5.9 1.11 1.15 1.76.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.76 4.9 4.9 0 0 1-1.76 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.76-1.15 4.9 4.9 0 0 1-1.15-1.76c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.25-.65.6-1.21 1.15-1.76A4.9 4.9 0 0 1 5.44 2.5c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2m0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65C4.28 8.54 4.27 8.86 4.27 12s.01 3.46.06 4.51c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.51s-.01-3.46-.06-4.51c-.04-.87-.18-1.34-.3-1.65a2.8 2.8 0 0 0-.66-1.02 2.8 2.8 0 0 0-1.02-.66c-.31-.12-.78-.26-1.65-.3C14.99 3.81 14.67 3.8 12 3.8m0 3.05a5.15 5.15 0 1 1 0 10.3 5.15 5.15 0 0 1 0-10.3m0 1.8a3.35 3.35 0 1 0 0 6.7 3.35 3.35 0 0 0 0-6.7m5.35-1.99a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg></a>
-      <a class="hidden" id="social-linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.11 20.45H3.55V9h3.56z"/></svg></a>
-      <a class="hidden" id="social-youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8M9.6 15.6V8.4l6.3 3.6z"/></svg></a>
+      <a class="hidden" id="social-facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12"/></svg></a>
+      <a class="hidden" id="social-instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.65.25 1.21.6 1.76 1.15.5.5.9 1.11 1.15 1.76.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.76 4.9 4.9 0 0 1-1.76 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.76-1.15 4.9 4.9 0 0 1-1.15-1.76c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.25-.65.6-1.21 1.15-1.76A4.9 4.9 0 0 1 5.44 2.5c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2m0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65C4.28 8.54 4.27 8.86 4.27 12s.01 3.46.06 4.51c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.51s-.01-3.46-.06-4.51c-.04-.87-.18-1.34-.3-1.65a2.8 2.8 0 0 0-.66-1.02 2.8 2.8 0 0 0-1.02-.66c-.31-.12-.78-.26-1.65-.3C14.99 3.81 14.67 3.8 12 3.8m0 3.05a5.15 5.15 0 1 1 0 10.3 5.15 5.15 0 0 1 0-10.3m0 1.8a3.35 3.35 0 1 0 0 6.7 3.35 3.35 0 0 0 0-6.7m5.35-1.99a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg></a>
+      <a class="hidden" id="social-tiktok" href="#" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+      <a class="hidden" id="social-youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8M9.6 15.6V8.4l6.3 3.6z"/></svg></a>
+      <a class="hidden" id="social-linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.11 20.45H3.55V9h3.56z"/></svg></a>
+      <a class="hidden" id="social-x" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+      <a class="hidden" id="social-telegram" href="#" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+      <a class="hidden so-other" id="social-other" href="#" target="_blank" rel="noopener" aria-label="Otra red" title="Otra red"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a>
     </div>
       </div>
       <div>
@@ -1929,6 +2125,33 @@ function renderFooterContact(s, waNum){
 }
 
 /* enlaces de redes: solo http(s); sin esquema ("facebook.com/mi-pagina") se completa con https:// */
+/* las 8 redes: [id, nombre, clave en site_settings, campo del panel, ejemplo del enlace] */
+const SOC_NETS = [
+  ['facebook', 'Facebook', 'facebook_url', 'set-facebook', 'https://facebook.com/tu-pagina'],
+  ['instagram', 'Instagram', 'instagram_url', 'set-instagram', 'https://instagram.com/tu-usuario'],
+  ['tiktok', 'TikTok', 'tiktok_url', 'set-tiktok', 'https://tiktok.com/@tu-usuario'],
+  ['youtube', 'YouTube', 'youtube_url', 'set-youtube', 'https://youtube.com/@tu-canal'],
+  ['linkedin', 'LinkedIn', 'linkedin_url', 'set-linkedin', 'https://linkedin.com/company/tu-empresa'],
+  ['x', 'X (Twitter)', 'x_url', 'set-x', 'https://x.com/tu-usuario'],
+  ['telegram', 'Telegram', 'telegram_url', 'set-telegram', 'https://t.me/tu-usuario'],
+  ['other', 'Otra red', 'other_url', 'set-other', 'https://…']
+];
+/* «Otra red» lleva el nombre que tú le pongas (hasta 40 letras) */
+function socNombre(v){ return String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, 40) || 'Otra red'; }
+/* en «Contacto y redes»: las redes con enlace se ven encendidas y las vacías apagadas (así se ve cómo quedará junto al WhatsApp) */
+function socPrev(){
+  let n = 0;
+  SOC_NETS.forEach(x => {
+    const inp = document.getElementById(x[3]), sp = document.querySelector('#soc-prev [data-sp="' + x[0] + '"]');
+    const on = !!(inp && socialUrl(inp.value));
+    if(sp){ sp.classList.toggle('off', !on); }
+    if(on) n++;
+  });
+  const o = document.getElementById('soc-prev-n');
+  if(o) o.textContent = n ? (n === 1 ? 'Se verá 1 red junto al WhatsApp. Las apagadas no se muestran porque no tienen enlace.' : 'Se verán ' + n + ' redes junto al WhatsApp. Las apagadas no se muestran porque no tienen enlace.') : 'Todavía no hay ninguna red con enlace: en la portada no se muestra ninguna.';
+  const nm = document.getElementById('set-other-name'), so = document.querySelector('#soc-prev [data-sp="other"]');
+  if(so){ so.title = socNombre(nm && nm.value); }
+}
 function socialUrl(v){
   v = String(v == null ? '' : v).trim();
   if(!v || /\s/.test(v)) return '';
@@ -1939,18 +2162,16 @@ function socialUrl(v){
 
 function applySettings(){
   const s = state.settings || {};
-  const map = {
-    'social-facebook': s.facebook_url,
-    'social-instagram': s.instagram_url,
-    'social-linkedin': s.linkedin_url,
-    'social-youtube': s.youtube_url
-  };
-  Object.keys(map).forEach(id => {
-    const el = document.getElementById(id);
+  SOC_NETS.forEach(n => {
+    const el = document.getElementById('social-' + n[0]);
     if(!el) return;
-    const u = socialUrl(map[id]);
+    const u = socialUrl(s[n[2]]);
     if(u){ el.href = u; el.classList.remove('hidden'); } else { el.classList.add('hidden'); }
   });
+  const otro = document.getElementById('social-other');
+  if(otro){ const t = socNombre(s.other_name); otro.setAttribute('aria-label', t); otro.title = t; }
+  const fila = document.querySelector('.social-row');          // cuántas se ven: con 7 u 8, en celular se reparten 4 + 4 (no 7 + 1)
+  if(fila){ fila.setAttribute('data-n', String(SOC_NETS.filter(n => socialUrl(s[n[2]])).length)); }
   const waNum = normWa(s.whatsapp_number);
   const wa = document.getElementById('whatsapp-float-link');
   if(wa){
@@ -2969,10 +3190,9 @@ function renderSettingsAdmin(){
   put('set-email', s.contact_email);
   put('set-email2', s.contact_email_2);
   put('set-address', s.contact_address);
-  put('set-facebook', s.facebook_url);
-  put('set-instagram', s.instagram_url);
-  put('set-linkedin', s.linkedin_url);
-  put('set-youtube', s.youtube_url);
+  SOC_NETS.forEach(n => put(n[3], s[n[2]]));
+  put('set-other-name', s.other_name);
+  socPrev();
 }
 
 async function saveSettings(){
@@ -2984,20 +3204,22 @@ async function saveSettings(){
   if(waRaw && !wa){ fail('Ese número no parece completo. Ejemplo: +51 987 654 321'); return; }
   const mailOk = s => !s || /^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']+$/.test(s);
   if(!mailOk(val('set-email')) || !mailOk(val('set-email2'))){ fail('Revisa los correos: deben verse como nombre@dominio.com'); return; }
+  for(const n of SOC_NETS){                                  // un enlace mal pegado no se guarda en silencio: se avisa cuál es
+    const v = val(n[3]);
+    if(v && !socialUrl(v)){ fail('El enlace de ' + (n[0] === 'other' ? 'la otra red' : n[1]) + ' no parece un enlace de internet. Cópialo desde la aplicación (Compartir → Copiar enlace). Ejemplo: ' + n[4]); return; }
+  }
   const rows = [
     { key: 'whatsapp_number', value: wa },
     { key: 'contact_phone_2', value: val('set-phone2') },
     { key: 'contact_email', value: val('set-email') },
     { key: 'contact_email_2', value: val('set-email2') },
     { key: 'contact_address', value: val('set-address') },
-    { key: 'facebook_url', value: val('set-facebook') },
-    { key: 'instagram_url', value: val('set-instagram') },
-    { key: 'linkedin_url', value: val('set-linkedin') },
-    { key: 'youtube_url', value: val('set-youtube') }
+    ...SOC_NETS.map(n => ({ key: n[2], value: val(n[3]) })),
+    { key: 'other_name', value: val('set-other-name') }
   ];
   const { error } = await sb.from('site_settings').upsert(rows);
   if(error){ fail('Error: ' + error.message); return; }
-  msg.textContent = 'Guardado. Tu portada ya muestra estos datos.';
+  msg.textContent = 'Guardado. Tu portada ya muestra estos datos (si no los ves, recárgala con Ctrl + F5).';
   msg.className = 'form-msg ok';
   await loadSettings();
   applySettings();
@@ -3206,47 +3428,6 @@ async function deleteCourse(id){
   if(manageCourseId === id) closeLessonManager();
   await loadAdminData();
   renderAdmin();
-}
-
-/* ---------------- PROYECTOS (admin) ---------------- */
-function renderProjectsAdmin(){
-  const wrap = document.getElementById('projects-table-wrap');
-  if(state.projects.length === 0){
-    wrap.innerHTML = `<div class="empty">Sin proyectos todavía.</div>`;
-    return;
-  }
-  wrap.innerHTML = `<h3>Proyectos publicados</h3><div class="table-scroll"><table><thead><tr><th>Título</th><th>Ubicación</th><th></th></tr></thead><tbody>
-    ${state.projects.map(p => `<tr>
-      <td style="color:var(--text)">${escapeHtml(p.title)}</td>
-      <td>${escapeHtml(p.location||'—')}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="deleteProject('${p.id}')">Eliminar</button></td>
-    </tr>`).join('')}
-  </tbody></table></div>`;
-}
-
-async function createProject(){
-  const title = document.getElementById('pj-title').value.trim();
-  const location = document.getElementById('pj-location').value.trim();
-  const desc = document.getElementById('pj-desc').value.trim();
-  const image = document.getElementById('pj-image').value.trim();
-  const msg = document.getElementById('pj-msg');
-  if(!title){ msg.textContent = 'El título es obligatorio.'; msg.className = 'form-msg err'; return; }
-  const order = state.projects.length;
-  const { error } = await sb.from('projects').insert({ title, location: location||null, description: desc||null, image_url: image||null, order_index: order });
-  if(error){ msg.textContent = 'Error: ' + error.message; msg.className = 'form-msg err'; return; }
-  ['pj-title','pj-location','pj-desc','pj-image'].forEach(id => document.getElementById(id).value = '');
-  msg.textContent = 'Proyecto publicado.';
-  msg.className = 'form-msg ok';
-  await loadProjects();
-  renderProjectsAdmin();
-  renderProjects();
-}
-
-async function deleteProject(id){
-  await sb.from('projects').delete().eq('id', id);
-  await loadProjects();
-  renderProjectsAdmin();
-  renderProjects();
 }
 
 /* ---------------- PROMOCIONES (admin) ---------------- */
@@ -3598,7 +3779,7 @@ function updateProgressBar(lessonId, seconds, duration){
 }
 
 /* ================= GOOGLE DRIVE · panel del administrador ================= */
-const ADMIN_TABS = ['clients', 'certs', 'msgs', 'retirar', 'drive', 'courses', 'projects', 'promos', 'settings', 'images'];
+const ADMIN_TABS = ['clients', 'certs', 'msgs', 'retirar', 'drive', 'courses', 'projects', 'empleo', 'promos', 'settings', 'images'];
 
 let robotCode = '';          // código del robot recién generado (solo vive en esta pantalla)
 let robotFor = null;         // { id, label } de la cuenta de Gmail a la que pertenece ese código
@@ -3708,6 +3889,7 @@ async function retryDriveJob(id){
 /* ---------------- pestañas ---------------- */
 function setAdminTab(tab){
   if(tab !== 'courses' && manageCourseId) closeLessonManager(true);
+  const prevTab = adminTab;
   adminTab = tab;
   ADMIN_TABS.forEach(t => {
     const b = document.getElementById('atab-' + t);
@@ -3726,6 +3908,10 @@ function setAdminTab(tab){
   if(tab==='drive') renderDrivePanel();
   if(tab==='certs') amOpenCerts();
   if(tab==='msgs') amOpenMsgs();
+  if(tab==='empleo' && typeof empOpen === 'function') empOpen();
+  if(typeof visMarkOwner === 'function') visMarkOwner();      // este navegador es del dueño: sus visitas no se cuentan en la portada
+  if(typeof empBadgeStart === 'function') empBadgeStart();    // el número rojo de «Empleo» (postulaciones nuevas)
+  if(typeof visStart === 'function') visStart();              // el cuadrito de visitas, al final de la página (se actualiza solo)
 }
 
 /* ---------------- Clientes y accesos ---------------- */
@@ -4598,7 +4784,7 @@ async function copyRobotCode(btn){
 let drivePollTimer = null;
 function startDrivePoll(){ if(!drivePollTimer) drivePollTimer = setInterval(drivePollTick, 15000); }
 function stopDrivePoll(){ if(drivePollTimer){ clearInterval(drivePollTimer); drivePollTimer = null; } }
-function driveStopPolls(){ stopDrivePoll(); myDriveStop(); robotCode = ''; robotFor = null; if(typeof amPollStop === 'function') amPollStop(); }
+function driveStopPolls(){ stopDrivePoll(); myDriveStop(); robotCode = ''; robotFor = null; if(typeof amPollStop === 'function') amPollStop(); if(typeof empReset === 'function') empReset(); if(typeof visReset === 'function') visReset(); if(typeof pjReset === 'function') pjReset(); }
 async function drivePollTick(){
   if(!session || session.role !== 'admin'){ stopDrivePoll(); return; }
   if(document.hidden || state.driveMissing) return;
@@ -11417,6 +11603,830 @@ async function acctDeleteGo(){
   switchTab('login');
   acctSay('li-msg', 'Tu cuenta fue eliminada.' + (kept ? ' Tus certificados aprobados se siguen verificando con su código.' : ''), 'ok');
   window.scrollTo(0, 0);
+}
+
+/* ================= PROYECTOS (administrador) =================
+   Publicar, EDITAR, ordenar y eliminar los proyectos de «Nuestros Proyectos» de la portada.
+   Cada proyecto tiene de 1 a 5 fotos (lo ideal: 3 a 5): se suben aquí, se ordenan con las flechas y en la portada se van pasando solas.
+   A la derecha se ve la vista previa de cómo quedará la tarjeta, pasando las fotos igual que en la página.
+   Las fotos se guardan en el almacenamiento «flyers» (carpeta site/), el mismo de las imágenes de la portada. */
+const PJ_MAX = 5;
+const PJ_SPEC = { maxW: 1600, maxH: 1200, type: 'image/jpeg', q: .82, ext: 'jpg', minW: 800 };
+const PJ = {
+  edit: null,          // null = cerrado · 'new' = proyecto nuevo · id = editando ese proyecto
+  draft: null,         // { title, location, description, images: [url] } lo que se está escribiendo
+  hasImages: null,     // ¿la base de datos ya tiene la columna de varias fotos? (null = aún no se sabe)
+  noUpdate: false,     // ¿falta el permiso para editar? (el SQL nuevo no se corrió)
+  busy: false, up: 0, token: 0,
+  fresh: [],           // fotos subidas en esta edición que todavía no se guardan (si cancela se borran)
+  drop: [],            // fotos que ya estaban guardadas y se quitaron (se borran al guardar)
+  flash: '', flashKind: '', cur: 0, timer: 0, bound: false
+};
+
+const PJ_SKELETON = '<div id="pj-top"></div><div id="pj-editor"></div><div id="pj-list"></div>';
+function pjReset(){                  // al cerrar sesión: se cierra el editor y no queda nada a medio escribir
+  pjStop();
+  PJ.token++;
+  Object.assign(PJ, { edit: null, draft: null, noUpdate: false, busy: false, up: 0, fresh: [], drop: [], flash: '', flashKind: '', cur: 0 });
+  const r = pjEl('pj-root'); if(r && PJ.bound) r.innerHTML = PJ_SKELETON;
+}
+function pjEl(id){ return document.getElementById(id); }
+function pjSay(text, kind){
+  const e = pjEl('pj-msg'); if(!e) return;
+  e.textContent = text || '';
+  e.className = 'form-msg' + (kind ? ' ' + kind : '');
+}
+function pjSafeUrl(u){ u = String(u == null ? '' : u).trim(); return /^https?:\/\//i.test(u) ? u : ''; }
+function pjImgsOf(p){
+  const out = [];
+  if(p && Array.isArray(p.images)) p.images.forEach(u => { u = pjSafeUrl(u); if(u && out.indexOf(u) < 0) out.push(u); });
+  if(!out.length && p){ const one = pjSafeUrl(p.image_url); if(one) out.push(one); }
+  return out.slice(0, PJ_MAX);
+}
+function pjFindById(id){ return (state.projects || []).find(p => String(p.id) === String(id)) || null; }
+function pjErrText(e){
+  const m = String((e && e.message) || e || '');
+  if(/Failed to fetch|NetworkError|network/i.test(m)) return 'Parece que no hay internet. Revisa tu conexión e inténtalo de nuevo.';
+  if(/row-level security|violates|permission denied|not authorized|unauthorized/i.test(m)) return 'No tienes permiso para hacer esto. Entra con la cuenta de administrador.';
+  return m || 'No se pudo completar. Inténtalo de nuevo.';
+}
+function pjColumnMissing(err){
+  return !!err && /images/i.test(String(err.message || '')) && /PGRST204|42703|schema cache|does not exist|Could not find/i.test(String(err.message || '') + ' ' + String(err.code || ''));
+}
+
+/* ---------------- datos ---------------- */
+async function pjProbe(){
+  if(PJ.hasImages === true) return;
+  try{
+    const r = await sb.from('projects').select('images').limit(1);
+    if(r.error){ if(pjColumnMissing(r.error) || /column/i.test(String(r.error.message || ''))) PJ.hasImages = false; }
+    else PJ.hasImages = true;
+  }catch(e){ console.warn(e); }
+}
+function pjSqlBannerHtml(){
+  if(PJ.hasImages !== false && !PJ.noUpdate) return '';
+  return '<div class="drv-setup"><b>Falta un paso para usar varias fotos y poder editar los proyectos (se hace una sola vez).</b><ol>' +
+    '<li>Abre tu proyecto en <b>Supabase</b> → <b>SQL Editor</b> → <b>New query</b>.</li>' +
+    '<li>Pega todo el contenido del archivo <b>supabase-sitio-web.sql</b> y pulsa <b>Run</b>. No borra nada de lo que ya tienes.</li>' +
+    '<li>Vuelve aquí y recarga la página (Ctrl + F5).</li></ol></div>';
+}
+
+/* ---------------- estructura ---------------- */
+function pjBind(){
+  if(PJ.bound) return;
+  const root = pjEl('pj-root'); if(!root) return;
+  PJ.bound = true;
+  root.innerHTML = PJ_SKELETON;
+  root.addEventListener('click', ev => {
+    const b = ev.target.closest('[data-pj]'); if(!b || !root.contains(b) || b.disabled) return;
+    const act = b.getAttribute('data-pj'), i = act.indexOf(':');
+    pjAct(i < 0 ? act : act.slice(0, i), i < 0 ? '' : act.slice(i + 1));
+  });
+  root.addEventListener('input', ev => {
+    const t = ev.target; if(!PJ.draft) return;
+    if(t.id === 'pj-title') PJ.draft.title = t.value;
+    else if(t.id === 'pj-location') PJ.draft.location = t.value;
+    else if(t.id === 'pj-desc'){ PJ.draft.description = t.value; pjCount(); }
+    else return;
+    pjRenderPreview(false);
+  });
+  root.addEventListener('change', ev => {
+    if(ev.target.id !== 'pj-file') return;
+    const files = Array.from(ev.target.files || []);
+    ev.target.value = '';
+    pjAddFiles(files);
+  });
+}
+function renderProjectsAdmin(){
+  pjBind();
+  pjRenderTop();
+  if(!PJ.edit) pjRenderEditor();
+  pjRenderList();
+  pjProbe().then(() => { pjRenderTop(); });
+}
+function pjRenderTop(){
+  const el = pjEl('pj-top'); if(!el) return;
+  const flash = PJ.flash ? '<div class="form-msg ' + (PJ.flashKind || 'ok') + '" role="status" style="margin:12px 0 0;">' + escapeHtml(PJ.flash) + '</div>' : '';
+  el.innerHTML = '<div class="panel pj-head"><div class="pj-head-row"><div><h3>Proyectos de tu página</h3>' +
+    '<p class="panel-lede" style="margin:0;">Aquí publicas y editas las obras que se ven en «Nuestros Proyectos». Cada proyecto puede tener de 1 a 5 fotos (lo ideal: de 3 a 5): en tu página se van pasando solas.</p></div>' +
+    '<button class="btn btn-solid" type="button" data-pj="new"' + (PJ.edit ? ' disabled' : '') + '>＋ Nuevo proyecto</button></div>' + flash + pjSqlBannerHtml() + '</div>';
+}
+
+/* ---------------- lista de proyectos ---------------- */
+function pjRenderList(){
+  const el = pjEl('pj-list'); if(!el) return;
+  const rows = state.projects || [];
+  if(!rows.length){
+    el.innerHTML = '<div class="panel" id="projects-table-wrap"><div class="empty">Sin proyectos todavía. Pulsa «＋ Nuevo proyecto» para publicar el primero.</div></div>';
+    return;
+  }
+  el.innerHTML = '<div class="panel" id="projects-table-wrap"><h3>Proyectos publicados <span class="pj-total">' + rows.length + '</span></h3><div class="pj-cards">' +
+    rows.map((p, i) => {
+      const imgs = pjImgsOf(p), key = 'del:' + p.id, armed = amArmed(key);
+      return '<article class="pj-item' + (PJ.edit === p.id ? ' on' : '') + '" data-id="' + escapeHtml(p.id) + '">' +
+        '<div class="pj-item-ph">' + (imgs.length ? '<img src="' + escapeHtml(imgs[0]) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '<span>Sin foto</span>') +
+          '<span class="pj-item-n' + (imgs.length < 3 ? ' low' : '') + '" title="' + (imgs.length < 3 ? 'Lo ideal son de 3 a 5 fotos' : '') + '">' + imgs.length + (imgs.length === 1 ? ' foto' : ' fotos') + '</span></div>' +
+        '<div class="pj-item-body"><div class="pj-item-loc">' + escapeHtml(p.location || '—') + '</div><h4>' + escapeHtml(p.title) + '</h4></div>' +
+        '<div class="pj-item-btns">' +
+          '<span class="pj-move"><button class="btn btn-ghost btn-sm" type="button" data-pj="up:' + escapeHtml(p.id) + '" aria-label="Subir «' + escapeHtml(p.title) + '»"' + (i === 0 ? ' disabled' : '') + '>↑</button>' +
+          '<button class="btn btn-ghost btn-sm" type="button" data-pj="down:' + escapeHtml(p.id) + '" aria-label="Bajar «' + escapeHtml(p.title) + '»"' + (i === rows.length - 1 ? ' disabled' : '') + '>↓</button></span>' +
+          '<button class="btn btn-ghost btn-sm" type="button" data-pj="edit:' + escapeHtml(p.id) + '">Editar</button>' +
+          '<button class="btn btn-danger btn-sm" type="button" data-pj="' + key + '">' + (armed ? '¿Seguro? Eliminar' : 'Eliminar') + '</button>' +
+        '</div></article>';
+    }).join('') + '</div></div>';
+}
+
+/* ---------------- acciones ---------------- */
+async function pjAct(act, arg){
+  if(act === 'new') return pjOpenEditor('new');
+  if(act === 'edit') return pjOpenEditor(arg);
+  if(act === 'cancel') return pjCloseEditor(true);
+  if(act === 'save') return pjSave();
+  if(act === 'add') { const f = pjEl('pj-file'); if(f) f.click(); return; }
+  if(act === 'img-left') return pjMoveImg(Number(arg), -1);
+  if(act === 'img-right') return pjMoveImg(Number(arg), 1);
+  if(act === 'img-del') return pjRemoveImg(Number(arg));
+  if(act === 'up') return pjMoveProject(arg, -1);
+  if(act === 'down') return pjMoveProject(arg, 1);
+  if(act === 'del'){
+    if(!amArm('del:' + arg)){ pjRenderList(); setTimeout(pjRenderList, 5200); return; }
+    return pjDelete(arg);
+  }
+}
+
+function pjOpenEditor(id){
+  if(PJ.busy) return;
+  const wasOpen = !!PJ.edit;
+  if(wasOpen) pjDiscardFresh();
+  PJ.token++;
+  PJ.flash = ''; PJ.flashKind = '';
+  let d;
+  if(id === 'new') d = { title: '', location: '', description: '', images: [] };
+  else {
+    const p = pjFindById(id); if(!p) return;
+    d = { title: p.title || '', location: p.location || '', description: p.description || '', images: pjImgsOf(p) };
+  }
+  PJ.edit = id === 'new' ? 'new' : pjFindById(id).id;
+  PJ.draft = d; PJ.fresh = []; PJ.drop = []; PJ.up = 0; PJ.cur = 0;
+  pjRenderTop(); pjRenderEditor(); pjRenderList();
+  const f = pjEl('pj-form');
+  if(f && f.scrollIntoView){ try{ f.scrollIntoView({ behavior: 'smooth', block: 'start' }); }catch(e){} }
+  const t = pjEl('pj-title'); if(t){ try{ t.focus({ preventScroll: true }); }catch(e){} }
+}
+function pjDiscardFresh(){      // fotos subidas que no se llegaron a guardar: se borran del almacenamiento
+  const list = PJ.fresh.slice(); PJ.fresh = [];
+  list.forEach(u => { imgRemoveFile(u); });
+}
+function pjCloseEditor(discard){
+  if(discard) pjDiscardFresh();
+  PJ.token++;
+  PJ.edit = null; PJ.draft = null; PJ.fresh = []; PJ.drop = []; PJ.up = 0; PJ.busy = false;
+  pjStop();
+  pjRenderTop(); pjRenderEditor(); pjRenderList();
+}
+
+function pjRenderEditor(){
+  const el = pjEl('pj-editor'); if(!el) return;
+  pjStop();
+  if(!PJ.edit || !PJ.draft){ el.innerHTML = ''; return; }
+  const isNew = PJ.edit === 'new';
+  el.innerHTML = '<div class="panel pj-editor" id="pj-form"><div class="pj-ed-head"><h3>' + (isNew ? 'Nuevo proyecto' : 'Editar proyecto') + '</h3>' +
+    '<button class="btn btn-ghost btn-sm" type="button" data-pj="cancel">Cancelar</button></div>' +
+    '<div class="pj-ed-grid"><div class="pj-ed-form">' +
+      '<div class="field"><label for="pj-title">Título</label><input id="pj-title" maxlength="120" autocomplete="off" placeholder="Ej: AUTOCAR CENTER PERU"></div>' +
+      '<div class="field"><label for="pj-location">Ubicación</label><input id="pj-location" maxlength="120" autocomplete="off" placeholder="Ej: Jr. San Martín 670 - Bambamarca"></div>' +
+      '<div class="field"><label for="pj-desc">Descripción</label><textarea id="pj-desc" rows="5" maxlength="700" placeholder="Qué se hizo en la obra: tipo de construcción, metros, plazo…"></textarea><div class="pj-hint" id="pj-count"></div></div>' +
+      '<div class="field"><label id="pj-fotos-l">Fotos <span class="pj-n" id="pj-n"></span></label><div class="pj-thumbs" id="pj-thumbs" role="group" aria-labelledby="pj-fotos-l"></div>' +
+        '<input type="file" id="pj-file" accept="image/*" multiple hidden><div class="pj-hint">Lo ideal: de 3 a 5 fotos horizontales. La primera es la principal. Si el celular las guarda como HEIC, cámbialas a JPG antes de subirlas.</div></div>' +
+      '<div id="pj-msg" class="form-msg" role="status" aria-live="polite"></div>' +
+      '<div class="pj-actions"><button class="btn btn-solid" type="button" id="pj-save" data-pj="save">' + (isNew ? 'Publicar proyecto' : 'Guardar cambios') + '</button>' +
+      '<button class="btn btn-ghost" type="button" data-pj="cancel">Cancelar</button></div>' +
+    '</div><div class="pj-ed-prev"><div class="pj-prev-tag">Así se verá en tu página</div><div class="pjv" id="pj-prev"></div></div></div></div>';
+  pjEl('pj-title').value = PJ.draft.title;
+  pjEl('pj-location').value = PJ.draft.location;
+  pjEl('pj-desc').value = PJ.draft.description;
+  pjCount(); pjRenderThumbs(); pjRenderPreview(true);
+}
+function pjCount(){
+  const e = pjEl('pj-count'), t = pjEl('pj-desc'); if(!e || !t) return;
+  e.textContent = t.value.length + ' de 700 letras · en la página se ven las primeras 4 líneas.';
+}
+
+/* ---------------- fotos ---------------- */
+function pjRenderThumbs(){
+  const el = pjEl('pj-thumbs'); if(!el || !PJ.draft) return;
+  const imgs = PJ.draft.images, n = imgs.length;
+  let h = imgs.map((u, i) =>
+    '<div class="pj-th" data-i="' + i + '"><img src="' + escapeHtml(u) + '" alt="Foto ' + (i + 1) + ' del proyecto" referrerpolicy="no-referrer">' +
+    '<span class="pj-th-n">' + (i + 1) + '</span>' + (i === 0 ? '<span class="pj-th-main">Principal</span>' : '') +
+    '<div class="pj-th-btns"><button type="button" data-pj="img-left:' + i + '" aria-label="Mover la foto ' + (i + 1) + ' a la izquierda"' + (i === 0 ? ' disabled' : '') + '>◀</button>' +
+    '<button type="button" data-pj="img-right:' + i + '" aria-label="Mover la foto ' + (i + 1) + ' a la derecha"' + (i === n - 1 ? ' disabled' : '') + '>▶</button>' +
+    '<button type="button" class="pj-x" data-pj="img-del:' + i + '" aria-label="Quitar la foto ' + (i + 1) + '">✕</button></div></div>').join('');
+  for(let k = 0; k < PJ.up; k++) h += '<div class="pj-th wait"><span>Subiendo…</span></div>';
+  if(n + PJ.up < PJ_MAX) h += '<button type="button" class="pj-add" data-pj="add"><b>＋</b><span>Agregar fotos</span></button>';
+  el.innerHTML = h;
+  const c = pjEl('pj-n'); if(c) c.textContent = n + ' de ' + PJ_MAX + (n && n < 3 ? ' · lo ideal son 3 o más' : '');
+}
+function pjMoveImg(i, dir){
+  const a = PJ.draft && PJ.draft.images; if(!a) return;
+  const j = i + dir; if(i < 0 || i >= a.length || j < 0 || j >= a.length) return;
+  const t = a[i]; a[i] = a[j]; a[j] = t;
+  PJ.cur = j;
+  pjRenderThumbs(); pjRenderPreview(true);
+}
+function pjRemoveImg(i){
+  const a = PJ.draft && PJ.draft.images; if(!a || i < 0 || i >= a.length) return;
+  const u = a.splice(i, 1)[0];
+  const k = PJ.fresh.indexOf(u);
+  if(k >= 0){ PJ.fresh.splice(k, 1); imgRemoveFile(u); }      // la subió esta edición: se borra ya
+  else PJ.drop.push(u);                                        // ya estaba guardada: se borra recién al guardar
+  PJ.cur = Math.min(PJ.cur, Math.max(0, a.length - 1));
+  pjSay('');
+  pjRenderThumbs(); pjRenderPreview(true);
+}
+async function pjAddFiles(files){
+  if(!PJ.draft || !files.length) return;
+  const token = PJ.token;
+  const room = PJ_MAX - PJ.draft.images.length - PJ.up;
+  if(room <= 0){ pjSay('Ya tienes 5 fotos. Quita una para poner otra.', 'err'); return; }
+  const take = files.slice(0, room), skipped = files.length - take.length;
+  PJ.up += take.length; pjSay(''); pjRenderThumbs();
+  let ok = 0, err = '';
+  for(const f of take){
+    try{
+      const prep = await imgPrepare(f, PJ_SPEC);
+      const up = await imgUpload('prj', prep.blob, PJ_SPEC.ext);
+      if(token !== PJ.token || !PJ.draft){ imgRemoveFile(up.url); continue; }       // se cerró el editor mientras subía
+      PJ.draft.images.push(up.url); PJ.fresh.push(up.url); ok++;
+    }catch(e){
+      console.error(e);
+      err = (e && e.storage && /bucket|not found|row-level|policy|violat|permission|unauthori|denied|forbidden/i.test(e.message || ''))
+        ? 'No se pudo subir la foto porque falta activar el almacenamiento de imágenes (pestaña «Imágenes de la portada» → guía de activación).'
+        : (e && e.message ? e.message : 'No se pudo subir la foto.');
+    }finally{
+      if(token === PJ.token){ PJ.up = Math.max(0, PJ.up - 1); pjRenderThumbs(); pjRenderPreview(true); }
+    }
+  }
+  if(token !== PJ.token) return;
+  if(err) pjSay(err, 'err');
+  else if(skipped > 0) pjSay('Solo caben ' + PJ_MAX + ' fotos: se agregaron las primeras ' + ok + '.', 'ok');
+}
+
+/* ---------------- vista previa (igual que la tarjeta de la página, con las fotos pasando) ---------------- */
+function pjStop(){ if(PJ.timer){ clearTimeout(PJ.timer); PJ.timer = 0; } }
+function pjRenderPreview(restart){
+  const el = pjEl('pj-prev'); if(!el || !PJ.draft) return;
+  const d = PJ.draft, imgs = d.images, n = imgs.length;
+  if(PJ.cur >= n) PJ.cur = 0;
+  const title = d.title.trim(), loc = d.location.trim(), desc = d.description.trim();
+  let ph = '';
+  if(n){
+    ph = '<div class="pjv-track" style="transform:translate3d(' + (-PJ.cur * 100) + '%,0,0)">' + imgs.map((u, i) => '<figure class="pjv-slide"><img src="' + escapeHtml(u) + '" alt="' + (title ? escapeHtml(title) + ' — ' : '') + 'foto ' + (i + 1) + '" referrerpolicy="no-referrer"></figure>').join('') + '</div>';
+    if(n > 1) ph += '<button type="button" class="pjv-nav pjv-prev" aria-label="Foto anterior">‹</button><button type="button" class="pjv-nav pjv-next" aria-label="Foto siguiente">›</button>' +
+      '<div class="pjv-dots">' + imgs.map((u, i) => '<button type="button" data-k="' + i + '" aria-label="Ir a la foto ' + (i + 1) + '"' + (i === PJ.cur ? ' aria-current="true"' : '') + '></button>').join('') + '</div>';
+  }
+  const keep = el.querySelector('.pjv-track') && !restart;      // al escribir no se vuelve a armar el carrusel: solo cambian los textos
+  if(keep){
+    const b = el.querySelector('.pjv-body');
+    if(b) b.innerHTML = pjPrevBody(title, loc, desc);
+    return;
+  }
+  el.innerHTML = '<div class="pjv-card"><div class="pjv-photo' + (n ? '' : ' empty') + '">' + (n ? ph : '<span>Aquí van tus fotos</span>') + '</div><div class="pjv-body">' + pjPrevBody(title, loc, desc) + '</div></div>';
+  const go = k => { PJ.cur = (k % n + n) % n; const t = el.querySelector('.pjv-track'); if(t) t.style.transform = 'translate3d(' + (-PJ.cur * 100) + '%,0,0)'; [].forEach.call(el.querySelectorAll('.pjv-dots button'), (b, i) => { if(i === PJ.cur) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); }); arm(); };
+  const arm = () => {
+    pjStop();
+    if(n < 2) return;
+    PJ.timer = setTimeout(() => { PJ.timer = 0; if(!document.body.contains(el) || !el.offsetParent) return; go(PJ.cur + 1); }, 3200);
+  };
+  if(n > 1){
+    el.querySelector('.pjv-prev').addEventListener('click', () => go(PJ.cur - 1));
+    el.querySelector('.pjv-next').addEventListener('click', () => go(PJ.cur + 1));
+    [].forEach.call(el.querySelectorAll('.pjv-dots button'), b => b.addEventListener('click', () => go(Number(b.getAttribute('data-k')))));
+    arm();
+  }
+}
+function pjPrevBody(title, loc, desc){
+  return (loc ? '<div class="pjv-loc">' + escapeHtml(loc) + '</div>' : '') + '<h4>' + (title ? escapeHtml(title) : '<span class="pjv-ph">Título del proyecto</span>') + '</h4>' + (desc ? '<p>' + escapeHtml(desc) + '</p>' : '');
+}
+
+/* ---------------- guardar, ordenar, eliminar ---------------- */
+async function pjSave(){
+  if(PJ.busy || !PJ.draft) return;
+  const d = PJ.draft, title = d.title.replace(/\s+/g, ' ').trim();
+  if(title.length < 2){ pjSay('Escribe el título del proyecto.', 'err'); const t = pjEl('pj-title'); if(t) t.focus(); return; }
+  if(PJ.up){ pjSay('Espera a que terminen de subir las fotos.', 'err'); return; }
+  PJ.busy = true;
+  const btn = pjEl('pj-save'); if(btn) btn.disabled = true;
+  pjSay('Guardando…');
+  const imgs = d.images.slice(0, PJ_MAX);
+  const row = { title, location: d.location.trim() || null, description: d.description.trim() || null, image_url: imgs[0] || null };
+  if(PJ.hasImages !== false) row.images = imgs;
+  const isNew = PJ.edit === 'new', id = PJ.edit;
+  const attempt = async () => {
+    if(isNew){
+      row.order_index = (state.projects || []).reduce((m, p) => Math.max(m, Number(p.order_index) || 0), -1) + 1;
+      return sb.from('projects').insert(row).select('id');
+    }
+    return sb.from('projects').update(row).eq('id', id).select('id');
+  };
+  try{
+    let r = await attempt();
+    if(r.error && pjColumnMissing(r.error) && 'images' in row){        // todavía no se corrió el SQL nuevo: se guarda solo la foto principal
+      PJ.hasImages = false; delete row.images; r = await attempt();
+    }
+    if(r.error){ pjSay('No se pudo guardar: ' + pjErrText(r.error), 'err'); return; }
+    if(!isNew && (!r.data || !r.data.length)){
+      PJ.noUpdate = true; pjRenderTop();
+      pjSay('No se pudo guardar: falta el permiso para editar. Corre el archivo supabase-sitio-web.sql en Supabase (se hace una sola vez).', 'err');
+      return;
+    }
+    const single = PJ.hasImages === false && imgs.length > 1;
+    PJ.drop.forEach(u => { if(imgs.indexOf(u) < 0) imgRemoveFile(u); });
+    if(single) PJ.fresh.forEach(u => { if(u !== imgs[0]) imgRemoveFile(u); });      // sin la columna nueva solo cabe la foto principal: las demás no quedan sueltas en el almacenamiento
+    PJ.fresh = []; PJ.drop = [];
+    PJ.flash = single ? 'Se guardó con la foto principal. Las demás fotos no se guardaron: corre supabase-sitio-web.sql en Supabase (se hace una sola vez) y vuelve a agregarlas.' : (isNew ? 'Proyecto publicado. Ya se ve en tu página.' : 'Cambios guardados. Ya se ven en tu página.');
+    PJ.flashKind = single ? 'err' : 'ok';
+    await loadProjects();
+    pjCloseEditor(false);
+    if(typeof renderProjects === 'function') renderProjects();
+  }catch(e){
+    console.error(e); pjSay('No se pudo guardar: ' + pjErrText(e), 'err');
+  }finally{
+    PJ.busy = false;
+    const b2 = pjEl('pj-save'); if(b2) b2.disabled = false;
+  }
+}
+async function pjMoveProject(id, dir){
+  const rows = (state.projects || []).slice(), i = rows.findIndex(p => String(p.id) === String(id)), j = i + dir;
+  if(i < 0 || j < 0 || j >= rows.length) return;
+  const t = rows[i]; rows[i] = rows[j]; rows[j] = t;
+  PJ.flash = '';
+  try{
+    const jobs = [];
+    rows.forEach((p, k) => { if(Number(p.order_index) !== k) jobs.push(sb.from('projects').update({ order_index: k }).eq('id', p.id).select('id')); });
+    const res = await Promise.all(jobs);
+    const bad = res.find(r => r.error || !r.data || !r.data.length);
+    if(bad){
+      PJ.noUpdate = !bad.error; PJ.flash = bad.error ? 'No se pudo cambiar el orden: ' + pjErrText(bad.error) : 'No se pudo cambiar el orden: falta el permiso para editar (corre supabase-sitio-web.sql).'; PJ.flashKind = 'err';
+    }
+  }catch(e){ console.error(e); PJ.flash = 'No se pudo cambiar el orden: ' + pjErrText(e); PJ.flashKind = 'err'; }
+  await loadProjects();
+  pjRenderTop(); pjRenderList();
+}
+async function pjDelete(id){
+  const p = pjFindById(id); if(!p) return;
+  const urls = pjImgsOf(p);
+  PJ.flash = '';
+  try{
+    const r = await sb.from('projects').delete().eq('id', p.id).select('id');
+    if(r.error){ PJ.flash = 'No se pudo eliminar: ' + pjErrText(r.error); PJ.flashKind = 'err'; }
+    else if(!r.data || !r.data.length){ PJ.flash = 'No se pudo eliminar. Entra con la cuenta de administrador.'; PJ.flashKind = 'err'; }
+    else{
+      urls.forEach(u => { imgRemoveFile(u); });
+      PJ.flash = 'Proyecto eliminado.'; PJ.flashKind = 'ok';
+      if(PJ.edit === p.id) pjCloseEditor(true);
+    }
+  }catch(e){ console.error(e); PJ.flash = 'No se pudo eliminar: ' + pjErrText(e); PJ.flashKind = 'err'; }
+  await loadProjects();
+  pjRenderTop(); pjRenderList();
+  if(typeof renderProjects === 'function') renderProjects();
+}
+
+/* ================= EMPLEO (administrador): «Trabaja con nosotros» =================
+   • Convocatorias: las publicas, editas, cierras y eliminas; se ven al instante en la sección «Trabaja con nosotros» de la portada.
+   • Postulaciones: llegan con nombre, celular y CV (PDF o Word). Los CV están en un almacenamiento PRIVADO: solo se abren desde aquí, con un enlace que vence a los 5 minutos.
+   El número rojo de la pestaña «Empleo» son las postulaciones nuevas (todavía sin revisar). */
+const EMP_ST = { nuevo: 'Nueva', visto: 'Vista', contactado: 'Contactada', descartado: 'Descartada' };
+const EMP_KINDS = ['Tiempo completo', 'Medio tiempo', 'Por obra', 'Prácticas', 'Por horas'];
+const EMP_PAGE = 100;
+const EMP = {
+  sub: 'apps', jobs: [], apps: [], total: 0, loaded: false, loading: false, missing: false, err: '',
+  st: 'all', job: 'all', q: '', limit: EMP_PAGE,
+  edit: null, draft: null, saving: false, flash: '', flashKind: '', saved: {}, busy: {},
+  newCount: 0, timer: 0, bound: false, late: false, badgeOff: false      // badgeOff: la tabla de postulaciones todavía no existe (no se vuelve a preguntar cada minuto)
+};
+
+const EMP_SKELETON = '<div id="emp-missing"></div><div class="panel emp-head" id="emp-head"></div><div id="emp-body"></div>';
+function empEl(id){ return document.getElementById(id); }
+function empTodayLima(){ return new Date(Date.now() - 5 * 3600 * 1000).toISOString().slice(0, 10); }
+function empDigits(s){ return String(s == null ? '' : s).replace(/\D/g, ''); }
+function empPhoneShow(p){ const d = empDigits(p); return d.length === 9 ? d.slice(0, 3) + ' ' + d.slice(3, 6) + ' ' + d.slice(6) : d; }
+function empWaNum(p){ const d = empDigits(p); return d.length === 9 ? '51' + d : d; }
+function empJob(id){ return EMP.jobs.find(j => j.id === id) || null; }
+function empApp(id){ return EMP.apps.find(a => a.id === id) || null; }
+function empDay(s){
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(s || '')); if(!m) return '';
+  return parseInt(m[3], 10) + ' ' + ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'][parseInt(m[2], 10) - 1] + ' ' + m[1];
+}
+function empJobState(j){
+  if(!j.is_open) return { k: 'off', t: 'Cerrada' };
+  if(j.deadline && String(j.deadline).slice(0, 10) < empTodayLima()) return { k: 'warn', t: 'Vencida (ya no se ve)' };
+  return { k: 'ok', t: 'Abierta' };
+}
+function empNewN(){ return EMP.loaded ? EMP.apps.filter(a => a.status === 'nuevo').length : EMP.newCount; }
+function empBadge(){ if(typeof amBadge === 'function') amBadge('atab-empleo', EMP.newCount); }
+function empSay(text, kind){ EMP.flash = text || ''; EMP.flashKind = kind || ''; const e = empEl('emp-flash'); if(e){ e.textContent = EMP.flash; e.className = 'form-msg' + (kind ? ' ' + kind : ''); } }
+function empErr(e){
+  const m = String((e && e.message) || e || '');
+  if(/Failed to fetch|NetworkError|network/i.test(m)) return 'Parece que no hay internet. Revisa tu conexión e inténtalo de nuevo.';
+  if(/row-level security|violates|permission denied|not authorized|unauthorized/i.test(m)) return 'No tienes permiso para hacer esto. Entra con la cuenta de administrador.';
+  return m || 'No se pudo completar. Inténtalo de nuevo.';
+}
+function empSqlHtml(){
+  return '<div class="drv-setup"><b>Falta un paso para activar «Trabaja con nosotros» (se hace una sola vez).</b><ol>' +
+    '<li>Abre tu proyecto en <b>Supabase</b> → <b>SQL Editor</b> → <b>New query</b>.</li>' +
+    '<li>Pega todo el contenido del archivo <b>supabase-sitio-web.sql</b> y pulsa <b>Run</b>. No borra nada de lo que ya tienes.</li>' +
+    '<li>Vuelve aquí y recarga la página (Ctrl + F5).</li></ol></div>';
+}
+
+/* ---------------- datos ---------------- */
+async function empLoad(){
+  if(EMP.loading) return false;
+  EMP.loading = true;
+  try{
+    const [j, a] = await Promise.all([
+      sb.from('job_posts').select('*').order('created_at', { ascending: false }).limit(200),
+      sb.from('job_applications').select('*', { count: 'exact' }).order('created_at', { ascending: false }).limit(EMP.limit)
+    ]);
+    if((j.error && auMissing(j.error)) || (a.error && auMissing(a.error))){ EMP.missing = true; EMP.badgeOff = true; EMP.loaded = true; EMP.err = ''; return false; }
+    if(j.error || a.error){ EMP.err = empErr(j.error || a.error); return false; }
+    EMP.missing = false; EMP.badgeOff = false; EMP.err = '';
+    EMP.jobs = j.data || []; EMP.apps = a.data || []; EMP.total = typeof a.count === 'number' ? a.count : EMP.apps.length;
+    EMP.loaded = true;
+    EMP.newCount = EMP.apps.filter(x => x.status === 'nuevo').length;
+    empBadge();
+    return true;
+  }catch(e){ console.error(e); EMP.err = empErr(e); return false; }
+  finally{ EMP.loading = false; }
+}
+async function empBadgeRefresh(){
+  if(EMP.badgeOff) return;
+  try{
+    const r = await sb.from('job_applications').select('id', { count: 'exact' }).eq('status', 'nuevo').limit(1);
+    if(r.error){ if(auMissing(r.error)){ EMP.badgeOff = true; EMP.newCount = 0; empBadge(); } return; }
+    if(typeof r.count === 'number'){ EMP.newCount = r.count; empBadge(); }
+  }catch(e){ /* el número rojo es un aviso: si falla, no pasa nada */ }
+}
+function empBadgeStart(){
+  if(EMP.timer) return;
+  empBadgeRefresh();
+  EMP.timer = setInterval(async () => {
+    if(typeof session === 'undefined' || !session || session.role !== 'admin' || document.hidden) return;
+    if(adminTab === 'empleo' && EMP.loaded && !EMP.missing){ if(await empLoad()) empRender(false); }
+    else empBadgeRefresh();
+  }, 60000);
+}
+
+/* ---------------- estructura ---------------- */
+function empBind(){
+  if(EMP.bound) return;
+  const root = empEl('emp-root'); if(!root) return;
+  EMP.bound = true;
+  root.innerHTML = EMP_SKELETON;
+  root.addEventListener('click', ev => {
+    const b = ev.target.closest('[data-emp]'); if(!b || !root.contains(b) || b.disabled) return;
+    const act = b.getAttribute('data-emp'), i = act.indexOf(':');
+    empAct(i < 0 ? act : act.slice(0, i), i < 0 ? '' : act.slice(i + 1), b);
+  });
+  root.addEventListener('input', ev => {
+    const t = ev.target;
+    if(t.id === 'emp-q'){ EMP.q = t.value; clearTimeout(empBind.t); empBind.t = setTimeout(() => empRenderList(), 180); return; }
+    if(EMP.draft){
+      if(t.id === 'emp-j-title') EMP.draft.title = t.value;
+      else if(t.id === 'emp-j-place') EMP.draft.place = t.value;
+      else if(t.id === 'emp-j-kind') EMP.draft.kind = t.value;
+      else if(t.id === 'emp-j-deadline') EMP.draft.deadline = t.value;
+      else if(t.id === 'emp-j-desc'){ EMP.draft.description = t.value; const c = empEl('emp-j-count'); if(c) c.textContent = t.value.length + ' de 4000 letras'; }
+    }
+  });
+  root.addEventListener('change', ev => {
+    const t = ev.target;
+    if(t.id === 'emp-job'){ EMP.job = t.value; empRenderList(); }
+    else if(t.id === 'emp-j-open' && EMP.draft) EMP.draft.is_open = t.checked;
+    else if(t.hasAttribute && t.hasAttribute('data-emp-st')) empSetStatus(t.getAttribute('data-emp-st'), t.value);
+    else if(t.hasAttribute && t.hasAttribute('data-emp-note')) empSaveNote(t.getAttribute('data-emp-note'), t.value);
+  });
+  root.addEventListener('focusout', () => { if(EMP.late){ setTimeout(() => { const a = document.activeElement; if(!(a && root.contains(a) && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName))){ EMP.late = false; empRender(true); } }, 250); } });
+}
+async function empOpen(){
+  empBind();
+  empRender(false);                    // si ya estás escribiendo una convocatoria o una nota, no se pisa
+  if(!EMP.loaded || EMP.missing || EMP.err){ await empLoad(); empRender(false); }
+  else if(await empLoad()) empRender(false);
+}
+function empReset(){                   // al cerrar sesión: no queda nada en memoria
+  if(EMP.timer){ clearInterval(EMP.timer); EMP.timer = 0; }
+  Object.assign(EMP, { sub: 'apps', jobs: [], apps: [], total: 0, loaded: false, loading: false, missing: false, err: '', st: 'all', job: 'all', q: '', limit: EMP_PAGE,
+    edit: null, draft: null, saving: false, flash: '', flashKind: '', saved: {}, busy: {}, newCount: 0, late: false, badgeOff: false });
+  empBadge();
+  const r = empEl('emp-root'); if(r && EMP.bound) r.innerHTML = EMP_SKELETON;
+}
+function empBusyTyping(){
+  const a = document.activeElement, root = empEl('emp-root');
+  return !!(a && root && root.contains(a) && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName));
+}
+function empRender(force){
+  const root = empEl('emp-root'); if(!root) return;
+  if(!force && empBusyTyping()){ EMP.late = true; return; }       // no se pisa lo que se está escribiendo: se actualiza al terminar
+  EMP.late = false;
+  empBind();
+  empEl('emp-missing').innerHTML = EMP.missing ? empSqlHtml() : '';
+  const n = empNewN();
+  const open = EMP.jobs.filter(j => empJobState(j).k === 'ok').length;
+  empEl('emp-head').innerHTML = '<div class="emp-head-row"><div><h3>Trabaja con nosotros</h3>' +
+    '<p class="panel-lede" style="margin:0;">Publica convocatorias y recibe aquí los CV de quienes postulan (nombre, celular y archivo). Los CV son privados: solo tú los ves. Lo que publiques aparece al instante en tu página.</p></div>' +
+    '<a class="btn btn-ghost btn-sm emp-view" href="index.html#trabaja" target="_blank" rel="noopener">Ver en mi página ↗</a></div>' +
+    '<div class="cfilters emp-sub" role="tablist" aria-label="Empleo">' +
+      '<button class="cf-pill' + (EMP.sub === 'apps' ? ' active' : '') + '" type="button" role="tab" aria-selected="' + (EMP.sub === 'apps') + '" data-emp="sub:apps">Postulaciones' + (n ? ' <span class="emp-n">' + n + ' nuevas</span>' : '') + '</button>' +
+      '<button class="cf-pill' + (EMP.sub === 'jobs' ? ' active' : '') + '" type="button" role="tab" aria-selected="' + (EMP.sub === 'jobs') + '" data-emp="sub:jobs">Convocatorias' + (EMP.loaded && !EMP.missing ? ' <span class="emp-n soft">' + open + ' abiertas</span>' : '') + '</button></div>' +
+    '<div id="emp-flash" class="form-msg' + (EMP.flashKind ? ' ' + EMP.flashKind : '') + '" role="status" aria-live="polite">' + escapeHtml(EMP.flash) + '</div>';
+  const body = empEl('emp-body');
+  if(EMP.missing){ body.innerHTML = ''; return; }
+  if(!EMP.loaded){ body.innerHTML = '<div class="panel"><div class="empty">Cargando…</div></div>'; return; }
+  if(EMP.err && !EMP.apps.length && !EMP.jobs.length){ body.innerHTML = '<div class="panel"><div class="empty">' + escapeHtml(EMP.err) + ' <button class="btn btn-ghost btn-sm" type="button" data-emp="retry">Reintentar</button></div></div>'; return; }
+  body.innerHTML = EMP.sub === 'jobs' ? '<div class="panel" id="emp-jobs-panel"></div>' : '<div class="panel" id="emp-apps-panel"></div>';
+  if(EMP.sub === 'jobs') empRenderJobs(); else empRenderApps();
+}
+
+/* ---------------- postulaciones ---------------- */
+function empFiltered(){
+  const q = EMP.q.trim().toLowerCase(), qd = empDigits(EMP.q);
+  return EMP.apps.filter(a => {
+    if(EMP.st !== 'all' && a.status !== EMP.st) return false;
+    if(EMP.job === 'general'){ if(a.job_id || a.job_title) return false; }
+    else if(EMP.job !== 'all' && a.job_id !== EMP.job) return false;
+    if(q){
+      const hay = String(a.full_name || '').toLowerCase().indexOf(q) >= 0 || (qd.length >= 3 && String(a.phone || '').indexOf(qd) >= 0) || String(a.job_title || '').toLowerCase().indexOf(q) >= 0;
+      if(!hay) return false;
+    }
+    return true;
+  });
+}
+function empRenderApps(){
+  const el = empEl('emp-apps-panel'); if(!el) return;
+  const cnt = s => s === 'all' ? EMP.apps.length : EMP.apps.filter(a => a.status === s).length;
+  const pills = [['all', 'Todas']].concat(Object.keys(EMP_ST).map(k => [k, EMP_ST[k] + 's'])).map(p =>
+    '<button class="cf-pill' + (EMP.st === p[0] ? ' active' : '') + '" type="button" data-emp="st:' + p[0] + '">' + p[1] + ' <span class="emp-pc">' + cnt(p[0]) + '</span></button>').join('');
+  const titles = []; EMP.jobs.forEach(j => titles.push('<option value="' + escapeHtml(j.id) + '"' + (EMP.job === j.id ? ' selected' : '') + '>' + escapeHtml(j.title) + '</option>'));
+  el.innerHTML = '<div class="emp-bar"><div class="cfilters" style="margin:0;">' + pills + '</div><div class="emp-tools">' +
+    '<input id="emp-q" class="search-input" type="search" autocomplete="off" placeholder="Buscar por nombre o celular…" aria-label="Buscar postulante" value="' + escapeHtml(EMP.q) + '">' +
+    '<select id="emp-job" aria-label="Filtrar por convocatoria"><option value="all">Todas las convocatorias</option><option value="general"' + (EMP.job === 'general' ? ' selected' : '') + '>Postulación general</option>' + titles.join('') + '</select></div></div>' +
+    '<div id="emp-list"></div><div id="emp-more"></div>';
+  empRenderList();
+}
+function empRenderList(){
+  const el = empEl('emp-list'); if(!el) return;
+  const rows = empFiltered();
+  if(!EMP.apps.length){ el.innerHTML = '<div class="empty">Todavía no llega ninguna postulación. Cuando alguien envíe su CV desde tu página, aparecerá aquí.</div>'; empRenderMore(); return; }
+  if(!rows.length){ el.innerHTML = '<div class="empty">Ninguna postulación coincide con lo que buscas.</div>'; empRenderMore(); return; }
+  el.innerHTML = '<div class="emp-apps">' + rows.map(a => {
+    const id = escapeHtml(a.id), key = 'adel:' + a.id, armed = amArmed(key);
+    const puesto = a.job_title ? 'Postuló a «' + escapeHtml(a.job_title) + '»' : 'Postulación general';
+    const noCv = !a.cv_path;
+    const incomplete = a.cv_path && !a.cv_ok;
+    const stOpts = Object.keys(EMP_ST).map(k => '<option value="' + k + '"' + (a.status === k ? ' selected' : '') + '>' + EMP_ST[k] + '</option>').join('');
+    const chip = { nuevo: 'wait', visto: 'off', contactado: 'ok', descartado: 'bad' }[a.status] || 'off';
+    return '<article class="emp-app st-' + escapeHtml(a.status) + '" data-id="' + id + '">' +
+      '<div class="emp-app-main"><div class="emp-app-name"><b>' + escapeHtml(a.full_name) + '</b><span class="dchip ' + chip + '">' + (EMP_ST[a.status] || a.status) + '</span></div>' +
+        '<div class="emp-app-meta"><span>' + escapeHtml(empPhoneShow(a.phone)) + '</span><span>' + puesto + '</span><span>' + escapeHtml(auDate(a.created_at, true)) + '</span></div>' +
+        '<div class="emp-app-cv">' + (noCv ? 'Sin CV' : 'CV: ' + escapeHtml(a.cv_name || 'archivo') + (a.cv_size ? ' · ' + escapeHtml(auSize(a.cv_size)) : '')) +
+        (incomplete ? ' <span class="dchip warn" title="La persona cerró la página antes de que terminara de subir el archivo, o hubo un corte de internet. Prueba abrirlo; si no existe, pídele que lo envíe de nuevo.">Puede que no llegó completo</span>' : '') + '</div></div>' +
+      '<div class="emp-app-act">' +
+        '<button class="btn btn-solid btn-sm" type="button" data-emp="cv:' + id + '"' + (noCv ? ' disabled' : '') + '>Ver CV</button>' +
+        '<button class="btn btn-ghost btn-sm" type="button" data-emp="dl:' + id + '"' + (noCv ? ' disabled' : '') + '>Descargar</button>' +
+        '<a class="btn btn-ghost btn-sm" href="https://wa.me/' + escapeHtml(empWaNum(a.phone)) + '" target="_blank" rel="noopener">WhatsApp</a>' +
+        '<a class="btn btn-ghost btn-sm" href="tel:+' + escapeHtml(empWaNum(a.phone)) + '">Llamar</a></div>' +
+      '<div class="emp-app-edit"><div class="field"><label for="emp-st-' + id + '">Estado</label><select id="emp-st-' + id + '" data-emp-st="' + id + '">' + stOpts + '</select></div>' +
+        '<div class="field emp-note"><label for="emp-nt-' + id + '">Nota <span class="emp-saved" id="emp-sv-' + id + '"></span></label><textarea id="emp-nt-' + id + '" data-emp-note="' + id + '" rows="2" maxlength="1000" placeholder="Ej: llamar el lunes; tiene experiencia en saneamiento">' + escapeHtml(a.note || '') + '</textarea></div>' +
+        '<button class="btn btn-danger btn-sm" type="button" data-emp="' + key + '">' + (armed ? '¿Seguro? Eliminar' : 'Eliminar') + '</button></div></article>';
+  }).join('') + '</div>';
+  empRenderMore();
+}
+function empRenderMore(){
+  const el = empEl('emp-more'); if(!el) return;
+  const shown = EMP.apps.length;
+  el.innerHTML = EMP.total > shown ? '<div class="emp-more">Mostrando las ' + shown + ' más recientes de ' + EMP.total + ' <button class="btn btn-ghost btn-sm" type="button" data-emp="more">Cargar más</button></div>' : '';
+}
+
+async function empSetStatus(id, st, silent){
+  const a = empApp(id); if(!a || !EMP_ST[st] || a.status === st) return;
+  const old = a.status;
+  const r = await sb.from('job_applications').update({ status: st }).eq('id', id).select('id');
+  if(r.error || !r.data || !r.data.length){
+    empSay('No se pudo cambiar el estado: ' + (r.error ? empErr(r.error) : 'sin permiso (entra con la cuenta de administrador).'), 'err');
+    a.status = old; empRender(true); return;
+  }
+  a.status = st; EMP.newCount = EMP.apps.filter(x => x.status === 'nuevo').length; empBadge();
+  if(!silent) empSay('');
+  empRender(true);
+}
+async function empSaveNote(id, text){
+  const a = empApp(id); if(!a) return;
+  text = String(text || '').trim().slice(0, 1000);
+  if((a.note || '') === text) return;
+  const r = await sb.from('job_applications').update({ note: text || null }).eq('id', id).select('id');
+  const sv = empEl('emp-sv-' + id);
+  if(r.error || !r.data || !r.data.length){ if(sv){ sv.textContent = 'No se guardó'; sv.className = 'emp-saved err'; } empSay('No se pudo guardar la nota: ' + (r.error ? empErr(r.error) : 'sin permiso.'), 'err'); return; }
+  a.note = text || null;
+  if(sv){ sv.textContent = 'Guardada ✓'; sv.className = 'emp-saved'; setTimeout(() => { const s2 = empEl('emp-sv-' + id); if(s2) s2.textContent = ''; }, 2500); }
+}
+async function empCv(id, download){
+  const a = empApp(id); if(!a || !a.cv_path || EMP.busy['cv' + id]) return;
+  EMP.busy['cv' + id] = true;
+  let w = null;
+  if(!download){ try{ w = window.open('', '_blank'); if(w && w.document) w.document.title = 'CV'; }catch(e){ w = null; } }     // se abre ya (con el clic) para que el navegador no la bloquee
+  try{
+    const r = await sb.storage.from('cvs').createSignedUrl(a.cv_path, 300, download ? { download: a.cv_name || true } : undefined);
+    const url = r && r.data && (r.data.signedUrl || r.data.signedURL);
+    if(r.error || !url){
+      if(w) try{ w.close(); }catch(e){}
+      empSay('No se pudo abrir el CV. ' + (a.cv_ok ? empErr(r.error) : 'Esta persona no llegó a terminar de subirlo: pídele que lo envíe de nuevo.'), 'err');
+      return;
+    }
+    empSay('');
+    if(download) location.href = url;
+    else if(w) w.location.href = url;
+    else location.href = url;
+    if(a.status === 'nuevo') await empSetStatus(id, 'visto', true);
+  }catch(e){
+    console.error(e); if(w) try{ w.close(); }catch(x){}
+    empSay('No se pudo abrir el CV: ' + empErr(e), 'err');
+  }finally{ delete EMP.busy['cv' + id]; }
+}
+async function empDelApp(id){
+  const a = empApp(id); if(!a || EMP.busy['d' + id]) return;
+  EMP.busy['d' + id] = true;
+  try{
+    if(a.cv_path){
+      const rm = await sb.storage.from('cvs').remove([a.cv_path]);
+      if(rm.error){ empSay('No se pudo borrar el archivo del CV: ' + empErr(rm.error), 'err'); return; }
+    }
+    const r = await sb.from('job_applications').delete().eq('id', id).select('id');
+    if(r.error || !r.data || !r.data.length){ empSay('No se pudo eliminar la postulación: ' + (r.error ? empErr(r.error) : 'sin permiso.'), 'err'); return; }
+    EMP.apps = EMP.apps.filter(x => x.id !== id); EMP.total = Math.max(0, EMP.total - 1);
+    EMP.newCount = EMP.apps.filter(x => x.status === 'nuevo').length; empBadge();
+    empSay('Postulación eliminada (también el archivo del CV).', 'ok');
+  }catch(e){ console.error(e); empSay('No se pudo eliminar: ' + empErr(e), 'err'); }
+  finally{ delete EMP.busy['d' + id]; empRender(true); }
+}
+
+/* ---------------- convocatorias ---------------- */
+function empRenderJobs(){
+  const el = empEl('emp-jobs-panel'); if(!el) return;
+  const d = EMP.draft;
+  const counts = {}; EMP.apps.forEach(a => { if(a.job_id){ const c = counts[a.job_id] = counts[a.job_id] || { n: 0, nuevo: 0 }; c.n++; if(a.status === 'nuevo') c.nuevo++; } });
+  let h = '<div class="emp-jobs-top"><h3>Convocatorias</h3><button class="btn btn-solid" type="button" data-emp="jnew"' + (d ? ' disabled' : '') + '>＋ Nueva convocatoria</button></div>';
+  if(d){
+    const isNew = EMP.edit === 'new';
+    h += '<form class="emp-jform" id="emp-jform" novalidate><h4>' + (isNew ? 'Nueva convocatoria' : 'Editar convocatoria') + '</h4>' +
+      '<div class="field"><label for="emp-j-title">Puesto</label><input id="emp-j-title" maxlength="120" autocomplete="off" placeholder="Ej: Ingeniero Civil Residente de Obra" value="' + escapeHtml(d.title) + '"></div>' +
+      '<div class="row3"><div class="field"><label for="emp-j-place">Lugar</label><input id="emp-j-place" maxlength="120" autocomplete="off" placeholder="Ej: Cajamarca" value="' + escapeHtml(d.place) + '"></div>' +
+      '<div class="field"><label for="emp-j-kind">Tipo</label><input id="emp-j-kind" maxlength="60" autocomplete="off" list="emp-kinds" placeholder="Ej: Tiempo completo" value="' + escapeHtml(d.kind) + '"><datalist id="emp-kinds">' + EMP_KINDS.map(k => '<option value="' + k + '">').join('') + '</datalist></div>' +
+      '<div class="field"><label for="emp-j-deadline">Se puede postular hasta</label><input id="emp-j-deadline" type="date" value="' + escapeHtml(d.deadline) + '"></div></div>' +
+      '<div class="field"><label for="emp-j-desc">Requisitos y funciones</label><textarea id="emp-j-desc" rows="6" maxlength="4000" placeholder="Escribe cada requisito o función en una línea.&#10;Ej: Ingeniero civil colegiado y habilitado&#10;3 años de experiencia en obras de edificación">' + escapeHtml(d.description) + '</textarea><div class="pj-hint" id="emp-j-count">' + d.description.length + ' de 4000 letras</div></div>' +
+      '<label class="emp-check"><input type="checkbox" id="emp-j-open"' + (d.is_open ? ' checked' : '') + '><span>Abierta: se ve en tu página y se puede postular</span></label>' +
+      '<div class="pj-hint">Después de la fecha límite la convocatoria deja de verse sola en tu página. Sin fecha, se ve hasta que la cierres.</div>' +
+      '<div id="emp-jmsg" class="form-msg" role="status" aria-live="polite"></div>' +
+      '<div class="pj-actions"><button class="btn btn-solid" type="button" data-emp="jsave"' + (EMP.saving ? ' disabled' : '') + '>' + (isNew ? 'Publicar convocatoria' : 'Guardar cambios') + '</button><button class="btn btn-ghost" type="button" data-emp="jcancel">Cancelar</button></div></form>';
+  }
+  if(!EMP.jobs.length){ h += '<div class="empty">Todavía no publicas ninguna convocatoria. Pulsa «＋ Nueva convocatoria». Aunque no haya ninguna, tu página ya recibe postulaciones generales.</div>'; el.innerHTML = h; return; }
+  h += '<div class="emp-jobs">' + EMP.jobs.map(j => {
+    const s = empJobState(j), c = counts[j.id] || { n: 0, nuevo: 0 }, key = 'jdel:' + j.id, armed = amArmed(key), id = escapeHtml(j.id);
+    return '<article class="emp-job' + (EMP.edit === j.id ? ' on' : '') + '" data-id="' + id + '"><div class="emp-job-main"><div class="emp-job-title"><b>' + escapeHtml(j.title) + '</b><span class="dchip ' + s.k + '">' + s.t + '</span></div>' +
+      '<div class="emp-app-meta">' + (j.place ? '<span>' + escapeHtml(j.place) + '</span>' : '') + (j.kind ? '<span>' + escapeHtml(j.kind) + '</span>' : '') + (j.deadline ? '<span>Hasta el ' + escapeHtml(empDay(j.deadline)) + '</span>' : '<span>Sin fecha límite</span>') +
+      '<span>' + c.n + (c.n === 1 ? ' postulación' : ' postulaciones') + (c.nuevo ? ' (' + c.nuevo + ' nueva' + (c.nuevo === 1 ? '' : 's') + ')' : '') + '</span></div></div>' +
+      '<div class="emp-job-btns"><button class="btn btn-ghost btn-sm" type="button" data-emp="jedit:' + id + '">Editar</button>' +
+      '<button class="btn btn-ghost btn-sm" type="button" data-emp="jtoggle:' + id + '">' + (j.is_open ? 'Cerrar' : 'Reabrir') + '</button>' +
+      '<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="' + escapeHtml(empShareUrl(j)) + '">Compartir</a>' +
+      '<button class="btn btn-danger btn-sm" type="button" data-emp="' + key + '">' + (armed ? '¿Seguro? Eliminar' : 'Eliminar') + '</button></div></article>';
+  }).join('') + '</div>';
+  el.innerHTML = h;
+}
+function empShareUrl(j){
+  let site = 'https://infinityworking.com';
+  try{ if(/^https?:$/.test(location.protocol)) site = location.origin; }catch(e){}
+  return 'https://wa.me/?text=' + encodeURIComponent('Convocatoria INFINITY WORK: ' + j.title + (j.place ? ' (' + j.place + ')' : '') + '. Postula aquí: ' + site + '/#trabaja');
+}
+function empJsay(t, k){ const e = empEl('emp-jmsg'); if(e){ e.textContent = t || ''; e.className = 'form-msg' + (k ? ' ' + k : ''); } }
+async function empSaveJob(){
+  if(EMP.saving || !EMP.draft) return;
+  const d = EMP.draft, title = d.title.replace(/\s+/g, ' ').trim();
+  if(title.length < 3){ empJsay('Escribe el nombre del puesto (mínimo 3 letras).', 'err'); const t = empEl('emp-j-title'); if(t) t.focus(); return; }
+  if(d.deadline && !/^\d{4}-\d{2}-\d{2}$/.test(d.deadline)){ empJsay('Revisa la fecha límite.', 'err'); return; }
+  EMP.saving = true; empJsay('Guardando…');
+  const row = { title, place: d.place.trim() || null, kind: d.kind.trim() || null, description: d.description.trim() || null, deadline: d.deadline || null, is_open: !!d.is_open };
+  try{
+    const isNew = EMP.edit === 'new';
+    const r = isNew ? await sb.from('job_posts').insert(row).select('id') : await sb.from('job_posts').update(row).eq('id', EMP.edit).select('id');
+    if(r.error || !r.data || !r.data.length){ empJsay('No se pudo guardar: ' + (r.error ? empErr(r.error) : 'sin permiso (entra con la cuenta de administrador).'), 'err'); return; }
+    EMP.edit = null; EMP.draft = null;
+    await empLoad();                   // primero se actualiza la lista y recién después sale el aviso
+    empSay(isNew ? 'Convocatoria publicada.' + (row.is_open ? ' Ya se ve en tu página.' : '') : 'Cambios guardados.', 'ok');
+  }catch(e){ console.error(e); empJsay('No se pudo guardar: ' + empErr(e), 'err'); }
+  finally{ EMP.saving = false; empRender(true); }
+}
+async function empToggleJob(id){
+  const j = empJob(id); if(!j || EMP.busy['t' + id]) return;
+  EMP.busy['t' + id] = true;
+  try{
+    const r = await sb.from('job_posts').update({ is_open: !j.is_open }).eq('id', id).select('id');
+    if(r.error || !r.data || !r.data.length) empSay('No se pudo cambiar: ' + (r.error ? empErr(r.error) : 'sin permiso.'), 'err');
+    else{ j.is_open = !j.is_open; empSay(j.is_open ? 'Convocatoria reabierta: ya se ve en tu página.' : 'Convocatoria cerrada: ya no se ve en tu página.', 'ok'); }
+  }catch(e){ console.error(e); empSay('No se pudo cambiar: ' + empErr(e), 'err'); }
+  finally{ delete EMP.busy['t' + id]; empRender(true); }
+}
+async function empDelJob(id){
+  const j = empJob(id); if(!j || EMP.busy['j' + id]) return;
+  EMP.busy['j' + id] = true;
+  try{
+    const r = await sb.from('job_posts').delete().eq('id', id).select('id');
+    if(r.error || !r.data || !r.data.length) empSay('No se pudo eliminar: ' + (r.error ? empErr(r.error) : 'sin permiso.'), 'err');
+    else{
+      EMP.jobs = EMP.jobs.filter(x => x.id !== id);
+      EMP.apps.forEach(a => { if(a.job_id === id) a.job_id = null; });     // las postulaciones se conservan con el nombre del puesto
+      if(EMP.job === id) EMP.job = 'all';
+      if(EMP.edit === id){ EMP.edit = null; EMP.draft = null; }
+      empSay('Convocatoria eliminada. Las postulaciones que recibió se conservan.', 'ok');
+    }
+  }catch(e){ console.error(e); empSay('No se pudo eliminar: ' + empErr(e), 'err'); }
+  finally{ delete EMP.busy['j' + id]; empRender(true); }
+}
+
+/* ---------------- acciones ---------------- */
+async function empAct(act, arg, btn){
+  if(act === 'sub'){ if(EMP.sub !== arg){ EMP.sub = arg; empSay(''); empRender(true); } return; }
+  if(act === 'st'){ EMP.st = arg; empRenderApps(); return; }
+  if(act === 'retry'){ EMP.err = ''; empRender(true); await empLoad(); empRender(true); return; }
+  if(act === 'more'){ EMP.limit += EMP_PAGE; await empLoad(); empRender(true); return; }
+  if(act === 'cv') return empCv(arg, false);
+  if(act === 'dl') return empCv(arg, true);
+  if(act === 'adel'){ if(!amArm('adel:' + arg)){ empRenderList(); setTimeout(() => { if(EMP.loaded) empRenderList(); }, 5200); return; } return empDelApp(arg); }
+  if(act === 'jnew'){ EMP.edit = 'new'; EMP.draft = { title: '', place: '', kind: '', deadline: '', description: '', is_open: true }; empSay(''); empRender(true); const t = empEl('emp-j-title'); if(t){ try{ t.scrollIntoView({ behavior: 'smooth', block: 'center' }); t.focus({ preventScroll: true }); }catch(e){} } return; }
+  if(act === 'jedit'){
+    const j = empJob(arg); if(!j) return;
+    EMP.edit = j.id; EMP.draft = { title: j.title || '', place: j.place || '', kind: j.kind || '', deadline: j.deadline ? String(j.deadline).slice(0, 10) : '', description: j.description || '', is_open: !!j.is_open };
+    empSay(''); empRender(true); const t = empEl('emp-j-title'); if(t){ try{ t.scrollIntoView({ behavior: 'smooth', block: 'center' }); t.focus({ preventScroll: true }); }catch(e){} } return;
+  }
+  if(act === 'jcancel'){ EMP.edit = null; EMP.draft = null; empRender(true); return; }
+  if(act === 'jsave') return empSaveJob();
+  if(act === 'jtoggle') return empToggleJob(arg);
+  if(act === 'jdel'){ if(!amArm('jdel:' + arg)){ empRenderJobs(); setTimeout(() => { if(EMP.loaded && EMP.sub === 'jobs') empRenderJobs(); }, 5200); return; } return empDelJob(arg); }
+}
+
+/* ================= VISITAS (administrador) =================
+   Solo el ACUMULADO: un cuadrito chiquito, en vertical («Visitas acumuladas» y debajo el número), al final de la página del administrador.
+   No es una pestaña ni abre paneles. Es el mismo número del contador pequeño del pie de tu página y se actualiza solo cada minuto.
+   Solo se guarda CUÁNTAS veces se abrió cada página por día: ningún dato de las personas.
+   Una visita = un navegador por día. Tus propias visitas no se cuentan en el navegador donde entraste al aula. */
+const VIS = { total: null, loading: false, missing: false, err: '', timer: 0 };
+
+function visEl(id){ return document.getElementById(id); }
+function visMarkOwner(){          // este navegador es del dueño: la portada ya no suma sus visitas
+  try{ if(typeof session !== 'undefined' && session && session.role === 'admin') window.localStorage.setItem('iw_nocount', '1'); }catch(e){}
+}
+function visNum(n){ try{ return Number(n || 0).toLocaleString('es-PE'); }catch(e){ return String(n || 0); } }
+function visPaint(){              // pone el número (o «…» mientras carga, «—» si no se pudo leer) y el aviso del SQL solo si falta
+  const n = visEl('vis-n'), box = visEl('vis-box'), hint = visEl('vis-hint'); if(!n || !box) return;
+  const ok = VIS.total !== null;
+  n.textContent = ok ? visNum(VIS.total) : ((VIS.missing || VIS.err) ? '—' : '…');
+  box.classList.toggle('off', !ok && !!(VIS.missing || VIS.err));
+  box.setAttribute('aria-label', 'Visitas acumuladas de tu página' + (ok ? ': ' + visNum(VIS.total) : ''));
+  if(hint) hint.classList.toggle('hidden', !VIS.missing);
+}
+function visReset(){              // al cerrar sesión: no queda nada en memoria ni en pantalla
+  if(VIS.timer){ clearInterval(VIS.timer); VIS.timer = 0; }
+  Object.assign(VIS, { total: null, loading: false, missing: false, err: '' });
+  visPaint();
+}
+async function visLoad(){
+  if(VIS.loading) return;
+  VIS.loading = true;
+  try{
+    const r = await sb.rpc('visit_total');
+    if(typeof session === 'undefined' || !session || session.role !== 'admin') return;     // cerró sesión mientras se leía: no se guarda nada en pantalla
+    if(r.error){
+      if(typeof auMissing === 'function' && auMissing(r.error)){ VIS.missing = true; VIS.err = ''; }
+      else VIS.err = (r.error && r.error.message) || 'No se pudo leer el contador.';
+      return;
+    }
+    VIS.missing = false; VIS.err = ''; VIS.total = Number(r.data) || 0;
+  }catch(e){ console.error(e); VIS.err = String((e && e.message) || e); }
+  finally{ VIS.loading = false; }
+}
+async function visRefresh(){
+  if(VIS.missing) return;                                  // sin el SQL no se pregunta cada minuto (se vuelve a probar al recargar la página)
+  await visLoad();
+  if(typeof session === 'undefined' || !session || session.role !== 'admin') return;      // ya cerró sesión: visReset() dejó todo limpio
+  visPaint();
+}
+function visStart(){                                       // al entrar al panel de administrador: el cuadrito queda al final de la página y se actualiza solo
+  if(VIS.timer) return;
+  visPaint();
+  visRefresh();
+  VIS.timer = setInterval(() => {
+    if(typeof session === 'undefined' || !session || session.role !== 'admin' || document.hidden) return;
+    visRefresh();
+  }, 60000);
 }
 
 /* #registro abre "Crear cuenta"; cualquier otro enlace abre "Iniciar sesión" */

@@ -643,8 +643,9 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
   .prj-body p{margin:0;font-size:14px;line-height:1.55;color:#4A5B70;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;}
   @media (max-width:900px){ .prj-grid{grid-template-columns:repeat(2,1fr);} }
   @media (max-width:560px){ .projects{padding:48px 0 56px;} .prj-grid{grid-template-columns:1fr;gap:16px;margin-top:24px;} }
-  /* ---------- REDES: botones flotantes junto al de WhatsApp, en fila hacia la izquierda (se llenan en el aula → "Contacto y redes") ---------- */
-  .float-social{position:fixed;right:90px;bottom:25px;z-index:60;display:flex;flex-direction:row;gap:10px;}
+  /* ---------- REDES: botones flotantes junto al de WhatsApp, en fila hacia la izquierda (se llenan en el aula → "Contacto y redes") ----------
+     Pueden ser 8 (Facebook, Instagram, TikTok, YouTube, LinkedIn, X, Telegram y «Otra red»): solo se ven las que tienen enlace. */
+  .float-social{position:fixed;right:90px;bottom:25px;z-index:60;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:10px;max-width:calc(100vw - 110px);}
   .float-social[hidden],.float-social a[hidden]{display:none !important;}
   .float-social a{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.55);transition:transform .18s,box-shadow .18s;}
   .float-social a:hover{transform:translateY(-3px);box-shadow:0 14px 26px -8px rgba(0,0,0,.6);}
@@ -652,15 +653,28 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
   .float-social a svg{width:24px;height:24px;fill:#fff;}
   .float-social .fs-facebook{background:#1877F2;}
   .float-social .fs-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);}
-  .float-social .fs-linkedin{background:#0A66C2;}
+  .float-social .fs-tiktok,.float-social .fs-x{background:#111;box-shadow:0 0 0 1.5px rgba(255,255,255,.3),0 10px 24px -8px rgba(0,0,0,.55);}
   .float-social .fs-youtube{background:#FF0000;}
+  .float-social .fs-linkedin{background:#0A66C2;}
+  .float-social .fs-telegram{background:#26A5E4;}
+  .float-social .fs-other{background:#0D6FB8;}
+  .float-social .fs-other svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   /* que los botones no tapen la última línea del pie de página al llegar al final */
   body:has(#float-social:not([hidden])) footer{padding-bottom:84px;}
   @media (max-width:760px){
-    .float-social{right:14px;bottom:calc(60px + env(safe-area-inset-bottom,0px));gap:9px;}
+    .float-social{right:14px;bottom:calc(60px + env(safe-area-inset-bottom,0px));gap:9px;max-width:calc(100vw - 28px);}
     .float-social a{width:44px;height:44px;}
     .float-social a svg{width:22px;height:22px;}
+    .float-social[data-n="7"],.float-social[data-n="8"]{max-width:calc(4 * 44px + 3 * 9px);}      /* 7 u 8 redes: 4 por fila (4+3 o 4+4), nunca una sola sobrando en la segunda fila */
     body:has(#float-social:not([hidden])) footer{padding-bottom:132px;}
+    body:has(#float-social:is([data-n="7"],[data-n="8"])) footer{padding-bottom:182px;}      /* 7 u 8 redes ocupan 2 filas */
+  }
+  /* en celulares muy angostos (≤ 350 px) el texto de la barra verde de WhatsApp pasa a 2 renglones y la barra crece (64 px): las redes suben para no tocarla */
+  @media (max-width:350px){
+    .float-social{bottom:calc(76px + env(safe-area-inset-bottom,0px));}
+    .float-social[data-n="6"]{max-width:calc(3 * 44px + 2 * 9px);}      /* 6 redes: 3 + 3 (en una sola fila no caben) */
+    body:has(#float-social:not([hidden])) footer{padding-bottom:148px;}
+    body:has(#float-social:is([data-n="6"],[data-n="7"],[data-n="8"])) footer{padding-bottom:198px;}
   }
   body.ed-on .float-social{display:none !important;}
   /* ---------- FOTOS QUE SE CAMBIAN DESDE EL ADMINISTRADOR (aula → "Imágenes de la portada") ----------
@@ -719,6 +733,106 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
 {"@type":"WebSite","@id":"https://infinityworking.com/#website","url":"https://infinityworking.com/","name":"INFINITY WORK","inLanguage":"es","publisher":{"@id":"https://infinityworking.com/#organization"}}
 ]}
 </script>
+<style id="site2-css">
+/* ---------- TRABAJA CON NOSOTROS (convocatorias y CV: se administran desde el aula → pestaña «Empleo») ---------- */
+  .jobs{position:relative;background:linear-gradient(165deg,#10315A 0%,#0B2243 46%,#0A1A31 100%);color:#fff;padding:76px 0 84px;scroll-margin-top:89px;}
+  .jobs[hidden],[data-job][hidden]{display:none !important;}
+  .jobs::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(900px 420px at 90% -8%,rgba(29,155,255,.24),transparent 62%),radial-gradient(700px 380px at -8% 112%,rgba(6,200,248,.13),transparent 62%);}
+  .jobs .wrap{position:relative;}
+  .jobs-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:46px;align-items:start;}
+  .jobs-info{min-width:0;}
+  .jobs-info h2{font-size:40px;font-weight:800;line-height:1.06;margin:16px 0 16px;}
+  .jobs-lede{margin:0 0 28px;max-width:540px;font-size:15.5px;line-height:1.7;color:#c3d0e0;}
+  .jobs-sub{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--line);}
+  .jobs-list{display:flex;flex-direction:column;gap:12px;}
+  .job{display:flex;flex-direction:column;gap:9px;min-width:0;padding:16px 18px 15px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);}
+  .job h3{font-size:16.5px;font-weight:800;line-height:1.25;overflow-wrap:anywhere;}
+  .job-meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;font-weight:600;color:#9fb3c8;}
+  .job-meta span{display:inline-flex;align-items:center;gap:6px;}
+  .job-meta svg{width:14px;height:14px;flex:none;color:var(--line);}
+  .job-desc{margin:0;font-size:13.5px;line-height:1.6;color:#c3d0e0;white-space:pre-line;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  .job.is-open .job-desc{display:block;-webkit-line-clamp:unset;overflow:visible;}
+  .job-more{align-self:flex-start;background:none;border:0;padding:0;font:700 12.5px "Montserrat",sans-serif;color:var(--cyan);cursor:pointer;}
+  .job-more:hover{text-decoration:underline;}
+  .job-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:3px;}
+  .job-go{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:10px 18px;font:700 13px "Montserrat",sans-serif;color:#fff;background:linear-gradient(90deg,var(--line),var(--line-dark));cursor:pointer;}
+  .job-go:hover{filter:brightness(1.08);}
+  .job-share{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:9px 14px;font:700 12.5px "Montserrat",sans-serif;color:#c3d0e0;border:1.5px solid rgba(255,255,255,.22);}
+  .job-share:hover{color:#fff;border-color:var(--wa);}
+  .job-share svg{width:16px;height:16px;color:var(--wa);}
+  .job-go:focus-visible,.job-share:focus-visible,.job-more:focus-visible{outline:2px solid var(--signal);outline-offset:3px;}
+  .jobs-none{margin:0;max-width:540px;padding:16px 18px;border-radius:14px;font-size:14px;line-height:1.65;color:#c3d0e0;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.22);}
+
+  .jobs-form{position:sticky;top:108px;display:flex;flex-direction:column;gap:15px;min-width:0;padding:28px 28px 24px;border-radius:20px;background:#fff;color:var(--ink);box-shadow:0 34px 64px -30px rgba(0,0,0,.75);}
+  .jobs-form h3{font-size:21px;font-weight:800;line-height:1.15;}
+  .jf-field{display:flex;flex-direction:column;gap:6px;min-width:0;}
+  .jf-field label{font-size:12.5px;font-weight:700;color:#33445A;}
+  .jf-field label span{font-weight:600;color:#6b7e93;}
+  .jf-field input[type=text],.jf-field input[type=tel],.jf-field select{width:100%;height:48px;padding:0 14px;border-radius:10px;border:1.5px solid #C7D3E1;background:#fff;color:var(--ink);font:500 16px "Montserrat",sans-serif;}
+  .jf-field select{appearance:none;-webkit-appearance:none;padding-right:40px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230D6FB8' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center/18px;text-overflow:ellipsis;}
+  .jf-field input[type=file]{width:100%;padding:10px 12px;border-radius:10px;border:1.5px dashed #9FB3C8;background:#F5F8FC;color:#4A5B70;font:500 13.5px "Montserrat",sans-serif;}
+  .jf-field input[type=file]::file-selector-button{margin-right:12px;border:0;border-radius:999px;padding:9px 16px;font:700 13px "Montserrat",sans-serif;color:#fff;background:linear-gradient(90deg,var(--line),var(--line-dark));cursor:pointer;}
+  .jf-field input:focus,.jf-field select:focus{outline:none;border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.22);}
+  .jf-field [aria-invalid="true"]{border-color:#D64545;}
+  .jf-check{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;line-height:1.5;color:#4A5B70;cursor:pointer;}
+  .jf-check input{flex:none;width:18px;height:18px;margin:1px 0 0;accent-color:var(--line-dark);}
+  .jobs-hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+  .jf-send{justify-content:center;width:100%;min-height:48px;border:0;cursor:pointer;font-family:"Montserrat",sans-serif;letter-spacing:.06em;}
+  .jf-send[disabled]{opacity:.65;cursor:progress;}
+  .jf-msg{margin:0;min-height:20px;font-size:13.5px;font-weight:600;line-height:1.45;color:#4A5B70;}
+  .jf-msg.err{color:#C0392B;}
+  .jf-msg.ok{color:#127A3E;}
+  .jf-done{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:6px 0 2px;}
+  .jf-done .jf-ok{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;background:#E5F6EC;color:#127A3E;}
+  .jf-done .jf-ok svg{width:28px;height:28px;}
+  .jf-done h3{font-size:22px;}
+  .jf-done p{margin:0;font-size:14.5px;line-height:1.65;color:#4A5B70;}
+  .jf-done .job-go{margin-top:4px;}
+  .jobs-form.is-done > :not(.jf-done){display:none;}
+  @media (max-width:980px){
+    .jobs{padding:60px 0 66px;}
+    .jobs-form{position:relative;top:auto;}
+    .jobs-grid{grid-template-columns:1fr;gap:34px;}
+    .jobs-info h2{font-size:32px;}
+  }
+  @media (max-width:560px){
+    .jobs{padding:46px 0 52px;}
+    .jobs-info h2{font-size:27px;}
+    .jobs-form{padding:22px 18px 20px;border-radius:16px;}
+    .job{padding:14px 15px;}
+  }
+
+  /* ---------- CONTADOR DE VISITAS (pie de página) ---------- */
+  .f-visits{display:inline-flex;align-items:center;gap:7px;color:#8fa2b8;}
+  .f-visits[hidden]{display:none !important;}
+  .f-visits svg{width:15px;height:15px;flex:none;color:var(--line);}
+  .f-visits b{font-weight:700;color:#c3d0e0;}
+  @media (min-width:761px){ .f-bottom{padding-right:78px;} }      /* que el botón de WhatsApp no tape la última frase del pie */
+
+  /* ---------- PROYECTOS: varias fotos que se van pasando ---------- */
+  .projects{scroll-margin-top:89px;}
+  @media (max-width:760px){ .projects,.jobs{scroll-margin-top:71px;} }       /* la barra de arriba mide 89 px en la computadora y 71 px en el celular */
+  .prj-photo{position:relative;}
+  .prj-car{touch-action:pan-y;}
+  .prj-track{display:flex;width:100%;height:100%;transition:transform .75s cubic-bezier(.22,.7,.2,1);will-change:transform;}
+  .prj-slide{flex:0 0 100%;min-width:0;height:100%;margin:0;}
+  .prj-slide img{width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;user-select:none;}
+  .prj-car::after{content:"";position:absolute;left:0;right:0;bottom:0;height:54px;pointer-events:none;background:linear-gradient(0deg,rgba(11,20,32,.5),rgba(11,20,32,0));}
+  .prj-nav{position:absolute;top:50%;z-index:2;display:grid;place-items:center;width:36px;height:36px;margin-top:-18px;padding:0;border:0;border-radius:50%;color:#fff;background:rgba(11,20,32,.58);cursor:pointer;opacity:0;transition:opacity .2s,background .2s;}
+  .prj-nav svg{width:18px;height:18px;}
+  .prj-prev{left:10px;}
+  .prj-next{right:10px;}
+  .prj-nav[hidden],.prj-dots[hidden]{display:none !important;}
+  .prj-car:hover .prj-nav,.prj-car:focus-within .prj-nav{opacity:1;}
+  .prj-nav:hover{background:var(--line-dark);}
+  .prj-dots{position:absolute;left:0;right:0;bottom:11px;z-index:2;display:flex;justify-content:center;gap:7px;}
+  .prj-dots button{position:relative;width:8px;height:8px;padding:0;border-radius:4px;border:1.5px solid rgba(255,255,255,.9);background:transparent;cursor:pointer;transition:width .25s,background .25s;}
+  .prj-dots button::after{content:"";position:absolute;inset:-10px -5px;}
+  .prj-dots button[aria-current="true"]{width:22px;background:var(--cyan);border-color:var(--cyan);}
+  .prj-nav:focus-visible,.prj-dots button:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+  @media (hover:none){.prj-nav{opacity:.9;width:34px;height:34px;margin-top:-17px;}}
+  @media (prefers-reduced-motion:reduce){.prj-track{transition:none;}}
+</style>
 </head>
 <body>
 
@@ -736,6 +850,7 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
       <a href="#programas">Programas</a>
       <a href="#proyectos" data-prj hidden>Proyectos</a>
       <a href="#clientes">Clientes</a>
+      <a href="#trabaja" data-job hidden>Trabaja con nosotros</a>
       <a href="#contacto">Contacto</a>
       <a href="plataforma.html#ingresar" class="nav-aula nav-login"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.9-3.7 3.9-5.7 7.5-5.7s6.6 2 7.5 5.7"/></svg><span>Iniciar sesión</span></a>
     </nav>
@@ -908,6 +1023,34 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
   </div>
 </section>
 
+<section class="jobs" id="trabaja" aria-labelledby="jobs-h" hidden>
+  <div class="wrap">
+    <div class="jobs-grid">
+      <div class="jobs-info">
+        <span class="eyebrow">Trabaja con nosotros</span>
+        <h2 id="jobs-h">Únete a nuestro equipo</h2>
+        <p class="jobs-lede">En INFINITY WORK las personas hacen posibles las obras. Si quieres crecer con nosotros en construcción, ingeniería y gestión de proyectos, postula aquí: revisamos cada CV con atención.</p>
+        <div id="jobs-open" hidden>
+          <div class="jobs-sub">Convocatorias abiertas</div>
+          <div class="jobs-list" id="jobs-list"></div>
+        </div>
+        <p class="jobs-none" id="jobs-none" hidden>Por ahora no hay convocatorias abiertas. Déjanos tu CV como postulación general y te escribimos apenas haya una vacante que encaje contigo.</p>
+      </div>
+      <form class="jobs-form" id="jobs-form" novalidate>
+        <h3>Envíanos tu CV</h3>
+        <div class="jf-field"><label for="jf-name">Nombre y apellidos</label><input id="jf-name" name="name" type="text" autocomplete="name" maxlength="120" placeholder="Ej: Rosa Quispe Díaz"></div>
+        <div class="jf-field"><label for="jf-phone">Celular</label><input id="jf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="Ej: 987 654 321"></div>
+        <div class="jf-field"><label for="jobs-sel">¿A qué te postulas?</label><select id="jobs-sel" name="job"><option value="">Postulación general (cualquier puesto)</option></select></div>
+        <div class="jf-field"><label for="jf-cv">Tu CV <span>(PDF o Word, máximo 5 MB)</span></label><input id="jf-cv" name="cv" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
+        <label class="jf-check"><input id="jf-consent" name="consent" type="checkbox"><span>Autorizo a INFINITY WORK a guardar mis datos y mi CV solo para procesos de selección de personal.</span></label>
+        <div class="jobs-hp" aria-hidden="true"><label>No llenar este cuadro <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+        <button class="btn btn-primary jf-send" type="submit">ENVIAR</button>
+        <p class="jf-msg" id="jf-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <footer id="contacto">
   <div class="wrap">
     <div class="f-grid">
@@ -923,6 +1066,7 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
           <li><a href="#programas">Programas</a></li>
           <li data-prj hidden><a href="#proyectos">Proyectos</a></li>
           <li><a href="#clientes">Clientes</a></li>
+          <li data-job hidden><a href="#trabaja">Trabaja con nosotros</a></li>
           <li><a href="plataforma.html#ingresar">Aula virtual (clientes)</a></li>
         </ul>
       </div>
@@ -948,6 +1092,7 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
     </div>
     <div class="f-bottom">
       <span>© 2026 INFINITY WORK. Todos los derechos reservados.</span>
+      <span class="f-visits" id="iw-visits" hidden title="Visitas a nuestra página"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b id="iw-visits-n">0</b> <span id="iw-visits-l">visitas</span></span></span>
       <span>Construimos sin límites</span>
     </div>
   </div>
@@ -960,8 +1105,12 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
 <div class="float-social" id="float-social" hidden>
   <a class="fs-facebook" id="fs-facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" hidden><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12"/></svg></a>
   <a class="fs-instagram" id="fs-instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram" hidden><svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.65.25 1.21.6 1.76 1.15.5.5.9 1.11 1.15 1.76.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.76 4.9 4.9 0 0 1-1.76 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.76-1.15 4.9 4.9 0 0 1-1.15-1.76c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.25-.65.6-1.21 1.15-1.76A4.9 4.9 0 0 1 5.44 2.5c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2m0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65C4.28 8.54 4.27 8.86 4.27 12s.01 3.46.06 4.51c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.51s-.01-3.46-.06-4.51c-.04-.87-.18-1.34-.3-1.65a2.8 2.8 0 0 0-.66-1.02 2.8 2.8 0 0 0-1.02-.66c-.31-.12-.78-.26-1.65-.3C14.99 3.81 14.67 3.8 12 3.8m0 3.05a5.15 5.15 0 1 1 0 10.3 5.15 5.15 0 0 1 0-10.3m0 1.8a3.35 3.35 0 1 0 0 6.7 3.35 3.35 0 0 0 0-6.7m5.35-1.99a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg></a>
-  <a class="fs-linkedin" id="fs-linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" hidden><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.11 20.45H3.55V9h3.56z"/></svg></a>
+  <a class="fs-tiktok" id="fs-tiktok" href="#" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok" hidden><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
   <a class="fs-youtube" id="fs-youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube" hidden><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8M9.6 15.6V8.4l6.3 3.6z"/></svg></a>
+  <a class="fs-linkedin" id="fs-linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" hidden><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.11 20.45H3.55V9h3.56z"/></svg></a>
+  <a class="fs-x" id="fs-x" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)" hidden><svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+  <a class="fs-telegram" id="fs-telegram" href="#" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram" hidden><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+  <a class="fs-other" id="fs-other" href="#" target="_blank" rel="noopener" aria-label="Otra red" title="Otra red" hidden><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a>
 </div>
 
 <a class="mobile-wa-bar" href="https://wa.me/51987654321" target="_blank" rel="noopener" data-iw="wa">
@@ -1017,18 +1166,20 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
     if(/^[a-z][a-z0-9+.-]*:/i.test(s)) return '';
     return /^[^\/\s]+\.[^\/\s]+/.test(s)?'https://'+s.replace(/^\/+/,''):'';
   }
-  var SOC=[['facebook','facebook_url'],['instagram','instagram_url'],['linkedin','linkedin_url'],['youtube','youtube_url']];
-  /* cada red con enlace aparece como botón flotante sobre el de WhatsApp; sin enlace no se ve */
+  var SOC=[['facebook','facebook_url'],['instagram','instagram_url'],['tiktok','tiktok_url'],['youtube','youtube_url'],['linkedin','linkedin_url'],['x','x_url'],['telegram','telegram_url'],['other','other_url']];
+  /* cada red con enlace aparece como botón flotante junto al de WhatsApp; sin enlace no se ve. «Otra red» lleva el nombre que tú le pongas */
   function social(c){
-    var any=false;
+    var n=0;
     SOC.forEach(function(s){
       var a=D.getElementById('fs-'+s[0]); if(!a) return;
       var u=link(c[s[1]]);
-      if(u){ a.setAttribute('href',u); a.removeAttribute('hidden'); any=true; }
-      else { a.setAttribute('hidden',''); a.setAttribute('href','#'); }
+      if(u){
+        a.setAttribute('href',u); a.removeAttribute('hidden'); n++;
+        if(s[0]==='other'){ var t=txt(c.other_name).slice(0,40)||'Otra red'; a.setAttribute('title',t); a.setAttribute('aria-label',t); }
+      } else { a.setAttribute('hidden',''); a.setAttribute('href','#'); }
     });
     var box=D.getElementById('float-social');
-    if(box){ if(any) box.removeAttribute('hidden'); else box.setAttribute('hidden',''); }
+    if(box){ if(n) box.removeAttribute('hidden'); else box.setAttribute('hidden',''); box.setAttribute('data-n',String(n)); }
   }
 
   /* ---------- FOTOS: se cambian desde el administrador (aula → pestaña "Imágenes de la portada") ----------
@@ -1794,6 +1945,22 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
     }
     var pj=c.querySelector('#proyectos'); if(pj){ pj.setAttribute('hidden',''); var pg=pj.querySelector('#prj-grid'); if(pg) pg.innerHTML=''; }
     q('[data-prj]').forEach(function(n){ n.setAttribute('hidden',''); });
+    var tj=c.querySelector('#trabaja');
+    if(tj){
+      tj.setAttribute('hidden','');
+      var jl=tj.querySelector('#jobs-list'); if(jl) jl.innerHTML='';
+      var js=tj.querySelector('#jobs-sel'); if(js){ while(js.options.length>1) js.remove(1); }
+      var jo=tj.querySelector('#jobs-open'); if(jo) jo.setAttribute('hidden','');
+      var jn=tj.querySelector('#jobs-none'); if(jn) jn.setAttribute('hidden','');
+      var jd=tj.querySelector('.jf-done'); if(jd) jd.remove();
+      var jf=tj.querySelector('#jobs-form'); if(jf) jf.classList.remove('is-done');
+      var jm=tj.querySelector('#jf-msg'); if(jm){ jm.textContent=''; jm.className='jf-msg'; }
+      [].forEach.call(tj.querySelectorAll('[aria-invalid]'),function(i){ i.removeAttribute('aria-invalid'); });
+    }
+    q('[data-job]').forEach(function(n){ n.setAttribute('hidden',''); });
+    var fso=c.querySelector('#fs-other'); if(fso){ fso.setAttribute('title','Otra red'); fso.setAttribute('aria-label','Otra red'); }
+    var fsb=c.querySelector('#float-social'); if(fsb) fsb.removeAttribute('data-n');
+    var vs=c.querySelector('#iw-visits'); if(vs){ vs.setAttribute('hidden',''); var vn=vs.querySelector('#iw-visits-n'); if(vn) vn.textContent='0'; var vl=vs.querySelector('#iw-visits-l'); if(vl) vl.textContent='visitas'; }
     q('#float-social,#float-social a').forEach(function(n){ n.setAttribute('hidden',''); if(n.tagName==='A') n.setAttribute('href','#'); });
     return '<!DOCTYPE html>\n'+c.outerHTML;
   }
@@ -1907,23 +2074,123 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
 (function(){
   'use strict';
   /* Proyectos: se leen de la misma base de datos del aula (pestaña "Proyectos" del administrador).
-     Si no hay ninguno (o no hay conexión) la sección y su enlace del menú se quedan ocultos. */
+     Cada proyecto puede tener de 1 a 5 fotos: con 2 o más se van pasando solas (se frenan al pasar el mouse o tocar, y no corren
+     si la persona tiene activado «reducir movimiento»). Si no hay ningún proyecto (o no hay conexión) la sección y su enlace del menú se quedan ocultos. */
   var D=document;
-  var URL_PRJ='https://xsxdlvlffcypbaiolfwj.supabase.co/rest/v1/projects?select=title,location,description,image_url,order_index&order=order_index.asc&limit=24';
+  var BASE='https://xsxdlvlffcypbaiolfwj.supabase.co/rest/v1/projects?select=title,location,description,image_url,order_index';
   var API_KEY='sb_publishable_vIKz188_VTuxm4zvoRnyCQ_GgeNcQvW';
   var sec=D.getElementById('proyectos'), grid=D.getElementById('prj-grid');
   function links(show){ [].forEach.call(D.querySelectorAll('[data-prj]'),function(n){ if(show) n.removeAttribute('hidden'); else n.setAttribute('hidden',''); }); }
   if(!sec||!grid||typeof fetch!=='function') return;
   function el(tag,cls,text){ var e=D.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
   function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:''; }
+  function imgsOf(p){
+    var out=[];
+    if(Array.isArray(p.images)) p.images.forEach(function(u){ u=safeUrl(u); if(u&&out.indexOf(u)<0) out.push(u); });
+    if(!out.length){ var one=safeUrl(p.image_url); if(one) out.push(one); }
+    return out.slice(0,5);
+  }
+  var reduce=false; try{ reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var SVG_L='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+  var SVG_R='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+  var INTERVAL=4600, cars=[], io=null;
+
+  /* ---- carrusel de un proyecto ---- */
+  function Car(ph,urls,title,index){
+    var self=this, cur=0, timer=0, hover=false, vis=true, first=true;
+    var track=el('div','prj-track'), slides=[], dots=el('div','prj-dots'), prev=el('button','prj-nav prj-prev'), next=el('button','prj-nav prj-next');
+    ph.classList.add('prj-car');
+    ph.setAttribute('role','group'); ph.setAttribute('aria-roledescription','carousel'); ph.setAttribute('aria-label','Fotos de '+title);
+    prev.type='button'; next.type='button'; prev.innerHTML=SVG_L; next.innerHTML=SVG_R;
+    prev.setAttribute('aria-label','Foto anterior'); next.setAttribute('aria-label','Foto siguiente');
+    dots.setAttribute('role','group'); dots.setAttribute('aria-label','Elegir foto');
+    urls.forEach(function(u,i){
+      var fig=el('figure','prj-slide'), im=el('img');
+      im.src=u; im.alt=title+' — foto '+(i+1)+' de '+urls.length; im.loading=i===0?'eager':'lazy'; im.decoding='async'; im.referrerPolicy='no-referrer'; im.draggable=false;
+      im.onerror=function(){ drop(fig); };
+      fig.appendChild(im); track.appendChild(fig); slides.push(fig);
+    });
+    ph.appendChild(track); ph.appendChild(prev); ph.appendChild(next); ph.appendChild(dots);
+    function drop(fig){            // una foto que no carga se quita, y el resto sigue
+      var i=slides.indexOf(fig); if(i<0) return;
+      slides.splice(i,1); if(fig.parentNode) fig.parentNode.removeChild(fig);
+      if(cur>=slides.length) cur=Math.max(0,slides.length-1);
+      mark(true);
+    }
+    function mark(instant){
+      var n=slides.length, multi=n>1;
+      prev.hidden=next.hidden=dots.hidden=!multi;
+      if(!n){ ph.classList.remove('prj-car'); ph.removeAttribute('role'); ph.removeAttribute('aria-roledescription'); ph.removeAttribute('aria-label'); stop(); return; }
+      if(instant){ track.style.transition='none'; }
+      track.style.transform='translate3d('+(-cur*100)+'%,0,0)';
+      if(instant){ void track.offsetWidth; track.style.transition=''; }
+      slides.forEach(function(s,i){ s.setAttribute('aria-hidden',i===cur?'false':'true'); });
+      dots.innerHTML='';
+      slides.forEach(function(s,i){
+        var b=el('button'); b.type='button'; b.setAttribute('aria-label','Ir a la foto '+(i+1)+' de '+n);
+        if(i===cur) b.setAttribute('aria-current','true');
+        b.addEventListener('click',function(){ go(i,true); });
+        dots.appendChild(b);
+      });
+    }
+    function go(i,manual){
+      var n=slides.length; if(n<2) return;
+      cur=(i%n+n)%n; mark(false);
+      if(manual) restart(); else arm();
+    }
+    function stop(){ if(timer){ clearTimeout(timer); timer=0; } }
+    function arm(){
+      stop();
+      if(reduce||slides.length<2||hover||!vis||D.hidden) return;
+      var wait=INTERVAL+(first?(index%6)*700:0); first=false;     // cada tarjeta arranca en un momento distinto, para que no cambien todas a la vez
+      timer=setTimeout(function(){ timer=0; go(cur+1,false); },wait);
+    }
+    function restart(){ first=false; arm(); }
+    prev.addEventListener('click',function(){ go(cur-1,true); });
+    next.addEventListener('click',function(){ go(cur+1,true); });
+    ph.addEventListener('mouseenter',function(){ hover=true; stop(); });
+    ph.addEventListener('mouseleave',function(){ hover=false; arm(); });
+    ph.addEventListener('focusin',function(){ hover=true; stop(); });
+    ph.addEventListener('focusout',function(){ hover=false; arm(); });
+    ph.addEventListener('keydown',function(e){
+      if(e.key==='ArrowLeft'){ go(cur-1,true); e.preventDefault(); }
+      else if(e.key==='ArrowRight'){ go(cur+1,true); e.preventDefault(); }
+    });
+    // deslizar con el dedo
+    var x0=null,y0=0;
+    ph.addEventListener('pointerdown',function(e){ if(e.pointerType==='mouse') return; x0=e.clientX; y0=e.clientY; hover=true; stop(); });
+    ph.addEventListener('pointerup',function(e){
+      if(x0===null) return;
+      var dx=e.clientX-x0, dy=e.clientY-y0; x0=null; hover=false;
+      if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.4) go(cur+(dx<0?1:-1),true); else arm();
+    });
+    ph.addEventListener('pointercancel',function(){ x0=null; hover=false; arm(); });
+    self.setVisible=function(v){ vis=v; if(v) arm(); else stop(); };
+    self.arm=arm; self.stop=stop; self.ph=ph;
+    self.state=function(){ return {cur:cur,n:slides.length}; };
+    mark(true);
+    arm();
+  }
+  function watch(c){
+    cars.push(c);
+    if('IntersectionObserver' in window){
+      if(!io) io=new IntersectionObserver(function(es){ es.forEach(function(en){ cars.forEach(function(k){ if(k.ph===en.target) k.setVisible(en.isIntersecting); }); }); },{threshold:.25});
+      c.setVisible(false); io.observe(c.ph);
+    }
+  }
+  D.addEventListener('visibilitychange',function(){ cars.forEach(function(c){ if(D.hidden) c.stop(); else c.arm(); }); });
+
   function render(rows){
+    cars.forEach(function(c){ c.stop(); if(io) io.unobserve(c.ph); });
+    cars=[];
     grid.innerHTML='';
     var n=0;
     rows.forEach(function(p){
       var title=String(p&&p.title||'').trim(); if(!title) return;
-      var card=el('article','prj-card'), ph=el('div','prj-photo'), src=safeUrl(p.image_url);
-      if(src){
-        var im=el('img'); im.src=src; im.alt=title; im.loading='lazy'; im.decoding='async'; im.referrerPolicy='no-referrer';
+      var card=el('article','prj-card'), ph=el('div','prj-photo'), urls=imgsOf(p);
+      if(urls.length>1){ watch(new Car(ph,urls,title,n)); }
+      else if(urls.length===1){
+        var im=el('img'); im.src=urls[0]; im.alt=title; im.loading='lazy'; im.decoding='async'; im.referrerPolicy='no-referrer';
         im.onerror=function(){ if(im.parentNode) im.parentNode.removeChild(im); };
         ph.appendChild(im);
       }
@@ -1935,14 +2202,217 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
     });
     if(n) sec.removeAttribute('hidden'); else sec.setAttribute('hidden','');
     links(!!n);
+    if(n&&!jumped&&location.hash==='#proyectos'){ jumped=true; try{ sec.scrollIntoView(); }catch(e){} }   // llegó con «#proyectos»: la sección recién apareció
   }
+  var jumped=false;
+  function load(url){ return fetch(url,{headers:{apikey:API_KEY},cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); }); }
+  var Q='&order=order_index.asc&limit=24';
   try{
-    fetch(URL_PRJ,{headers:{apikey:API_KEY},cache:'no-store'})
+    // si la base todavía no tiene la columna de fotos (falta correr el SQL nuevo), se piden solo los campos de antes
+    load(BASE+',images'+Q).catch(function(){ return load(BASE+Q); })
+      .then(function(rows){ if(Array.isArray(rows)) render(rows); })
+      .catch(function(){});
+  }catch(e){}
+  window.__iwProjects={render:render,cars:function(){ return cars; }};
+})();
+</script>
+<script id="jobs-js">
+(function(){
+  'use strict';
+  /* TRABAJA CON NOSOTROS: las convocatorias y los CV se manejan desde el aula (pestaña «Empleo» del administrador).
+     La sección y sus enlaces del menú se quedan ocultos hasta que la base de datos responde (como «Proyectos»).
+     Enviar una postulación son 3 pasos: apply_job (revisa los datos y reserva el lugar del CV) → subir el CV → apply_job_done. */
+  var D=document;
+  var SB='https://xsxdlvlffcypbaiolfwj.supabase.co';
+  var KEY='sb_publishable_vIKz188_VTuxm4zvoRnyCQ_GgeNcQvW';
+  var sec=D.getElementById('trabaja'), list=D.getElementById('jobs-list'), openBox=D.getElementById('jobs-open'), none=D.getElementById('jobs-none'),
+      form=D.getElementById('jobs-form'), sel=D.getElementById('jobs-sel'), msg=D.getElementById('jf-msg');
+  function links(show){ [].forEach.call(D.querySelectorAll('[data-job]'),function(n){ if(show) n.removeAttribute('hidden'); else n.setAttribute('hidden',''); }); }
+  if(!sec||!list||!form||!sel||!msg||typeof fetch!=='function') return;
+
+  function el(tag,cls,text){ var e=D.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+  function digits(s){ return String(s==null?'':s).replace(/\D/g,''); }
+  function phoneOf(s){ var d=digits(s); if(d.indexOf('0051')===0&&d.length===13) d=d.slice(4); else if(d.indexOf('51')===0&&d.length===11) d=d.slice(2); return d; }     // «+51 987 654 321» y «987654321» son el mismo número
+  function clean(s){ return String(s==null?'':s).replace(/\s+/g,' ').trim(); }
+  function svg(path,cls){
+    var s=D.createElementNS('http://www.w3.org/2000/svg','svg');
+    s.setAttribute('viewBox','0 0 24 24'); s.setAttribute('fill','none'); s.setAttribute('stroke','currentColor'); s.setAttribute('stroke-width','2'); s.setAttribute('stroke-linecap','round'); s.setAttribute('stroke-linejoin','round'); s.setAttribute('aria-hidden','true');
+    if(cls) s.setAttribute('class',cls);
+    s.innerHTML=path; return s;
+  }
+  var I_PIN='<path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/>';
+  var I_BAG='<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2M3 13h18"/>';
+  var I_CAL='<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>';
+  var I_OK='<path d="M5 12.5l4.5 4.5L19 7.5"/>';
+  var WA_SVG='<path fill="currentColor" stroke="none" d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.5.1-.6l.4-.5c.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/><path fill="currentColor" stroke="none" d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.3.9.9-3.2-.2-.3C4 14.9 3.6 13.5 3.6 12c0-4.6 3.8-8.4 8.4-8.4s8.4 3.8 8.4 8.4-3.8 8.2-8.4 8.2z"/>';
+  var MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  function dateTxt(s){ var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(s||'')); return m?(parseInt(m[3],10)+' '+MES[parseInt(m[2],10)-1]):''; }
+  function fmtPhone(d){ return d.length===9?d.slice(0,3)+' '+d.slice(3,6)+' '+d.slice(6):d; }
+  var reduce=false; try{ reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  function siteUrl(){ try{ return (/^https?:/.test(location.protocol)?location.origin:'https://infinityworking.com')+'/#trabaja'; }catch(e){ return 'https://infinityworking.com/#trabaja'; } }
+
+  /* ---------- convocatorias ---------- */
+  function metaItem(path,text){ var s=el('span'); s.appendChild(svg(path)); s.appendChild(D.createTextNode(text)); return s; }
+  function pick(id){
+    if(form.classList.contains('is-done')) again();
+    sel.value=id;
+    try{ form.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}); }catch(e){}
+    setTimeout(function(){ try{ var n=D.getElementById('jf-name'); if(n&&!n.value) n.focus({preventScroll:true}); }catch(e){} },reduce?0:500);
+  }
+  function card(j){
+    var title=clean(j.title), c=el('article','job'), meta=el('div','job-meta');
+    c.appendChild(el('h3',null,title));
+    if(clean(j.place)) meta.appendChild(metaItem(I_PIN,clean(j.place)));
+    if(clean(j.kind)) meta.appendChild(metaItem(I_BAG,clean(j.kind)));
+    var dt=dateTxt(j.deadline); if(dt) meta.appendChild(metaItem(I_CAL,'Hasta el '+dt));
+    if(meta.childNodes.length) c.appendChild(meta);
+    var d=String(j.description||'').trim();
+    if(d){
+      c.appendChild(el('p','job-desc',d));
+      if(d.length>150||d.split('\n').length>3){
+        var more=el('button','job-more','Ver más'); more.type='button'; more.setAttribute('aria-expanded','false');
+        more.addEventListener('click',function(){ var o=c.classList.toggle('is-open'); more.textContent=o?'Ver menos':'Ver más'; more.setAttribute('aria-expanded',o?'true':'false'); });
+        c.appendChild(more);
+      }
+    }
+    var act=el('div','job-actions'), go=el('button','job-go','Postular a este puesto'); go.type='button';
+    go.addEventListener('click',function(){ pick(j.id); });
+    var sh=el('a','job-share'); sh.appendChild(svg(WA_SVG)); sh.appendChild(D.createTextNode('Compartir'));
+    sh.href='https://wa.me/?text='+encodeURIComponent('Convocatoria INFINITY WORK: '+title+(clean(j.place)?' ('+clean(j.place)+')':'')+'. Postula aquí: '+siteUrl());
+    sh.target='_blank'; sh.rel='noopener'; sh.setAttribute('aria-label','Compartir esta convocatoria por WhatsApp');
+    act.appendChild(go); act.appendChild(sh); c.appendChild(act);
+    return c;
+  }
+  function render(rows){
+    list.innerHTML='';
+    while(sel.options.length>1) sel.remove(1);
+    var n=0;
+    rows.forEach(function(j){
+      if(!j||!j.id||!clean(j.title)) return;
+      list.appendChild(card(j)); n++;
+      var o=D.createElement('option'); o.value=j.id; o.textContent=clean(j.title); sel.appendChild(o);
+    });
+    openBox.hidden=!n; none.hidden=!!n;
+    sec.removeAttribute('hidden'); links(true);
+    if(!jumped&&location.hash==='#trabaja'){ jumped=true; try{ sec.scrollIntoView(); }catch(e){} }   // llegó con el enlace «#trabaja»: la sección recién apareció, así que se baja a ella
+  }
+  var jumped=false;
+  try{
+    fetch(SB+'/rest/v1/job_posts?select=id,title,place,kind,description,deadline&order=order_index.asc,created_at.desc&limit=30',{headers:{apikey:KEY},cache:'no-store'})
       .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
       .then(function(rows){ if(Array.isArray(rows)) render(rows); })
       .catch(function(){});
   }catch(e){}
-  window.__iwProjects={render:render};
+
+  /* ---------- enviar la postulación ---------- */
+  var MIME={pdf:'application/pdf',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'};
+  var ERR={
+    iw_name:'Escribe tu nombre y apellidos.',
+    iw_phone:'Revisa tu número de celular.',
+    iw_consent:'Marca la autorización para guardar tus datos.',
+    iw_file_type:'Tu CV debe ser un archivo PDF o Word.',
+    iw_file_size:'Tu CV debe pesar máximo 5 MB.',
+    iw_job_closed:'Esa convocatoria ya cerró. Elige otra o envía una postulación general.',
+    iw_limit:'Ya enviaste varias postulaciones hoy. Inténtalo mañana o escríbenos por WhatsApp.'
+  };
+  var GENERIC='No pudimos enviar tu CV. Revisa tu conexión e inténtalo de nuevo, o escríbenos por WhatsApp.';
+  var busy=false, btn=form.querySelector('.jf-send');
+  function say(t,cls){ msg.textContent=t||''; msg.className='jf-msg'+(cls?' '+cls:''); }
+  function bad(field,t){ say(t,'err'); if(field){ field.setAttribute('aria-invalid','true'); try{ field.focus(); }catch(e){} } return false; }
+  [].forEach.call(form.querySelectorAll('input,select'),function(f){ f.addEventListener('input',function(){ f.removeAttribute('aria-invalid'); }); f.addEventListener('change',function(){ f.removeAttribute('aria-invalid'); }); });
+  function rpc(fn,body){
+    return fetch(SB+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){
+      return r.text().then(function(t){
+        var j=null; try{ j=t?JSON.parse(t):null; }catch(e){}
+        if(!r.ok){ var er=new Error((j&&j.message)||('http '+r.status)); er.rpc=true; throw er; }
+        return j;
+      });
+    });
+  }
+  function upload(path,file,ext){
+    var fd=new FormData();
+    fd.append('cacheControl','3600');
+    fd.append('',new File([file],file.name,{type:MIME[ext]}));          // el tipo se pone según la extensión: algunos celulares lo mandan vacío
+    return fetch(SB+'/storage/v1/object/cvs/'+path.split('/').map(encodeURIComponent).join('/'),{method:'POST',headers:{apikey:KEY,'x-upsert':'false'},body:fd}).then(function(r){
+      if(!r.ok) throw new Error('subida '+r.status);
+    });
+  }
+  function done(name,phone,jobTitle){
+    var box=el('div','jf-done'), ok=el('div','jf-ok'); ok.appendChild(svg(I_OK)); box.appendChild(ok);
+    box.setAttribute('role','status');
+    box.appendChild(el('h3',null,'¡Recibimos tu CV!'));
+    var p=el('p'); p.appendChild(D.createTextNode('Gracias, ')); p.appendChild(el('b',null,name.split(' ')[0]));
+    p.appendChild(D.createTextNode(jobTitle?'. Tu postulación a «'+jobTitle+'» ya está con nosotros. ':'. Tu postulación general ya está con nosotros. '));
+    p.appendChild(D.createTextNode('Si tu perfil encaja con lo que buscamos, te escribiremos al ')); p.appendChild(el('b',null,fmtPhone(phone)));
+    p.appendChild(D.createTextNode('.'));
+    box.appendChild(p);
+    var again_=el('button','job-go','Enviar otra postulación'); again_.type='button'; again_.addEventListener('click',again); box.appendChild(again_);
+    form.appendChild(box); form.classList.add('is-done');
+    try{ box.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'}); }catch(e){}
+  }
+  function again(){
+    var d=form.querySelector('.jf-done'); if(d) d.parentNode.removeChild(d);
+    form.classList.remove('is-done'); form.reset(); say('');
+    try{ D.getElementById('jf-name').focus({preventScroll:true}); }catch(e){}
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(busy) return;
+    var f=form.elements, name=clean(f.name.value), phone=phoneOf(f.phone.value), file=f.cv.files&&f.cv.files[0], job=f.job.value||null;
+    var ext=((/\.([A-Za-z0-9]+)$/.exec(file?file.name:'')||[])[1]||'').toLowerCase();
+    if(name.length<3) return bad(f.name,ERR.iw_name);
+    if(phone.length<9||phone.length>15) return bad(f.phone,'Escribe tu número de celular (9 dígitos).');
+    if(!file) return bad(f.cv,'Adjunta tu CV (PDF o Word).');
+    if(!MIME[ext]) return bad(f.cv,ERR.iw_file_type);
+    if(file.size<1||file.size>5*1024*1024) return bad(f.cv,file.size<1?'El archivo de tu CV está vacío.':'Tu CV pesa más de 5 MB. Envía una versión más liviana.');
+    if(!f.consent.checked) return bad(f.consent,ERR.iw_consent);
+    busy=true; btn.disabled=true; say('Enviando tus datos…');
+    var slot=null, jobTitle=job?clean((sel.options[sel.selectedIndex]||{}).textContent):'';
+    rpc('apply_job',{p_name:name,p_phone:phone,p_job:job,p_file_name:file.name,p_file_size:file.size,p_consent:true,p_hp:f.website.value||''})
+      .then(function(r){ slot=r; say('Subiendo tu CV…'); return upload(r.path,file,ext); })
+      .then(function(){ return rpc('apply_job_done',{p_id:slot.id,p_path:slot.path}).catch(function(){}); })
+      .then(function(){ busy=false; btn.disabled=false; say(''); done(name,phone,jobTitle); })
+      .catch(function(er){ busy=false; btn.disabled=false; say((er&&er.rpc&&ERR[er.message])||GENERIC,'err'); });
+  });
+  window.__iwJobs={render:render};
+})();
+</script>
+<script id="visits-js">
+(function(){
+  'use strict';
+  /* VISITAS: contador pequeño del pie de página. Solo cuenta cuántas veces se abrió cada página por día:
+     no guarda nombres, IP ni nada de la persona. Una visita por navegador y por día (si recarga no suma).
+     No se cuenta cuando el dueño entró al aula en este mismo navegador, ni en modo edición, ni a los programas automáticos. */
+  var D=document;
+  var SB='https://xsxdlvlffcypbaiolfwj.supabase.co';
+  var KEY='sb_publishable_vIKz188_VTuxm4zvoRnyCQ_GgeNcQvW';
+  var box=D.getElementById('iw-visits'), num=D.getElementById('iw-visits-n');
+  if(!box||!num||typeof fetch!=='function') return;
+  var page=/cursos/i.test(location.pathname)?'cursos':'inicio';
+  var store=null; try{ store=window.localStorage; }catch(e){}
+  function get(k){ try{ return store?store.getItem(k):null; }catch(e){ return null; } }
+  function lima(){ return new Date(Date.now()-5*3600*1000).toISOString().slice(0,10); }
+  function run(){
+    var day=lima(), key='iw_vd_'+page, skip=false;
+    try{ skip=!!navigator.webdriver||get('iw_nocount')==='1'||/(^|[#&])editar/.test(location.hash); }catch(e){}
+    var count=!skip&&get(key)!==day;
+    fetch(SB+'/rest/v1/rpc/'+(count?'track_visit':'visit_total'),{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(count?{p_page:page}:{})})
+      .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+      .then(function(n){
+        n=Number(n);
+        if(!isFinite(n)||n<0) return;
+        if(count){ try{ if(store) store.setItem(key,day); }catch(e){} }
+        try{ num.textContent=n.toLocaleString('es-PE'); }catch(e){ num.textContent=String(n); }
+        var lab=D.getElementById('iw-visits-l'); if(lab) lab.textContent=n===1?'visita':'visitas';
+        box.removeAttribute('hidden');
+      })
+      .catch(function(){});
+  }
+  if(D.visibilityState==='hidden'){
+    // pestaña abierta en segundo plano: se cuenta cuando la persona la mira de verdad
+    var once=function(){ if(D.visibilityState!=='visible') return; D.removeEventListener('visibilitychange',once); run(); };
+    D.addEventListener('visibilitychange',once);
+  } else run();
 })();
 </script>
 </body>
