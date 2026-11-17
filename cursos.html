@@ -751,7 +751,27 @@ nav.main-nav .nav-dd.dd-off .nav-caret{transform:none;}
   .f-visits b{font-weight:700;color:#c3d0e0;}
   @media (min-width:761px){ .f-bottom{padding-right:78px;} }      /* que el botón de WhatsApp no tape la última frase del pie */
 
-  </style>
+    /* ---------- IMÁGENES DE UN CURSO QUE SE VAN PASANDO (aula y lista pública de cursos: es el mismo código en los dos lados) ---------- */
+  .iwc{position:relative;overflow:hidden;touch-action:pan-y;}
+  .iwc-track{position:absolute;inset:0;display:flex;transition:transform .75s cubic-bezier(.22,.7,.2,1);will-change:transform;}
+  .iwc-slide{position:relative;flex:0 0 100%;min-width:0;height:100%;margin:0;}
+  .iwc-slide img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;display:block;-webkit-user-drag:none;user-select:none;}
+  .iwc-nav{position:absolute;top:50%;z-index:3;display:grid;place-items:center;width:34px;height:34px;margin-top:-17px;padding:0;border:0;border-radius:50%;color:#fff;background:rgba(11,20,32,.58);cursor:pointer;opacity:0;transition:opacity .2s,background .2s;}
+  .iwc-nav svg{width:17px;height:17px;}
+  .iwc-prev{left:8px;}
+  .iwc-next{right:8px;}
+  .iwc-nav[hidden],.iwc-dots[hidden]{display:none !important;}
+  .iwc:hover .iwc-nav,.iwc:focus-within .iwc-nav{opacity:1;}
+  .iwc-nav:hover{background:var(--line-dark,#0D6FB8);}
+  .iwc-dots{position:absolute;left:0;right:0;bottom:9px;z-index:3;display:flex;justify-content:center;gap:7px;pointer-events:none;}
+  .iwc-dots button{pointer-events:auto;position:relative;width:8px;height:8px;padding:0;border-radius:4px;border:1.5px solid rgba(255,255,255,.9);background:transparent;cursor:pointer;transition:width .25s,background .25s;}
+  .iwc-dots button::after{content:"";position:absolute;inset:-10px -5px;}
+  .iwc-dots button[aria-current="true"]{width:22px;background:var(--cyan,#06C8F8);border-color:var(--cyan,#06C8F8);}
+  .iwc-nav:focus-visible,.iwc-dots button:focus-visible{outline:2px solid var(--signal,#F2A900);outline-offset:2px;}
+  @media (hover:none){.iwc-nav{opacity:.9;width:32px;height:32px;margin-top:-16px;}}
+  @media (prefers-reduced-motion:reduce){.iwc-track{transition:none;}}
+  .cc-cover .iwc-nav{width:34px;height:34px;}
+</style>
 </head>
 <body>
 
@@ -1230,6 +1250,191 @@ nav.main-nav .nav-dd.dd-off .nav-caret{transform:none;}
   }catch(e){}
 })();
 </script>
+<script id="crscar-js">
+/* ================= IMÁGENES DE UN CURSO QUE SE VAN PASANDO =================
+   Lo usan el aula (tarjetas de «Mis cursos» y la vista previa del administrador) y la lista pública de cursos (cursos.html): es el MISMO código en los dos lados.
+   · Un curso lleva de 1 a 3 imágenes. Con una sola se ve fija; con 2 o 3 se van pasando solas.
+   · Se frena al pasar el cursor, al tocar o al llegar con el teclado. No corre si la pestaña está oculta, si la tarjeta no se ve en pantalla
+     o si la persona pidió «reducir movimiento» (en ese caso se pasan a mano con las flechas y los puntitos).
+   · Con el dedo se desliza; con el teclado, las flechas ← y →.
+   · Una imagen que no carga se quita y el resto sigue; si no carga ninguna se avisa (onEmpty) para que quien la llama ponga su fondo de siempre.
+   · Cómo se guardan: en la columna «image_url» del curso va UNA dirección (como siempre) o, con 2 o 3 imágenes, una lista escrita así: ["https://…","https://…"].
+     imgsOf() lee las dos formas (y también los enlaces viejos) y pack() las escribe; así no hace falta correr ningún SQL nuevo. */
+(function(){
+  'use strict';
+  var W = window, D = document;
+  var MAX = 3, INTERVAL = 4600;
+  var live = [], io = null, memo = {};
+  var SVG_L = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+  var SVG_R = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+
+  function el(tag, cls){ var e = D.createElement(tag); if(cls) e.className = cls; return e; }
+  function safeUrl(u){ u = String(u == null ? '' : u).trim(); return /^https?:\/\//i.test(u) ? u : ''; }
+  function reducedMotion(){ try{ return !!(W.matchMedia && W.matchMedia('(prefers-reduced-motion: reduce)').matches); }catch(e){ return false; } }
+
+  /* de lo que hay guardado (una dirección, una lista escrita o una lista de verdad) a una lista de hasta 3 direcciones sin repetir */
+  function imgsOf(v){
+    var out = [];
+    function add(u){ u = safeUrl(u); if(u && out.indexOf(u) < 0 && out.length < MAX) out.push(u); }
+    if(Array.isArray(v)){ v.forEach(add); return out; }
+    v = String(v == null ? '' : v).trim();
+    if(v.charAt(0) === '['){ try{ var a = JSON.parse(v); if(Array.isArray(a)) a.forEach(add); }catch(e){} }
+    else add(v);
+    return out;
+  }
+  /* de la lista a lo que se guarda: nada → null · una → su dirección tal cual · varias → la lista escrita */
+  function pack(list){
+    var a = imgsOf(list);
+    return !a.length ? null : (a.length === 1 ? a[0] : JSON.stringify(a));
+  }
+
+  function observer(){
+    if(io || !('IntersectionObserver' in W)) return io;
+    io = new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        for(var i = 0; i < live.length; i++) if(live[i].box === en.target){ live[i].setVisible(en.isIntersecting); break; }
+      });
+    }, { threshold: .25 });
+    return io;
+  }
+  D.addEventListener('visibilitychange', function(){ live.slice().forEach(function(k){ if(D.hidden) k.stop(); else k.arm(); }); });
+
+  /* arma el carrusel dentro de «box» (una caja con alto propio y position:relative).
+     o: { key: recuerda en qué imagen iba · label · alt · index: desfasa el arranque · eager: pide las imágenes ya · observe:false: corre aunque no se vea
+          · raw: la lista ya viene revisada (la vista previa del administrador usa direcciones «blob:» de lo recién elegido) · onEmpty: ninguna imagen sirve } */
+  function mount(box, list, o){
+    o = o || {};
+    var urls = o.raw ? (Array.isArray(list) ? list.slice(0, MAX) : []) : imgsOf(list), n0 = urls.length, key = o.key ? String(o.key) : '';
+    var label = String(o.label || 'Imágenes del curso');
+    var self = { box: box, state: function(){ return { cur: 0, n: 0 }; }, destroy: function(){}, setVisible: function(){}, stop: function(){}, arm: function(){} };
+    if(!n0){ if(o.onEmpty) o.onEmpty(); return self; }
+    box.classList.add('iwc');
+    var cur = (key && memo[key] != null) ? (memo[key] % n0) : 0;
+    var track = el('div', 'iwc-track'), slides = [], imgs = [];
+    var prev = null, next = null, dots = null;
+    var timer = 0, hov = false, foc = false, touching = false, vis = true, gone = false, first = true, warmed = false;
+    var reduce = reducedMotion();
+
+    box.appendChild(track);
+    urls.forEach(function(u){
+      var fig = el('figure', 'iwc-slide'), im = el('img');
+      im.alt = o.alt != null ? String(o.alt) : '';
+      im.decoding = 'async'; im.referrerPolicy = 'no-referrer'; im.draggable = false;
+      im.loading = o.eager ? 'eager' : 'lazy';
+      im.onerror = function(){ drop(fig); };
+      im.src = u;
+      fig.appendChild(im); track.appendChild(fig); slides.push(fig); imgs.push(im);
+    });
+
+    function drop(fig){                    // una imagen que no carga se quita y el resto sigue
+      var i = slides.indexOf(fig); if(i < 0 || gone) return;
+      slides.splice(i, 1); imgs.splice(i, 1);
+      if(fig.parentNode) fig.parentNode.removeChild(fig);
+      if(!slides.length){                  // no cargó ninguna: se desarma todo (pista, flechas y puntitos) y quien lo llamó pone su fondo de siempre
+        self.destroy();
+        [track, prev, next, dots].forEach(function(n){ if(n && n.parentNode) n.parentNode.removeChild(n); });
+        box.classList.remove('iwc'); box.removeAttribute('role'); box.removeAttribute('aria-roledescription'); box.removeAttribute('aria-label');
+        if(o.onEmpty) o.onEmpty();
+        return;
+      }
+      if(i < cur) cur--;
+      if(cur >= slides.length) cur = slides.length - 1;
+      mark(true); arm();
+    }
+    function paintDots(){
+      var n = slides.length;
+      if(dots.children.length !== n){
+        dots.textContent = '';
+        for(var i = 0; i < n; i++) (function(k){
+          var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', 'Ir a la imagen ' + (k + 1) + ' de ' + n);
+          b.addEventListener('click', function(e){ e.stopPropagation(); go(k, true); });
+          dots.appendChild(b);
+        })(i);
+      }
+      for(var j = 0; j < n; j++){ if(j === cur) dots.children[j].setAttribute('aria-current', 'true'); else dots.children[j].removeAttribute('aria-current'); }
+    }
+    function mark(instant){
+      var n = slides.length, multi = n > 1;
+      if(instant) track.style.transition = 'none';
+      track.style.transform = 'translate3d(' + (-cur * 100) + '%,0,0)';
+      if(instant){ void track.offsetWidth; track.style.transition = ''; }
+      slides.forEach(function(s, i){ s.setAttribute('aria-hidden', (!multi || i === cur) ? 'false' : 'true'); });
+      if(dots){
+        prev.hidden = next.hidden = dots.hidden = !multi;
+        if(multi) paintDots();
+      }
+    }
+    function stop(){ if(timer){ clearTimeout(timer); timer = 0; } }
+    function arm(){
+      stop();
+      if(gone || reduce || slides.length < 2 || hov || foc || touching || !vis || D.hidden) return;
+      var wait = INTERVAL + (first ? ((o.index || 0) % 6) * 700 : 0); first = false;     // cada tarjeta arranca en un momento distinto: no cambian todas a la vez
+      timer = setTimeout(function(){ timer = 0; if(box.isConnected === false){ self.destroy(); return; } go(cur + 1, false); }, wait);   // si la tarjeta ya no está en la página, el reloj se apaga solo
+    }
+    function go(i, manual){
+      var n = slides.length; if(n < 2) return;
+      warm();
+      cur = (i % n + n) % n; if(key) memo[key] = cur;
+      mark(false); arm();
+    }
+    function warm(){                       // las imágenes que esperaban su turno se piden en cuanto la tarjeta se ve (así la 2 y la 3 ya están al pasar)
+      if(warmed) return; warmed = true;
+      imgs.forEach(function(im){ im.loading = 'eager'; });
+    }
+
+    if(n0 > 1){
+      box.setAttribute('role', 'group'); box.setAttribute('aria-roledescription', 'carousel'); box.setAttribute('aria-label', label);
+      prev = el('button', 'iwc-nav iwc-prev'); next = el('button', 'iwc-nav iwc-next'); dots = el('div', 'iwc-dots');
+      prev.type = 'button'; next.type = 'button'; prev.innerHTML = SVG_L; next.innerHTML = SVG_R;
+      prev.setAttribute('aria-label', 'Imagen anterior'); next.setAttribute('aria-label', 'Imagen siguiente');
+      dots.setAttribute('role', 'group'); dots.setAttribute('aria-label', 'Elegir imagen');
+      box.appendChild(prev); box.appendChild(next); box.appendChild(dots);
+      prev.addEventListener('click', function(e){ e.stopPropagation(); go(cur - 1, true); });
+      next.addEventListener('click', function(e){ e.stopPropagation(); go(cur + 1, true); });
+      box.addEventListener('pointerenter', function(e){ if(e.pointerType === 'mouse'){ hov = true; stop(); } });
+      box.addEventListener('pointerleave', function(e){ if(e.pointerType === 'mouse'){ hov = false; arm(); } });
+      box.addEventListener('focusin', function(e){          // solo el foco del teclado frena (tocar un puntito con el dedo no debe dejarlo parado)
+        var kb = true; try{ kb = !!e.target.matches(':focus-visible'); }catch(x){}
+        if(kb){ foc = true; stop(); }
+      });
+      box.addEventListener('focusout', function(){ foc = false; arm(); });
+      box.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowLeft'){ go(cur - 1, true); e.preventDefault(); }
+        else if(e.key === 'ArrowRight'){ go(cur + 1, true); e.preventDefault(); }
+      });
+      var x0 = null, y0 = 0;                                  // deslizar con el dedo
+      box.addEventListener('pointerdown', function(e){ if(e.pointerType === 'mouse') return; x0 = e.clientX; y0 = e.clientY; touching = true; stop(); });
+      box.addEventListener('pointerup', function(e){
+        if(x0 === null) return;
+        var dx = e.clientX - x0, dy = e.clientY - y0; x0 = null; touching = false;
+        if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.4) go(cur + (dx < 0 ? 1 : -1), true); else arm();
+      });
+      box.addEventListener('pointercancel', function(){ x0 = null; touching = false; arm(); });
+    }
+
+    self.setVisible = function(v){ vis = !!v; if(vis){ warm(); arm(); } else stop(); };
+    self.stop = stop; self.arm = arm;
+    self.state = function(){ return { cur: cur, n: slides.length }; };
+    self.destroy = function(){
+      gone = true; stop();
+      var i = live.indexOf(self); if(i >= 0) live.splice(i, 1);
+      if(io) io.unobserve(box);
+    };
+    live.push(self);
+    mark(true);
+    if(o.observe !== false && observer()){ vis = false; io.observe(box); }
+    else warm();
+    arm();
+    return self;
+  }
+  /* antes de volver a dibujar una lista: se apagan los carruseles que estaban dentro de ella (si no, quedan relojes corriendo sin tarjeta);
+     también los que ya se quitaron de la página (por ejemplo, si la lista se repintó antes de llamar a esto) */
+  function destroyIn(root){
+    live.slice().forEach(function(k){ if(!root || root.contains(k.box) || k.box.isConnected === false) k.destroy(); });
+  }
+  W.IWCar = { MAX: MAX, imgsOf: imgsOf, pack: pack, mount: mount, destroyIn: destroyIn, live: function(){ return live.slice(); }, memo: memo };
+})();
+</script>
 <script id="cursos-js">
 (function(){
   'use strict';
@@ -1292,7 +1497,7 @@ nav.main-nav .nav-dd.dd-off .nav-caret{transform:none;}
     if(!r||typeof r!=='object') return null;
     var title=nz(r.title); if(!title) return null;
     var c={id:String(r.id==null?'':r.id), code:nz(r.code), title:title, hours:nz(r.hours), instructor:nz(r.instructor),
-           desc:String(r.description==null?'':r.description).trim(), cat:nz(r.category), img:safeUrl(r.image_url)};
+           desc:String(r.description==null?'':r.description).trim(), cat:nz(r.category), imgs:IWCar.imgsOf(r.image_url)};
     if(c.desc==='Sin descripción.') c.desc='';
     var p=c.cat?register(c.cat):null;
     c.prog=p?p.slug:'';
@@ -1381,20 +1586,18 @@ nav.main-nav .nav-dd.dd-off .nav-caret{transform:none;}
     var a=el('div','cc-art'); a.setAttribute('aria-hidden','true');
     a.appendChild(el('b',null,c.code||'CURSO')); return a;
   }
-  function card(c){
+  function card(c,idx){
     var p=c.prog?bySlug[c.prog]:null;
     var a=el('article','cc'); a.setAttribute('data-id',c.id);
     var cv=el('div','cc-cover');
     /* la portada sin foto ya muestra el código en grande; con foto, el código va arriba del título */
-    var codeEl=(c.code&&c.img)?el('div','cc-code',c.code):null;
-    if(c.img){
-      var im=el('img'); im.alt=''; im.loading='lazy'; im.decoding='async'; im.referrerPolicy='no-referrer';
-      im.onerror=function(){
-        if(!im.parentNode) return;
-        im.parentNode.removeChild(im); cv.insertBefore(art(c),cv.firstChild);
+    var codeEl=(c.code&&c.imgs.length)?el('div','cc-code',c.code):null;
+    if(c.imgs.length){
+      /* de 1 a 3 imágenes: con una sola se ve fija; con 2 o 3 se van pasando solas (se frena con el cursor o el dedo). Si ninguna carga, queda el fondo con el código */
+      IWCar.mount(cv,c.imgs,{key:'cc:'+c.id,label:'Imágenes de '+c.title,index:idx||0,onEmpty:function(){
+        cv.insertBefore(art(c),cv.firstChild);
         if(codeEl&&codeEl.parentNode) codeEl.parentNode.removeChild(codeEl);
-      };
-      im.src=c.img; cv.appendChild(im);
+      }});
     }else cv.appendChild(art(c));
     if(p||c.cat) cv.appendChild(el('span','cc-prog',p?p.name:c.cat));
     a.appendChild(cv);
@@ -1449,6 +1652,7 @@ nav.main-nav .nav-dd.dd-off .nav-caret{transform:none;}
 
   function renderList(list){
     var grid=$('cp-grid'), box=$('cp-empty'), p=cur?bySlug[cur]:null, hasQ=!!q.trim();
+    IWCar.destroyIn(grid);      /* al volver a dibujar la lista se apagan los carruseles de las tarjetas anteriores */
     grid.textContent=''; box.hidden=true; box.textContent='';
     if(st==='loading'){
       grid.hidden=false;
@@ -1463,7 +1667,7 @@ nav.main-nav .nav-dd.dd-off .nav-caret{transform:none;}
     }
     if(list.length){
       grid.hidden=false;
-      list.forEach(function(c){ grid.appendChild(card(c)); });
+      list.forEach(function(c,i){ grid.appendChild(card(c,i)); });
       return;
     }
     grid.hidden=true;
