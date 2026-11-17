@@ -643,13 +643,14 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
   .prj-body p{margin:0;font-size:14px;line-height:1.55;color:#4A5B70;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;}
   @media (max-width:900px){ .prj-grid{grid-template-columns:repeat(2,1fr);} }
   @media (max-width:560px){ .projects{padding:48px 0 56px;} .prj-grid{grid-template-columns:1fr;gap:16px;margin-top:24px;} }
-  /* ---------- REDES: botones flotantes junto al de WhatsApp, en fila hacia la izquierda (se llenan en el aula → "Contacto y redes") ----------
-     Pueden ser 8 (Facebook, Instagram, TikTok, YouTube, LinkedIn, X, Telegram y «Otra red»): solo se ven las que tienen enlace. */
-  .float-social{position:fixed;right:90px;bottom:25px;z-index:60;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:10px;max-width:calc(100vw - 110px);}
-  .float-social[hidden],.float-social a[hidden]{display:none !important;}
-  .float-social a{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.55);transition:transform .18s,box-shadow .18s;}
-  .float-social a:hover{transform:translateY(-3px);box-shadow:0 14px 26px -8px rgba(0,0,0,.6);}
-  .float-social a:focus-visible{outline:3px solid #fff;outline-offset:2px;}
+  /* ---------- REDES: botones flotantes junto al de WhatsApp (se llenan en el aula → "Contacto y redes") ----------
+     Se ven las 3 primeras redes que tengan enlace; si hay más, un 4.º botón «+N» despliega las demás hacia arriba (al pasar el cursor, o con un toque en el celular).
+     Pueden ser 8: Facebook, Instagram, TikTok, YouTube, LinkedIn, X, Telegram y «Otra red». */
+  .float-social{position:fixed;right:90px;bottom:25px;z-index:60;display:flex;flex-direction:row;justify-content:flex-end;gap:10px;}
+  .float-social[hidden],.float-social a[hidden],.float-social .fs-more[hidden]{display:none !important;}
+  .float-social a,.float-social .fs-more-btn{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.55);transition:transform .18s,box-shadow .18s,background .18s;}
+  .float-social a:hover,.float-social .fs-more-btn:hover{transform:translateY(-3px);box-shadow:0 14px 26px -8px rgba(0,0,0,.6);}
+  .float-social a:focus-visible,.float-social .fs-more-btn:focus-visible{outline:3px solid #fff;outline-offset:2px;}
   .float-social a svg{width:24px;height:24px;fill:#fff;}
   .float-social .fs-facebook{background:#1877F2;}
   .float-social .fs-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);}
@@ -659,22 +660,38 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
   .float-social .fs-telegram{background:#26A5E4;}
   .float-social .fs-other{background:#0D6FB8;}
   .float-social .fs-other svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  /* botón «+N» y la lista que sube */
+  .float-social .fs-more{position:relative;display:flex;}
+  .float-social .fs-more-btn{border:0;padding:0;margin:0;cursor:pointer;background:var(--ink,#0B1420);color:#fff;font:800 15px/1 "Montserrat",Arial,sans-serif;letter-spacing:-.01em;box-shadow:0 0 0 2px var(--line,#1D9BFF),0 10px 24px -8px rgba(0,0,0,.55);-webkit-tap-highlight-color:transparent;}
+  .float-social .fs-more.open .fs-more-btn{background:var(--line,#1D9BFF);}
+  .float-social .fs-fly{
+    position:absolute;right:0;bottom:calc(100% + 10px);display:flex;flex-direction:column-reverse;flex-wrap:wrap-reverse;gap:10px;max-height:calc(100vh - 100px);
+    opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;
+    transition:opacity .16s ease .12s,transform .16s ease .12s,visibility 0s linear .28s;
+  }
+  .float-social .fs-fly::before{content:"";position:absolute;left:-8px;right:-8px;bottom:-12px;height:12px;}      /* puente invisible: al subir el cursor la lista no se cierra */
+  .float-social .fs-more.open .fs-fly{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition-delay:0s;}
+  @media (any-hover:hover){
+    .float-social .fs-more:hover .fs-fly{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition-delay:0s;}
+    .float-social .fs-more:hover .fs-more-btn{background:var(--line,#1D9BFF);}
+  }
+  .float-social .fs-more.dd-off .fs-fly{opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;transition-delay:0s;}      /* Esc o un clic en una red: se esconde hasta que el cursor salga y vuelva a entrar */
+  @media (prefers-reduced-motion:reduce){ .float-social .fs-fly{transition:none;} }
   /* que los botones no tapen la última línea del pie de página al llegar al final */
   body:has(#float-social:not([hidden])) footer{padding-bottom:84px;}
   @media (max-width:760px){
-    .float-social{right:14px;bottom:calc(60px + env(safe-area-inset-bottom,0px));gap:9px;max-width:calc(100vw - 28px);}
-    .float-social a{width:44px;height:44px;}
+    .float-social{right:14px;bottom:calc(60px + env(safe-area-inset-bottom,0px));gap:9px;}
+    .float-social a,.float-social .fs-more-btn{width:44px;height:44px;}
     .float-social a svg{width:22px;height:22px;}
-    .float-social[data-n="7"],.float-social[data-n="8"]{max-width:calc(4 * 44px + 3 * 9px);}      /* 7 u 8 redes: 4 por fila (4+3 o 4+4), nunca una sola sobrando en la segunda fila */
-    body:has(#float-social:not([hidden])) footer{padding-bottom:132px;}
-    body:has(#float-social:is([data-n="7"],[data-n="8"])) footer{padding-bottom:182px;}      /* 7 u 8 redes ocupan 2 filas */
+    .float-social .fs-more-btn{font-size:14px;}
+    .float-social .fs-fly{bottom:calc(100% + 9px);gap:9px;max-height:calc(100vh - 150px - env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 150px - env(safe-area-inset-bottom,0px));}
+    body:has(#float-social:not([hidden])) footer{padding-bottom:132px;}      /* una sola fila: 3 redes + «+N» */
   }
   /* en celulares muy angostos (≤ 350 px) el texto de la barra verde de WhatsApp pasa a 2 renglones y la barra crece (64 px): las redes suben para no tocarla */
   @media (max-width:350px){
     .float-social{bottom:calc(76px + env(safe-area-inset-bottom,0px));}
-    .float-social[data-n="6"]{max-width:calc(3 * 44px + 2 * 9px);}      /* 6 redes: 3 + 3 (en una sola fila no caben) */
+    .float-social .fs-fly{max-height:calc(100vh - 166px - env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 166px - env(safe-area-inset-bottom,0px));}
     body:has(#float-social:not([hidden])) footer{padding-bottom:148px;}
-    body:has(#float-social:is([data-n="6"],[data-n="7"],[data-n="8"])) footer{padding-bottom:198px;}
   }
   body.ed-on .float-social{display:none !important;}
   /* ---------- FOTOS QUE SE CAMBIAN DESDE EL ADMINISTRADOR (aula → "Imágenes de la portada") ----------
@@ -734,6 +751,50 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
 ]}
 </script>
 <style id="site2-css">
+/* ---------- MENÚ: «Servicios ▾» con lista desplegable (Programas y Proyectos) ----------
+   Se abre al pasar el cursor, con Tab/flechas y con un toque. En el celular (menú ☰ de las 3 rayitas) las opciones van a la vista, con sangría, debajo de «Servicios». */
+nav.main-nav .nav-dd{position:relative;display:flex;align-items:center;}
+nav.main-nav a.nav-dd-top{display:inline-flex;align-items:center;gap:6px;}
+nav.main-nav .nav-caret{width:10px;height:10px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s;}
+nav.main-nav .nav-sub{
+  position:absolute;left:0;top:calc(100% + 10px);z-index:5;min-width:200px;
+  display:flex;flex-direction:column;gap:2px;padding:6px;
+  background:var(--ink-2,#121F30);border:1px solid rgba(255,255,255,.13);border-radius:14px;
+  box-shadow:0 22px 40px -14px rgba(0,0,0,.75);
+  opacity:0;visibility:hidden;transform:translateY(-4px);
+  transition:opacity .16s ease .1s,transform .16s ease .1s,visibility 0s linear .26s;
+}
+nav.main-nav .nav-sub::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px;}      /* puente invisible: al bajar el cursor la lista no se cierra */
+nav.main-nav .nav-sub a{display:block;padding:10px 14px;font-size:13px;border-radius:9px;}
+nav.main-nav .nav-sub a[hidden]{display:none !important;}
+nav.main-nav .nav-sub a:hover,nav.main-nav .nav-sub a:focus-visible{background:rgba(29,155,255,.22);color:#fff;}
+nav.main-nav .nav-sub a[aria-current="page"]{background:var(--line,#1D9BFF);color:#fff;}
+nav.main-nav .nav-dd.open .nav-sub{opacity:1;visibility:visible;transform:none;transition-delay:0s;}
+nav.main-nav .nav-dd.open .nav-caret{transform:rotate(180deg);}
+nav.main-nav .nav-dd.open>a.nav-dd-top{color:#fff;}
+@media (any-hover:hover){
+  nav.main-nav .nav-dd:hover .nav-sub{opacity:1;visibility:visible;transform:none;transition-delay:0s;}
+  nav.main-nav .nav-dd:hover .nav-caret{transform:rotate(180deg);}
+  nav.main-nav .nav-dd:hover>a.nav-dd-top{color:#fff;}
+}
+nav.main-nav .nav-dd.dd-off .nav-sub{opacity:0;visibility:hidden;transform:translateY(-4px);transition-delay:0s;}      /* Esc o un clic en una opción: se esconde hasta que el cursor salga y vuelva a entrar */
+nav.main-nav .nav-dd.dd-off .nav-caret{transform:none;}
+@media (prefers-reduced-motion:reduce){
+  nav.main-nav .nav-sub,nav.main-nav .nav-caret{transition:none;}
+}
+@media (max-width:1100px){
+  nav.main-nav .nav-dd{display:block;}
+  nav.main-nav a.nav-dd-top{display:flex;}
+  nav.main-nav .nav-caret{display:none;}
+  nav.main-nav .nav-sub{
+    position:static;min-width:0;margin:0 0 4px 24px;padding:0 0 0 10px;gap:0;
+    background:none;border:0;border-left:2px solid rgba(29,155,255,.55);border-radius:0;box-shadow:none;
+    opacity:1 !important;visibility:visible !important;transform:none !important;transition:none;
+  }
+  nav.main-nav .nav-sub::before{display:none;}
+  nav.main-nav .nav-sub a{padding:13px 14px;font-size:13.5px;color:#b9c8dc;}
+  nav.main-nav .nav-sub a[aria-current="page"]{color:#fff;}
+}
 /* ---------- TRABAJA CON NOSOTROS (convocatorias y CV: se administran desde el aula → pestaña «Empleo») ---------- */
   .jobs{position:relative;background:linear-gradient(165deg,#10315A 0%,#0B2243 46%,#0A1A31 100%);color:#fff;padding:76px 0 84px;scroll-margin-top:89px;}
   .jobs[hidden],[data-job][hidden]{display:none !important;}
@@ -846,10 +907,13 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
     <nav class="main-nav">
       <a href="#inicio" class="active">Inicio</a>
       <a href="#nosotros">Nosotros</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#programas">Programas</a>
-      <a href="#proyectos" data-prj hidden>Proyectos</a>
-      <a href="#clientes">Clientes</a>
+      <div class="nav-dd" id="nav-dd">
+        <a href="#servicios" class="nav-dd-top" id="nav-dd-top" aria-expanded="false" aria-controls="nav-sub">Servicios<svg class="nav-caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></a>
+        <div class="nav-sub" id="nav-sub" role="group" aria-label="Servicios">
+          <a href="#programas">Programas</a>
+          <a href="#proyectos" data-prj hidden>Proyectos</a>
+        </div>
+      </div>
       <a href="#trabaja" data-job hidden>Trabaja con nosotros</a>
       <a href="#contacto">Contacto</a>
       <a href="plataforma.html#ingresar" class="nav-aula nav-login"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c.9-3.7 3.9-5.7 7.5-5.7s6.6 2 7.5 5.7"/></svg><span>Iniciar sesión</span></a>
@@ -1065,7 +1129,6 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
           <li><a href="#servicios">Servicios</a></li>
           <li><a href="#programas">Programas</a></li>
           <li data-prj hidden><a href="#proyectos">Proyectos</a></li>
-          <li><a href="#clientes">Clientes</a></li>
           <li data-job hidden><a href="#trabaja">Trabaja con nosotros</a></li>
           <li><a href="plataforma.html#ingresar">Aula virtual (clientes)</a></li>
         </ul>
@@ -1111,6 +1174,10 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
   <a class="fs-x" id="fs-x" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)" hidden><svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
   <a class="fs-telegram" id="fs-telegram" href="#" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram" hidden><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
   <a class="fs-other" id="fs-other" href="#" target="_blank" rel="noopener" aria-label="Otra red" title="Otra red" hidden><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a>
+  <div class="fs-more" id="fs-more" hidden>
+    <button class="fs-more-btn" id="fs-more-btn" type="button" aria-expanded="false" aria-controls="fs-fly" aria-label="Ver más redes" title="Más redes"><span id="fs-more-n">+0</span></button>
+    <div class="fs-fly" id="fs-fly" role="group" aria-label="Más redes"></div>
+  </div>
 </div>
 
 <a class="mobile-wa-bar" href="https://wa.me/51987654321" target="_blank" rel="noopener" data-iw="wa">
@@ -1167,18 +1234,27 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
     return /^[^\/\s]+\.[^\/\s]+/.test(s)?'https://'+s.replace(/^\/+/,''):'';
   }
   var SOC=[['facebook','facebook_url'],['instagram','instagram_url'],['tiktok','tiktok_url'],['youtube','youtube_url'],['linkedin','linkedin_url'],['x','x_url'],['telegram','telegram_url'],['other','other_url']];
-  /* cada red con enlace aparece como botón flotante junto al de WhatsApp; sin enlace no se ve. «Otra red» lleva el nombre que tú le pongas */
+  /* cada red con enlace aparece como botón flotante junto al de WhatsApp; sin enlace no se ve. «Otra red» lleva el nombre que tú le pongas.
+     Se ven las 3 primeras (siempre en el mismo orden); si hay más, el resto va en la lista que despliega el botón «+N». */
   function social(c){
-    var n=0;
+    var on=[];
     SOC.forEach(function(s){
       var a=D.getElementById('fs-'+s[0]); if(!a) return;
       var u=link(c[s[1]]);
       if(u){
-        a.setAttribute('href',u); a.removeAttribute('hidden'); n++;
+        a.setAttribute('href',u); a.removeAttribute('hidden'); on.push(a);
         if(s[0]==='other'){ var t=txt(c.other_name).slice(0,40)||'Otra red'; a.setAttribute('title',t); a.setAttribute('aria-label',t); }
       } else { a.setAttribute('hidden',''); a.setAttribute('href','#'); }
     });
-    var box=D.getElementById('float-social');
+    var n=on.length, box=D.getElementById('float-social'), more=D.getElementById('fs-more'), fly=D.getElementById('fs-fly');
+    if(box&&more&&fly){
+      SOC.forEach(function(s){ var a=D.getElementById('fs-'+s[0]); if(a&&on.indexOf(a)<0) box.insertBefore(a,more); });
+      on.forEach(function(a,i){ if(i<3) box.insertBefore(a,more); else fly.appendChild(a); });
+      var rest=n>3?n-3:0, mb=D.getElementById('fs-more-btn'), mn=D.getElementById('fs-more-n');
+      if(mn) mn.textContent='+'+rest;
+      if(mb){ mb.setAttribute('aria-label','Ver '+(rest===1?'1 red más':rest+' redes más')); if(!rest) mb.setAttribute('aria-expanded','false'); }
+      if(rest) more.removeAttribute('hidden'); else { more.setAttribute('hidden',''); more.classList.remove('open','dd-off'); }
+    }
     if(box){ if(n) box.removeAttribute('hidden'); else box.setAttribute('hidden',''); box.setAttribute('data-n',String(n)); }
   }
 
@@ -1960,6 +2036,14 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
     q('[data-job]').forEach(function(n){ n.setAttribute('hidden',''); });
     var fso=c.querySelector('#fs-other'); if(fso){ fso.setAttribute('title','Otra red'); fso.setAttribute('aria-label','Otra red'); }
     var fsb=c.querySelector('#float-social'); if(fsb) fsb.removeAttribute('data-n');
+    var fsm=c.querySelector('#fs-more'), fsf=c.querySelector('#fs-fly');
+    if(fsb&&fsm&&fsf){
+      [].slice.call(fsf.querySelectorAll('a')).forEach(function(a){ fsb.insertBefore(a,fsm); });
+      fsm.setAttribute('hidden',''); fsm.classList.remove('open','dd-off');
+      var fmn=fsm.querySelector('#fs-more-n'); if(fmn) fmn.textContent='+0';
+      var fmb=fsm.querySelector('#fs-more-btn'); if(fmb){ fmb.setAttribute('aria-expanded','false'); fmb.setAttribute('aria-label','Ver más redes'); }
+    }
+    var ndd=c.querySelector('#nav-dd'); if(ndd){ ndd.classList.remove('open','dd-off'); var ndt=ndd.querySelector('#nav-dd-top'); if(ndt) ndt.setAttribute('aria-expanded','false'); }
     var vs=c.querySelector('#iw-visits'); if(vs){ vs.setAttribute('hidden',''); var vn=vs.querySelector('#iw-visits-n'); if(vn) vn.textContent='0'; var vl=vs.querySelector('#iw-visits-l'); if(vl) vl.textContent='visitas'; }
     q('#float-social,#float-social a').forEach(function(n){ n.setAttribute('hidden',''); if(n.tagName==='A') n.setAttribute('href','#'); });
     return '<!DOCTYPE html>\n'+c.outerHTML;
@@ -2413,6 +2497,83 @@ body.ed-on .cat:hover .cat-photo img{transform:none;}
     var once=function(){ if(D.visibilityState!=='visible') return; D.removeEventListener('visibilitychange',once); run(); };
     D.addEventListener('visibilitychange',once);
   } else run();
+})();
+</script>
+<script id="menus-js">
+(function(){
+  'use strict';
+  /* LISTAS QUE SE DESPLIEGAN: el menú «Servicios ▾» (Programas, Proyectos) y el botón «+N» de las redes.
+     · Con mouse: se abren al pasar el cursor (lo hace el CSS) y se cierran al salir.
+     · Con teclado: el menú se abre al llegar con Tab y el botón «+N» con Enter o Espacio; flechas para moverse y Esc para cerrar.
+     · Con el dedo: un toque abre y tocar afuera cierra (en «Servicios», un segundo toque va a la sección).
+     · En el celular (menú ☰ de las 3 rayitas) las opciones de «Servicios» ya van a la vista, sin tocar nada. */
+  var D=document;
+  function mq(q){ try{ return !!(window.matchMedia&&window.matchMedia(q).matches); }catch(e){ return false; } }
+  var kb=false, touch=false;       // con qué se usó la página por última vez: teclado o dedo
+  D.addEventListener('keydown',function(){ kb=true; touch=false; },true);
+  D.addEventListener('pointerdown',function(e){ kb=false; touch=(e.pointerType==='touch'||e.pointerType==='pen'); },true);
+  D.addEventListener('touchstart',function(){ kb=false; touch=true; },{capture:true,passive:true});
+
+  function wire(o){
+    var root=o.root, trig=o.trig, panel=o.panel;
+    if(!root||!trig||!panel) return;
+    var hov=false, hoverOK=mq('(any-hover: hover)');
+    function isOn(){ return root.classList.contains('open'); }
+    function sync(){
+      var vis=!o.off()&&!root.classList.contains('dd-off')&&(isOn()||(hov&&hoverOK));
+      trig.setAttribute('aria-expanded',vis?'true':'false');
+    }
+    function open(){ if(o.off()) return; root.classList.remove('dd-off'); root.classList.add('open'); sync(); }
+    function close(hide){ root.classList.remove('open'); if(hide) root.classList.add('dd-off'); sync(); }
+    function reset(){ root.classList.remove('open','dd-off'); sync(); }
+    function items(){ return [].filter.call(panel.querySelectorAll('a'),function(a){ return !a.hidden; }); }
+
+    root.addEventListener('mouseenter',function(){ if(!touch){ hov=true; sync(); } });
+    root.addEventListener('mouseleave',function(){ hov=false; root.classList.remove('dd-off'); sync(); });
+    root.addEventListener('focusin',function(){ if(o.openOnFocus&&kb&&!o.off()&&!root.classList.contains('dd-off')) open(); });
+    root.addEventListener('focusout',function(e){
+      if(e.relatedTarget){ if(!root.contains(e.relatedTarget)) reset(); return; }
+      /* sin «relatedTarget»: o el foco salió de la página (Tab después de la última opción) o la opción se escondió sola al cerrarse la lista (en ese caso no se reabre) */
+      setTimeout(function(){ if(!root.classList.contains('dd-off')&&!root.contains(D.activeElement)) reset(); },0);
+    });
+    D.addEventListener('pointerdown',function(e){ if(!root.contains(e.target)) reset(); },true);
+    var lastW=window.innerWidth;      // solo al cambiar el ANCHO (en el celular la barra del navegador también dispara «resize» al deslizar)
+    window.addEventListener('resize',function(){ if(window.innerWidth!==lastW){ lastW=window.innerWidth; reset(); } });
+
+    trig.addEventListener('click',function(e){
+      if(o.isLink){
+        if(o.off()) return;                                   // en el celular (☰) es un enlace normal
+        if(touch&&!isOn()){ e.preventDefault(); open(); return; }
+        close(true); return;                                  // mouse o teclado: sigue al enlace y la lista se esconde
+      }
+      e.preventDefault();                                     // botón «+N»: con mouse ya se abre al pasar el cursor
+      if(touch||kb||e.detail===0||!hoverOK){ if(isOn()) close(false); else open(); }
+    });
+    panel.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('a')) close(true); });
+
+    root.addEventListener('keydown',function(e){
+      var k=e.key, list=items(), i=list.indexOf(D.activeElement);
+      if(k==='Escape'){
+        close(true);
+        if(panel.contains(D.activeElement)) trig.focus();
+      } else if(k==='ArrowDown'||k==='ArrowUp'||k==='Home'||k==='End'){
+        if(o.off()||!list.length) return;
+        if(o.up&&i<0&&k==='ArrowDown') return;
+        e.preventDefault(); open();
+        var fwd=(k==='ArrowDown')!==!!o.up, n;                 // en la columna que sube, la flecha ↑ va a la siguiente red
+        if(k==='Home') n=0; else if(k==='End') n=list.length-1;
+        else if(i<0) n=fwd?0:list.length-1;
+        else n=(i+(fwd?1:-1)+list.length)%list.length;
+        list[n].focus();
+      }
+    });
+    sync();
+  }
+
+  wire({root:D.getElementById('nav-dd'),trig:D.getElementById('nav-dd-top'),panel:D.getElementById('nav-sub'),isLink:true,openOnFocus:true,
+        off:function(){ var b=D.querySelector('.burger'); return !!b&&getComputedStyle(b).display!=='none'; }});
+  wire({root:D.getElementById('fs-more'),trig:D.getElementById('fs-more-btn'),panel:D.getElementById('fs-fly'),up:true,
+        off:function(){ return false; }});
 })();
 </script>
 </body>
