@@ -735,6 +735,7 @@
   .lm-kind.ok{background:#DFF4EA;color:var(--ok);}
   .lm-kind.bad{background:#FBE3DE;color:var(--danger);}
   .lm-kind.none{background:#FFF1CC;color:var(--warn);}
+  .lm-kind.none,.lm-kind.bad{white-space:normal;line-height:1.4;border-radius:12px;max-width:100%;}
   .lm-lesson .form-msg.inline{display:inline-block;margin:0 0 0 10px;}
   .lm-matbox{background:#F6FAFE;border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:14px 0 0;}
   .lm-matitem{display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid #E4ECF4;}
@@ -1768,8 +1769,8 @@
           <div id="ci-nc-root" class="ci-root" role="group" aria-labelledby="ci-nc-l"></div></div>
         <div class="step-label"><span class="step-n">3</span>Sesiones del curso</div>
         <div id="nc-sessions" class="nc-sessions">
-          <p class="nc-lede">Cada sesión lleva su nombre, su video y, si quieres, su propio material. Si te equivocas, escribe encima del nombre o del enlace: no hace falta quitar la sesión. Los alumnos las ven en este orden, escogen la que quieran y pasan a la siguiente con «Siguiente». Los videos de Drive u OneDrive deben estar compartidos como <b>«Cualquier persona con el enlace»</b>: así se ven en el aula sin pedir ningún permiso.</p>
-          <div class="nc-head" aria-hidden="true"><span>N.º</span><span>Nombre de la sesión</span><span>Enlace del video (Drive, OneDrive, YouTube o Vimeo)</span><span>Material (opcional)</span><span></span></div>
+          <p class="nc-lede">Cada sesión lleva su nombre, su video y, si quieres, su propio material. Si te equivocas, escribe encima del nombre o del enlace: no hace falta quitar la sesión. Los alumnos las ven en este orden, escogen la que quieran y pasan a la siguiente con «Siguiente». Los videos de Drive deben estar compartidos como <b>«Cualquier persona con el enlace»</b>: así se ven dentro del aula sin pedir ningún permiso. Los de OneDrive no se pueden ver dentro del aula (Microsoft no lo permite): se abren en otra pestaña.</p>
+          <div class="nc-head" aria-hidden="true"><span>N.º</span><span>Nombre de la sesión</span><span>Enlace del video (Drive, YouTube o Vimeo)</span><span>Material (opcional)</span><span></span></div>
           <div id="nc-rows" class="nc-rows"></div>
           <div class="nc-tools">
             <button class="btn btn-ghost btn-sm" id="nc-add-btn" type="button" onclick="ncAdd()">+ Agregar una sesión</button>
@@ -1839,7 +1840,7 @@
           <div class="lm-add">
             <div id="lm-next-label" class="section-tag">SESIÓN 01 (siguiente)</div>
             <div class="field"><label for="lm-tema">Tema</label><input id="lm-tema" placeholder="Ej: Introducción al modelado" autocomplete="off"></div>
-            <div class="field"><label for="lm-video">Enlace del video de este tema (Drive, OneDrive, YouTube o Vimeo)</label><input id="lm-video" inputmode="url" autocomplete="off" placeholder="https://drive.google.com/file/d/… · https://1drv.ms/v/… · https://www.youtube.com/watch?v=…"><div class="field-hint">Drive u OneDrive: clic derecho en el video → Compartir → en «Acceso general» elige <b>«Cualquier persona con el enlace»</b> (solo ver) → Copiar enlace. Así el alumno lo ve en el aula sin pedir permiso. En OneDrive también sirve pegar el código «Insertar» (el que empieza con &lt;iframe…).</div></div>
+            <div class="field"><label for="lm-video">Enlace del video de este tema (Drive, YouTube o Vimeo)</label><input id="lm-video" inputmode="url" autocomplete="off" placeholder="https://drive.google.com/file/d/… · https://www.youtube.com/watch?v=…"><div class="field-hint">Drive: clic derecho en el video → Compartir → en «Acceso general» elige <b>«Cualquier persona con el enlace»</b> (solo ver) → Copiar enlace. Así el alumno lo ve dentro del aula, con pantalla grande y sin pedir permiso. <b>OneDrive no se ve dentro del aula:</b> Microsoft no deja reproducir sus videos en otra página, así que el alumno tendría que abrirlo en otra pestaña (y allá podría descargarlo).</div></div>
             <div class="lm-mat">
               <div class="lm-mat-t">Material de este tema <span>(opcional · los alumnos pueden descargarlo)</span></div>
               <div class="lm-mat-row">
@@ -5151,7 +5152,10 @@ function videoKind(v){
   if(p === 'onedrive'){
     const od = oneDriveInfo(v);
     if(!od || od.folder) return { cls: 'bad', text: 'Enlace de OneDrive que no es de un video' };
-    return od.embed ? { cls: 'ok', text: '✓ Video de OneDrive' } : { cls: 'none', text: 'Este enlace de OneDrive se abrirá en otra pestaña (no se puede ver dentro del aula)' };
+    /* Microsoft no deja reproducir sus videos dentro de otra página (los de empresa nunca; los personales a veces abren otra pestaña): se avisa en claro para que el administrador elija Drive, YouTube o Vimeo */
+    return od.embed
+      ? { cls: 'none', text: '⚠ OneDrive: puede abrirse en otra pestaña en vez de verse dentro del aula. Mejor usa Drive, YouTube o Vimeo.' }
+      : { cls: 'none', text: '⚠ OneDrive de empresa: no se ve dentro del aula (se abre en otra pestaña). Mejor usa Drive, YouTube o Vimeo.' };
   }
   if(p === 'youtube') return extractYouTubeId(v) ? { cls: 'ok', text: '✓ Video de YouTube' } : { cls: 'bad', text: 'Enlace de YouTube incompleto' };
   if(p === 'vimeo') return extractVimeoId(v) ? { cls: 'ok', text: '✓ Video de Vimeo' } : { cls: 'bad', text: 'Enlace de Vimeo incompleto' };
@@ -5340,7 +5344,7 @@ function lmLessonHtml(l, i, ctx){
     '<div class="lm-lesson-top"><span class="lm-lesson-n">' + sessionLabel(i) + '</span>' +
     '<button class="btn btn-danger btn-sm" type="button" onclick="deleteLesson(\'' + l.id + '\', this)">Eliminar tema</button></div>' +
     '<div class="field"><label for="les-tema-' + l.id + '">Tema</label><input id="les-tema-' + l.id + '" value="' + escapeHtml(l.tema) + '" autocomplete="off"></div>' +
-    '<div class="field"><label for="les-video-' + l.id + '">Enlace del video de este tema</label><input id="les-video-' + l.id + '" value="' + escapeHtml(l.video_url || '') + '" inputmode="url" autocomplete="off" placeholder="Pega aquí el enlace del video (Drive, OneDrive, YouTube o Vimeo)"></div>' +
+    '<div class="field"><label for="les-video-' + l.id + '">Enlace del video de este tema</label><input id="les-video-' + l.id + '" value="' + escapeHtml(l.video_url || '') + '" inputmode="url" autocomplete="off" placeholder="Pega aquí el enlace del video (Drive, YouTube o Vimeo)"></div>' +
     '<span class="lm-kind ' + kind.cls + '" id="les-kind-' + l.id + '">' + kind.text + '</span>' +
     '<button class="btn btn-ghost btn-sm" type="button" onclick="saveLesson(\'' + l.id + '\')">Guardar cambios</button><span id="les-msg-' + l.id + '" class="form-msg inline"></span>' +
     '<div class="lm-matbox"><div class="lm-mat-t">MATERIAL DE APOYO · LOS ALUMNOS PUEDEN DESCARGARLO</div>' + matItems +
@@ -5437,7 +5441,8 @@ async function addLessonNow(){
     lmEl('lm-mat-file').value = '';
     lmEl('lm-open-all').checked = true;   // lo normal es abrirlo: el siguiente tema vuelve a empezar marcado
     lmEl('lm-fresh').classList.add('hidden');
-    lmSay('lm-msg', 'Tema agregado ✓ ' + said + extra, extra ? 'err' : 'ok');
+    const odNote = isOneDriveUrl(video) ? ' Ojo: ese video es de OneDrive y puede abrirse fuera del aula; para que se vea dentro, usa Drive, YouTube o Vimeo.' : '';
+    lmSay('lm-msg', 'Tema agregado ✓ ' + said + extra + odNote, extra ? 'err' : 'ok');
     await loadAndRenderLessons();
     if(!(window.matchMedia && window.matchMedia('(pointer:coarse)').matches)) lmEl('lm-tema').focus();
   } finally {
@@ -5810,7 +5815,7 @@ function ncRowHtml(r, i, n){
     '<div class="nc-n" aria-hidden="true">' + num + '</div>' +
     '<div class="nc-cell"><label class="nc-lab" for="nci-n-' + k + '">Nombre de la sesión</label>' +
       '<input class="nc-in" id="nci-n-' + k + '" type="text" autocomplete="off" aria-label="Nombre de la sesión ' + num + '" placeholder="Nombre de la sesión" value="' + escapeHtml(r.name) + '" oninput="ncSet(\'' + k + '\',\'name\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'name\')"></div>' +
-    '<div class="nc-cell"><label class="nc-lab" for="nci-v-' + k + '">Enlace del video (Drive, OneDrive, YouTube o Vimeo)</label>' +
+    '<div class="nc-cell"><label class="nc-lab" for="nci-v-' + k + '">Enlace del video (Drive, YouTube o Vimeo)</label>' +
       '<input class="nc-in" id="nci-v-' + k + '" type="text" inputmode="url" autocomplete="off" aria-label="Enlace del video de la sesión ' + num + '" placeholder="Pega el enlace del video" value="' + escapeHtml(r.video) + '" oninput="ncSet(\'' + k + '\',\'video\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'video\')">' +
       '<span class="lm-kind none" id="ncc-v-' + k + '"></span></div>' +
     '<div class="nc-cell"><label class="nc-lab" for="nci-m-' + k + '">Material (opcional)</label>' + matCell +
