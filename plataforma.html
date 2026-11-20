@@ -1538,6 +1538,89 @@
   /* tarjetas de «Mis cursos» del alumno: la imagen (o varias que se pasan) ocupa el lugar de siempre */
   .sheet-car.iwc{background:var(--navy);}
   .sheet-car .iwc-nav{width:30px;height:30px;margin-top:-15px;}
+/* ================= MÓDULOS (opcional) — solo estilos nuevos; nada de lo que ya existe se toca ================= */
+
+/* ---------- ALUMNO: encabezados dentro de la lista de la derecha ---------- */
+.cv-mod-head{display:flex;align-items:baseline;gap:8px;padding:12px 4px 2px;}
+.cv-mod-head:first-child{padding-top:2px;}
+.cv-mod-n{font-size:10.5px;font-weight:800;letter-spacing:.09em;color:var(--line-dark);white-space:nowrap;}
+.cv-mod-t{flex:1;min-width:0;font-size:13px;font-weight:800;line-height:1.3;color:var(--text);overflow-wrap:anywhere;}
+.cv-mod-c{font-size:11px;font-weight:700;color:var(--muted);background:var(--track);border-radius:99px;padding:1px 9px;white-space:nowrap;}
+.cv-mod-head.loose .cv-mod-n{color:var(--muted);}
+.lesson-item.mod-video{border-style:dashed;}
+
+/* ---------- «Subir un curso»: elegir cómo armar el curso ---------- */
+.nc-struct{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 10px;}
+.nc-opt{appearance:none;text-align:left;display:flex;flex-direction:column;gap:3px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;font-family:'Montserrat',sans-serif;color:var(--text);transition:border-color .15s,background .15s,box-shadow .15s;}
+.nc-opt b{font-size:14px;font-weight:800;}
+.nc-opt span{font-size:12px;font-weight:500;line-height:1.45;color:var(--muted);}
+.nc-opt:hover:not(:disabled){border-color:#9CCDF5;}
+.nc-opt.on{border-color:var(--line);background:#EAF4FF;box-shadow:0 0 0 3px rgba(29,155,255,.14);}
+.nc-opt:focus-visible{outline:2px solid var(--line);outline-offset:2px;}
+.nc-opt:disabled{opacity:.6;cursor:not-allowed;}
+.nc-struct-note{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0 0 12px;}
+.nc-struct-note:empty{display:none;}
+
+/* ---------- «Subir un curso»: cada módulo es una tarjeta ---------- */
+.nc-modules{margin:0 0 6px;}
+.nc-mods{display:flex;flex-direction:column;gap:16px;}
+.nm-card{background:#fff;border:1.5px solid var(--border);border-left:5px solid var(--line);border-radius:16px;padding:14px 14px 10px;transition:border-color .15s;}
+.nm-card.bad{border-color:#E9A79B;border-left-color:var(--danger);}
+.nm-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin:0 0 12px;}
+.nm-n{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--line-dark);background:#EAF4FF;border-radius:999px;padding:5px 12px;}
+.nm-acts{min-height:0;}
+.nm-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:12px;margin:0 0 14px;align-items:start;}
+.nm-lab{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.nm-sub{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;padding-top:12px;border-top:1px dashed #C9D6E4;}
+.nm-empty{font-size:13px;line-height:1.55;color:var(--muted);background:#F6FAFE;border:1.5px dashed #BFCDDC;border-radius:12px;padding:12px 14px;}
+.nm-card .nc-rows{margin:0 0 4px;}
+.nm-card .nc-row{background:#F6FAFE;}
+.nm-card .nc-tools{margin:12px 0 2px;}
+.nm-card .lm-bulk{margin:10px 0 4px;background:#fff;}
+.nc-modules.nc-busy .nc-mods,.nc-modules.nc-busy > .nc-tools{opacity:.55;pointer-events:none;}
+#nc-mod-msg{margin:6px 0 12px;}
+#nc-mod-msg:empty{display:none;}
+#nc-mod-sql:empty{display:none;}
+#nc-mod-sql{margin:0 0 14px;}
+.mod-setup .btn{margin-top:4px;}
+.nm-card .form-msg:empty{display:none;}
+
+/* ---------- Pantalla de un curso: «Lo que agregues va a:» ---------- */
+.lm-where{background:#F6FAFE;border:1px solid var(--border);border-left:5px solid var(--line);border-radius:14px;padding:14px 18px;margin:0 0 16px;}
+.lm-where-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;}
+.lm-where-row label{font-size:13px;font-weight:800;color:var(--text);}
+.lm-where-row .access-select{flex:1 1 240px;min-width:0;max-width:100%;padding:9px 12px;font-size:13px;}
+.lm-where-new{margin:14px 0 0;}
+.lm-where-new .field:last-child{margin-bottom:0;}
+
+/* ---------- Pantalla de un curso: encabezado de cada módulo ---------- */
+.lm-mod-head{background:#EAF4FF;border:1px solid #B6D9F8;border-left:5px solid var(--line);border-radius:14px;padding:12px 16px;margin:6px 0 14px;}
+.lm-mod-head.loose{background:#F3F7FB;border-color:var(--border);border-left-color:#9AA9BA;}
+.lm-mod-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;}
+.lm-mod-n{font-size:11.5px;font-weight:800;letter-spacing:.14em;color:var(--line-dark);}
+.lm-mod-head.loose .lm-mod-n{color:var(--muted);}
+.lm-mod-c{font-size:12px;font-weight:700;color:var(--muted);flex:1 1 auto;}
+.lm-mod-edit{margin:10px 0 0;}
+.lm-mod-edit label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;}
+.lm-mod-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.lm-mod-row input{flex:1 1 240px;min-width:0;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:9px 12px;font-size:14px;font-family:'Montserrat',sans-serif;border-radius:var(--radius);}
+.lm-mod-row input:focus{outline:none;border-color:var(--line);box-shadow:0 0 0 3px rgba(29,155,255,.18);}
+.lm-mod-row .form-msg.inline{display:inline-block;margin:0;}
+
+@media(max-width:900px){
+  .nm-fields{grid-template-columns:minmax(0,1fr);}
+  .nc-rows.cls .nc-n::before{content:'CLASE ';}
+}
+@media(max-width:640px){
+  .nc-struct{grid-template-columns:minmax(0,1fr);}
+  .nm-card{padding:12px 12px 8px;}
+  .nm-acts{width:100%;}
+  .nm-top .nc-rm{flex:1 1 auto;}
+  .lm-where{padding:12px 14px;}
+  .lm-mod-head{padding:12px 14px;}
+  .lm-mod-top .btn{width:100%;}
+  .lm-mod-row .btn{width:100%;}
+}
 </style>
 </head>
 <body class="guest">
@@ -1793,7 +1876,12 @@
           <div class="field-hint">En el certificado dirá «Por haber aprobado el <b>curso de</b>…», «…el <b>curso de especialización integral en:</b>…» o «…el <b>diplomado en:</b>…». Lo puedes cambiar después en «Cursos publicados».</div></div>
         <div class="field"><label id="ci-nc-l">Imágenes del curso (opcional)</label>
           <div id="ci-nc-root" class="ci-root" role="group" aria-labelledby="ci-nc-l"></div></div>
-        <div class="step-label"><span class="step-n">3</span>Sesiones del curso</div>
+        <div class="step-label"><span class="step-n">3</span><span id="nc-step3-t">Sesiones del curso</span></div>
+        <div class="nc-struct" id="nc-struct" role="radiogroup" aria-label="Cómo armar el curso">
+          <button class="nc-opt on" id="nc-opt-sesiones" type="button" role="radio" aria-checked="true" onclick="ncSetMode('sesiones')"><b>Solo sesiones</b><span>Una lista de sesiones, cada una con su video. Es como siempre.</span></button>
+          <button class="nc-opt" id="nc-opt-modulos" type="button" role="radio" aria-checked="false" onclick="ncSetMode('modulos')"><b>Con módulos</b><span>Módulo 1 con su video y sus clases, Módulo 2 con su video y sus clases…</span></button>
+        </div>
+        <p class="nc-struct-note" id="nc-struct-note" aria-live="polite"></p>
         <div id="nc-sessions" class="nc-sessions">
           <p class="nc-lede">Cada sesión lleva su nombre, su video y, si quieres, su propio material. Si te equivocas, escribe encima del nombre o del enlace: no hace falta quitar la sesión. Los alumnos las ven en este orden, escogen la que quieran y pasan a la siguiente con «Siguiente». Los videos de Drive deben estar compartidos como <b>«Cualquier persona con el enlace»</b>: así se ven dentro del aula sin pedir ningún permiso. Los de OneDrive también se intentan ver dentro del aula con el mismo enlace; Microsoft no lo garantiza, así que en cada sesión con OneDrive pulsa «Probar el video» (si no carga, se abre en otra pestaña).</p>
           <div class="nc-head" aria-hidden="true"><span>N.º</span><span>Nombre de la sesión</span><span>Enlace del video (Drive, YouTube, Vimeo u OneDrive)</span><span>Material (opcional)</span><span></span></div>
@@ -1815,6 +1903,18 @@
           </details>
           <div class="nc-sum" id="nc-sum" aria-live="polite"></div>
           <p class="nc-open-note">Los alumnos a quienes les des este curso verán todas estas sesiones desde el primer momento.</p>
+        </div>
+        <div id="nc-modules" class="nc-modules hidden">
+          <p class="nc-lede">Cada módulo lleva su nombre, su video (si quieres) y sus clases; cada clase lleva su nombre, su video y, si quieres, su propio material. Escribe encima de cualquier nombre o enlace para corregirlo y usa las flechas para cambiar el orden. Los alumnos ven los módulos en este orden, con las clases de cada uno debajo, y pasan de una clase a la siguiente con «Siguiente». Los videos de Drive deben estar compartidos como <b>«Cualquier persona con el enlace»</b>; los de OneDrive también se intentan ver dentro del aula: pulsa «Probar el video» para comprobarlo.</p>
+          <div id="nc-mod-sql"></div>
+          <div id="nc-mods" class="nc-mods"></div>
+          <div class="nc-tools">
+            <button class="btn btn-ghost btn-sm" id="nc-addmod-btn" type="button" onclick="ncAddMod()">+ Agregar un módulo</button>
+            <span class="nc-hint">Siempre puedes volver a corregir nombres y enlaces, o agregar más módulos y clases, después de publicar.</span>
+          </div>
+          <div id="nc-mod-msg" class="form-msg" role="status" aria-live="polite"></div>
+          <div class="nc-sum" id="nc-msum" aria-live="polite"></div>
+          <p class="nc-open-note">Los alumnos a quienes les des este curso verán todos los módulos y sus clases desde el primer momento.</p>
         </div>
         <div id="nc-msg" class="form-msg" role="status" aria-live="polite"></div>
         <button class="btn btn-solid" id="nc-publish" type="button" onclick="createCourse()">Publicar curso</button>
@@ -1852,6 +1952,15 @@
 
         <div id="lm-pane-temas">
           <p class="panel-lede">Cada tema (sesión) tiene su propio video: escribe el nombre del tema y pega el enlace de su video. Si quieres, agrégale también su material. Los alumnos ven las sesiones en este mismo orden, escogen la que quieran en la lista y, al terminar una, pasan a la siguiente con el botón «Siguiente».</p>
+          <div class="lm-where hidden" id="lm-where">
+            <div class="lm-where-row"><label for="lm-mod">Lo que agregues aquí abajo va a:</label>
+              <select id="lm-mod" class="access-select" onchange="lmWhereChanged()"></select></div>
+            <div class="lm-where-new hidden" id="lm-mod-new">
+              <div class="field"><label for="lm-mod-name">Nombre del módulo nuevo</label><input id="lm-mod-name" autocomplete="off" oninput="lmWhereChanged()" placeholder="Ej: Cimentaciones"></div>
+              <div class="field"><label for="lm-mod-video">Video del módulo (opcional)</label><input id="lm-mod-video" inputmode="url" autocomplete="off" oninput="odTestToggle('lm-mod-video','modnew')" placeholder="Enlace del video de este módulo (Drive, YouTube, Vimeo u OneDrive)"><div class="od-test-wrap"><button class="btn btn-ghost btn-sm od-test-btn hidden" type="button" id="odt-btn-modnew" onclick="odTest('lm-mod-video','modnew')">Probar el video</button><div class="od-test" id="odt-box-modnew" role="status" aria-live="polite"></div></div>
+                <div class="field-hint">Si el módulo tiene un video propio, ponlo aquí; si no, déjalo vacío y el módulo se crea con la primera clase que agregues.</div></div>
+            </div>
+          </div>
           <details class="lm-bulk" id="lm-bulk">
             <summary>Agregar varias sesiones de una vez <span>(pega una lista: una sesión por línea)</span></summary>
             <div class="lm-bulk-body">
@@ -2338,6 +2447,7 @@ async function loadClientData(){
     if(!state.lessons[r.course_id]) state.lessons[r.course_id] = [];
     state.lessons[r.course_id].push(r);
   });
+  modNormalizeAll(state.lessons);          // con módulos: primero las sesiones sueltas y luego cada módulo (su video y sus clases); sin módulos no cambia nada
 
   const { data: matRows } = await sb.from('lesson_materials').select('*');
   state.materials = {};
@@ -2747,6 +2857,7 @@ function renderClientCourseDetail(id){
       </div>
     </div>
   `;
+  modDecorateSidebar(id);
   selectLesson('detail', aulaStartLesson(id, lessons));
 }
 
@@ -3964,13 +4075,15 @@ function updateCourseSide(){
   if(pEl) pEl.textContent = pct + '%';
   const fEl = document.querySelector('#client-detail-body .cv-side-fill');
   if(fEl) fEl.style.width = pct + '%';
-  ((state.lessons && state.lessons[id]) || []).forEach((l, i) => {
+  const lsAll = (state.lessons && state.lessons[id]) || [];
+  lsAll.forEach((l, i) => {
     const span = document.querySelector('.lesson-item[data-lesson="' + l.id + '"] > span:first-child');
     if(!span) return;
     const p = state.progress && state.progress[l.id];
     const done = p && p.duration > 0 && p.seconds >= p.duration * 0.9;
-    span.textContent = (done ? '✓ ' : '') + sessionLabel(i) + ': ' + l.tema;
+    span.textContent = (done ? '✓ ' : '') + lessonItemText(lsAll, l);      // sin módulos: «SESIÓN 02: tema», igual que siempre
   });
+  modRefreshHeads(id);
 }
 
 /* ================= VIDEOS DE ONEDRIVE =================
@@ -5381,6 +5494,192 @@ function refreshDriveLive(){
   }
 }
 
+/* ================= MÓDULOS EN LOS CURSOS (opcional) =================
+   Un curso puede armarse de dos maneras (se elige al subirlo y se puede mezclar después):
+     • Solo sesiones: una lista de sesiones, cada una con su video. Es lo de siempre y NO cambia en nada.
+     • Con módulos: «Módulo 1» con su video y sus clases, «Módulo 2» con su video y sus clases…
+   Cómo se guarda (supabase-modulos.sql): cada fila de course_lessons puede traer
+     modulo_n   → número del módulo (vacío = sesión suelta, como siempre)
+     modulo     → nombre del módulo
+     es_modulo  → true solo en la fila que guarda el VIDEO del módulo (no es una clase más; su «tema» es el nombre del módulo)
+   Todo lo demás (progreso, «Siguiente», certificado, accesos por clase) sigue funcionando por clase, igual que antes.
+   Orden en pantalla: primero las sesiones sueltas (si hay), después cada módulo (su video y luego sus clases).
+   Sin esas columnas (cursos de hoy, o mientras no se corra supabase-modulos.sql) NADA de lo de aquí se nota. */
+
+/* ---------------- datos ---------------- */
+function modN(l){
+  const n = l ? l.modulo_n : null;
+  return (n === null || n === undefined || n === '' || !isFinite(Number(n))) ? null : Number(n);
+}
+function modHas(ls){ return (ls || []).some(l => modN(l) !== null); }
+function modPad(n){ return String(n).padStart(2, '0'); }
+/* orden en pantalla: sueltas primero, luego módulo 1, 2, 3…; dentro de cada módulo el video primero y después sus clases por order_index */
+function modCmp(a, b){
+  const na = modN(a), nb = modN(b);
+  const ga = na === null ? -1 : na, gb = nb === null ? -1 : nb;
+  if(ga !== gb) return ga - gb;
+  const ea = (na !== null && a.es_modulo === true) ? 0 : 1, eb = (nb !== null && b.es_modulo === true) ? 0 : 1;
+  if(ea !== eb) return ea - eb;
+  return (Number(a.order_index) || 0) - (Number(b.order_index) || 0);
+}
+/* sin módulos devuelve la MISMA lista, sin tocar nada */
+function modSort(rows){
+  const ls = rows || [];
+  return modHas(ls) ? ls.slice().sort(modCmp) : ls;
+}
+function modNormalizeAll(map){
+  Object.keys(map || {}).forEach(cid => { map[cid] = modSort(map[cid]); });
+}
+/* agrupa una lista que ya está en orden de pantalla */
+function modGroups(ls){
+  const out = { loose: [], mods: [] }, by = {};
+  (ls || []).forEach(l => {
+    const n = modN(l);
+    if(n === null){ out.loose.push(l); return; }
+    let g = by[n];
+    /* rank = el número del módulo que se ve («MÓDULO 2»): es el que está guardado, así un alumno al que le cerraron el módulo 1 sigue viendo «MÓDULO 2» y no «MÓDULO 1» */
+    if(!g){ g = by[n] = { n, rank: n, name: '', video: null, classes: [], items: [] }; out.mods.push(g); }
+    if(!g.name && l.modulo) g.name = String(l.modulo).trim();
+    g.items.push(l);
+    if(l.es_modulo === true && !g.video) g.video = l; else g.classes.push(l);
+  });
+  out.mods.forEach(g => { if(!g.name) g.name = 'Módulo ' + g.rank; });
+  return out;
+}
+/* dónde cae una clase: { kind: 'loose' | 'video' | 'class', g, idx (1, 2, 3…), count } */
+function modFind(ls, l){
+  if(!l) return null;
+  const gs = modGroups(ls);
+  let i = gs.loose.findIndex(x => x.id === l.id);
+  if(i >= 0) return { kind: 'loose', g: null, idx: i + 1, count: gs.loose.length };
+  for(const g of gs.mods){
+    if(g.video && g.video.id === l.id) return { kind: 'video', g, idx: 0, count: g.classes.length };
+    i = g.classes.findIndex(x => x.id === l.id);
+    if(i >= 0) return { kind: 'class', g, idx: i + 1, count: g.classes.length };
+  }
+  return null;
+}
+/* «SESIÓN 03» (igual que siempre) · «MÓDULO 2 · CLASE 03» · «MÓDULO 2 · VIDEO DEL MÓDULO» */
+function lessonTag(ls, l){
+  const f = modFind(ls, l);
+  if(!f) return '';
+  if(f.kind === 'loose') return sessionLabel(f.idx - 1);
+  return 'MÓDULO ' + f.g.rank + ' · ' + (f.kind === 'video' ? 'VIDEO DEL MÓDULO' : 'CLASE ' + modPad(f.idx));
+}
+/* la misma etiqueta sin el módulo (para las tarjetas que ya van dentro de su módulo) */
+function lessonShort(ls, l){
+  const f = modFind(ls, l);
+  if(!f) return '';
+  if(f.kind === 'loose') return sessionLabel(f.idx - 1);
+  return f.kind === 'video' ? 'VIDEO DEL MÓDULO' : 'CLASE ' + modPad(f.idx);
+}
+/* texto de cada renglón de la lista del alumno */
+function lessonItemText(ls, l){
+  const f = modFind(ls, l);
+  if(!f) return String(l.tema || '');
+  if(f.kind === 'loose') return sessionLabel(f.idx - 1) + ': ' + l.tema;
+  if(f.kind === 'video') return 'VIDEO DEL MÓDULO' + (l.tema && String(l.tema).trim() !== String(f.g.name).trim() ? ': ' + l.tema : '');
+  return 'CLASE ' + modPad(f.idx) + ': ' + l.tema;
+}
+/* encabezado de la sesión que se está viendo: { n: 'SESIÓN 02', of: 'de 12' } */
+function lessonNavParts(ls, l){
+  const f = modFind(ls, l);
+  if(!f) return { n: '', of: '' };
+  if(f.kind === 'loose') return { n: sessionLabel(f.idx - 1), of: 'de ' + (modHas(ls) ? f.count : (ls || []).length) };
+  if(f.kind === 'video') return { n: 'MÓDULO ' + f.g.rank + ' · VIDEO DEL MÓDULO', of: '' };
+  return { n: 'MÓDULO ' + f.g.rank + ' · CLASE ' + modPad(f.idx), of: 'de ' + f.count };
+}
+/* «SESIÓN 02 · Tema» / «MÓDULO 2 · CLASE 03 · Tema» (barra del video, mensajes, selectores) */
+function lessonRefText(ls, l){
+  const t = lessonTag(ls, l);
+  return t ? t + ' · ' + l.tema : String(l && l.tema || '');
+}
+/* para el temario del certificado: el video de cada módulo lleva «Módulo 1: Nombre» */
+function lessonTemarioTitle(ls, l){
+  const f = modFind(ls, l);
+  return f && f.kind === 'video' ? 'Módulo ' + f.g.rank + ': ' + (l.tema || f.g.name) : String(l.tema || '');
+}
+
+/* ---------------- ¿ya se corrió supabase-modulos.sql? ---------------- */
+const MODQ = { ready: null, pending: null };
+const LMM = { ls: [], sel: {} };      // editor de un curso: las clases del curso abierto (en orden de pantalla) y el destino que se eligió en cada curso      // ready: true (las columnas existen) · false (faltan) · null (todavía no se sabe)
+function modMissingErr(err){
+  return !!err && /modulo|42703|PGRST204|schema cache|column/i.test(String(err.message || '') + ' ' + String(err.code || ''));
+}
+/* texto de un error al guardar módulos: si la base todavía no conoce las casillas (SQL recién corrido o sin correr) se explica qué hacer */
+function modErrText(msg){
+  const m = String(msg || '');
+  return /schema cache|PGRST204|modulo_n|es_modulo|"modulo"|'modulo'/i.test(m)
+    ? m + ' → Si acabas de correr supabase-modulos.sql, espera unos segundos y vuelve a intentar. Si todavía no lo corriste, hazlo (una sola vez) o usa «Solo sesiones».'
+    : m;
+}
+/* con filas leídas con select('*') se sabe sin preguntar */
+function modLearn(rows){
+  if(rows && rows.length) MODQ.ready = ('modulo_n' in rows[0]);
+}
+function modProbe(force){
+  if(!force && MODQ.ready !== null) return Promise.resolve(MODQ.ready);
+  if(MODQ.pending) return MODQ.pending;
+  MODQ.pending = (async () => {
+    try{
+      /* con «*» llegan todas las columnas que existan: si ya hay alguna clase se sabe sin ningún pedido que falle */
+      const a = await sb.from('course_lessons').select('*').limit(1);
+      if(!a.error && a.data && a.data.length) MODQ.ready = ('modulo_n' in a.data[0]);
+      else {
+        const r = await sb.from('course_lessons').select('modulo_n').limit(1);
+        if(!r.error) MODQ.ready = true;
+        else if(modMissingErr(r.error)) MODQ.ready = false;
+      }
+    }catch(e){ console.error(e); }
+    MODQ.pending = null;
+    return MODQ.ready;
+  })();
+  return MODQ.pending;
+}
+function modSqlNoteHtml(recheck){
+  return '<div class="drv-setup mod-setup"><b>Para usar módulos falta un paso (se hace una sola vez).</b><ol>' +
+    '<li>Abre tu proyecto en <b>Supabase</b> → <b>SQL Editor</b> → <b>New query</b>.</li>' +
+    '<li>Pega todo el contenido del archivo <b>supabase-modulos.sql</b> y pulsa <b>Run</b>. No borra ni cambia nada de lo que ya tienes.</li>' +
+    '<li>Vuelve aquí y pulsa el botón de abajo. Mientras tanto puedes subir cursos «Solo sesiones», que funcionan igual que siempre.</li></ol>' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="' + recheck + '">Ya lo corrí: volver a comprobar</button></div>';
+}
+
+/* ---------------- ALUMNO: la lista del curso agrupada por módulos ---------------- */
+function modHeadHtml(g, label){
+  const seen = g ? g.items.filter(lessonIsSeen).length : 0;
+  return g
+    ? '<div class="cv-mod-head" data-mod="' + g.n + '"><span class="cv-mod-n">MÓDULO ' + g.rank + '</span><span class="cv-mod-t">' + escapeHtml(g.name) + '</span><span class="cv-mod-c" title="Clases vistas">' + seen + '/' + g.items.length + '</span></div>'
+    : '<div class="cv-mod-head loose"><span class="cv-mod-n">' + escapeHtml(label) + '</span></div>';
+}
+/* pone los encabezados «MÓDULO 1 · nombre» y las etiquetas «CLASE 02» en la lista de la derecha (solo si el curso tiene módulos) */
+function modDecorateSidebar(courseId){
+  const ls = courseLessonsOf(courseId);
+  if(!modHas(ls)) return;
+  const side = document.getElementById('lesson-sidebar-detail');
+  if(!side) return;
+  side.querySelectorAll('.cv-mod-head').forEach(h => h.remove());
+  const gs = modGroups(ls);
+  const item = l => side.querySelector('.lesson-item[data-lesson="' + l.id + '"]');
+  ls.forEach(l => {
+    const it = item(l);
+    if(!it) return;
+    const span = it.querySelector(':scope > span:first-child');
+    if(span) span.textContent = (lessonIsSeen(l) ? '✓ ' : '') + lessonItemText(ls, l);
+    it.classList.toggle('mod-video', l.es_modulo === true && modN(l) !== null);       // el video del módulo se distingue de las clases
+  });
+  if(gs.loose.length && item(gs.loose[0])) item(gs.loose[0]).insertAdjacentHTML('beforebegin', modHeadHtml(null, 'SESIONES'));
+  gs.mods.forEach(g => { const b = item(g.items[0]); if(b) b.insertAdjacentHTML('beforebegin', modHeadHtml(g)); });
+}
+/* al avanzar: los contadores «2/5» de cada módulo */
+function modRefreshHeads(courseId){
+  const ls = courseLessonsOf(courseId);
+  if(!modHas(ls)) return;
+  modGroups(ls).mods.forEach(g => {
+    const c = document.querySelector('#lesson-sidebar-detail .cv-mod-head[data-mod="' + g.n + '"] .cv-mod-c');
+    if(c) c.textContent = g.items.filter(lessonIsSeen).length + '/' + g.items.length;
+  });
+}
+
 /* ================= CONTENIDO DEL CURSO: temas con su video, material por tema y material del curso =================
    Administrador: cada curso tiene su propia pantalla con dos pestañas
      • «Temas y videos»: un tema por clase, con el enlace de su video (y, si quieres, su material).
@@ -5505,7 +5804,9 @@ function contentSqlReady(){ return !!(state.drive && Array.isArray(state.drive.a
 async function loadContentCounts(){
   const cc = { lessons: {}, lmat: {}, cmat: {} };
   try{
-    const l = await sb.from('course_lessons').select('id, course_id, video_url').order('order_index');
+    /* «*» y no una lista de columnas: así también llegan los módulos si ya se corrió supabase-modulos.sql, y si no, la consulta no falla */
+    const l = await sb.from('course_lessons').select('*').order('order_index');
+    modLearn(l.data);
     (l.data || []).forEach(r => { (cc.lessons[r.course_id] = cc.lessons[r.course_id] || []).push(r); });
     const m = await sb.from('lesson_materials').select('id, lesson_id');
     (m.data || []).forEach(r => { cc.lmat[r.lesson_id] = (cc.lmat[r.lesson_id] || 0) + 1; });
@@ -5524,7 +5825,7 @@ function courseContentCellHtml(id){
     const sinVideo = ls.filter(l => !String(l.video_url || '').trim()).length;
     const nm = ls.reduce((n, l) => n + (cc.lmat[l.id] || 0), 0) + (cc.cmat[id] || 0);
     const parts = [];
-    parts.push(ls.length ? ls.length + (ls.length === 1 ? ' tema' : ' temas') : '<span class="w">Sin temas todavía</span>');
+    parts.push(ls.length ? (modHas(ls) ? modCountText(ls) : ls.length + (ls.length === 1 ? ' tema' : ' temas')) : '<span class="w">Sin temas todavía</span>');
     if(ls.length && sinVideo) parts.push('<span class="w">' + sinVideo + ' sin video</span>');
     if(nm) parts.push(nm + (nm === 1 ? ' material' : ' materiales'));
     info = '<span class="crs-counts">' + parts.join(' · ') + '</span>' + (typeof amCourseNote === 'function' ? amCourseNote(id) : '');
@@ -5559,7 +5860,7 @@ function openLessonManager(courseId, opts){
   const fresh = lmEl('lm-fresh');
   if(opts.fresh){
     const ns = opts.sessions | 0;
-    fresh.innerHTML = ns
+    fresh.innerHTML = (opts.modules | 0) ? modFreshHtml(opts) : ns
       ? '<b>Curso publicado con ' + ns + (ns === 1 ? ' sesión.' : ' sesiones.') + '</b> Aquí puedes corregir un nombre o un enlace (escribe encima y pulsa «Guardar cambios»), agregar más sesiones o ponerle material a cada una. Los alumnos que reciban el curso verán todas las sesiones desde el primer momento.' + (opts.note ? '<br><b class="lm-fresh-warn">' + escapeHtml(opts.note) + '</b>' : '')
       : '<b>Curso publicado.</b> Ahora agrega sus temas: para cada uno escribe su nombre y pega el enlace de su video. Si tienes varios, usa «Agregar varias sesiones de una vez». El material lo puedes poner en cada tema o, para todo el curso, en la pestaña «Material del curso».';
     fresh.classList.remove('hidden');
@@ -5573,6 +5874,7 @@ function openLessonManager(courseId, opts){
   lmSay('lm-msg', '');
   lmSay('cm-msg', '');
   lmLessonCount = 0;
+  lmWhereReset();
   lmBulkReset();
   if(typeof ciLmOpen === 'function') ciLmOpen(courseId);       // pestaña «Imágenes» (cursoimg.js)
   lmEl('admin-courses-panel').classList.add('lm-open');
@@ -5638,7 +5940,7 @@ function lmLessonHtml(l, i, ctx){
       '<div class="toggle-list">' + ctx.clients.map(c => '<button class="toggle-chip ' + (granted.has(c.id) ? 'on' : '') + '" type="button" onclick="toggleLessonAccess(\'' + c.id + '\',\'' + l.id + '\')">' + (granted.has(c.id) ? '✓ ' : '') + escapeHtml(c.name || c.email) + '</button>').join('') + '</div>' +
       '<div id="acc-msg-' + l.id + '" class="form-msg"></div></details>';
   return '<div class="lm-lesson" data-lesson="' + l.id + '">' +
-    '<div class="lm-lesson-top"><span class="lm-lesson-n">' + sessionLabel(i) + '</span>' +
+    '<div class="lm-lesson-top"><span class="lm-lesson-n">' + (ctx.ls ? lessonShort(ctx.ls, l) : sessionLabel(i)) + '</span>' +
     '<button class="btn btn-danger btn-sm" type="button" onclick="deleteLesson(\'' + l.id + '\', this)">Eliminar tema</button></div>' +
     '<div class="field"><label for="les-tema-' + l.id + '">Tema</label><input id="les-tema-' + l.id + '" value="' + escapeHtml(l.tema) + '" autocomplete="off"></div>' +
     '<div class="field"><label for="les-video-' + l.id + '">Enlace del video de este tema</label><input id="les-video-' + l.id + '" value="' + escapeHtml(l.video_url || '') + '" inputmode="url" autocomplete="off" oninput="odTestToggle(\'les-video-' + l.id + '\',\'' + l.id + '\')" placeholder="Pega aquí el enlace del video (Drive, YouTube, Vimeo u OneDrive)"></div>' +
@@ -5663,10 +5965,13 @@ async function loadAndRenderLessons(){
   const lr = await sb.from('course_lessons').select('*').eq('course_id', cid).order('order_index');
   if(seq !== lmSeq || cid !== manageCourseId) return;
   if(lr.error){ list.innerHTML = lmErrHtml('No se pudieron leer los temas', lr.error); return; }
-  const lessons = lr.data || [];
+  modLearn(lr.data);
+  const lessons = modSort(lr.data || []);        // con módulos: sueltas primero y luego cada módulo (su video y sus clases); sin módulos la lista queda igual
   lmLessonCount = lessons.length;
   lmBulkPreview();
   lmEl('lm-next-label').textContent = sessionLabel(lessons.length) + ' (siguiente)';
+  lmWhereRefresh(lessons);                       // «Lo que agregues va a:» (solo si el curso usa módulos o ya se corrió supabase-modulos.sql)
+  if(MODQ.ready === null) modProbe().then(() => { if(cid === manageCourseId && seq === lmSeq) lmWhereRefresh(LMM.ls); });
   lmCount('temas', lessons.length);
   lmEl('lm-sub-count').textContent = lessons.length ? '(' + lessons.length + ')' : '';
   if(!lessons.length){
@@ -5688,7 +5993,7 @@ async function loadAndRenderLessons(){
   const keep = {};
   list.querySelectorAll('input[type=text], input:not([type])').forEach(i => { if(i.id && i.value !== i.defaultValue) keep[i.id] = i.value; });
   const opened = new Set(Array.from(list.querySelectorAll('details[open]')).map(d => d.getAttribute('data-lesson')));
-  list.innerHTML = lessons.map((l, i) => lmLessonHtml(l, i, ctx)).join('');
+  list.innerHTML = lmListHtml(lessons, ctx);
   Object.keys(keep).forEach(id => { const e = lmEl(id); if(e) e.value = keep[id]; });
   list.querySelectorAll('details.lm-access').forEach(d => { if(opened.has(d.getAttribute('data-lesson'))) d.open = true; });
 }
@@ -5703,10 +6008,14 @@ async function addLessonNow(){
   const matName = lmEl('lm-mat-name').value.trim();
   const file = lmEl('lm-mat-file').files[0] || null;
   const openAll = lmEl('lm-open-all').checked;
-  if(!tema){ lmSay('lm-msg', 'Ponle un nombre al tema.', 'err'); lmEl('lm-tema').focus(); return; }
+  const where = lmWhere();                       // módulos: dónde va (sin módulos y con el selector oculto: siempre «sesión», como siempre)
+  const kind = where.kind === 'loose' ? 'tema' : 'clase';
+  if(!tema){ lmSay('lm-msg', where.kind === 'loose' ? 'Ponle un nombre al tema.' : 'Ponle un nombre a la clase.', 'err'); lmEl('lm-tema').focus(); return; }
   const vp = videoProblem(video);
   if(vp){ lmSay('lm-msg', vp, 'err'); lmEl('lm-video').focus(); return; }
   if(matLink && !file && !isHttpLink(matLink)){ lmSay('lm-msg', 'El enlace del material debe empezar con https://', 'err'); lmEl('lm-mat-link').focus(); return; }
+  const wp = lmWhereProblem(where);
+  if(wp){ lmSay('lm-msg', wp.text, 'err'); const we = lmEl(wp.id); if(we) we.focus(); return; }
   const btn = lmEl('lm-add-btn');
   btn.disabled = true;
   try{
@@ -5718,11 +6027,21 @@ async function addLessonNow(){
       if(p.error){ lmSay('lm-msg', p.error, 'err'); return; }
       mat = p.row;
     }
-    const ex = await sb.from('course_lessons').select('order_index').eq('course_id', cid);
-    const order = (ex.data || []).reduce((m, r) => Math.max(m, (r.order_index || 0) + 1), (ex.data || []).length);
-    const ins = await sb.from('course_lessons').insert({ course_id: cid, tema, video_url: video, order_index: order }).select('id').single();
-    if(ins.error){ lmSay('lm-msg', 'No se pudo guardar el tema: ' + ins.error.message, 'err'); return; }
-    const lessonId = ins.data.id;
+    let lessonId, openIds;
+    if(where.kind === 'loose'){
+      const ex = await sb.from('course_lessons').select('order_index').eq('course_id', cid);
+      const order = (ex.data || []).reduce((m, r) => Math.max(m, (r.order_index || 0) + 1), (ex.data || []).length);
+      const ins = await sb.from('course_lessons').insert({ course_id: cid, tema, video_url: video, order_index: order }).select('id').single();
+      if(ins.error){ lmSay('lm-msg', 'No se pudo guardar el tema: ' + ins.error.message, 'err'); return; }
+      lessonId = ins.data.id;
+      openIds = [lessonId];
+      if(modHas(LMM.ls)) await modRenumber(cid);       // en un curso con módulos las sesiones sueltas van arriba: el orden interno se acomoda igual
+    } else {
+      const put = await modInsertClasses(cid, where, [{ tema, video }]);
+      if(put.error){ lmSay('lm-msg', 'No se pudo guardar la clase: ' + put.error, 'err'); return; }
+      lessonId = put.classIds[0];
+      openIds = put.ids;
+    }
     let extra = '';
     if(mat){
       const mi = await sb.from('lesson_materials').insert({ lesson_id: lessonId, name: mat.name, url: mat.url, storage_path: mat.storage_path });
@@ -5730,7 +6049,7 @@ async function addLessonNow(){
     }
     let said;
     if(openAll){
-      const o = await lmOpenForAll(lessonId, cid);
+      const o = await lmOpenManyForAll(openIds, cid);
       said = o.ok ? (o.n ? 'Ya lo ven los ' + o.n + (o.n === 1 ? ' alumno que tiene' : ' alumnos que tienen') + ' el curso.' : 'Los alumnos que reciban el curso lo verán.') : 'No se pudo abrir a los alumnos (' + o.error + '): ábrelo en «Quién puede ver este tema».';
     } else {
       said = 'Está cerrado para todos: ábrelo en «Quién puede ver este tema».';
@@ -5740,8 +6059,10 @@ async function addLessonNow(){
     lmEl('lm-mat-file').value = '';
     lmEl('lm-open-all').checked = true;   // lo normal es abrirlo: el siguiente tema vuelve a empezar marcado
     lmEl('lm-fresh').classList.add('hidden');
+    if(where.kind === 'new'){ ['lm-mod-name', 'lm-mod-video'].forEach(id => { lmEl(id).value = ''; }); odTestToggle('lm-mod-video', 'modnew'); }
     const odNote = isOneDriveUrl(video) ? ' Es un video de OneDrive: pulsa «Probar el video» en el tema para confirmar que se ve dentro del aula.' : '';
-    lmSay('lm-msg', 'Tema agregado ✓ ' + said + extra + odNote, extra ? 'err' : 'ok');
+    lmSay('lm-msg', (where.kind === 'loose' ? 'Tema agregado ✓ ' : where.kind === 'new' ? 'Módulo creado con su primera clase ✓ ' : 'Clase agregada al módulo ✓ ') + said + extra + odNote, extra ? 'err' : 'ok');
+    if(where.kind === 'new') LMM.sel[cid] = undefined;       // lo siguiente que se agregue va a ese módulo nuevo (el último de la lista)
     await loadAndRenderLessons();
     if(!(window.matchMedia && window.matchMedia('(pointer:coarse)').matches)) lmEl('lm-tema').focus();
   } finally {
@@ -5813,14 +6134,16 @@ function lmBulkInput(){
 function lmBulkPreview(){
   const ta = lmEl('lm-bulk-text'), box = lmEl('lm-bulk-preview'), btn = lmEl('lm-bulk-btn');
   if(!ta || !box || !btn) return;
-  lmBulkPaint(lmBulkParse(ta.value, lmLessonCount), box, btn);
+  const w = lmWhere();
+  lmBulkPaint(lmBulkParse(ta.value, w.kind === 'loose' ? (modHas(LMM.ls) ? lmWhereStart(w) : lmLessonCount) : lmWhereStart(w)), box, btn, lmWhereLab(w));
 }
 /* dibuja la vista previa de «varias sesiones» (la usan la pantalla del curso y el formulario «Subir un curso») */
-function lmBulkPaint(r, box, btn){
+function lmBulkPaint(r, box, btn, lab){
+  const L = lab || { one: 'sesión', many: 'sesiones', tag: sessionLabel };      // «clase / clases» cuando se agrega dentro de un módulo
   if(!r.items.length){
     box.innerHTML = '';
     btn.disabled = true;
-    btn.textContent = 'Agregar sesiones';
+    btn.textContent = 'Agregar ' + L.many;
     return;
   }
   const bad = r.items.filter(x => x.problem).length;
@@ -5832,20 +6155,20 @@ function lmBulkPaint(r, box, btn){
     sum = 'Revisa ' + (bad === 1 ? 'la línea marcada' : 'las ' + bad + ' líneas marcadas') + ' en rojo: mientras tanto no se puede agregar.';
   } else if(r.tooMany){
     cls = 'bad';
-    sum = 'Son demasiadas: agrega hasta ' + LM_BULK_MAX + ' sesiones por vez y el resto después.';
+    sum = 'Son demasiadas: agrega hasta ' + LM_BULK_MAX + ' ' + L.many + ' por vez y el resto después.';
   } else {
     cls = 'ok';
-    sum = n + (n === 1 ? ' sesión lista' : ' sesiones listas') + ' para agregar' + (noVideo ? ' (' + noVideo + (noVideo === 1 ? ' sin video todavía' : ' sin video todavía') + ': su enlace se lo pones después).' : '.');
+    sum = n + (n === 1 ? ' ' + L.one + ' lista' : ' ' + L.many + ' listas') + ' para agregar' + (noVideo ? ' (' + noVideo + (noVideo === 1 ? ' sin video todavía' : ' sin video todavía') + ': su enlace se lo pones después).' : '.');
   }
   box.innerHTML = '<div class="lm-bulk-sum ' + cls + '">' + escapeHtml(sum) + '</div><div class="lm-bulk-rows">' + r.items.map(x => {
     const k = x.problem ? null : videoKind(x.video, true);
-    return '<div class="lm-bulk-row' + (x.problem ? ' bad' : '') + '"><span class="lm-bulk-n">' + sessionLabel(x.index) + '</span>' +
+    return '<div class="lm-bulk-row' + (x.problem ? ' bad' : '') + '"><span class="lm-bulk-n">' + L.tag(x.index) + '</span>' +
       '<span class="lm-bulk-t">' + (x.tema ? escapeHtml(x.tema) : '<em>(sin nombre)</em>') + '</span>' +
       (k ? '<span class="lm-kind ' + k.cls + '">' + escapeHtml(k.text) + '</span>' : '') +
       (x.problem ? '<span class="lm-bulk-why">Línea ' + x.line + ': ' + escapeHtml(x.problem) + '</span>' : '') + '</div>';
   }).join('') + '</div>';
   btn.disabled = !!bad || r.tooMany;
-  btn.textContent = (bad || r.tooMany) ? 'Agregar sesiones' : 'Agregar ' + n + (n === 1 ? ' sesión' : ' sesiones');
+  btn.textContent = (bad || r.tooMany) ? 'Agregar ' + L.many : 'Agregar ' + n + (n === 1 ? ' ' + L.one : ' ' + L.many);
 }
 function lmBulkReset(){
   const ta = lmEl('lm-bulk-text');
@@ -5866,18 +6189,31 @@ async function addBulkLessonsNow(){
   if(!r.items.length){ lmSay('lm-bulk-msg', 'Escribe o pega la lista de sesiones.', 'err'); ta.focus(); return; }
   if(r.tooMany || r.items.some(x => x.problem)){ lmSay('lm-bulk-msg', 'Corrige las líneas marcadas en rojo y vuelve a intentar.', 'err'); return; }
   const openAll = lmEl('lm-bulk-open').checked;
+  const where = lmWhere();                       // módulos: dónde van (sin módulos y con el selector oculto: siempre «sesiones», como siempre)
+  const wp = lmWhereProblem(where);
+  if(wp){ lmSay('lm-bulk-msg', wp.text, 'err'); const we = lmEl(wp.id); if(we) we.focus(); return; }
+  const one = where.kind === 'loose' ? 'sesión' : 'clase', many = where.kind === 'loose' ? 'sesiones' : 'clases';
   const n = r.items.length;
   btn.disabled = true;
   try{
-    lmSay('lm-bulk-msg', 'Guardando ' + n + (n === 1 ? ' sesión…' : ' sesiones…'));
-    const ex = await sb.from('course_lessons').select('order_index').eq('course_id', cid);
-    if(ex.error){ lmSay('lm-bulk-msg', 'No se pudo leer el curso: ' + ex.error.message, 'err'); return; }
-    const start = (ex.data || []).reduce((m, x) => Math.max(m, (x.order_index || 0) + 1), (ex.data || []).length);
-    const ins = await sb.from('course_lessons').insert(r.items.map((x, i) => ({ course_id: cid, tema: x.tema, video_url: x.video, order_index: start + i }))).select('id');
-    if(ins.error){ lmSay('lm-bulk-msg', 'No se pudieron guardar las sesiones: ' + ins.error.message, 'err'); return; }
+    lmSay('lm-bulk-msg', 'Guardando ' + n + (n === 1 ? ' ' + one + '…' : ' ' + many + '…'));
+    let newIds;
+    if(where.kind === 'loose'){
+      const ex = await sb.from('course_lessons').select('order_index').eq('course_id', cid);
+      if(ex.error){ lmSay('lm-bulk-msg', 'No se pudo leer el curso: ' + ex.error.message, 'err'); return; }
+      const start = (ex.data || []).reduce((m, x) => Math.max(m, (x.order_index || 0) + 1), (ex.data || []).length);
+      const ins = await sb.from('course_lessons').insert(r.items.map((x, i) => ({ course_id: cid, tema: x.tema, video_url: x.video, order_index: start + i }))).select('id');
+      if(ins.error){ lmSay('lm-bulk-msg', 'No se pudieron guardar las sesiones: ' + ins.error.message, 'err'); return; }
+      newIds = (ins.data || []).map(x => x.id);
+      if(modHas(LMM.ls)) await modRenumber(cid);       // en un curso con módulos las sesiones sueltas van arriba: el orden interno se acomoda igual
+    } else {
+      const put = await modInsertClasses(cid, where, r.items.map(x => ({ tema: x.tema, video: x.video })));
+      if(put.error){ lmSay('lm-bulk-msg', 'No se pudieron guardar las clases: ' + put.error, 'err'); return; }
+      newIds = put.ids;
+    }
     let said, failed = false;
     if(openAll){
-      const o = await lmOpenManyForAll((ins.data || []).map(x => x.id), cid);
+      const o = await lmOpenManyForAll(newIds, cid);
       if(o.ok) said = o.n ? ' Ya las ven los ' + o.n + (o.n === 1 ? ' alumno que tiene' : ' alumnos que tienen') + ' el curso.' : ' Los alumnos que reciban el curso las verán.';
       else { failed = true; said = ' Ojo: no se pudieron abrir a los alumnos (' + o.error + '); ábrelas en «Quién puede ver este tema».'; }
     } else {
@@ -5887,8 +6223,9 @@ async function addBulkLessonsNow(){
     ta.value = '';
     lmEl('lm-bulk-open').checked = true;
     lmEl('lm-fresh').classList.add('hidden');
+    if(where.kind === 'new'){ ['lm-mod-name', 'lm-mod-video'].forEach(id => { lmEl(id).value = ''; }); odTestToggle('lm-mod-video', 'modnew'); LMM.sel[cid] = undefined; }
     lmBulkPreview();
-    lmSay('lm-bulk-msg', n + (n === 1 ? ' sesión agregada ✓' : ' sesiones agregadas ✓') + said, failed ? 'err' : 'ok');
+    lmSay('lm-bulk-msg', n + (n === 1 ? ' ' + one + ' agregada ✓' : ' ' + many + ' agregadas ✓') + said, failed ? 'err' : 'ok');
     await loadAndRenderLessons();
   } finally {
     lmBulkPreview();   // vuelve a encender el botón si todavía hay una lista válida (si falló algo)
@@ -6080,6 +6417,278 @@ function courseMaterialsBoxHtml(courseId){
   return list.length ? '<div class="cm-box">' + materialsHtml(list, 'Material del curso') + '</div>' : '';
 }
 
+/* ================= MÓDULOS en la pantalla de un curso (editor del administrador) =================
+   Solo se ve si ya se corrió supabase-modulos.sql (o si el curso ya tiene módulos). Sin eso, esta pantalla es la de siempre.
+   • «Lo que agregues va a:» → una sesión normal (como siempre), un módulo que ya existe, o un módulo nuevo (con su video si se quiere).
+     Sirve igual para «Agregar tema» y para «Agregar varias sesiones de una vez».
+   • La lista de temas se agrupa por módulo: cada módulo tiene su nombre (se corrige), su video, sus clases y su botón para eliminarlo.
+   • Después de agregar en un curso con módulos, el orden interno (order_index) se vuelve a poner 0, 1, 2… tal como se ve en pantalla;
+     así el certificado y todo lo demás ven el mismo orden. */
+
+/* ---------------- «Lo que agregues va a: …» ---------------- */
+/* → { kind: 'loose' } | { kind: 'mod', n, name } | { kind: 'new', name, video }.  Con el selector oculto SIEMPRE es 'loose' (lo de siempre) */
+function lmWhere(){
+  const wrap = lmEl('lm-where'), sel = lmEl('lm-mod');
+  if(!wrap || !sel || wrap.classList.contains('hidden')) return { kind: 'loose' };
+  const v = sel.value;
+  if(v === 'new') return { kind: 'new', name: String(lmEl('lm-mod-name').value || '').trim(), video: normalizeLink(lmEl('lm-mod-video').value) };
+  const m = /^n:(\d+)$/.exec(v || '');
+  if(m){
+    const n = Number(m[1]), g = modGroups(LMM.ls).mods.find(x => x.n === n);
+    if(g) return { kind: 'mod', n, name: g.name };
+  }
+  return { kind: 'loose' };
+}
+/* módulo nuevo: nombre obligatorio y, si se puso, el video tiene que estar bien */
+function lmWhereProblem(w){
+  if(!w || w.kind !== 'new') return null;
+  if(!w.name) return { id: 'lm-mod-name', text: 'Ponle un nombre al módulo nuevo (o elige otro destino).' };
+  const vp = videoProblem(w.video);
+  if(vp) return { id: 'lm-mod-video', text: 'Video del módulo: ' + vp };
+  return null;
+}
+/* cuántas clases ya tiene ese destino (para numerar lo que se agrega) */
+function lmWhereStart(w){
+  const gs = modGroups(LMM.ls);
+  if(w && w.kind === 'mod'){ const g = gs.mods.find(x => x.n === w.n); return g ? g.classes.length : 0; }
+  if(w && w.kind === 'new') return 0;
+  return gs.loose.length;
+}
+/* «SESIÓN 04» · «MÓDULO 2 · CLASE 04» para la clase número index (desde 0) de ese destino */
+function lmWhereTag(w, index){
+  const gs = modGroups(LMM.ls);
+  if(w && w.kind === 'mod'){ const g = gs.mods.find(x => x.n === w.n); return 'MÓDULO ' + (g ? g.rank : '?') + ' · CLASE ' + modPad(index + 1); }
+  if(w && w.kind === 'new') return 'MÓDULO ' + (gs.mods.reduce((m, g) => Math.max(m, g.n), 0) + 1) + ' (nuevo) · CLASE ' + modPad(index + 1);
+  return sessionLabel(index);
+}
+/* lo que necesita la vista previa de «varias sesiones» según el destino */
+function lmWhereLab(w){
+  if(!w || w.kind === 'loose') return null;
+  return { one: 'clase', many: 'clases', tag: i => lmWhereTag(w, i) };
+}
+/* «Agregar varias … de una vez»: habla de «clases» cuando el destino es un módulo y de «sesiones» (el texto de siempre) en los demás casos */
+function lmBulkWording(w){
+  const sum = document.querySelector('#lm-bulk > summary'), help = document.querySelector('#lm-bulk .lm-bulk-help');
+  if(!LMM.words && sum && help) LMM.words = { sum: sum.innerHTML, help: help.innerHTML };
+  if(!LMM.words) return;
+  const mod = !!w && w.kind !== 'loose';
+  if(sum) sum.innerHTML = mod ? 'Agregar varias clases de una vez <span>(pega una lista: una clase por línea)</span>' : LMM.words.sum;
+  if(help) help.innerHTML = mod
+    ? 'Escribe o pega <b>una clase por línea</b>: el nombre de la clase y, al lado, el enlace de su video. Puedes separarlos con una barra ( | ), un guion o un espacio. También sirve si el enlace va en la línea de abajo. Si todavía no tienes el video de una clase, deja solo el nombre y se lo pones después. La numeración («Clase 1:», «2.») no hace falta: el aula la pone sola.'
+    : LMM.words.help;
+}
+function lmWhereChanged(){
+  const sel = lmEl('lm-mod');
+  if(sel && manageCourseId) LMM.sel[manageCourseId] = sel.value;
+  const nw = lmEl('lm-mod-new');
+  if(nw) nw.classList.toggle('hidden', !(sel && sel.value === 'new' && !lmEl('lm-where').classList.contains('hidden')));
+  const w = lmWhere();
+  const nl = lmEl('lm-next-label');
+  if(nl) nl.textContent = lmWhereTag(w, lmWhereStart(w)) + ' (siguiente)';
+  const one = lmEl('lm-add-btn');
+  if(one) one.textContent = w.kind === 'loose' ? 'Agregar tema' : 'Agregar clase';
+  lmBulkWording(w);
+  lmBulkPreview();
+}
+function lmWhereReset(){
+  const sel = lmEl('lm-mod');
+  if(sel) sel.innerHTML = '';
+  LMM.ls = [];
+  ['lm-mod-name', 'lm-mod-video'].forEach(id => { const e = lmEl(id); if(e) e.value = ''; });
+  odTestToggle('lm-mod-video', 'modnew');
+  const wrap = lmEl('lm-where');
+  if(wrap) wrap.classList.add('hidden');
+  const nw = lmEl('lm-mod-new');
+  if(nw) nw.classList.add('hidden');
+  const one = lmEl('lm-add-btn');
+  if(one) one.textContent = 'Agregar tema';
+  lmBulkWording(null);
+}
+/* se llama cada vez que se leen las clases del curso abierto */
+function lmWhereRefresh(lessons){
+  LMM.ls = lessons || [];
+  const wrap = lmEl('lm-where'), sel = lmEl('lm-mod');
+  if(!wrap || !sel) return;
+  const show = modHas(LMM.ls) || MODQ.ready === true;
+  wrap.classList.toggle('hidden', !show);
+  if(!show){ lmWhereChanged(); return; }
+  const gs = modGroups(LMM.ls);
+  let html = '<option value="">' + (gs.mods.length ? 'Como sesión suelta (sin módulo)' : 'Como sesión (sin módulo)') + '</option>';
+  gs.mods.forEach(g => { html += '<option value="n:' + g.n + '">Módulo ' + g.rank + ': ' + escapeHtml(g.name) + '</option>'; });
+  html += '<option value="new">+ Crear un módulo nuevo…</option>';
+  sel.innerHTML = html;
+  let want = LMM.sel[manageCourseId];      // lo elegido se conserva entre un agregado y el siguiente
+  if(want === undefined || !Array.from(sel.options).some(o => o.value === want)) want = gs.mods.length ? 'n:' + gs.mods[gs.mods.length - 1].n : '';
+  sel.value = want;
+  lmWhereChanged();
+}
+
+/* ---------------- la lista de temas, agrupada por módulo ---------------- */
+function modAdminHeadHtml(g){
+  const n = g.n, nCl = g.classes.length;
+  const sub = (g.video ? '1 video' : 'sin video') + ' · ' + nCl + (nCl === 1 ? ' clase' : ' clases');
+  return '<div class="lm-mod-head" data-mod="' + n + '">' +
+    '<div class="lm-mod-top"><span class="lm-mod-n">MÓDULO ' + g.rank + '</span><span class="lm-mod-c">' + sub + '</span>' +
+    '<button class="btn btn-danger btn-sm" type="button" onclick="modDeleteModule(' + n + ', this)">Eliminar módulo</button></div>' +
+    '<div class="lm-mod-edit"><label for="mod-name-' + n + '">Nombre del módulo</label>' +
+    '<div class="lm-mod-row"><input id="mod-name-' + n + '" value="' + escapeHtml(g.name) + '" autocomplete="off">' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="modRenameModule(' + n + ')">Guardar nombre</button><span id="mod-msg-' + n + '" class="form-msg inline"></span></div></div>' +
+    (g.video ? '' :
+      '<div class="lm-mod-edit"><label for="mod-vid-' + n + '">Video del módulo (opcional)</label>' +
+      '<div class="lm-mod-row"><input id="mod-vid-' + n + '" inputmode="url" autocomplete="off" placeholder="Enlace del video de este módulo (Drive, YouTube, Vimeo u OneDrive)">' +
+      '<button class="btn btn-ghost btn-sm" type="button" onclick="modAddModuleVideo(' + n + ')">Agregar video del módulo</button></div></div>') +
+    '</div>';
+}
+/* sin módulos devuelve EXACTAMENTE lo de siempre (una tarjeta por tema, numeradas SESIÓN 01, 02…) */
+function lmListHtml(lessons, ctx){
+  ctx.ls = lessons;
+  if(!modHas(lessons)) return lessons.map((l, i) => lmLessonHtml(l, i, ctx)).join('');
+  const gs = modGroups(lessons);
+  let out = '';
+  if(gs.loose.length){
+    out += '<div class="lm-mod-head loose"><div class="lm-mod-top"><span class="lm-mod-n">SESIONES SIN MÓDULO</span><span class="lm-mod-c">' + gs.loose.length + (gs.loose.length === 1 ? ' sesión' : ' sesiones') + '</span></div></div>';
+    out += gs.loose.map((l, i) => lmLessonHtml(l, i, ctx)).join('');
+  }
+  gs.mods.forEach(g => { out += modAdminHeadHtml(g) + g.items.map((l, i) => lmLessonHtml(l, i, ctx)).join(''); });
+  return out;
+}
+/* el aviso verde que se ve al publicar un curso con módulos */
+function modFreshHtml(opts){
+  const nm = opts.modules | 0, nc = opts.classes | 0;
+  return '<b>Curso publicado con ' + nm + (nm === 1 ? ' módulo' : ' módulos') + (nc ? ' y ' + nc + (nc === 1 ? ' clase.' : ' clases.') : '.') + '</b> Aquí puedes corregir el nombre de un módulo, un nombre o un enlace (escribe encima y pulsa «Guardar»), agregar más clases a un módulo o crear otro módulo desde «Lo que agregues va a:». Los alumnos que reciban el curso verán todos los módulos y sus clases desde el primer momento.' +
+    (opts.note ? '<br><b class="lm-fresh-warn">' + escapeHtml(opts.note) + '</b>' : '');
+}
+/* en la lista de cursos: «2 módulos · 9 temas» */
+function modCountText(ls){
+  const nm = modGroups(modSort(ls)).mods.length;
+  return nm + (nm === 1 ? ' módulo' : ' módulos') + ' · ' + ls.length + (ls.length === 1 ? ' tema' : ' temas');
+}
+
+/* ---------------- orden interno ---------------- */
+/* pone order_index = 0, 1, 2… en el mismo orden en que se ven las clases (solo toca las que cambian) */
+async function modRenumber(cid){
+  try{
+    const r = await sb.from('course_lessons').select('id, order_index, modulo_n, es_modulo').eq('course_id', cid).order('order_index');
+    if(r.error || !r.data) return false;
+    const want = modSort(r.data);
+    const jobs = [];
+    want.forEach((l, i) => { if(Number(l.order_index) !== i) jobs.push({ id: l.id, i }); });
+    for(let k = 0; k < jobs.length; k += 8){
+      const res = await Promise.all(jobs.slice(k, k + 8).map(j => sb.from('course_lessons').update({ order_index: j.i }).eq('id', j.id)));
+      res.forEach(x => { if(x && x.error) console.error(x.error); });
+    }
+    return true;
+  }catch(e){ console.error(e); return false; }
+}
+/* guarda clases (y el video del módulo si el módulo es nuevo y lo trae) en el módulo elegido; devuelve { ids, classIds, videoId, n } o { error } */
+async function modInsertClasses(cid, where, list){
+  const cur = await sb.from('course_lessons').select('id, order_index, modulo_n, modulo, es_modulo').eq('course_id', cid);
+  if(cur.error) return { error: cur.error.message };
+  const rows = cur.data || [];
+  let n, name;
+  if(where.kind === 'new'){
+    n = rows.reduce((m, r) => Math.max(m, modN(r) === null ? 0 : modN(r)), 0) + 1;
+    name = where.name;
+  } else {
+    n = where.n;
+    const g = rows.filter(r => modN(r) === n);
+    if(!g.length) return { error: 'ese módulo ya no existe: recarga la pantalla del curso.' };
+    name = (g.find(r => r.modulo) || {}).modulo || where.name;
+  }
+  const base = rows.reduce((m, r) => Math.max(m, (r.order_index || 0) + 1), rows.length);
+  const out = [];
+  if(where.kind === 'new' && where.video) out.push({ course_id: cid, tema: name, video_url: where.video, order_index: base + out.length, modulo_n: n, modulo: name, es_modulo: true });
+  list.forEach(x => out.push({ course_id: cid, tema: x.tema, video_url: x.video || '', order_index: base + out.length, modulo_n: n, modulo: name, es_modulo: false }));
+  const ins = await sb.from('course_lessons').insert(out).select('id, order_index, es_modulo');
+  if(ins.error || !ins.data || ins.data.length !== out.length) return { error: ins.error ? modErrText(ins.error.message) : 'respuesta incompleta' };
+  const sorted = ins.data.slice().sort((a, b) => a.order_index - b.order_index);
+  await modRenumber(cid);
+  return { n, ids: sorted.map(x => x.id), classIds: sorted.filter(x => !x.es_modulo).map(x => x.id), videoId: (sorted.find(x => x.es_modulo) || {}).id || null };
+}
+
+/* ---------------- encabezado de cada módulo: corregir el nombre, agregar su video, eliminarlo ---------------- */
+function modRenameModule(n){
+  return lmOnce('mr:' + n, async () => {
+    const cid = manageCourseId, inp = lmEl('mod-name-' + n);
+    if(!cid || !inp) return;
+    const say = (t, k) => lmSay('mod-msg-' + n, t, k);
+    const name = inp.value.trim();
+    if(!name){ say('El módulo necesita un nombre.', 'err'); return; }
+    const g = modGroups(LMM.ls).mods.find(x => x.n === n);
+    if(!g) return;
+    say('Guardando…');
+    // se lee lo que hay guardado AHORA (no lo que quedó en pantalla): un tema corregido con «Guardar cambios» no vuelve a pintar la lista
+    const cur = await sb.from('course_lessons').select('id, tema, modulo, es_modulo').eq('course_id', cid).eq('modulo_n', n);
+    if(cur.error){ say('No se pudo guardar: ' + cur.error.message, 'err'); return; }
+    if(!cur.data || !cur.data.length){ say('No se pudo guardar: el módulo ya no existe. Recarga la pantalla del curso.', 'err'); return; }
+    const oldName = String((cur.data.find(r => r.modulo) || {}).modulo || g.name || '').trim();
+    const vid = cur.data.find(r => r.es_modulo === true);
+    const u = await sb.from('course_lessons').update({ modulo: name }).eq('course_id', cid).eq('modulo_n', n).select('id');
+    if(u.error){ say('No se pudo guardar: ' + modErrText(u.error.message), 'err'); return; }
+    if(!u.data || !u.data.length){ say('No se pudo guardar: el módulo ya no existe. Recarga la pantalla del curso.', 'err'); return; }
+    // el video del módulo lleva el nombre del módulo: se mantiene igual (solo si no se le había puesto otro título)
+    if(vid && String(vid.tema || '').trim() === oldName){
+      const v = await sb.from('course_lessons').update({ tema: name }).eq('id', vid.id);
+      if(v.error) console.error(v.error);
+    }
+    await loadAndRenderLessons();
+    lmSay('mod-msg-' + n, 'Guardado ✓', 'ok');
+  });
+}
+function modAddModuleVideo(n){
+  return lmOnce('mv:' + n, async () => {
+    const cid = manageCourseId, inp = lmEl('mod-vid-' + n);
+    if(!cid || !inp) return;
+    const say = (t, k) => lmSay('mod-msg-' + n, t, k);
+    const video = normalizeLink(inp.value);
+    if(!video){ say('Pega el enlace del video del módulo.', 'err'); inp.focus(); return; }
+    const vp = videoProblem(video);
+    if(vp){ say(vp, 'err'); inp.focus(); return; }
+    const g = modGroups(LMM.ls).mods.find(x => x.n === n);
+    if(!g || g.video) return;
+    say('Guardando…');
+    const base = (LMM.ls || []).reduce((m, l) => Math.max(m, (l.order_index || 0) + 1), LMM.ls.length);
+    const ins = await sb.from('course_lessons').insert({ course_id: cid, tema: g.name, video_url: video, order_index: base, modulo_n: n, modulo: g.name, es_modulo: true }).select('id').single();
+    if(ins.error){ say('No se pudo guardar: ' + modErrText(ins.error.message), 'err'); return; }
+    await modRenumber(cid);
+    const o = await lmOpenManyForAll([ins.data.id], cid);
+    await loadAndRenderLessons();
+    lmSay('mod-msg-' + n, 'Video del módulo agregado ✓ ' + (o.ok ? (o.n ? 'Ya lo ven los alumnos que tienen el curso.' : 'Los alumnos que reciban el curso lo verán.') : 'No se pudo abrir a los alumnos (' + o.error + '): ábrelo en «Quién puede ver este tema».'), o.ok ? 'ok' : 'err');
+  });
+}
+function modDeleteModule(n, btn){
+  const g = modGroups(LMM.ls).mods.find(x => x.n === n);
+  if(!g) return;
+  const k = 'dm:' + n;
+  if(!(lmArm[k] && Date.now() - lmArm[k] < 6000)){
+    lmArm[k] = Date.now();
+    if(btn){
+      btn.textContent = 'Pulsa otra vez: se borran sus ' + g.items.length + (g.items.length === 1 ? ' tema' : ' temas');
+      setTimeout(() => { if(btn.isConnected) btn.textContent = 'Eliminar módulo'; }, 6000);
+    }
+    return;
+  }
+  delete lmArm[k];
+  return lmOnce(k, async () => {
+    const cid = manageCourseId;
+    if(!cid) return;
+    const fr = await sb.from('course_lessons').select('id').eq('course_id', cid).eq('modulo_n', n);      // lo que hay guardado ahora (puede haber más que en pantalla si se agregó desde otra ventana)
+    const ids = (fr.data && fr.data.length ? fr.data : g.items).map(l => l.id);
+    const mr = await sb.from('lesson_materials').select('storage_path').in('lesson_id', ids);
+    const paths = (mr.data || []).map(r => r.storage_path).filter(Boolean);
+    const r = await sb.from('course_lessons').delete().eq('course_id', cid).eq('modulo_n', n).select('id');
+    if(r.error){ lmSay('mod-msg-' + n, 'No se pudo eliminar el módulo: ' + r.error.message, 'err'); return; }
+    if(paths.length){ try{ await sb.storage.from('materials').remove(paths); }catch(e){ console.error(e); } }
+    // los módulos que seguían al eliminado suben un número (Módulo 3 pasa a ser Módulo 2), para que no quede un hueco
+    const later = modGroups(LMM.ls).mods.map(x => x.n).filter(x => x > n).sort((a, b) => a - b);
+    for(const k of later){
+      const u = await sb.from('course_lessons').update({ modulo_n: k - 1 }).eq('course_id', cid).eq('modulo_n', k);
+      if(u.error){ console.error(u.error); break; }
+    }
+    await loadAndRenderLessons();
+  });
+}
+
 /* ================= «SUBIR UN CURSO» CON SUS SESIONES =================
    El paso 3 del formulario es una lista de sesiones: cada fila lleva su nombre, el enlace de su video y, si se quiere, su material
    (un enlace o un archivo). Todo se puede corregir escribiendo encima; las flechas cambian el orden y «Quitar» solo sirve si la
@@ -6088,12 +6697,14 @@ function courseMaterialsBoxHtml(courseId){
    Las imágenes del curso (hasta 3, se suben como archivo) se eligen en el paso 2 (cursoimg.js) y se suben al publicar, antes que todo lo demás:
    si algo falla, también se retiran del almacenamiento. */
 const NC_MAX = 100;                    // sesiones por curso en el formulario
+const NC_MAX_MODS = 30;                // módulos por curso en el formulario (newcourse-mod.js)
 const NC_FILE_MAX = 50 * 1024 * 1024;  // lo máximo que acepta el almacenamiento por archivo
-const NC = { rows: [], seq: 0, busy: false, arm: {} };
+/* mode: «sesiones» (la lista de siempre) o «modulos» (módulos con su video y sus clases, newcourse-mod.js); mods: lo escrito en la forma «Con módulos» */
+const NC = { rows: [], seq: 0, busy: false, arm: {}, mode: 'sesiones', mods: [], planning: false };
 
 function ncEl(id){ return document.getElementById(id); }
 function ncNewRow(p){ return Object.assign({ k: 'r' + (++NC.seq), name: '', video: '', mat: '', file: null }, p || {}); }
-function ncRow(k){ return NC.rows.find(r => r.k === k) || null; }
+function ncRow(k){ const at = ncLocate(k); return at ? at.list[at.i] : null; }       // busca en la lista de sesiones y dentro de cada módulo
 function ncIsEmpty(r){ return !r.name.trim() && !r.video.trim() && !r.mat.trim() && !r.file; }
 function ncFilled(){ return NC.rows.filter(r => !ncIsEmpty(r)); }
 function ncSleep(ms){ return new Promise(res => setTimeout(res, ms)); }
@@ -6104,26 +6715,26 @@ function ncSize(n){
 function ncCoarse(){ return !!(window.matchMedia && window.matchMedia('(pointer:coarse)').matches); }
 
 /* ---------------- filas ---------------- */
-function ncRowHtml(r, i, n){
-  const k = r.k, num = i + 1;
+function ncRowHtml(r, i, n, what){
+  const k = r.k, num = i + 1, w = what || 'sesión';        // «sesión» (como siempre) o «clase» (dentro de un módulo)
   const matCell = r.file
     ? '<div class="nc-file"><span class="nc-file-name">' + escapeHtml(r.file.name) + '</span><span class="nc-file-size">' + ncSize(r.file.size) + '</span>' +
-      '<button class="nc-link" type="button" onclick="ncClearFile(\'' + k + '\')" aria-label="Quitar el archivo de la sesión ' + num + '">Quitar archivo</button></div>'
-    : '<input class="nc-in" id="nci-m-' + k + '" type="text" inputmode="url" autocomplete="off" aria-label="Enlace del material de la sesión ' + num + '" placeholder="Enlace del material (Drive u otro)" value="' + escapeHtml(r.mat) + '" oninput="ncSet(\'' + k + '\',\'mat\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'mat\')">';
-  const pick = r.file ? '' : '<label class="nc-link nc-filebtn">o subir un archivo…<input type="file" aria-label="Subir un archivo como material de la sesión ' + num + '" onchange="ncFileChosen(\'' + k + '\',this)"></label>';
+      '<button class="nc-link" type="button" onclick="ncClearFile(\'' + k + '\')" aria-label="Quitar el archivo de la ' + w + ' ' + num + '">Quitar archivo</button></div>'
+    : '<input class="nc-in" id="nci-m-' + k + '" type="text" inputmode="url" autocomplete="off" aria-label="Enlace del material de la ' + w + ' ' + num + '" placeholder="Enlace del material (Drive u otro)" value="' + escapeHtml(r.mat) + '" oninput="ncSet(\'' + k + '\',\'mat\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'mat\')">';
+  const pick = r.file ? '' : '<label class="nc-link nc-filebtn">o subir un archivo…<input type="file" aria-label="Subir un archivo como material de la ' + w + ' ' + num + '" onchange="ncFileChosen(\'' + k + '\',this)"></label>';
   return '<div class="nc-row" data-k="' + k + '">' +
     '<div class="nc-n" aria-hidden="true">' + num + '</div>' +
-    '<div class="nc-cell"><label class="nc-lab" for="nci-n-' + k + '">Nombre de la sesión</label>' +
-      '<input class="nc-in" id="nci-n-' + k + '" type="text" autocomplete="off" aria-label="Nombre de la sesión ' + num + '" placeholder="Nombre de la sesión" value="' + escapeHtml(r.name) + '" oninput="ncSet(\'' + k + '\',\'name\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'name\')"></div>' +
+    '<div class="nc-cell"><label class="nc-lab" for="nci-n-' + k + '">Nombre de la ' + w + '</label>' +
+      '<input class="nc-in" id="nci-n-' + k + '" type="text" autocomplete="off" aria-label="Nombre de la ' + w + ' ' + num + '" placeholder="Nombre de la ' + w + '" value="' + escapeHtml(r.name) + '" oninput="ncSet(\'' + k + '\',\'name\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'name\')"></div>' +
     '<div class="nc-cell"><label class="nc-lab" for="nci-v-' + k + '">Enlace del video (Drive, YouTube, Vimeo u OneDrive)</label>' +
-      '<input class="nc-in" id="nci-v-' + k + '" type="text" inputmode="url" autocomplete="off" aria-label="Enlace del video de la sesión ' + num + '" placeholder="Pega el enlace del video" value="' + escapeHtml(r.video) + '" oninput="ncSet(\'' + k + '\',\'video\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'video\')">' +
+      '<input class="nc-in" id="nci-v-' + k + '" type="text" inputmode="url" autocomplete="off" aria-label="Enlace del video de la ' + w + ' ' + num + '" placeholder="Pega el enlace del video" value="' + escapeHtml(r.video) + '" oninput="ncSet(\'' + k + '\',\'video\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'video\')">' +
       '<span class="lm-kind none" id="ncc-v-' + k + '"></span>' + odTestHtml('nci-v-' + k, k, r.video) + '</div>' +
     '<div class="nc-cell"><label class="nc-lab" for="nci-m-' + k + '">Material (opcional)</label>' + matCell +
       '<div class="nc-mrow"><span class="lm-kind none" id="ncc-m-' + k + '"></span>' + pick + '</div></div>' +
     '<div class="nc-acts">' +
-      '<button class="nc-ib nc-up" type="button" aria-label="Subir la sesión ' + num + '"' + (i === 0 ? ' disabled' : '') + ' onclick="ncMove(\'' + k + '\',-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>' +
-      '<button class="nc-ib nc-down" type="button" aria-label="Bajar la sesión ' + num + '"' + (i === n - 1 ? ' disabled' : '') + ' onclick="ncMove(\'' + k + '\',1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>' +
-      '<button class="nc-rm" type="button" aria-label="Quitar la sesión ' + num + '" onclick="ncRemove(\'' + k + '\',this)">Quitar</button>' +
+      '<button class="nc-ib nc-up" type="button" aria-label="Subir la ' + w + ' ' + num + '"' + (i === 0 ? ' disabled' : '') + ' onclick="ncMove(\'' + k + '\',-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>' +
+      '<button class="nc-ib nc-down" type="button" aria-label="Bajar la ' + w + ' ' + num + '"' + (i === n - 1 ? ' disabled' : '') + ' onclick="ncMove(\'' + k + '\',1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>' +
+      '<button class="nc-rm" type="button" aria-label="Quitar la ' + w + ' ' + num + '" onclick="ncRemove(\'' + k + '\',this)">Quitar</button>' +
     '</div></div>';
 }
 function ncChips(r){
@@ -6149,6 +6760,7 @@ function ncChips(r){
   }
 }
 function ncRender(){
+  if(NC.mode === 'modulos') return ncRenderMods();          // «Con módulos» (newcourse-mod.js)
   const box = ncEl('nc-rows');
   if(!box) return;
   const n = NC.rows.length;
@@ -6160,6 +6772,7 @@ function ncRender(){
   if(add) add.disabled = n >= NC_MAX;
 }
 function ncSummary(){
+  if(NC.mode === 'modulos') return ncSummaryMods();
   const sum = ncEl('nc-sum'), pub = ncEl('nc-publish');
   const rows = ncFilled();
   const n = rows.length;
@@ -6185,13 +6798,15 @@ function ncSet(k, f, v){
 function ncKey(e, k, f){
   if(e.key !== 'Enter' || e.isComposing) return;
   e.preventDefault();
-  const i = NC.rows.findIndex(r => r.k === k);
-  if(i < 0) return;
+  const at = ncLocate(k);
+  if(!at) return;
+  const i = at.i;
   const go = id => { const el = ncEl(id); if(el) el.focus(); };
   if(f === 'name') return go('nci-v-' + k);
   if(f === 'video') return go('nci-m-' + k);
-  // en el material: la siguiente sesión (o una nueva si era la última)
-  if(i < NC.rows.length - 1) return go('nci-n-' + NC.rows[i + 1].k);
+  // en el material: la siguiente sesión (o una nueva si era la última); dentro de un módulo, la siguiente clase (o una nueva)
+  if(i < at.list.length - 1) return go('nci-n-' + at.list[i + 1].k);
+  if(at.mod) return ncAddClass(at.mod.k);
   ncAdd();
 }
 function ncAdd(){
@@ -6210,9 +6825,11 @@ function ncAdd(){
 }
 function ncMove(k, d){
   if(NC.busy) return;
-  const i = NC.rows.findIndex(r => r.k === k), j = i + d;
-  if(i < 0 || j < 0 || j >= NC.rows.length) return;
-  const t = NC.rows[i]; NC.rows[i] = NC.rows[j]; NC.rows[j] = t;
+  const at = ncLocate(k);
+  if(!at) return;
+  const i = at.i, j = i + d;
+  if(j < 0 || j >= at.list.length) return;
+  const t = at.list[i]; at.list[i] = at.list[j]; at.list[j] = t;
   ncRender();
   // el foco se queda en la misma flecha para poder seguir moviendo la sesión con el teclado
   const row = document.querySelector('.nc-row[data-k="' + k + '"]');
@@ -6237,6 +6854,13 @@ function ncRemove(k, btn){
     return;
   }
   delete NC.arm[k];
+  const at = ncLocate(k);
+  if(at && at.mod){                   // dentro de un módulo se puede quedar sin clases (solo con su video)
+    at.list.splice(at.i, 1);
+    lmSay('ncm-say-' + at.mod.k, '');
+    ncRender();
+    return;
+  }
   NC.rows = NC.rows.filter(x => x.k !== k);
   if(!NC.rows.length) NC.rows.push(ncNewRow());
   lmSay('nc-list-msg', '');
@@ -6303,6 +6927,9 @@ function ncBusy(on){
   NC.busy = !!on;
   const box = ncEl('nc-sessions'), pub = ncEl('nc-publish');
   if(box) box.classList.toggle('nc-busy', !!on);
+  const mbox = ncEl('nc-modules');
+  if(mbox) mbox.classList.toggle('nc-busy', !!on);
+  ['nc-opt-sesiones', 'nc-opt-modulos'].forEach(id => { const b = ncEl(id); if(b) b.disabled = !!on; });
   if(typeof ciSetBusy === 'function') ciSetBusy(ciGet('nc'), !!on);
   if(pub){
     pub.disabled = !!on;
@@ -6336,7 +6963,9 @@ function ncResetForm(){
   if(typeof ciReset === 'function'){ const E = ciGet('nc'); ciReset(E); ciPaint(E); }     // las imágenes ya quedaron en el curso: solo se vacía el formulario (no se borra nada del almacenamiento)
   { const k = ncEl('nc-kind'); if(k) k.value = 'curso'; }   // el programa se queda elegido para subir el siguiente
   NC.rows = [ncNewRow()];
+  NC.mods = NC.mode === 'modulos' ? [ncNewMod()] : [];       // lo escrito en «Con módulos» también queda limpio
   NC.arm = {};
+  lmSay('nc-mod-msg', '');
   const ta = ncEl('nc-bulk-text');
   if(ta) ta.value = '';
   const d = ncEl('nc-bulk');
@@ -6347,7 +6976,7 @@ function ncResetForm(){
 }
 
 async function createCourse(){
-  if(NC.busy) return;
+  if(NC.busy || NC.planning) return;
   const code = ncEl('nc-code').value.trim();
   const title = ncEl('nc-title').value.trim();
   const hours = ncEl('nc-hours').value.trim();
@@ -6372,23 +7001,36 @@ async function createCourse(){
     say('Espera a que terminen de prepararse las imágenes del curso (paso 2).', 'err');
     return;
   }
-  // las filas vacías no cuentan: se quitan antes de revisar, así los números que se ven son los que se guardan
-  const before = NC.rows.length;
-  const rows = ncFilled();
-  NC.rows = rows.length ? rows : [ncNewRow()];
-  if(NC.rows.length !== before) ncRender();
-  const bad = rows.length ? ncValidate() : null;
-  if(bad){
-    const row = document.querySelector('.nc-row[data-k="' + bad.r.k + '"]');
-    if(row){
-      row.classList.add('bad');
-      lmScrollTo(row);
-      const inp = ncEl('nci-' + bad.field + '-' + bad.r.k);
-      if(inp && !ncCoarse()) inp.focus();
+  /* lo que se va a guardar, en el orden en que se ve: sesiones (como siempre) o módulos con su video y sus clases (newcourse-mod.js) */
+  let items, mods = null;              // mods = { n: módulos, cls: clases } solo con módulos
+  if(NC.mode === 'modulos'){
+    NC.planning = true;
+    let plan = null;
+    try{ plan = await ncPlanMods(say); } finally { NC.planning = false; }
+    if(!plan) return;
+    items = plan.items;
+    mods = { n: plan.nMods, cls: plan.nCls };
+  } else {
+    // las filas vacías no cuentan: se quitan antes de revisar, así los números que se ven son los que se guardan
+    const before = NC.rows.length;
+    const rows = ncFilled();
+    NC.rows = rows.length ? rows : [ncNewRow()];
+    if(NC.rows.length !== before) ncRender();
+    const bad = rows.length ? ncValidate() : null;
+    if(bad){
+      const row = document.querySelector('.nc-row[data-k="' + bad.r.k + '"]');
+      if(row){
+        row.classList.add('bad');
+        lmScrollTo(row);
+        const inp = ncEl('nci-' + bad.field + '-' + bad.r.k);
+        if(inp && !ncCoarse()) inp.focus();
+      }
+      say(bad.text, 'err');
+      return;
     }
-    say(bad.text, 'err');
-    return;
+    items = rows.map((r, i) => ({ name: r.name, video: r.video, mat: r.mat, file: r.file, extra: null, labUp: 'la sesión ' + (i + 1), labErr: 'Sesión ' + (i + 1) }));
   }
+  const thing = mods ? 'clases' : 'sesiones';
   say('');
   ncBusy(true);
   const uploaded = [];             // archivos que se subieron en esta vuelta (si algo falla, se retiran)
@@ -6411,12 +7053,12 @@ async function createCourse(){
     // 1) archivos de material: primero ellos, así si falla uno no se crea nada
     const mats = [];
     let lastTs = 0;
-    for(let i = 0; i < rows.length; i++){
-      const r = rows[i];
+    for(let i = 0; i < items.length; i++){
+      const r = items[i];
       const link = r.file ? '' : normalizeLink(r.mat);
       if(!r.file && !link) continue;
       if(r.file){
-        say('Subiendo el archivo de la sesión ' + (i + 1) + '…');
+        say('Subiendo el archivo de ' + r.labUp + '…');
         if(Date.now() <= lastTs) await ncSleep(3);     // el nombre guardado lleva la hora: dos archivos no pueden coincidir
         lastTs = Date.now();
       }
@@ -6424,14 +7066,14 @@ async function createCourse(){
       if(p.error){
         await ncRemoveFiles(uploaded);
         await dropImgs();
-        say('Sesión ' + (i + 1) + ': ' + p.error + ' No se publicó nada.', 'err');
+        say(r.labErr + ': ' + p.error + ' No se publicó nada.', 'err');
         return;
       }
       if(p.row.storage_path) uploaded.push(p.row.storage_path);
       mats[i] = p.row;
     }
     // 2) el curso
-    say(rows.length ? 'Publicando el curso y sus ' + rows.length + (rows.length === 1 ? ' sesión…' : ' sesiones…') : 'Publicando el curso…');
+    say(items.length ? ncPublishingText(items, mods) : 'Publicando el curso…');
     const kindEl = ncEl('nc-kind');
     const newRow = {
       code, title, hours: hours || '—', instructor: instructor || '—', description: desc || 'Sin descripción.',
@@ -6459,24 +7101,24 @@ async function createCourse(){
     courseId = ins.data.id;
     // 3) las sesiones, en el orden de la lista
     let lessonIds = [];
-    if(rows.length){
-      const li = await sb.from('course_lessons').insert(rows.map((r, i) => ({
+    if(items.length){
+      const li = await sb.from('course_lessons').insert(items.map((r, i) => Object.assign({
         course_id: courseId, tema: r.name.trim(), video_url: normalizeLink(r.video), order_index: i
-      }))).select('id, order_index');
-      if(li.error || !li.data || li.data.length !== rows.length){
+      }, r.extra || {}))).select('id, order_index');
+      if(li.error || !li.data || li.data.length !== items.length){
         // no se pudo guardar las sesiones: se deshace el curso para que no quede uno vacío y se puede volver a intentar con lo mismo
         const del = await sb.from('courses').delete().eq('id', courseId).select('id');
         await ncRemoveFiles(uploaded);
-        const why = li.error ? li.error.message : 'respuesta incompleta';
+        const why = li.error ? (mods ? modErrText(li.error.message) : li.error.message) : 'respuesta incompleta';
         const gone = !del.error && !!del.data && del.data.length > 0;
         if(gone) await dropImgs();                         // las imágenes solo se retiran si el curso de verdad se deshizo
         if(!gone){
           await loadAdminData();
           renderAdmin();
-          say('El curso se creó pero sus sesiones no se pudieron guardar (' + why + '). Ábrelo en la lista «Cursos publicados» y agrégalas desde «Temas, videos y material».', 'err');
+          say('El curso se creó pero sus ' + thing + ' no se pudieron guardar (' + why + '). Ábrelo en la lista «Cursos publicados» y agrégalas desde «Temas, videos y material».', 'err');
         } else {
           courseId = null;
-          say('No se pudieron guardar las sesiones (' + why + '). No se publicó nada: revisa y vuelve a pulsar «Publicar curso». Lo que escribiste sigue aquí.', 'err');
+          say('No se pudieron guardar las ' + thing + ' (' + why + '). No se publicó nada: revisa y vuelve a pulsar «Publicar curso». Lo que escribiste sigue aquí.', 'err');
         }
         return;
       }
@@ -6495,13 +7137,13 @@ async function createCourse(){
     }
     // 5) listo: el formulario queda limpio y se abre la pantalla del curso
     committed = true;
-    const n = rows.length;
+    const n = items.length;
     ncResetForm();
-    ncPublishedMsg(category, n, note);
+    ncPublishedMsg(category, n, note, mods);
     try{
       await loadAdminData();
       renderAdmin();
-      openLessonManager(courseId, { fresh: true, sessions: n, note });
+      openLessonManager(courseId, { fresh: true, sessions: n, modules: mods ? mods.n : 0, classes: mods ? mods.cls : 0, note });
     }catch(e){
       console.error(e);
       say('El curso se publicó, pero no se pudo actualizar la pantalla. Recarga la página (Ctrl + F5) para verlo en la lista.', 'err');
@@ -6522,11 +7164,15 @@ async function createCourse(){
     ncBusy(false);
   }
 }
-function ncPublishedMsg(category, n, note){
+function ncPublishedMsg(category, n, note, mods){
   const box = ncEl('nc-msg');
   if(!box) return;
-  box.innerHTML = 'Curso publicado en <b>' + escapeHtml(category) + '</b>' + (n ? ' con ' + n + (n === 1 ? ' sesión' : ' sesiones') : '') + '. Ya aparece en la lista de ese programa (<a href="' + progUrl(category) + '" target="_blank" rel="noopener">verla en la web ↗</a>). ' +
-    (n ? 'Se abrió la pantalla del curso: ahí puedes corregir nombres y enlaces o agregarle más sesiones.' : 'Se abrió la pantalla para ponerle sus temas, videos y material.') +
+  const withMods = !!(mods && mods.n);
+  const what = withMods
+    ? ' con ' + mods.n + (mods.n === 1 ? ' módulo' : ' módulos') + (mods.cls ? ' y ' + mods.cls + (mods.cls === 1 ? ' clase' : ' clases') : '')
+    : (n ? ' con ' + n + (n === 1 ? ' sesión' : ' sesiones') : '');
+  box.innerHTML = 'Curso publicado en <b>' + escapeHtml(category) + '</b>' + what + '. Ya aparece en la lista de ese programa (<a href="' + progUrl(category) + '" target="_blank" rel="noopener">verla en la web ↗</a>). ' +
+    (n ? (withMods ? 'Se abrió la pantalla del curso: ahí puedes corregir nombres y enlaces, agregar más clases a un módulo o crear otro módulo.' : 'Se abrió la pantalla del curso: ahí puedes corregir nombres y enlaces o agregarle más sesiones.') : 'Se abrió la pantalla para ponerle sus temas, videos y material.') +
     (note ? ' ' + escapeHtml(note) : '');
   box.className = 'form-msg ' + (note ? 'err' : 'ok');
 }
@@ -6568,6 +7214,355 @@ async function setCourseKind(id, kind){
     msg.className = 'form-msg ok';
     msg.textContent = '✓ «' + c.title + '»: sus certificados dirán «Por haber aprobado el ' + (kind === 'curso' ? 'curso de' : kind === 'diplomado' ? 'diplomado en:' : 'curso de especialización integral en:') + '».';
   }
+}
+
+/* ================= «SUBIR UN CURSO» CON MÓDULOS (opcional) =================
+   En el paso 3 se elige cómo armar el curso:
+     • «Solo sesiones»: la lista de sesiones de siempre (newcourse.js). No cambia en nada.
+     • «Con módulos»: «Módulo 1» con su video y sus clases, «Módulo 2» con su video y sus clases… Cada módulo lleva su nombre, su video
+       (opcional) y sus clases; cada clase lleva su nombre, su video y, si se quiere, su material: igual que una sesión.
+   Lo que se escribió en una forma se queda guardado si se cambia a la otra; al publicar solo cuenta la que está elegida.
+   Al publicar, cada módulo se guarda como una fila con su video (si lo tiene) y una fila por clase, todas del mismo curso y en el orden
+   en que se ven (modulos.js). Hace falta supabase-modulos.sql (una sola vez): sin él, «Solo sesiones» funciona igual y aquí se avisa qué falta.
+   Todo lo demás (archivos primero, deshacer si algo falla, imágenes del curso) es el mismo camino de newcourse.js. */
+
+/* ---------------- datos ---------------- */
+function ncNewMod(p){
+  const m = Object.assign({ k: 'm' + (++NC.seq), name: '', video: '', rows: null, bulk: '' }, p || {});
+  if(!m.rows) m.rows = [ncNewRow()];
+  return m;
+}
+function ncMod(mk){ return NC.mods.find(m => m.k === mk) || null; }
+function ncModFilledRows(m){ return m.rows.filter(r => !ncIsEmpty(r)); }
+function ncModIsEmpty(m){ return !m.name.trim() && !m.video.trim() && m.rows.every(ncIsEmpty); }
+/* dónde está una fila: { list, i, mod } (mod = null en «Solo sesiones») */
+function ncLocate(k){
+  let i = NC.rows.findIndex(r => r.k === k);
+  if(i >= 0) return { list: NC.rows, i, mod: null };
+  for(let a = 0; a < NC.mods.length; a++){
+    i = NC.mods[a].rows.findIndex(r => r.k === k);
+    if(i >= 0) return { list: NC.mods[a].rows, i, mod: NC.mods[a] };
+  }
+  return null;
+}
+function ncModTotal(){          // filas que se guardarían ahora (clases con algo escrito + videos de módulo)
+  let t = 0;
+  NC.mods.forEach(m => { if(m.video.trim()) t++; t += ncModFilledRows(m).length; });
+  return t;
+}
+function ncModBox(mk){ return document.querySelector('.nm-card[data-m="' + mk + '"]'); }
+
+/* ---------------- elegir la forma ---------------- */
+function ncSetMode(mode){
+  if(NC.busy) return;
+  mode = mode === 'modulos' ? 'modulos' : 'sesiones';
+  NC.mode = mode;
+  const mods = mode === 'modulos';
+  [['nc-opt-sesiones', !mods], ['nc-opt-modulos', mods]].forEach(a => {
+    const b = ncEl(a[0]);
+    if(!b) return;
+    b.classList.toggle('on', a[1]);
+    b.setAttribute('aria-checked', a[1] ? 'true' : 'false');
+  });
+  const s = ncEl('nc-sessions'), m = ncEl('nc-modules'), t = ncEl('nc-step3-t');
+  if(s) s.classList.toggle('hidden', mods);
+  if(m) m.classList.toggle('hidden', !mods);
+  if(t) t.textContent = mods ? 'Módulos y clases del curso' : 'Sesiones del curso';
+  // lo escrito en la otra forma no se pierde: se avisa en una línea
+  const other = mods ? NC.rows.some(r => !ncIsEmpty(r)) : NC.mods.some(x => !ncModIsEmpty(x));
+  const note = ncEl('nc-struct-note');
+  if(note) note.textContent = other ? 'Lo que escribiste en «' + (mods ? 'Solo sesiones' : 'Con módulos') + '» se queda guardado aquí; al publicar solo cuenta «' + (mods ? 'Con módulos' : 'Solo sesiones') + '».' : '';
+  if(mods){
+    if(!NC.mods.length) NC.mods = [ncNewMod()];
+    ncRenderMods();
+    ncModsSqlCheck();
+  } else {
+    const box = ncEl('nc-mods');
+    if(box) box.innerHTML = '';            // los módulos escritos siguen en NC.mods
+    const sql = ncEl('nc-mod-sql');
+    if(sql) sql.innerHTML = '';
+    ncRender();
+  }
+}
+/* ¿ya se corrió supabase-modulos.sql? Si no, se explica aquí mismo qué falta (y «Solo sesiones» sigue funcionando) */
+async function ncModsSqlCheck(force){
+  const box = ncEl('nc-mod-sql');
+  if(!box) return;
+  const ready = await modProbe(!!force);
+  if(NC.mode !== 'modulos') return;
+  box.innerHTML = ready === false ? modSqlNoteHtml('ncModsRecheck()') : '';
+  if(force && ready !== false) lmSay('nc-mod-msg', ready === true ? '✓ Listo: ya puedes publicar con módulos.' : '', ready === true ? 'ok' : '');
+}
+function ncModsRecheck(){ return ncModsSqlCheck(true); }
+
+/* ---------------- pintar ---------------- */
+function ncModArrow(path){
+  return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + path + '"/></svg>';
+}
+function ncModCardHtml(m, mi, total){
+  const mk = m.k, num = mi + 1, nr = m.rows.length;
+  const rowsHtml = nr
+    ? m.rows.map((r, i) => ncRowHtml(r, i, nr, 'clase')).join('')
+    : '<div class="nm-empty">Este módulo todavía no tiene clases: agrégalas con el botón de abajo, o deja solo el video del módulo.</div>';
+  return '<section class="nm-card" data-m="' + mk + '" aria-label="Módulo ' + num + '">' +
+    '<div class="nm-top"><span class="nm-n">MÓDULO ' + num + '</span><div class="nc-acts nm-acts">' +
+      '<button class="nc-ib" type="button" aria-label="Subir el módulo ' + num + '"' + (mi === 0 ? ' disabled' : '') + ' onclick="ncModMove(\'' + mk + '\',-1)">' + ncModArrow('M12 19V5M5 12l7-7 7 7') + '</button>' +
+      '<button class="nc-ib" type="button" aria-label="Bajar el módulo ' + num + '"' + (mi === total - 1 ? ' disabled' : '') + ' onclick="ncModMove(\'' + mk + '\',1)">' + ncModArrow('M12 5v14M5 12l7 7 7-7') + '</button>' +
+      '<button class="nc-rm" type="button" aria-label="Quitar el módulo ' + num + '" onclick="ncModRemove(\'' + mk + '\',this)">Quitar módulo</button>' +
+    '</div></div>' +
+    '<div class="nm-fields">' +
+      '<div class="nc-cell"><label class="nm-lab" for="ncm-n-' + mk + '">Nombre del módulo</label>' +
+        '<input class="nc-in" id="ncm-n-' + mk + '" type="text" autocomplete="off" aria-label="Nombre del módulo ' + num + '" placeholder="Ej: Cimentaciones" value="' + escapeHtml(m.name) + '" oninput="ncModSet(\'' + mk + '\',\'name\',this.value)" onkeydown="ncModKey(event,\'' + mk + '\',\'name\')"></div>' +
+      '<div class="nc-cell"><label class="nm-lab" for="ncm-v-' + mk + '">Video del módulo (opcional)</label>' +
+        '<input class="nc-in" id="ncm-v-' + mk + '" type="text" inputmode="url" autocomplete="off" aria-label="Enlace del video del módulo ' + num + '" placeholder="Pega el enlace del video del módulo (si tiene uno)" value="' + escapeHtml(m.video) + '" oninput="ncModSet(\'' + mk + '\',\'video\',this.value)" onkeydown="ncModKey(event,\'' + mk + '\',\'video\')">' +
+        '<span class="lm-kind none" id="ncc-mv-' + mk + '"></span>' + odTestHtml('ncm-v-' + mk, 'mv-' + mk, m.video) + '</div>' +
+    '</div>' +
+    '<div class="nm-sub">Clases de este módulo</div>' +
+    '<div class="nc-head" aria-hidden="true"><span>N.º</span><span>Nombre de la clase</span><span>Enlace del video (Drive, YouTube, Vimeo u OneDrive)</span><span>Material (opcional)</span><span></span></div>' +
+    '<div class="nc-rows cls" id="ncm-rows-' + mk + '">' + rowsHtml + '</div>' +
+    '<div class="nc-tools"><button class="btn btn-ghost btn-sm" type="button" id="ncm-add-' + mk + '" onclick="ncAddClass(\'' + mk + '\')">+ Agregar una clase</button></div>' +
+    '<div id="ncm-say-' + mk + '" class="form-msg" role="status" aria-live="polite"></div>' +
+    '<details class="lm-bulk" id="ncb-' + mk + '"' + (m.bulk ? ' open' : '') + '><summary>Pegar varias clases de este módulo <span>(una clase por línea)</span></summary>' +
+      '<div class="lm-bulk-body"><p class="lm-bulk-help">Escribe o pega <b>una clase por línea</b>: el nombre y, al lado, el enlace de su video (con una barra | , un guion o un espacio). Si todavía no tienes el video de una clase, deja solo el nombre. La numeración no hace falta: el aula la pone sola.</p>' +
+      '<textarea id="ncb-t-' + mk + '" rows="5" spellcheck="false" autocomplete="off" aria-label="Lista de clases del módulo ' + num + '" oninput="ncModBulkInput(\'' + mk + '\',this.value)" placeholder="Introducción al módulo | https://drive.google.com/file/d/AAAA/view&#10;Zapatas aisladas | https://www.youtube.com/watch?v=BBBB">' + escapeHtml(m.bulk) + '</textarea>' +
+      '<div id="ncb-p-' + mk + '" class="lm-bulk-preview" aria-live="polite"></div>' +
+      '<div id="ncb-m-' + mk + '" class="form-msg" role="status" aria-live="polite"></div>' +
+      '<button class="btn btn-solid btn-sm" id="ncb-b-' + mk + '" type="button" onclick="ncModBulkAdd(\'' + mk + '\')" disabled>Agregar clases</button></div></details>' +
+  '</section>';
+}
+function ncModChips(m){
+  const v = ncEl('ncc-mv-' + m.k);
+  if(!v) return;
+  const link = normalizeLink(m.video);
+  let kind;
+  if(!link) kind = { cls: 'none', text: 'Sin video del módulo (es opcional)' };
+  else { const prob = videoProblem(link); kind = prob ? { cls: 'bad', text: prob } : videoKind(link); }
+  v.className = 'lm-kind ' + kind.cls;
+  v.textContent = kind.text;
+  odTestToggle('ncm-v-' + m.k, 'mv-' + m.k);
+}
+function ncRenderMods(){
+  const box = ncEl('nc-mods');
+  if(!box) return;
+  const n = NC.mods.length;
+  box.innerHTML = NC.mods.map((m, i) => ncModCardHtml(m, i, n)).join('');
+  NC.mods.forEach(m => { m.rows.forEach(ncChips); ncModChips(m); ncModBulkPreview(m.k); });
+  ncSummaryMods();
+  const add = ncEl('nc-addmod-btn');
+  if(add) add.disabled = n >= NC_MAX_MODS;
+}
+function ncSummaryMods(){
+  const sum = ncEl('nc-msum'), pub = ncEl('nc-publish');
+  const mods = NC.mods.filter(m => !ncModIsEmpty(m));
+  let nCls = 0, nVid = 0, nNoVid = 0, nMat = 0;
+  mods.forEach(m => {
+    if(m.video.trim()) nVid++;
+    ncModFilledRows(m).forEach(r => { nCls++; if(!r.video.trim()) nNoVid++; if(r.mat.trim() || r.file) nMat++; });
+  });
+  const nm = mods.length;
+  if(sum){
+    sum.innerHTML = nm
+      ? '<div>' + nm + ' <span>' + (nm === 1 ? 'módulo' : 'módulos') + '</span></div><div>' + nCls + ' <span>' + (nCls === 1 ? 'clase' : 'clases') + '</span></div>' +
+        '<div>' + nVid + ' <span>' + (nVid === 1 ? 'video de módulo' : 'videos de módulo') + '</span></div>' +
+        '<div' + (nNoVid ? ' class="w"' : '') + '>' + nNoVid + ' <span' + (nNoVid ? ' class="w"' : '') + '>' + (nNoVid === 1 ? 'clase sin video todavía' : 'clases sin video todavía') + '</span></div><div>' + nMat + ' <span>con material</span></div>'
+      : '<div><span>Todavía no escribiste módulos. Puedes publicar el curso así y agregárselos después.</span></div>';
+  }
+  if(pub && !NC.busy) pub.textContent = nm ? 'Publicar curso con sus ' + nm + (nm === 1 ? ' módulo' : ' módulos') + (nCls ? ' y ' + nCls + (nCls === 1 ? ' clase' : ' clases') : '') : 'Publicar curso';
+}
+
+/* ---------------- escribir en el módulo ---------------- */
+function ncModSet(mk, f, v){
+  const m = ncMod(mk);
+  if(!m) return;
+  m[f] = v;
+  if(f === 'video') ncModChips(m);
+  const card = ncModBox(mk);
+  if(card) card.classList.remove('bad');
+  ncSummaryMods();
+}
+function ncModKey(e, mk, f){
+  if(e.key !== 'Enter' || e.isComposing) return;
+  e.preventDefault();
+  const m = ncMod(mk);
+  if(!m) return;
+  const go = id => { const el = ncEl(id); if(el) el.focus(); };
+  if(f === 'name') return go('ncm-v-' + mk);
+  if(m.rows.length) return go('nci-n-' + m.rows[0].k);
+  ncAddClass(mk);
+}
+function ncAddMod(){
+  if(NC.busy) return;
+  if(NC.mods.length >= NC_MAX_MODS){ lmSay('nc-mod-msg', 'Un curso admite hasta ' + NC_MAX_MODS + ' módulos en este formulario; el resto agrégalo después.', 'err'); return; }
+  lmSay('nc-mod-msg', '');
+  const m = ncNewMod();
+  NC.mods.push(m);
+  ncRenderMods();
+  const input = ncEl('ncm-n-' + m.k);
+  if(input){
+    if(!ncCoarse()) input.focus();
+    const card = ncModBox(m.k);
+    if(card) lmScrollTo(card);
+  }
+}
+function ncModMove(mk, d){
+  if(NC.busy) return;
+  const i = NC.mods.findIndex(m => m.k === mk), j = i + d;
+  if(i < 0 || j < 0 || j >= NC.mods.length) return;
+  const t = NC.mods[i]; NC.mods[i] = NC.mods[j]; NC.mods[j] = t;
+  ncRenderMods();
+  const card = ncModBox(mk);
+  if(card){
+    const bs = card.querySelectorAll('.nm-acts .nc-ib');
+    let b = d < 0 ? bs[0] : bs[1];
+    if(b && b.disabled) b = d < 0 ? bs[1] : bs[0];
+    if(b) b.focus({ preventScroll: true });
+  }
+}
+function ncModRemove(mk, btn){
+  if(NC.busy) return;
+  const m = ncMod(mk);
+  if(!m) return;
+  const key = 'mod:' + mk;
+  // un módulo con cosas escritas pide confirmar con un segundo clic
+  if(!ncModIsEmpty(m) && !(NC.arm[key] && Date.now() - NC.arm[key] < 5000)){
+    NC.arm[key] = Date.now();
+    if(btn){
+      btn.textContent = '¿Seguro?';
+      btn.classList.add('armed');
+      setTimeout(() => { if(btn.isConnected){ btn.textContent = 'Quitar módulo'; btn.classList.remove('armed'); } }, 5000);
+    }
+    return;
+  }
+  delete NC.arm[key];
+  NC.mods = NC.mods.filter(x => x.k !== mk);
+  if(!NC.mods.length) NC.mods.push(ncNewMod());
+  lmSay('nc-mod-msg', '');
+  ncRenderMods();
+}
+function ncAddClass(mk){
+  if(NC.busy) return;
+  const m = ncMod(mk);
+  if(!m) return;
+  if(ncModTotal() >= NC_MAX){ lmSay('ncm-say-' + mk, 'Un curso admite hasta ' + NC_MAX + ' sesiones y clases en este formulario; el resto agrégalo después.', 'err'); return; }
+  lmSay('ncm-say-' + mk, '');
+  const r = ncNewRow();
+  m.rows.push(r);
+  ncRenderMods();
+  const input = ncEl('nci-n-' + r.k);
+  if(input){
+    if(!ncCoarse()) input.focus();
+    const row = input.closest('.nc-row');
+    if(row) lmScrollTo(row);
+  }
+}
+
+/* ---------------- pegar varias clases en un módulo ---------------- */
+function ncClsLab(){ return { one: 'clase', many: 'clases', tag: i => 'CLASE ' + modPad(i + 1) }; }
+function ncModBulkPreview(mk){
+  const m = ncMod(mk), ta = ncEl('ncb-t-' + mk), box = ncEl('ncb-p-' + mk), btn = ncEl('ncb-b-' + mk);
+  if(!m || !ta || !box || !btn) return;
+  lmBulkPaint(lmBulkParse(ta.value, ncModFilledRows(m).length), box, btn, ncClsLab());
+}
+function ncModBulkInput(mk, v){
+  const m = ncMod(mk);
+  if(!m) return;
+  m.bulk = v;
+  lmSay('ncb-m-' + mk, '');
+  ncModBulkPreview(mk);
+}
+function ncModBulkAdd(mk){
+  if(NC.busy) return;
+  const m = ncMod(mk), ta = ncEl('ncb-t-' + mk);
+  if(!m || !ta) return;
+  const say = (t, k) => lmSay('ncb-m-' + mk, t, k);
+  const base = ncModFilledRows(m);
+  const r = lmBulkParse(ta.value, base.length);
+  if(!r.items.length){ say('Escribe o pega la lista de clases.', 'err'); ta.focus(); return; }
+  if(r.tooMany || r.items.some(x => x.problem)){ say('Corrige las líneas marcadas en rojo y vuelve a intentar.', 'err'); return; }
+  if(ncModTotal() - ncModFilledRows(m).length + base.length + r.items.length > NC_MAX){ say('Con estas serían más de ' + NC_MAX + ' sesiones y clases en el curso: agrega menos ahora y el resto después.', 'err'); return; }
+  const rows = r.items.map(x => ncNewRow({ name: x.tema, video: x.video }));
+  m.rows = base.concat(rows);               // las filas vacías que había se quitan: no quedan huecos
+  m.bulk = '';
+  ncRenderMods();
+  const n = r.items.length;
+  lmSay('ncm-say-' + mk, n + (n === 1 ? ' clase agregada ✓' : ' clases agregadas ✓') + ' Revísalas aquí arriba: puedes corregir cualquier nombre o enlace escribiendo encima.', 'ok');
+  const row = document.querySelector('.nc-row[data-k="' + rows[0].k + '"]');
+  if(row) lmScrollTo(row);
+}
+
+/* ---------------- publicar: revisar todo y armar la lista ---------------- */
+/* devuelve el primer problema (módulo, fila y campo) o null; recibe los módulos ya sin lo vacío */
+function ncValidateMods(mods){
+  for(let mi = 0; mi < mods.length; mi++){
+    const m = mods[mi], num = mi + 1;
+    if(!m.name.trim()) return { m, field: 'n', text: 'Al módulo ' + num + ' le falta el nombre: escríbelo o quita el módulo.' };
+    const mv = normalizeLink(m.video);
+    const vp = videoProblem(mv);
+    if(vp) return { m, field: 'v', text: 'Módulo ' + num + ': ' + vp };
+    if(!mv && !m.rows.length) return { m, field: 'v', text: 'El módulo ' + num + ' («' + m.name.trim() + '») no tiene video ni clases: agrega al menos uno de los dos o quita el módulo.' };
+    for(let i = 0; i < m.rows.length; i++){
+      const r = m.rows[i], c = i + 1, pre = 'Módulo ' + num + ' · clase ' + c + ': ';
+      if(!r.name.trim()) return { m, r, field: 'n', text: 'A la clase ' + c + ' del módulo ' + num + ' le falta el nombre: escríbelo o quita la clase.' };
+      const vp2 = videoProblem(normalizeLink(r.video));
+      if(vp2) return { m, r, field: 'v', text: pre + vp2 };
+      if(!r.file){
+        const mm = normalizeLink(r.mat);
+        if(mm && !isHttpLink(mm)) return { m, r, field: 'm', text: pre + 'el enlace del material debe empezar con https://' };
+      } else if(r.file.size > NC_FILE_MAX){
+        return { m, r, field: 'm', text: pre + 'el archivo pesa más de 50 MB; súbelo a Drive y pega su enlace.' };
+      }
+    }
+  }
+  return null;
+}
+/* quita lo vacío, revisa todo ANTES de crear nada y arma la lista en el orden en que se ve: { items, nMods, nCls } (o null si hay que corregir algo) */
+async function ncPlanMods(say){
+  // los módulos y las filas vacías no cuentan: se quitan antes de revisar, así los números que se ven son los que se guardan
+  const sig = NC.mods.map(m => m.rows.length).join(',') + '|' + NC.mods.length;
+  const kept = NC.mods.filter(m => !ncModIsEmpty(m));
+  kept.forEach(m => { m.rows = ncModFilledRows(m); });
+  NC.mods = kept.length ? kept : [ncNewMod()];
+  if(kept.map(m => m.rows.length).join(',') + '|' + kept.length !== sig) ncRenderMods();
+  if(!kept.length) return { items: [], nMods: 0, nCls: 0 };
+  // sin las casillas nuevas en la base de datos no se puede guardar un módulo: se avisa ANTES de subir o crear nada
+  const ready = await modProbe();
+  if(NC.mode !== 'modulos') return null;
+  if(ready === false){
+    const box = ncEl('nc-mod-sql');
+    if(box){ box.innerHTML = modSqlNoteHtml('ncModsRecheck()'); lmScrollTo(box); }
+    say('Para publicar con módulos falta correr supabase-modulos.sql en Supabase (una sola vez): mira el aviso de arriba. No se publicó nada; lo que escribiste sigue aquí. Mientras tanto puedes publicar el curso como «Solo sesiones».', 'err');
+    return null;
+  }
+  const bad = ncValidateMods(kept);
+  if(bad){
+    const card = ncModBox(bad.m.k);
+    const row = bad.r ? document.querySelector('.nc-row[data-k="' + bad.r.k + '"]') : null;
+    if(row) row.classList.add('bad'); else if(card) card.classList.add('bad');
+    const el = row || card;
+    if(el){
+      lmScrollTo(el);
+      const inp = bad.r ? ncEl('nci-' + bad.field + '-' + bad.r.k) : ncEl(bad.field === 'n' ? 'ncm-n-' + bad.m.k : 'ncm-v-' + bad.m.k);
+      if(inp && !ncCoarse()) inp.focus();
+    }
+    say(bad.text, 'err');
+    return null;
+  }
+  const items = [];
+  let nCls = 0;
+  kept.forEach((m, mi) => {
+    const rank = mi + 1, name = m.name.trim();
+    const base = { modulo_n: rank, modulo: name };
+    if(normalizeLink(m.video)) items.push({ name, video: m.video, mat: '', file: null, extra: Object.assign({ es_modulo: true }, base), labUp: 'el video del módulo ' + rank, labErr: 'Módulo ' + rank });
+    m.rows.forEach((r, i) => {
+      nCls++;
+      items.push({ name: r.name, video: r.video, mat: r.mat, file: r.file, extra: Object.assign({ es_modulo: false }, base), labUp: 'la clase ' + (i + 1) + ' del módulo ' + rank, labErr: 'Módulo ' + rank + ' · clase ' + (i + 1) });
+    });
+  });
+  return { items, nMods: kept.length, nCls };
+}
+function ncPublishingText(items, mods){
+  if(!mods) return 'Publicando el curso y sus ' + items.length + (items.length === 1 ? ' sesión…' : ' sesiones…');
+  return 'Publicando el curso con sus ' + mods.n + (mods.n === 1 ? ' módulo' : ' módulos') + (mods.cls ? ' y ' + mods.cls + (mods.cls === 1 ? ' clase…' : ' clases…') : '…');
 }
 
 /* ================= SESIONES DEL CURSO (alumno): «Anterior» / «Siguiente» =================
@@ -6623,10 +7618,11 @@ function renderLessonNav(slot, courseId, lessonId, platform){
   const i = ls.findIndex(x => x.id === lessonId);
   if(i < 0){ box.innerHTML = ''; return; }
   const l = ls[i], prev = ls[i - 1], next = ls[i + 1];
+  const np = lessonNavParts(ls, l);                  // sin módulos: «SESIÓN 02» y «de 12», igual que siempre
   const canAuto = platform === 'youtube' || platform === 'vimeo';
   box.innerHTML =
     '<div class="ln-bar">' +
-      '<div class="ln-info"><span class="ln-n">' + sessionLabel(i) + ' <span class="ln-of">de ' + ls.length + '</span></span><span class="ln-t">' + escapeHtml(l.tema) + '</span></div>' +
+      '<div class="ln-info"><span class="ln-n">' + np.n + (np.of ? ' <span class="ln-of">' + np.of + '</span>' : '') + '</span><span class="ln-t">' + escapeHtml(l.tema) + '</span></div>' +
       '<div class="ln-btns">' +
         '<button class="btn btn-ghost btn-sm" type="button" id="ln-prev" onclick="goLesson(-1)"' + (prev ? '' : ' disabled') + '>← Anterior</button>' +
         '<button class="btn btn-solid btn-sm" type="button" id="ln-next" onclick="goLesson(1)"' + (next ? '' : ' disabled') + '>' + (next ? 'Siguiente →' : 'Última sesión') + '</button>' +
@@ -6749,7 +7745,7 @@ function vidHint(){
 function vidTitle(courseId, lessonId){
   const ls = (state.lessons && state.lessons[courseId]) || [];
   const i = ls.findIndex(x => x.id === lessonId);
-  return i < 0 ? 'Video de la sesión' : sessionLabel(i) + ' · ' + ls[i].tema;
+  return i < 0 ? 'Video de la sesión' : lessonRefText(ls, ls[i]);
 }
 const VID_ICON_ON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>';
 const VID_ICON_OFF = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8V3h5M21 8V3h-5M3 16v5h5M21 16v5h-5"/></svg>';
@@ -7031,7 +8027,7 @@ function auCourse(id){ return state.courses.find(x => x.id === id); }
 function auLessonLabel(courseId, lessonId){
   const ls = courseLessonsOf(courseId);
   const i = ls.findIndex(x => x.id === lessonId);
-  return i < 0 ? '' : sessionLabel(i) + ' · ' + ls[i].tema;
+  return i < 0 ? '' : lessonRefText(ls, ls[i]);
 }
 function auActTitle(courseId, activityId){
   const a = (AULA.acts[courseId] || []).find(x => x.id === activityId);
@@ -7486,7 +8482,7 @@ function aulaPaintMsgs(id, soft){
   }else{
     const ls = courseLessonsOf(id), acts = AULA.acts[id] || [];
     const opts = '<option value="">Sobre: todo el curso</option>' +
-      ls.map((l, i) => '<option value="l:' + l.id + '">Sobre: ' + escapeHtml(sessionLabel(i) + ' · ' + l.tema) + '</option>').join('') +
+      ls.map((l, i) => '<option value="l:' + l.id + '">Sobre: ' + escapeHtml(lessonRefText(ls, l)) + '</option>').join('') +
       acts.map(a => '<option value="a:' + a.id + '">Sobre la actividad: ' + escapeHtml(a.title) + '</option>').join('');
     p.innerHTML = '<div class="au-card"><div class="au-row"><div><div class="au-tag">Mensajería interna</div><h3>Conversación con el docente</h3></div>' +
       '<span class="au-chip">Solo la ven tú y el docente</span></div>' +
@@ -7817,13 +8813,13 @@ async function amLoadActs(){
 }
 async function amLoadLessons(courseId, force){
   if(AM.lessons[courseId] && !force) return;
-  const r = await sb.from('course_lessons').select('id, tema, order_index').eq('course_id', courseId).order('order_index');
-  AM.lessons[courseId] = r.error ? [] : (r.data || []);
+  const r = await sb.from('course_lessons').select('*').eq('course_id', courseId).order('order_index');     // «*»: así también trae los módulos si ya se corrió supabase-modulos.sql
+  AM.lessons[courseId] = r.error ? [] : modSort(r.data || []);
 }
 function amLessonLabel(courseId, lessonId){
   const ls = AM.lessons[courseId] || [];
   const i = ls.findIndex(l => l.id === lessonId);
-  return i < 0 ? '' : sessionLabel(i) + ' · ' + ls[i].tema;
+  return i < 0 ? '' : lessonRefText(ls, ls[i]);
 }
 /* sesiones que cada alumno vio (para saber si de verdad terminó el curso) */
 async function amLoadProg(userIds){
@@ -9997,7 +10993,7 @@ function certAulaData(o, cfg){
     hours: hrs, hoursKind: certHoursKind(hrs),
     startDate: per.start, endDate: per.end, issueDate: issue, city: (cfg && cfg.city) || 'Cajamarca',
     modality: 'Virtual', institution: (cfg && cfg.institution) || 'INFINITY WORK',
-    code: o.code || '', sessions: lessons.map(l => ({ title: l.tema, desc: l.descripcion || '' })), extraItems: [],
+    code: o.code || '', sessions: lessons.map(l => ({ title: lessonTemarioTitle(lessons, l), desc: l.descripcion || '' })), extraItems: [],
     status: o.status || 'approved'
   };
 }
@@ -10221,7 +11217,7 @@ async function certAdminLessons(courseId){
   try{
     /* «*» y no «descripcion» por su nombre: si todavía no se corrió supabase-certificados.sql esa columna no existe y la consulta fallaría */
     const r = await sb.from('course_lessons').select('*').eq('course_id', courseId).order('order_index');
-    return r.error ? [] : (r.data || []);
+    return r.error ? [] : modSort(r.data || []);
   }catch(e){ console.error(e); return []; }
 }
 async function certAdminDownload(){
