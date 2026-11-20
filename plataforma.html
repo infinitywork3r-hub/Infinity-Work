@@ -527,8 +527,17 @@
   .drive-help ul{margin:8px 0 8px 18px;padding:0;}
   .drive-help a{color:var(--line-dark);font-weight:700;}
   .od-open{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.5;}
+  .od-open.hidden{display:none;}
   .od-open span{min-width:0;}
   .od-open .btn{flex:none;}
+  /* video de OneDrive que se reproduce dentro del aula (un <video> en el mismo marco de pantalla grande) */
+  .od-video{position:absolute;top:0;left:0;width:100%;height:100%;display:block;background:#000;object-fit:contain;}
+  .od-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;background:#000;color:#fff;font-size:13px;font-weight:600;pointer-events:none;}
+  .od-load .dspin{width:20px;height:20px;border-color:rgba(255,255,255,.35);border-top-color:#fff;}
+  .od-why{margin-top:10px;font-size:12px;line-height:1.55;color:var(--muted);}
+  .od-why summary{cursor:pointer;font-weight:700;}
+  .od-why ul{margin:6px 0 8px 18px;padding:0;overflow-wrap:anywhere;}
+  .od-why .btn{margin-top:2px;}
   .mat-list{margin-top:14px;padding:14px 16px;background:#fff;border:1px solid var(--border);border-radius:14px;}
   .mat-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
   .mat-btns{display:flex;flex-wrap:wrap;gap:8px;}
@@ -641,6 +650,23 @@
   .fold-edit select{max-width:100%;min-width:0;}
   @media (max-width:560px){ .acc-add-form{grid-template-columns:1fr;} .acc-card{padding:12px 13px;} .fold-item{padding:11px 12px;} }
 
+  /* ---- administrador: «Probar el video» (onedrive.js) ---- */
+  .od-test-wrap{display:contents;}
+  .od-test-btn{margin:0 0 12px 4px;}
+  .nc-cell .od-test-btn{margin:0;align-self:flex-start;}
+  .field .od-test-btn{margin:8px 0 0;}
+  .od-test{display:block;margin:2px 0 12px;min-width:0;}
+  .od-test:empty{display:none;}
+  .field .od-test,.nc-cell .od-test{margin:8px 0 0;}
+  .od-test-r{border:1.5px solid var(--border);background:#F6FAFE;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.55;color:var(--text);overflow-wrap:anywhere;}
+  .od-test-r.ok{background:#EAF8F1;border-color:#A9DCC7;}
+  .od-test-r.ok b{color:var(--ok);}
+  .od-test-r.bad{background:#FFF4F1;border-color:#E9BDB5;}
+  .od-test-r.bad b{color:var(--danger);}
+  .od-test-r.wait{color:var(--muted);}
+  .od-test-r .dspin{vertical-align:middle;margin-right:8px;}
+  .od-test-v{display:block;width:100%;max-width:520px;aspect-ratio:16/9;margin-top:10px;background:#000;border-radius:10px;}
+
   /* ================= CONTENIDO DEL CURSO (administrador): temas con su video y material ================= */
   /* mientras la pantalla de un curso está abierta, solo se ve ella (así no queda perdida al final de la página) */
   #admin-courses-panel.lm-open > .panel:not(#lessons-manager),
@@ -735,6 +761,7 @@
   .lm-kind.ok{background:#DFF4EA;color:var(--ok);}
   .lm-kind.bad{background:#FBE3DE;color:var(--danger);}
   .lm-kind.none{background:#FFF1CC;color:var(--warn);}
+  .lm-kind.none,.lm-kind.bad{white-space:normal;line-height:1.4;border-radius:12px;max-width:100%;}
   .lm-lesson .form-msg.inline{display:inline-block;margin:0 0 0 10px;}
   .lm-matbox{background:#F6FAFE;border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:14px 0 0;}
   .lm-matitem{display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid #E4ECF4;}
@@ -1768,8 +1795,8 @@
           <div id="ci-nc-root" class="ci-root" role="group" aria-labelledby="ci-nc-l"></div></div>
         <div class="step-label"><span class="step-n">3</span>Sesiones del curso</div>
         <div id="nc-sessions" class="nc-sessions">
-          <p class="nc-lede">Cada sesión lleva su nombre, su video y, si quieres, su propio material. Si te equivocas, escribe encima del nombre o del enlace: no hace falta quitar la sesión. Los alumnos las ven en este orden, escogen la que quieran y pasan a la siguiente con «Siguiente». Los videos de Drive u OneDrive deben estar compartidos como <b>«Cualquier persona con el enlace»</b>: así se ven en el aula sin pedir ningún permiso.</p>
-          <div class="nc-head" aria-hidden="true"><span>N.º</span><span>Nombre de la sesión</span><span>Enlace del video (Drive, OneDrive, YouTube o Vimeo)</span><span>Material (opcional)</span><span></span></div>
+          <p class="nc-lede">Cada sesión lleva su nombre, su video y, si quieres, su propio material. Si te equivocas, escribe encima del nombre o del enlace: no hace falta quitar la sesión. Los alumnos las ven en este orden, escogen la que quieran y pasan a la siguiente con «Siguiente». Los videos de Drive deben estar compartidos como <b>«Cualquier persona con el enlace»</b>: así se ven dentro del aula sin pedir ningún permiso. Los de OneDrive también se intentan ver dentro del aula con el mismo enlace; Microsoft no lo garantiza, así que en cada sesión con OneDrive pulsa «Probar el video» (si no carga, se abre en otra pestaña).</p>
+          <div class="nc-head" aria-hidden="true"><span>N.º</span><span>Nombre de la sesión</span><span>Enlace del video (Drive, YouTube, Vimeo u OneDrive)</span><span>Material (opcional)</span><span></span></div>
           <div id="nc-rows" class="nc-rows"></div>
           <div class="nc-tools">
             <button class="btn btn-ghost btn-sm" id="nc-add-btn" type="button" onclick="ncAdd()">+ Agregar una sesión</button>
@@ -1839,7 +1866,7 @@
           <div class="lm-add">
             <div id="lm-next-label" class="section-tag">SESIÓN 01 (siguiente)</div>
             <div class="field"><label for="lm-tema">Tema</label><input id="lm-tema" placeholder="Ej: Introducción al modelado" autocomplete="off"></div>
-            <div class="field"><label for="lm-video">Enlace del video de este tema (Drive, OneDrive, YouTube o Vimeo)</label><input id="lm-video" inputmode="url" autocomplete="off" placeholder="https://drive.google.com/file/d/… · https://1drv.ms/v/… · https://www.youtube.com/watch?v=…"><div class="field-hint">Drive u OneDrive: clic derecho en el video → Compartir → en «Acceso general» elige <b>«Cualquier persona con el enlace»</b> (solo ver) → Copiar enlace. Así el alumno lo ve en el aula sin pedir permiso. En OneDrive también sirve pegar el código «Insertar» (el que empieza con &lt;iframe…).</div></div>
+            <div class="field"><label for="lm-video">Enlace del video de este tema (Drive, YouTube, Vimeo u OneDrive)</label><input id="lm-video" inputmode="url" autocomplete="off" oninput="odTestToggle('lm-video','new')" placeholder="https://drive.google.com/file/d/… · https://www.youtube.com/watch?v=…"><div class="od-test-wrap"><button class="btn btn-ghost btn-sm od-test-btn hidden" type="button" id="odt-btn-new" onclick="odTest('lm-video','new')">Probar el video</button><div class="od-test" id="odt-box-new" role="status" aria-live="polite"></div></div><div class="field-hint">Drive: clic derecho en el video → Compartir → en «Acceso general» elige <b>«Cualquier persona con el enlace»</b> (solo ver) → Copiar enlace. Así el alumno lo ve dentro del aula, con pantalla grande y sin pedir permiso. <b>OneDrive:</b> pega el mismo enlace de «Compartir → Cualquier persona con el enlace» (con la descarga permitida). El aula intenta reproducirlo adentro, en pantalla grande. Microsoft no lo garantiza: <b>pulsa «Probar el video»</b> para comprobarlo; si no carga, el alumno lo abre en otra pestaña.</div></div>
             <div class="lm-mat">
               <div class="lm-mat-t">Material de este tema <span>(opcional · los alumnos pueden descargarlo)</span></div>
               <div class="lm-mat-row">
@@ -3947,16 +3974,19 @@ function updateCourseSide(){
 }
 
 /* ================= VIDEOS DE ONEDRIVE =================
-   Un video de OneDrive con enlace «Cualquier persona con el enlace» se ve dentro del aula, sin pedir permiso ni iniciar sesión.
-   Cómo se arma, según el enlace que se pegue:
-   · 1drv.ms/… (el enlace corto de OneDrive personal): va tal cual en el marco; así lo entrega el propio código «Insertar» de OneDrive.
-   · onedrive.live.com/?id=…&authkey=… (el enlace largo): se convierte a onedrive.live.com/embed?resid=…&authkey=… (la dirección de «Insertar»).
-   · Si pegan el código <iframe src="…"> que entrega OneDrive («Insertar»), se toma la dirección de adentro (normalizeLink, en content.js).
-   · Cuentas de empresa (….sharepoint.com): Microsoft no deja incrustar sus videos en otras páginas, así que esos se abren en una pestaña nueva
-     con un botón claro (el alumno vuelve y marca la clase como vista).
-   Debajo del marco siempre queda «Abrir en OneDrive ↗»: OneDrive a veces abre su video en otra pestaña en vez de reproducirlo dentro del marco,
-   y desde aquí no se puede saber si lo reprodujo o no (el marco es de otra página).
-   El avance: igual que con Drive, el alumno marca «Marcar como vista» (OneDrive tampoco avisa cuánto se vio). */
+   El asesor pega el MISMO enlace que le da OneDrive («Compartir» → «Cualquier persona con el enlace»). El aula intenta reproducirlo adentro,
+   en su marco con pantalla grande, sin sacar al alumno:
+   1) Reproducción directa (intento NO oficial de Microsoft): del enlace se arman las direcciones del archivo y se prueban, en orden, en un <video>
+      del propio aula. La primera que carga se queda; el avance se guarda solo y al terminar se resalta «Siguiente».
+        · SharePoint / OneDrive de empresa («Cualquier persona»: /:v:/g/personal/USUARIO/CÓDIGO?e=…):  …?download=1   y   …/_layouts/15/download.aspx?share=CÓDIGO
+        · OneDrive personal con el enlace largo (onedrive.live.com/?cid=…&id=…&authkey=…):  onedrive.live.com/download?cid=…&resid=…&authkey=…
+        · OneDrive personal con el enlace corto (1drv.ms/…):  api.onedrive.com/v1.0/shares/u!…/root/content
+      Microsoft NO garantiza nada de esto: puede dejar de servir sin aviso, no sirve si el enlace tiene «Bloquear descarga» o si la empresa no permite
+      enlaces para «Cualquier persona», y tampoco es a prueba de descargas (se esconde el botón de descargar, nada más).
+   2) Si ninguna carga, queda lo de antes: el marco «Insertar» de OneDrive (enlaces 1drv.ms y onedrive.live.com, con «Abrir en OneDrive ↗» debajo) o,
+      si el enlace no se puede incrustar (cuentas de empresa), un panel con el botón «Ver el video en OneDrive ↗» (el alumno vuelve y marca la clase como vista).
+      Debajo va un «Detalle técnico» cerrado con lo que pasó en cada intento, para saber qué falló.
+   Si pegan el código <iframe src="…"> que entrega OneDrive («Insertar»), se toma la dirección de adentro (normalizeLink, en content.js). */
 
 function isOneDriveUrl(url){
   return /^https?:\/\/(?:1drv\.ms|onedrive\.live\.com|[a-z0-9][a-z0-9-]*\.sharepoint\.(?:com|us|de|cn))(?=[\/?#:]|$)/i.test(String(url || '').trim());
@@ -4007,25 +4037,291 @@ function embedCodeLink(v){
   return (isOneDriveUrl(src) || isDriveUrl(src) || /^https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be)\//i.test(src)) ? src : '';
 }
 
+/* ---------------- direcciones directas del archivo (intento no oficial: ver arriba) ---------------- */
+function oneDriveB64Url(s){
+  try{ return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }catch(e){ return ''; }
+}
+/* lista de { id, what, href } en el orden en que se prueban; [] si ese enlace no tiene forma de probarse (carpeta, «Insertar», enlace solo para gente de la empresa…) */
+function oneDriveDirectCandidates(url){
+  const info = oneDriveInfo(url);
+  if(!info || info.folder) return [];
+  let u;
+  try{ u = new URL(info.open); }catch(e){ return []; }
+  const host = u.hostname.toLowerCase(), path = u.pathname, out = [];
+  const add = (id, what, href) => { if(href && !out.some(c => c.href === href)) out.push({ id, what, href }); };
+  if(host === 'onedrive.live.com'){
+    const q = u.searchParams, resid = q.get('resid') || q.get('id') || '', ak = q.get('authkey');
+    if(!/^\/embed\/?$/i.test(path) && ak && /^[0-9a-f]{8,}!\d+/i.test(resid)){
+      const d = new URL('https://onedrive.live.com/download');
+      if(q.get('cid')) d.searchParams.set('cid', q.get('cid'));
+      d.searchParams.set('resid', resid);
+      d.searchParams.set('authkey', ak);
+      add('od-dl', 'descarga directa de OneDrive', d.href);
+    }
+    return out;
+  }
+  if(host === '1drv.ms'){
+    const b = oneDriveB64Url(info.open);
+    if(b) add('od-api', 'servicio de enlaces de OneDrive', 'https://api.onedrive.com/v1.0/shares/u!' + b + '/root/content');
+    return out;
+  }
+  // SharePoint / OneDrive de empresa: solo los enlaces «Cualquier persona» (…/:v:/g/personal/usuario/código, …/:v:/s/sitio/código, …/:v:/t/equipo/código)
+  const g = /^\/:[a-z]:\/g\/((?:personal|sites|teams)\/[^\/]+)\/([^\/?#]+)\/?$/i.exec(path);
+  const st = g ? null : /^\/:[a-z]:\/([st])\/([^\/]+)\/([^\/?#]+)\/?$/i.exec(path);
+  if(!g && !st) return out;
+  const d1 = new URL(u.href);
+  d1.searchParams.set('download', '1');
+  add('sp-dl', 'enlace con ?download=1', d1.href);
+  const base = g ? g[1] : (st[1].toLowerCase() === 's' ? 'sites/' : 'teams/') + st[2];
+  add('sp-share', 'download.aspx', 'https://' + host + '/' + base + '/_layouts/15/download.aspx?share=' + (g ? g[2] : st[3]));
+  return out;
+}
+
+/* ---------------- el intento: lo comparten el alumno y la prueba del administrador ---------------- */
+const ODV = {
+  gen: 0,          // cuenta de clases abiertas: un intento viejo no toca la clase nueva
+  test: 0,         // numera las pruebas del administrador (cada recuadro guarda la suya)
+  wait: 15000,     // cuánto se espera a que un intento empiece a cargar (ms)
+  v: null,         // el <video> de la clase abierta (para cortarlo al salir)
+  att: null,       // el intento en curso de esa clase
+  flush: null      // guarda el último punto de avance al salir de la clase
+};
+
+/* Prueba las direcciones de `cands`, en orden, en el <video> `v`. Hooks (o):
+     alive()      ¿sigue vigente? (false si el alumno ya cambió de clase)       resumeAt  segundo donde retomar
+     onReady(i)   cargó con el intento i (una sola vez)                          onLazy()  el navegador espera a que se pulse ▶ (iPhone): no se da por perdido
+     onFail(t)    ninguno sirvió; t = qué pasó en cada intento                   onLost()  se cortó a mitad una y otra vez
+   Devuelve { stop() }. Si el video ya se estaba viendo y se corta (el permiso temporal del enlace puede vencer), se pide de nuevo y sigue donde iba (hasta 2 veces). */
+function oneDriveAttempt(v, cands, o){
+  const tried = [];
+  let idx = 0, ready = false, recovers = 0, wasPlaying = false, resumeAt = o.resumeAt || 0, timer = null, dead = false;
+  const alive = () => !dead && v.isConnected && (!o.alive || o.alive());
+  const failed = why => {                                         // este intento no sirvió: se pasa al siguiente; si no hay más, queda lo de antes
+    if(!alive()) return;
+    clearTimeout(timer);
+    tried.push('Intento ' + (idx + 1) + ' de ' + cands.length + ' (' + cands[idx].what + '): ' + why);
+    if(idx + 1 < cands.length) start(idx + 1); else o.onFail(tried);
+  };
+  const start = i => {
+    idx = i;
+    clearTimeout(timer);
+    v.src = cands[i].href;
+    timer = setTimeout(() => failed('no respondió en ' + Math.round(ODV.wait / 1000) + ' s'), ODV.wait);
+  };
+  v.addEventListener('loadedmetadata', () => {
+    if(!alive()) return;
+    clearTimeout(timer);
+    if(!ready && !v.videoWidth){ failed('el navegador no pudo leer la imagen del video (formato no compatible)'); return; }
+    if(resumeAt > 0){
+      try{ v.currentTime = resumeAt; }catch(e){}
+      resumeAt = 0;
+      if(wasPlaying){ wasPlaying = false; const p = v.play(); if(p && p.catch) p.catch(() => {}); }
+    }
+    if(ready) return;
+    ready = true;
+    o.onReady(idx);
+  });
+  // algunos navegadores (iPhone) no cargan nada hasta que se pulsa ▶: no hay que darlo por perdido, se espera ese toque
+  v.addEventListener('suspend', () => {
+    if(!alive() || ready || v.readyState > 0 || v.error) return;
+    clearTimeout(timer);
+    if(o.onLazy) o.onLazy();
+  });
+  v.addEventListener('error', () => {
+    if(!alive()) return;
+    if(!ready){ failed(oneDriveErrText(v)); return; }
+    if(recovers < 2){
+      recovers++;
+      resumeAt = v.currentTime || 0;
+      wasPlaying = !v.paused;
+      v.src = cands[idx].href;
+      return;
+    }
+    if(o.onLost) o.onLost();
+  });
+  start(0);
+  return { stop(){ dead = true; clearTimeout(timer); } };
+}
+/* el motivo de un fallo del <video>, en palabras (sin direcciones: pueden llevar claves del enlace) */
+function oneDriveErrText(v){
+  const e = v && v.error, code = e ? e.code : 0;
+  const msg = e && e.message ? String(e.message).replace(/https?:\/\/\S+/gi, '…').slice(0, 90) : '';
+  const what = code === 4 ? 'OneDrive no entregó un video (pide iniciar sesión o bloquea la descarga)'
+    : code === 3 ? 'el video no es compatible con este navegador'
+    : code === 2 ? 'se cortó la conexión'
+    : code === 1 ? 'se canceló' : 'falló';
+  return what + ' [código ' + code + (msg ? ': ' + msg : '') + ']';
+}
+/* qué tipo de enlace es, sin nombres ni códigos (sirve para que, si falla, se sepa de qué clase era) */
+function oneDriveShape(url){
+  const info = oneDriveInfo(url);
+  let u;
+  try{ u = new URL(info ? info.open : ''); }catch(e){ return ''; }
+  const h = u.hostname.toLowerCase();
+  if(h === '1drv.ms') return 'enlace corto 1drv.ms (' + u.pathname.split('/').slice(0, 2).join('/') + '/…)';
+  if(h === 'onedrive.live.com') return 'OneDrive personal (' + u.pathname + ')';
+  const m = /^(\/:[a-z]:\/[a-z])\//i.exec(u.pathname);
+  return 'OneDrive de empresa / SharePoint (' + (m ? m[1] + '/…' : 'otro tipo de enlace') + ')';
+}
+/* cierra la clase de OneDrive que estaba abierta cuando el alumno cambia de clase, de pestaña o sale del curso (vidLeave lo llama):
+   guarda el último punto de avance, deja de contar los intentos y corta la descarga del video */
+function oneDriveStop(){
+  const f = ODV.flush, v = ODV.v, a = ODV.att;
+  ODV.flush = null; ODV.v = null; ODV.att = null;
+  if(f){ try{ f(); }catch(e){} }
+  ODV.gen++;
+  if(a){ try{ a.stop(); }catch(e){} }
+  if(v){ try{ v.pause(); v.removeAttribute('src'); v.load(); }catch(e){} }
+}
+
 /* ---------------- ALUMNO: clase con video de OneDrive ---------------- */
+function oneDriveToolsHtml(l){
+  return '<div class="drive-tools" id="drive-watch-' + l.id + '">' + driveWatchHtml(l.id) + '</div>';
+}
+/* lo que pasó en cada intento (cerrado; sirve para saber qué falló) y «Reintentar» */
+function oneDriveWhyHtml(l, info, tried){
+  if(!tried || !tried.length) return '';
+  return '<details class="od-why"><summary>Detalle técnico</summary><ul><li>Enlace: ' + escapeHtml(oneDriveShape(l.video_url)) + '</li>' + tried.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ul>' +
+    '<button class="btn btn-ghost btn-sm" type="button" onclick="selectLesson(\'detail\', \'' + l.id + '\')">Reintentar</button></details>';
+}
+/* lo de antes, cuando no se pudo reproducir adentro: el marco de OneDrive si el enlace lo permite; si no, un panel con el botón para abrirlo en otra pestaña */
+function oneDriveFallbackHtml(courseId, l, info, tried){
+  const open = escapeHtml(info.open);
+  const why = oneDriveWhyHtml(l, info, tried);
+  if(!info.embed){
+    return '<div class="vid-wait"><div class="vid-wait-in"><b>Este video está en OneDrive</b>' +
+      '<p>' + (tried && tried.length ? 'OneDrive no dejó verlo dentro del aula. ' : '') + 'Se abre en una pestaña nueva. Cuando termines, vuelve aquí y marca la clase como vista.</p>' +
+      '<a class="btn btn-sm" href="' + open + '" target="_blank" rel="noopener noreferrer">Ver el video en OneDrive ↗</a></div></div>' + oneDriveToolsHtml(l) + why;
+  }
+  return vidShell(
+    '<div class="vid-frame" style="position:relative;padding-top:56.25%;"><iframe src="' + escapeHtml(info.embed) + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen title="Video de la clase"></iframe></div>',
+    vidTitle(courseId, l.id)) + oneDriveToolsHtml(l) +
+    '<div class="od-open"><span>¿No se reproduce aquí o se abre otra pestaña?</span><a class="btn btn-ghost btn-sm" href="' + open + '" target="_blank" rel="noopener noreferrer">Abrir en OneDrive ↗</a></div>' + why;
+}
+
 function renderOneDriveLesson(courseId, l, playerBox, materialHtml){
   const info = oneDriveInfo(l.video_url);
   if(!info || info.folder){
     playerBox.innerHTML = '<div class="dnote warn"><div>Esta clase todavía no tiene un video válido de OneDrive. Avisa a tu asesor.' + advisorLinkHtml() + '</div></div>' + materialHtml;
     return;
   }
-  const open = escapeHtml(info.open);
-  const tools = '<div class="drive-tools" id="drive-watch-' + l.id + '">' + driveWatchHtml(l.id) + '</div>';
-  if(!info.embed){
-    playerBox.innerHTML = '<div class="vid-wait"><div class="vid-wait-in"><b>Este video está en OneDrive</b>' +
-      '<p>Se abre en una pestaña nueva. Cuando termines, vuelve aquí y marca la clase como vista.</p>' +
-      '<a class="btn btn-sm" href="' + open + '" target="_blank" rel="noopener noreferrer">Ver el video en OneDrive ↗</a></div></div>' + tools + materialHtml;
+  const cands = oneDriveDirectCandidates(l.video_url);
+  if(!cands.length){
+    playerBox.innerHTML = '<div class="od-wrap">' + oneDriveFallbackHtml(courseId, l, info, null) + '</div>' + materialHtml;
     return;
   }
-  playerBox.innerHTML = vidShell(
-    '<div class="vid-frame" style="position:relative;padding-top:56.25%;"><iframe src="' + escapeHtml(info.embed) + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen title="Video de la clase"></iframe></div>',
-    vidTitle(courseId, l.id)) + tools +
-    '<div class="od-open"><span>¿No se reproduce aquí o se abre otra pestaña?</span><a class="btn btn-ghost btn-sm" href="' + open + '" target="_blank" rel="noopener noreferrer">Abrir en OneDrive ↗</a></div>' + materialHtml;
+  const gen = ++ODV.gen;
+  const vid = 'odv-' + l.id;
+  const saved = state.progress && state.progress[l.id];
+  const doneBefore = !!(saved && saved.duration > 0 && saved.seconds >= saved.duration * 0.9);
+  playerBox.innerHTML = '<div class="od-wrap">' + vidShell(
+      '<div class="vid-frame od-frame" style="position:relative;padding-top:56.25%;overflow:hidden;background:#000;">' +
+        '<video class="od-video" id="' + vid + '" controls playsinline preload="metadata" controlslist="nodownload noremoteplayback" disablepictureinpicture aria-label="Video de la clase"></video>' +
+        '<div class="od-load" id="' + vid + '-load" role="status"><span class="dspin"></span><span>Cargando el video…</span></div>' +
+      '</div>', vidTitle(courseId, l.id)) +
+    '<div class="od-open hidden" id="' + vid + '-note" role="status"></div></div>' + materialHtml;
+  const wrap = playerBox.querySelector('.od-wrap');
+  const v = document.getElementById(vid);
+  ODV.v = v;
+  let played = false;
+  const alive = () => ODV.gen === gen && v.isConnected;          // false cuando el alumno ya cambió de clase
+  const live = () => alive() && currentPlayerLessonId === l.id;
+  const hideLoad = () => { const ld = document.getElementById(vid + '-load'); if(ld) ld.remove(); };
+  const tick = () => {                                            // el avance se guarda solo, igual que con YouTube; ver otra vez una clase terminada no le quita lo avanzado
+    if(!live() || !played) return;
+    if(doneBefore && !(v.duration > 0 && v.currentTime >= v.duration * 0.9)) return;
+    trackTick();
+  };
+  // al salir de la clase el reproductor ya se soltó (stopProgressTracking), así que el último punto se guarda directo
+  ODV.flush = () => {
+    if(!played || !session) return;
+    const s = v.currentTime, d = v.duration;
+    if(!(d > 0) || !isFinite(d)) return;
+    if(doneBefore && s < d * 0.9) return;
+    saveProgress(l.id, s, d);
+    updateProgressBar(l.id, s, d);
+    refreshCertAction();
+  };
+  v.addEventListener('contextmenu', e => e.preventDefault());
+  v.addEventListener('playing', () => { played = true; });
+  v.addEventListener('pause', tick);
+  v.addEventListener('ended', () => {
+    if(!live()) return;
+    played = true;
+    tick();
+    lessonEnded(l.id);
+  });
+  ODV.att = oneDriveAttempt(v, cands, {
+    alive,
+    resumeAt: saved && saved.duration > 1 && saved.seconds > 3 && saved.seconds < saved.duration - 3 ? saved.seconds : 0,
+    onReady: () => {
+      hideLoad();
+      if(typeof lessonAutoOption === 'function') lessonAutoOption();   // este video sí avisa cuando termina: se ofrece «pasar solo a la siguiente»
+      if(currentPlayerLessonId === l.id){
+        currentPlayer = { getCurrentTime: () => v.currentTime, getDuration: () => (isFinite(v.duration) ? v.duration : 0) };
+        if(progressTimer) clearInterval(progressTimer);
+        progressTimer = setInterval(tick, 5000);
+      }
+    },
+    onLazy: hideLoad,
+    onFail: tried => { wrap.innerHTML = oneDriveFallbackHtml(courseId, l, info, tried); },
+    onLost: () => {
+      const n = document.getElementById(vid + '-note');
+      if(!n) return;
+      n.innerHTML = '<span>Se cortó la conexión con el video. Pulsa ▶ otra vez; si sigue igual, ábrelo en OneDrive.</span><a class="btn btn-ghost btn-sm" href="' + escapeHtml(info.open) + '" target="_blank" rel="noopener noreferrer">Abrir en OneDrive ↗</a>';
+      n.classList.remove('hidden');
+    }
+  });
+}
+
+/* ---------------- ADMINISTRADOR: «Probar el video» ----------------
+   Junto al enlace de un tema aparece el botón «Probar el video» (solo si es de OneDrive y se puede probar). Hace el mismo intento que el alumno,
+   sin guardar nada, y dice si el video se ve dentro del aula o no, para decidir antes de publicar. Si se ve, queda un reproductor chico para verlo ahí mismo.
+   Ojo: si el administrador tiene abierta su cuenta de Microsoft, puede verse un video que a los alumnos no les abre: por eso el aviso de probarlo también en incógnito. */
+function odTestable(link){
+  link = normalizeLink(link);
+  return !!(link && isOneDriveUrl(link) && oneDriveDirectCandidates(link).length);
+}
+function odTestHtml(inputId, key, link){
+  return '<div class="od-test-wrap"><button class="btn btn-ghost btn-sm od-test-btn' + (odTestable(link) ? '' : ' hidden') + '" type="button" id="odt-btn-' + key + '" onclick="odTest(\'' + inputId + '\',\'' + key + '\')">Probar el video</button>' +
+    '<div class="od-test" id="odt-box-' + key + '" role="status" aria-live="polite"></div></div>';
+}
+/* muestra el botón solo si el enlace de ese cuadro es de OneDrive y se puede probar; si el enlace cambió, borra el resultado anterior */
+function odTestToggle(inputId, key){
+  const inp = document.getElementById(inputId), btn = document.getElementById('odt-btn-' + key), box = document.getElementById('odt-box-' + key);
+  if(!inp || !btn) return;
+  const link = normalizeLink(inp.value);
+  btn.classList.toggle('hidden', !odTestable(link));
+  if(box && box.dataset.link !== undefined && box.dataset.link !== link){ box.dataset.run = ''; box.innerHTML = ''; delete box.dataset.link; }
+}
+function odTest(inputId, key){
+  const inp = document.getElementById(inputId), box = document.getElementById('odt-box-' + key);
+  if(!inp || !box) return;
+  const link = normalizeLink(inp.value);
+  const cands = odTestable(link) ? oneDriveDirectCandidates(link) : [];
+  if(!cands.length){ box.dataset.run = ''; box.innerHTML = '<div class="od-test-r bad">Esta prueba es solo para videos de OneDrive compartidos con «Cualquier persona con el enlace».</div>'; return; }
+  const run = String(++ODV.test);
+  box.dataset.run = run;
+  box.dataset.link = link;
+  box.innerHTML = '<div class="od-test-r wait"><span class="dspin"></span><span>Probando con OneDrive… puede tardar unos segundos.</span></div>' +
+    '<video class="od-test-v hidden" controls playsinline preload="metadata" controlslist="nodownload noremoteplayback" disablepictureinpicture aria-label="Prueba del video"></video>';
+  const v = box.querySelector('video');
+  const say = (cls, html) => { const r = box.querySelector('.od-test-r'); if(r){ r.className = 'od-test-r ' + cls; r.innerHTML = html; } };
+  const detail = lines => '<details class="od-why"><summary>Detalle técnico</summary><ul><li>Enlace: ' + escapeHtml(oneDriveShape(link)) + '</li>' + lines.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ul></details>';
+  oneDriveAttempt(v, cands, {
+    alive: () => box.dataset.run === run,
+    onReady: i => {
+      v.classList.remove('hidden');
+      say('ok', '<b>✓ Se ve dentro del aula.</b> Pulsa ▶ para verlo aquí mismo. Para estar seguro de que también lo verán los alumnos, pruébalo en una ventana de incógnito (Ctrl+Mayús+N), sin tu cuenta de Microsoft, y en tu celular.' +
+        detail(['Funcionó con el intento ' + (i + 1) + ' de ' + cands.length + ' (' + cands[i].what + ')']));
+    },
+    onLazy: () => { v.classList.remove('hidden'); say('wait', 'Este navegador espera a que pulses ▶ para cargar el video. Púlsalo para ver si se reproduce.'); },
+    onFail: tried => {
+      v.remove();
+      say('bad', '<b>✗ OneDrive no dejó verlo dentro del aula con este enlace.</b> Los alumnos tendrían que abrirlo en otra pestaña. Revisa que el enlace sea «Cualquier persona con el enlace» y que permita descargar; si sigue igual, usa Drive, YouTube o Vimeo.' + detail(tried));
+    },
+    onLost: () => say('bad', '<b>Se cortó la conexión con el video.</b> Vuelve a probar; si se repite, usa Drive, YouTube o Vimeo.')
+  });
 }
 
 /* ---- versiones nuevas de dos funciones del aula (avance en vivo y botón del certificado) ---- */
@@ -5143,7 +5439,7 @@ function videoProblem(v){
   }
   return '';
 }
-function videoKind(v){
+function videoKind(v, inList){      // inList: la vista previa de «agregar varias sesiones», donde todavía no hay botón «Probar el video»
   v = String(v || '').trim();
   if(!v) return { cls: 'none', text: 'Sin video todavía' };
   const p = detectPlatform(v);
@@ -5151,7 +5447,11 @@ function videoKind(v){
   if(p === 'onedrive'){
     const od = oneDriveInfo(v);
     if(!od || od.folder) return { cls: 'bad', text: 'Enlace de OneDrive que no es de un video' };
-    return od.embed ? { cls: 'ok', text: '✓ Video de OneDrive' } : { cls: 'none', text: 'Este enlace de OneDrive se abrirá en otra pestaña (no se puede ver dentro del aula)' };
+    /* con el mismo enlace se intenta reproducir adentro (onedrive.js); Microsoft no lo garantiza, así que se dice en claro y se pide comprobarlo con «Probar el video» */
+    if(oneDriveDirectCandidates(v).length) return { cls: 'none', text: 'OneDrive: se intenta ver dentro del aula; si Microsoft no lo permite, se abre en otra pestaña. ' + (inList ? 'Cuando lo agregues, pulsa «Probar el video» en el tema para comprobarlo.' : 'Pulsa «Probar el video» para comprobarlo.') };
+    return od.embed
+      ? { cls: 'none', text: '⚠ OneDrive: este enlace se muestra en el marco de OneDrive y puede abrirse en otra pestaña. Mejor usa «Compartir → Cualquier persona con el enlace».' }
+      : { cls: 'none', text: '⚠ Este enlace de OneDrive no se puede ver dentro del aula (se abre en otra pestaña). Cópialo otra vez con «Compartir → Cualquier persona con el enlace».' };
   }
   if(p === 'youtube') return extractYouTubeId(v) ? { cls: 'ok', text: '✓ Video de YouTube' } : { cls: 'bad', text: 'Enlace de YouTube incompleto' };
   if(p === 'vimeo') return extractVimeoId(v) ? { cls: 'ok', text: '✓ Video de Vimeo' } : { cls: 'bad', text: 'Enlace de Vimeo incompleto' };
@@ -5268,6 +5568,7 @@ function openLessonManager(courseId, opts){
   }
   ['lm-tema', 'lm-video', 'lm-mat-name', 'lm-mat-link', 'cm-name', 'cm-link'].forEach(id => { const e = lmEl(id); if(e) e.value = ''; });
   ['lm-mat-file', 'cm-file'].forEach(id => { const e = lmEl(id); if(e) e.value = ''; });
+  odTestToggle('lm-video', 'new');
   lmEl('lm-open-all').checked = true;
   lmSay('lm-msg', '');
   lmSay('cm-msg', '');
@@ -5340,9 +5641,10 @@ function lmLessonHtml(l, i, ctx){
     '<div class="lm-lesson-top"><span class="lm-lesson-n">' + sessionLabel(i) + '</span>' +
     '<button class="btn btn-danger btn-sm" type="button" onclick="deleteLesson(\'' + l.id + '\', this)">Eliminar tema</button></div>' +
     '<div class="field"><label for="les-tema-' + l.id + '">Tema</label><input id="les-tema-' + l.id + '" value="' + escapeHtml(l.tema) + '" autocomplete="off"></div>' +
-    '<div class="field"><label for="les-video-' + l.id + '">Enlace del video de este tema</label><input id="les-video-' + l.id + '" value="' + escapeHtml(l.video_url || '') + '" inputmode="url" autocomplete="off" placeholder="Pega aquí el enlace del video (Drive, OneDrive, YouTube o Vimeo)"></div>' +
+    '<div class="field"><label for="les-video-' + l.id + '">Enlace del video de este tema</label><input id="les-video-' + l.id + '" value="' + escapeHtml(l.video_url || '') + '" inputmode="url" autocomplete="off" oninput="odTestToggle(\'les-video-' + l.id + '\',\'' + l.id + '\')" placeholder="Pega aquí el enlace del video (Drive, YouTube, Vimeo u OneDrive)"></div>' +
     '<span class="lm-kind ' + kind.cls + '" id="les-kind-' + l.id + '">' + kind.text + '</span>' +
     '<button class="btn btn-ghost btn-sm" type="button" onclick="saveLesson(\'' + l.id + '\')">Guardar cambios</button><span id="les-msg-' + l.id + '" class="form-msg inline"></span>' +
+    odTestHtml('les-video-' + l.id, l.id, l.video_url || '') +
     '<div class="lm-matbox"><div class="lm-mat-t">MATERIAL DE APOYO · LOS ALUMNOS PUEDEN DESCARGARLO</div>' + matItems +
     '<div class="lm-mat-row" style="margin-top:10px;">' +
     '<input type="text" id="mat-name-' + l.id + '" placeholder="Nombre (opcional)" autocomplete="off">' +
@@ -5434,10 +5736,12 @@ async function addLessonNow(){
       said = 'Está cerrado para todos: ábrelo en «Quién puede ver este tema».';
     }
     ['lm-tema', 'lm-video', 'lm-mat-name', 'lm-mat-link'].forEach(id => { lmEl(id).value = ''; });
+    odTestToggle('lm-video', 'new');
     lmEl('lm-mat-file').value = '';
     lmEl('lm-open-all').checked = true;   // lo normal es abrirlo: el siguiente tema vuelve a empezar marcado
     lmEl('lm-fresh').classList.add('hidden');
-    lmSay('lm-msg', 'Tema agregado ✓ ' + said + extra, extra ? 'err' : 'ok');
+    const odNote = isOneDriveUrl(video) ? ' Es un video de OneDrive: pulsa «Probar el video» en el tema para confirmar que se ve dentro del aula.' : '';
+    lmSay('lm-msg', 'Tema agregado ✓ ' + said + extra + odNote, extra ? 'err' : 'ok');
     await loadAndRenderLessons();
     if(!(window.matchMedia && window.matchMedia('(pointer:coarse)').matches)) lmEl('lm-tema').focus();
   } finally {
@@ -5534,7 +5838,7 @@ function lmBulkPaint(r, box, btn){
     sum = n + (n === 1 ? ' sesión lista' : ' sesiones listas') + ' para agregar' + (noVideo ? ' (' + noVideo + (noVideo === 1 ? ' sin video todavía' : ' sin video todavía') + ': su enlace se lo pones después).' : '.');
   }
   box.innerHTML = '<div class="lm-bulk-sum ' + cls + '">' + escapeHtml(sum) + '</div><div class="lm-bulk-rows">' + r.items.map(x => {
-    const k = x.problem ? null : videoKind(x.video);
+    const k = x.problem ? null : videoKind(x.video, true);
     return '<div class="lm-bulk-row' + (x.problem ? ' bad' : '') + '"><span class="lm-bulk-n">' + sessionLabel(x.index) + '</span>' +
       '<span class="lm-bulk-t">' + (x.tema ? escapeHtml(x.tema) : '<em>(sin nombre)</em>') + '</span>' +
       (k ? '<span class="lm-kind ' + k.cls + '">' + escapeHtml(k.text) + '</span>' : '') +
@@ -5630,6 +5934,7 @@ async function saveLessonNow(id){
   vEl.value = video; vEl.defaultValue = video;
   const k = videoKind(video), kEl = lmEl('les-kind-' + id);
   if(kEl){ kEl.className = 'lm-kind ' + k.cls; kEl.textContent = k.text; }
+  odTestToggle('les-video-' + id, id);
   lmSay('les-msg-' + id, 'Guardado ✓', 'ok');
 }
 
@@ -5810,9 +6115,9 @@ function ncRowHtml(r, i, n){
     '<div class="nc-n" aria-hidden="true">' + num + '</div>' +
     '<div class="nc-cell"><label class="nc-lab" for="nci-n-' + k + '">Nombre de la sesión</label>' +
       '<input class="nc-in" id="nci-n-' + k + '" type="text" autocomplete="off" aria-label="Nombre de la sesión ' + num + '" placeholder="Nombre de la sesión" value="' + escapeHtml(r.name) + '" oninput="ncSet(\'' + k + '\',\'name\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'name\')"></div>' +
-    '<div class="nc-cell"><label class="nc-lab" for="nci-v-' + k + '">Enlace del video (Drive, OneDrive, YouTube o Vimeo)</label>' +
+    '<div class="nc-cell"><label class="nc-lab" for="nci-v-' + k + '">Enlace del video (Drive, YouTube, Vimeo u OneDrive)</label>' +
       '<input class="nc-in" id="nci-v-' + k + '" type="text" inputmode="url" autocomplete="off" aria-label="Enlace del video de la sesión ' + num + '" placeholder="Pega el enlace del video" value="' + escapeHtml(r.video) + '" oninput="ncSet(\'' + k + '\',\'video\',this.value)" onkeydown="ncKey(event,\'' + k + '\',\'video\')">' +
-      '<span class="lm-kind none" id="ncc-v-' + k + '"></span></div>' +
+      '<span class="lm-kind none" id="ncc-v-' + k + '"></span>' + odTestHtml('nci-v-' + k, k, r.video) + '</div>' +
     '<div class="nc-cell"><label class="nc-lab" for="nci-m-' + k + '">Material (opcional)</label>' + matCell +
       '<div class="nc-mrow"><span class="lm-kind none" id="ncc-m-' + k + '"></span>' + pick + '</div></div>' +
     '<div class="nc-acts">' +
@@ -5830,6 +6135,7 @@ function ncChips(r){
     else { const prob = videoProblem(link); kind = prob ? { cls: 'bad', text: prob } : videoKind(link); }
     v.className = 'lm-kind ' + kind.cls;
     v.textContent = kind.text;
+    odTestToggle('nci-v-' + r.k, r.k);
   }
   if(m){
     const link = normalizeLink(r.mat);
@@ -6297,6 +6603,17 @@ function nextLessonOf(lessonId){
   return i >= 0 && i < ls.length - 1 ? ls[i + 1] : null;
 }
 
+/* la casilla «Pasar solo a la siguiente sesión» */
+function lnAutoHtml(){
+  return '<label class="ln-auto"><input type="checkbox" id="ln-auto"' + (autoNextOn() ? ' checked' : '') + ' onchange="setAutoNext(this.checked)"><span>Pasar solo a la siguiente sesión cuando termine el video</span></label>';
+}
+/* un video de OneDrive que sí se ve dentro del aula (<video>) avisa cuando termina: se ofrece la casilla si todavía no estaba */
+function lessonAutoOption(){
+  if(document.getElementById('ln-auto')) return;
+  const msg = document.getElementById('ln-msg');
+  if(msg) msg.insertAdjacentHTML('beforebegin', lnAutoHtml());
+}
+
 function renderLessonNav(slot, courseId, lessonId, platform){
   clearAutoNext(true);
   if(typeof vidLeave === 'function') vidLeave();     // al cambiar de sesión se sale de la pantalla completa
@@ -6316,7 +6633,7 @@ function renderLessonNav(slot, courseId, lessonId, platform){
       '</div>' +
       '<button class="ln-all" type="button" onclick="lessonShowList()">↓ Ver todas las sesiones y escoger una</button>' +
     '</div>' +
-    (canAuto ? '<label class="ln-auto"><input type="checkbox" id="ln-auto"' + (autoNextOn() ? ' checked' : '') + ' onchange="setAutoNext(this.checked)"><span>Pasar solo a la siguiente sesión cuando termine el video</span></label>' : '') +
+    (canAuto ? lnAutoHtml() : '') +
     '<div class="ln-msg" id="ln-msg" role="status" aria-live="polite"></div>';
   // en pantallas grandes la lista de sesiones tiene su propio desplazamiento: la sesión actual se deja a la vista
   const list = document.getElementById('lesson-sidebar-' + slot);
@@ -6496,6 +6813,7 @@ function vidLeave(){
   }
   vidSync();
   vidUnlockOrientation();
+  if(typeof oneDriveStop === 'function') oneDriveStop();     // si la clase era un video de OneDrive: guarda el último punto y corta la descarga
 }
 function vidLockOrientation(){
   // en celulares (Android) se intenta poner el video en horizontal; si no se puede, no pasa nada
@@ -6552,7 +6870,7 @@ function vidInShell(e){
   const t = e.target;
   if(!t || !t.closest) return null;
   const s = t.closest('.vid-shell');
-  if(!s || t.closest('button, a, input, textarea, select')) return null;
+  if(!s || t.closest('button, a, input, textarea, select, video')) return null;     // dentro de un <video> el doble clic ya lo atiende el propio reproductor
   return s;
 }
 function vidWire(){
